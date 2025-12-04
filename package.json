@@ -1,17 +1,21 @@
 {
-  "name": "temp-app",
+  "name": "square-truths",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 5000",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
+    "@ducanh2912/next-pwa": "^10.2.9",
+    "@supabase/supabase-js": "^2.86.0",
+    "cheerio": "^1.1.2",
     "next": "16.0.6",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "tesseract.js": "^6.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -20,6 +24,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.0.6",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
