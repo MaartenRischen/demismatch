@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
+import Link from "next/link";
 import { searchImagesWithLLM, ImageResult, SearchResponse } from "@/lib/supabase";
 import {
   getHistory,
@@ -348,7 +349,16 @@ export default function Home() {
         <p className="text-[var(--text-secondary)] text-sm tracking-wide">
           Find the perfect mismatch image
         </p>
-        
+
+        {/* Library Link */}
+        <Link
+          href="/library"
+          className="absolute top-6 left-6 btn-secondary py-2 px-3"
+        >
+          <LibraryIcon />
+          <span className="ml-2 hidden sm:inline">Library</span>
+        </Link>
+
         {/* History Toggle */}
         <button
           className="absolute top-6 right-6 btn-secondary py-2 px-3"
@@ -896,6 +906,17 @@ function TrashIcon() {
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <polyline points="3 6 5 6 21 6" />
       <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+    </svg>
+  );
+}
+
+function LibraryIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <rect x="3" y="3" width="7" height="7" />
+      <rect x="14" y="3" width="7" height="7" />
+      <rect x="14" y="14" width="7" height="7" />
+      <rect x="3" y="14" width="7" height="7" />
     </svg>
   );
 }
