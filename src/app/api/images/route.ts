@@ -28,46 +28,54 @@ export interface ImageData {
   image_url: string;
 }
 
-function extractMetadata(searchText: string, fileName: string): {
-  title: string;
-  body_text: string;
-  image_type: string;
-  categories: string[];
-  framework_concepts: string[];
-  tags: string[];
-} {
-  let title = fileName.replace(/^\d+_/, '').replace(/\.png$/, '').replace(/_/g, ' ');
+// Database row type matching new Supabase columns
+interface DbImageRow {
+  id: number;
+  file_name: string;
+  folder_name: string;
+  title: string | null;
+  image_url: string | null;
+  image_type: string | null;
+  categories: string[] | null;
+  framework_concepts: string[] | null;
+  tags_normalized: string[] | null;
+  search_text: string | null;
+}
+
+// Select columns for database query
+const SELECT_COLUMNS = 'id, file_name, folder_name, title, image_url, image_type, categories, framework_concepts, tags_normalized, search_text';
+
+// Transform database row to API response format
+function transformRow(row: DbImageRow, supabaseUrl: string): ImageData {
+  // Use image_url from database if available, otherwise construct from folder/file
+  const imageUrl = row.image_url ||
+    `${supabaseUrl}/storage/v1/object/public/mismatch-images/${row.folder_name}/${row.file_name}`;
+
+  // Generate fallback title from filename if not set
+  const title = row.title ||
+    row.file_name.replace(/^\d+_/, '').replace(/\.png$/, '').replace(/_/g, ' ');
+
+  // Extract body_text from search_text (first 500 chars before any JSON)
   let body_text = '';
-  let image_type = 'explanation';
-  let categories: string[] = [];
-  let framework_concepts: string[] = [];
-  let tags: string[] = [];
-
-  try {
-    // Look for JSON metadata in search_text
-    const jsonMatch = searchText.match(/\{[\s\S]*"title"[\s\S]*\}/);
-    if (jsonMatch) {
-      const parsed = JSON.parse(jsonMatch[0]);
-      title = parsed.title || title;
-      body_text = parsed.body_text || '';
-      image_type = parsed.image_type || 'explanation';
-      categories = parsed.categories || [];
-      framework_concepts = parsed.framework_concepts || [];
-      tags = parsed.tags || [];
-    }
-  } catch {
-    // Use defaults
+  if (row.search_text) {
+    const jsonStart = row.search_text.indexOf('{"');
+    body_text = jsonStart > 0
+      ? row.search_text.substring(0, jsonStart).trim()
+      : row.search_text.substring(0, 500);
   }
 
-  // Get description from beginning of search_text if no body_text
-  if (!body_text) {
-    const descriptionEnd = searchText.indexOf('{"title"');
-    body_text = descriptionEnd > 0
-      ? searchText.substring(0, descriptionEnd).trim()
-      : searchText.substring(0, 500);
-  }
-
-  return { title, body_text, image_type, categories, framework_concepts, tags };
+  return {
+    id: row.id,
+    file_name: row.file_name,
+    folder_name: row.folder_name,
+    title,
+    body_text,
+    image_type: row.image_type || 'explanation',
+    categories: row.categories || [],
+    framework_concepts: row.framework_concepts || [],
+    tags: row.tags_normalized || [],
+    image_url: imageUrl
+  };
 }
 
 export async function GET(request: NextRequest) {
@@ -76,7 +84,7 @@ export async function GET(request: NextRequest) {
     const idsParam = searchParams.get('ids');
 
     const supabase = getSupabase();
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 
     // If specific IDs requested, fetch just those
     if (idsParam) {
@@ -84,28 +92,21 @@ export async function GET(request: NextRequest) {
       if (ids.length > 0) {
         const { data, error } = await supabase
           .from('image_embeddings')
-          .select('id, file_name, folder_name, search_text')
+          .select(SELECT_COLUMNS)
           .in('id', ids);
 
         if (error) throw error;
 
-        const images: ImageData[] = (data || []).map(row => {
-          const metadata = extractMetadata(row.search_text, row.file_name);
-          return {
-            id: row.id,
-            file_name: row.file_name,
-            folder_name: row.folder_name,
-            ...metadata,
-            image_url: `${supabaseUrl}/storage/v1/object/public/mismatch-images/${row.folder_name}/${row.file_name}`
-          };
-        });
+        const images: ImageData[] = (data as DbImageRow[] || []).map(row =>
+          transformRow(row, supabaseUrl)
+        );
 
         return NextResponse.json({ images });
       }
     }
 
     // Fetch all images with pagination (Supabase limits to 1000 per query)
-    const allData: { id: number; file_name: string; folder_name: string; search_text: string }[] = [];
+    const allData: DbImageRow[] = [];
     const pageSize = 1000;
     let offset = 0;
     let hasMore = true;
@@ -113,7 +114,7 @@ export async function GET(request: NextRequest) {
     while (hasMore) {
       const { data, error } = await supabase
         .from('image_embeddings')
-        .select('id, file_name, folder_name, search_text')
+        .select(SELECT_COLUMNS)
         .range(offset, offset + pageSize - 1)
         .order('id');
 
@@ -123,7 +124,7 @@ export async function GET(request: NextRequest) {
       }
 
       if (data && data.length > 0) {
-        allData.push(...data);
+        allData.push(...(data as DbImageRow[]));
         offset += pageSize;
         hasMore = data.length === pageSize;
       } else {
@@ -131,16 +132,7 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    const images: ImageData[] = allData.map(row => {
-      const metadata = extractMetadata(row.search_text, row.file_name);
-      return {
-        id: row.id,
-        file_name: row.file_name,
-        folder_name: row.folder_name,
-        ...metadata,
-        image_url: `${supabaseUrl}/storage/v1/object/public/mismatch-images/${row.folder_name}/${row.file_name}`
-      };
-    });
+    const images: ImageData[] = allData.map(row => transformRow(row, supabaseUrl));
 
     return NextResponse.json({ images });
   } catch (error) {
