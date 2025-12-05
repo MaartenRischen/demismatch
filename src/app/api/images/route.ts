@@ -46,14 +46,22 @@ interface DbImageRow {
 const SELECT_COLUMNS = 'id, file_name, folder_name, title, image_url, image_type, categories, framework_concepts, tags_normalized, search_text';
 
 // Transform database row to API response format
-function transformRow(row: DbImageRow, supabaseUrl: string): ImageData {
+function transformRow(row: DbImageRow, supabaseUrl: string): ImageData | null {
+  // Skip rows with no file_name or image_url
+  if (!row.file_name && !row.image_url) {
+    return null;
+  }
+
+  const fileName = row.file_name || '';
+  const folderName = row.folder_name || '';
+
   // Use image_url from database if available, otherwise construct from folder/file
   const imageUrl = row.image_url ||
-    `${supabaseUrl}/storage/v1/object/public/mismatch-images/${row.folder_name}/${row.file_name}`;
+    `${supabaseUrl}/storage/v1/object/public/mismatch-images/${folderName}/${fileName}`;
 
   // Generate fallback title from filename if not set
   const title = row.title ||
-    row.file_name.replace(/^\d+_/, '').replace(/\.png$/, '').replace(/_/g, ' ');
+    (fileName ? fileName.replace(/^\d+_/, '').replace(/\.png$/, '').replace(/_/g, ' ') : 'Untitled');
 
   // Extract body_text from search_text (first 500 chars before any JSON)
   let body_text = '';
@@ -66,8 +74,8 @@ function transformRow(row: DbImageRow, supabaseUrl: string): ImageData {
 
   return {
     id: row.id,
-    file_name: row.file_name,
-    folder_name: row.folder_name,
+    file_name: fileName,
+    folder_name: folderName,
     title,
     body_text,
     image_type: row.image_type || 'explanation',
@@ -97,9 +105,9 @@ export async function GET(request: NextRequest) {
 
         if (error) throw error;
 
-        const images: ImageData[] = (data as DbImageRow[] || []).map(row =>
-          transformRow(row, supabaseUrl)
-        );
+        const images: ImageData[] = (data as DbImageRow[] || [])
+          .map(row => transformRow(row, supabaseUrl))
+          .filter((img): img is ImageData => img !== null);
 
         return NextResponse.json({ images });
       }
@@ -132,7 +140,9 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    const images: ImageData[] = allData.map(row => transformRow(row, supabaseUrl));
+    const images: ImageData[] = allData
+      .map(row => transformRow(row, supabaseUrl))
+      .filter((img): img is ImageData => img !== null);
 
     return NextResponse.json({ images });
   } catch (error) {
