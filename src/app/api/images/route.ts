@@ -75,28 +75,63 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const idsParam = searchParams.get('ids');
 
-    let query = getSupabase()
-      .from('image_embeddings')
-      .select('id, file_name, folder_name, search_text');
+    const supabase = getSupabase();
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
-    // If specific IDs requested, filter to those
+    // If specific IDs requested, fetch just those
     if (idsParam) {
       const ids = idsParam.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id));
       if (ids.length > 0) {
-        query = query.in('id', ids);
+        const { data, error } = await supabase
+          .from('image_embeddings')
+          .select('id, file_name, folder_name, search_text')
+          .in('id', ids);
+
+        if (error) throw error;
+
+        const images: ImageData[] = (data || []).map(row => {
+          const metadata = extractMetadata(row.search_text, row.file_name);
+          return {
+            id: row.id,
+            file_name: row.file_name,
+            folder_name: row.folder_name,
+            ...metadata,
+            image_url: `${supabaseUrl}/storage/v1/object/public/mismatch-images/${row.folder_name}/${row.file_name}`
+          };
+        });
+
+        return NextResponse.json({ images });
       }
     }
 
-    const { data, error } = await query;
+    // Fetch all images with pagination (Supabase limits to 1000 per query)
+    const allData: { id: number; file_name: string; folder_name: string; search_text: string }[] = [];
+    const pageSize = 1000;
+    let offset = 0;
+    let hasMore = true;
 
-    if (error) {
-      console.error('Supabase error:', error);
-      throw error;
+    while (hasMore) {
+      const { data, error } = await supabase
+        .from('image_embeddings')
+        .select('id, file_name, folder_name, search_text')
+        .range(offset, offset + pageSize - 1)
+        .order('id');
+
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
+
+      if (data && data.length > 0) {
+        allData.push(...data);
+        offset += pageSize;
+        hasMore = data.length === pageSize;
+      } else {
+        hasMore = false;
+      }
     }
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-
-    const images: ImageData[] = (data || []).map(row => {
+    const images: ImageData[] = allData.map(row => {
       const metadata = extractMetadata(row.search_text, row.file_name);
       return {
         id: row.id,
