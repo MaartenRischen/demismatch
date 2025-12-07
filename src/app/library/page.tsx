@@ -492,6 +492,11 @@ function LibraryContent() {
   const [toast, setToast] = useState("");
   const [displayCount, setDisplayCount] = useState(30);
 
+  // DEV ONLY: Edit state
+  const [editingImage, setEditingImage] = useState<ImageData | null>(null);
+  const [editPrompt, setEditPrompt] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+
   // Initialize filters from URL
   useEffect(() => {
     const typeParam = searchParams.get("type");
@@ -925,6 +930,63 @@ function LibraryContent() {
     }
   };
 
+  // DEV ONLY: Edit image using Gemini AI
+  const editImage = async (image: ImageData) => {
+    if (!editPrompt.trim()) {
+      showToast("Please enter an edit prompt");
+      return;
+    }
+
+    setIsEditing(true);
+
+    try {
+      const imageResponse = await fetch(image.image_url);
+      const imageBlob = await imageResponse.blob();
+
+      const base64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(imageBlob);
+      });
+
+      showToast("Sending to AI for editing...");
+
+      const res = await fetch(`/api/images/${image.id}/edit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: editPrompt,
+          imageBase64: base64
+        })
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Edit failed");
+      }
+
+      const data = await res.json();
+
+      setAllImages(prev => prev.map(img =>
+        img.id === image.id
+          ? { ...img, image_url: data.newImageUrl }
+          : img
+      ));
+
+      setEditingImage(null);
+      setEditPrompt("");
+      setSelectedImage(null);
+      showToast("Image edited successfully!");
+
+    } catch (err) {
+      console.error("Edit error:", err);
+      showToast(`Failed to edit: ${err instanceof Error ? err.message : 'Unknown error'}`);
+    } finally {
+      setIsEditing(false);
+    }
+  };
+
   // Load more for infinite scroll
   const loadMore = () => {
     setDisplayCount(prev => Math.min(prev + 30, filteredImages.length));
@@ -1323,6 +1385,13 @@ function LibraryContent() {
                         <DownloadIcon />
                       </button>
                       <button
+                        className="p-1.5 bg-blue-600/80 rounded hover:bg-blue-600"
+                        onClick={(e) => { e.stopPropagation(); setEditingImage(image); setEditPrompt(""); }}
+                        title="Edit image with AI"
+                      >
+                        <EditIcon />
+                      </button>
+                      <button
                         className="p-1.5 bg-red-600/80 rounded hover:bg-red-600"
                         onClick={(e) => { e.stopPropagation(); deleteImage(image); }}
                         title="Delete image"
@@ -1447,9 +1516,17 @@ function LibraryContent() {
                 </button>
               </div>
 
+              {/* DEV ONLY: Edit button */}
+              <button
+                className="w-full mt-3 py-2 px-4 bg-blue-600/20 border border-blue-600/50 text-blue-400 rounded hover:bg-blue-600/30 text-sm font-medium flex items-center justify-center gap-2"
+                onClick={() => { setEditingImage(selectedImage); setEditPrompt(""); }}
+              >
+                <EditIcon /> Edit with AI (Dev Only)
+              </button>
+
               {/* DEV ONLY: Delete button */}
               <button
-                className="w-full mt-3 py-2 px-4 bg-red-600/20 border border-red-600/50 text-red-400 rounded hover:bg-red-600/30 text-sm font-medium"
+                className="w-full mt-2 py-2 px-4 bg-red-600/20 border border-red-600/50 text-red-400 rounded hover:bg-red-600/30 text-sm font-medium flex items-center justify-center gap-2"
                 onClick={() => deleteImage(selectedImage)}
               >
                 <TrashIcon /> Delete Image (Dev Only)
@@ -1461,6 +1538,107 @@ function LibraryContent() {
 
       {/* Toast */}
       {toast && <div className="toast">{toast}</div>}
+
+      {/* DEV ONLY: Edit Modal */}
+      {editingImage && (
+        <div
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+          onClick={() => !isEditing && setEditingImage(null)}
+        >
+          <div
+            className="bg-[var(--bg-secondary)] rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-4 border-b border-[var(--border-color)] flex items-center justify-between">
+              <h2 className="text-lg font-bold">Edit Image with AI</h2>
+              <button
+                onClick={() => !isEditing && setEditingImage(null)}
+                className="text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                disabled={isEditing}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="p-4 space-y-4">
+              <div className="aspect-square w-full max-w-sm mx-auto rounded overflow-hidden bg-[var(--bg-tertiary)]">
+                <img
+                  src={editingImage.image_url}
+                  alt={editingImage.title}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+
+              <p className="text-sm text-[var(--text-secondary)] text-center">
+                {editingImage.title}
+              </p>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Describe your edit:
+                </label>
+                <textarea
+                  value={editPrompt}
+                  onChange={(e) => setEditPrompt(e.target.value)}
+                  placeholder="e.g., 'fix the garbled text', 'change the font to bold', 'remove the person on the left', 'make it more vibrant'..."
+                  className="w-full px-4 py-3 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-lg text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:border-blue-500 focus:outline-none min-h-[100px] resize-none"
+                  disabled={isEditing}
+                />
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "Fix garbled/corrupted text",
+                  "Make text more readable",
+                  "Enhance contrast",
+                  "Remove background elements",
+                  "Simplify the image"
+                ].map((suggestion) => (
+                  <button
+                    key={suggestion}
+                    onClick={() => setEditPrompt(suggestion)}
+                    className="px-3 py-1 text-xs bg-[var(--bg-tertiary)] hover:bg-[var(--bg-primary)] rounded-full text-[var(--text-secondary)]"
+                    disabled={isEditing}
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  onClick={() => setEditingImage(null)}
+                  className="flex-1 py-2 px-4 bg-[var(--bg-tertiary)] text-[var(--text-secondary)] rounded hover:bg-[var(--bg-primary)]"
+                  disabled={isEditing}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => editImage(editingImage)}
+                  className="flex-1 py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  disabled={isEditing || !editPrompt.trim()}
+                >
+                  {isEditing ? (
+                    <>
+                      <span className="inline-block w-4 h-4 border-2 border-transparent border-t-current rounded-full animate-spin" />
+                      Editing...
+                    </>
+                  ) : (
+                    <>
+                      <EditIcon />
+                      Apply Edit
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <p className="text-xs text-[var(--text-muted)] text-center">
+                ⚠️ This will replace the original image. Make sure you have a backup if needed.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
@@ -1516,6 +1694,15 @@ function TrashIcon() {
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <polyline points="3 6 5 6 21 6" />
       <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+    </svg>
+  );
+}
+
+function EditIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
     </svg>
   );
 }
