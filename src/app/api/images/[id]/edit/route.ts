@@ -92,6 +92,7 @@ export async function POST(
     }
 
     const openRouterData = await openRouterResponse.json();
+    console.log('[Edit] OpenRouter response:', JSON.stringify(openRouterData, null, 2));
 
     // Check for inline_data format (Gemini's image output format)
     const assistantMessage = openRouterData.choices?.[0]?.message;
@@ -102,12 +103,21 @@ export async function POST(
       // Check if content is an array with image parts
       if (Array.isArray(assistantMessage.content)) {
         for (const part of assistantMessage.content) {
+          console.log('[Edit] Checking part:', part.type, Object.keys(part));
           if (part.type === 'image_url' && part.image_url?.url) {
             newImageBase64 = part.image_url.url;
+            console.log('[Edit] Found image_url format');
+            break;
+          }
+          if (part.type === 'image' && part.source?.data) {
+            // Gemini native format
+            newImageBase64 = `data:${part.source.media_type || 'image/png'};base64,${part.source.data}`;
+            console.log('[Edit] Found image source format');
             break;
           }
           if (part.inline_data?.data) {
             newImageBase64 = `data:${part.inline_data.mime_type || 'image/png'};base64,${part.inline_data.data}`;
+            console.log('[Edit] Found inline_data format');
             break;
           }
         }
@@ -119,21 +129,39 @@ export async function POST(
       const generatedImages = assistantMessage?.images;
       if (generatedImages && generatedImages.length > 0) {
         newImageBase64 = generatedImages[0]?.image_url?.url || generatedImages[0];
+        console.log('[Edit] Found images array format');
       }
     }
 
     if (!newImageBase64) {
-      console.error('[Edit] No images in response:', JSON.stringify(openRouterData, null, 2));
+      console.error('[Edit] No images in response');
       return NextResponse.json({
         error: 'No image generated - model may not support image output',
         response: openRouterData
       }, { status: 500 });
     }
 
-    // Convert base64 to buffer for upload
-    const base64Data = newImageBase64.replace(/^data:image\/\w+;base64,/, '');
-    const imageBuffer = Buffer.from(base64Data, 'base64');
+    // Handle both URL and base64 formats
+    let imageBuffer: Buffer;
+    if (newImageBase64.startsWith('http://') || newImageBase64.startsWith('https://')) {
+      // Fetch image from URL
+      console.log('[Edit] Fetching image from URL:', newImageBase64.substring(0, 100));
+      const imageResponse = await fetch(newImageBase64);
+      if (!imageResponse.ok) {
+        return NextResponse.json({
+          error: 'Failed to fetch generated image from URL',
+          details: `Status: ${imageResponse.status}`
+        }, { status: 500 });
+      }
+      const arrayBuffer = await imageResponse.arrayBuffer();
+      imageBuffer = Buffer.from(arrayBuffer);
+    } else {
+      // Convert base64 to buffer
+      const base64Data = newImageBase64.replace(/^data:image\/\w+;base64,/, '');
+      imageBuffer = Buffer.from(base64Data, 'base64');
+    }
 
+    console.log(`[Edit] Image buffer size: ${imageBuffer.length} bytes`);
     console.log(`[Edit] Uploading edited image to: ${filePath}`);
 
     // Upload to Supabase Storage, replacing the original
