@@ -22,12 +22,372 @@ interface TaxonomyIndex {
   by_framework_concept: Record<string, number[]>;
 }
 
-type SortOption = "alphabetical" | "type" | "category";
+type SortOption = "relevant" | "alphabetical" | "type" | "category";
 
 const IMAGE_TYPES = ["problem", "solution", "comparison", "explanation"];
 
+// Type priority for relevance sorting (lower = higher priority)
+const TYPE_PRIORITY: Record<string, number> = {
+  problem: 0,
+  comparison: 1,
+  explanation: 2,
+  solution: 3,
+};
+
+// High-value framework concepts with bonus weights
+const CONCEPT_WEIGHTS: Record<string, number> = {
+  proxy_consumption: 3,
+  dunbar_violation: 3,
+  open_loop_anxiety: 2,
+  delayed_return: 2,
+  stranger_overload: 2,
+  internal_audience: 1,
+  environmental_signal: 1,
+  status_competition: 1,
+};
+
+// Calculate relevance score for an image (no tags selected)
+function calculateRelevanceScore(img: ImageData): number {
+  let score = 0;
+
+  // Framework concept count (base score)
+  score += img.framework_concepts.length * 2;
+
+  // Core concept bonuses
+  for (const concept of img.framework_concepts) {
+    score += CONCEPT_WEIGHTS[concept] || 0;
+  }
+
+  // Category breadth bonus
+  score += Math.min(img.categories.length, 3) * 0.5;
+
+  return score;
+}
+
+// Calculate tag-specific relevance when quick tags are selected
+function calculateTagRelevance(
+  img: ImageData,
+  selectedTags: Set<string>,
+  tagMappings: Record<string, { tags: string[]; categories: string[]; concepts: string[] }>,
+  tagFrequencies: Record<string, number>
+): number {
+  let score = 0;
+  const imgTagsLower = img.tags.map(t => t.toLowerCase());
+
+  for (const tagName of selectedTags) {
+    const mapping = tagMappings[tagName];
+    if (!mapping) continue;
+
+    // Find matched tags from the mapping
+    const matchedTags: string[] = [];
+    for (const mappingTag of mapping.tags) {
+      const tagLower = mappingTag.toLowerCase();
+      if (imgTagsLower.some(t => t.includes(tagLower))) {
+        matchedTags.push(mappingTag);
+      }
+    }
+
+    // 1. Tag centrality - is this tag core to the image?
+    const tagInTitle = mapping.tags.some(t =>
+      img.title?.toLowerCase().includes(t.toLowerCase())
+    );
+    if (tagInTitle) score += 5;
+
+    // 2. Focus bonus - fewer total tags = more focused image
+    const totalTags = img.tags?.length || 0;
+    if (totalTags <= 5) score += 3;
+    else if (totalTags <= 10) score += 1;
+    else if (totalTags >= 20) score -= 2; // penalize kitchen sink
+
+    // 3. Tag specificity - rarer matches are more specific
+    for (const matchedTag of matchedTags) {
+      const frequency = tagFrequencies[matchedTag.toLowerCase()] || 1;
+      score += 3 / Math.sqrt(frequency); // rarer = higher score
+    }
+
+    // 4. Direct tag match count
+    score += matchedTags.length * 2;
+
+    // 5. Category match bonus
+    for (const cat of mapping.categories) {
+      if (img.categories.includes(cat)) {
+        score += 1;
+      }
+    }
+
+    // 6. Framework concept match bonus
+    for (const concept of mapping.concepts) {
+      if (img.framework_concepts.includes(concept)) {
+        score += 2;
+      }
+    }
+  }
+
+  // 7. Multi-tag intersection bonus
+  if (selectedTags.size > 1) {
+    const tagsMatched = Array.from(selectedTags).filter(tagName => {
+      const mapping = tagMappings[tagName];
+      if (!mapping) return false;
+      return mapping.tags.some(t =>
+        imgTagsLower.some(imgTag => imgTag.includes(t.toLowerCase()))
+      ) || mapping.categories.some(cat => img.categories.includes(cat))
+        || mapping.concepts.some(c => img.framework_concepts.includes(c));
+    }).length;
+
+    if (tagsMatched === selectedTags.size) {
+      score += 10; // bonus for matching ALL selected tags
+    }
+  }
+
+  return score;
+}
+
 function formatLabel(key: string): string {
   return key.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+}
+
+// Simple tag mappings for quick filters
+interface TagMapping {
+  tags: string[];
+  categories: string[];
+  concepts: string[];
+}
+
+const QUICK_TAGS = [
+  "ANXIETY", "LONELINESS", "BURNOUT", "EMPTINESS", "WORK", "LOVE", "SCREENS",
+  "DATING", "FAMILY", "MONEY", "FOOD", "SLEEP", "SEX", "STATUS", "COMPARISON",
+  "SCROLLING", "REJECTION", "SHAME", "GRIEF", "PARENTING", "MARRIAGE",
+  "FRIENDSHIP", "AGING", "DEATH", "FITNESS", "BODY IMAGE", "NEWS", "HUSTLE",
+  "STRANGERS", "VALIDATION", "ISOLATION", "OVERWHELM", "ADDICTION", "TRIBE",
+  "NATURE", "COMMUNITY", "RITUAL", "PURPOSE", "MEANING"
+];
+
+const TAG_MAPPINGS: Record<string, TagMapping> = {
+  "ANXIETY": {
+    tags: ["anxiety", "stress", "worry", "fear", "panic", "nervous", "dread", "unease", "social anxiety", "fear response"],
+    categories: ["mental_emotional", "survival_safety"],
+    concepts: ["open_loop_anxiety", "environmental_signal"]
+  },
+  "LONELINESS": {
+    tags: ["loneliness", "lonely", "alone", "isolation", "social isolation", "disconnection", "alienation", "solitude"],
+    categories: ["social_connection", "mental_emotional"],
+    concepts: ["dunbar_violation", "stranger_overload"]
+  },
+  "BURNOUT": {
+    tags: ["burnout", "exhaustion", "exhausted", "overwhelm", "tired", "fatigue", "depleted", "drained"],
+    categories: ["work_purpose", "mental_emotional", "health_wellbeing"],
+    concepts: ["delayed_return"]
+  },
+  "EMPTINESS": {
+    tags: ["emptiness", "meaninglessness", "void", "hollow", "numb", "boredom", "existential", "purposeless", "unfulfilled"],
+    categories: ["mental_emotional", "identity_self"],
+    concepts: ["delayed_return", "proxy_consumption"]
+  },
+  "SHAME": {
+    tags: ["shame", "guilt", "embarrassment", "inadequacy", "failure", "not good enough", "unworthy", "humiliation"],
+    categories: ["mental_emotional", "identity_self"],
+    concepts: ["internal_audience", "status_competition"]
+  },
+  "GRIEF": {
+    tags: ["grief", "loss", "mourning", "bereavement", "death", "dying", "sadness", "heartbreak"],
+    categories: ["death_mortality", "mental_emotional"],
+    concepts: []
+  },
+  "OVERWHELM": {
+    tags: ["overwhelm", "overwhelmed", "too much", "overload", "information overload", "sensory overload", "chaos"],
+    categories: ["mental_emotional", "attention_cognition"],
+    concepts: ["open_loop_anxiety", "stranger_overload"]
+  },
+  "REJECTION": {
+    tags: ["rejection", "abandoned", "abandonment", "excluded", "exclusion", "unwanted", "dismissed", "ghosted"],
+    categories: ["relationships_mating", "social_connection", "mental_emotional"],
+    concepts: ["mate_selection", "status_competition"]
+  },
+  "WORK": {
+    tags: ["work", "career", "job", "office", "labor", "workplace", "employment", "profession", "boss", "employee", "corporate", "9 to 5"],
+    categories: ["work_purpose"],
+    concepts: ["delayed_return"]
+  },
+  "LOVE": {
+    tags: ["love", "romance", "romantic", "relationship", "relationships", "intimacy", "affection", "partner", "couple", "heart"],
+    categories: ["relationships_mating"],
+    concepts: ["mate_selection", "tribal_bonding"]
+  },
+  "FAMILY": {
+    tags: ["family", "mother", "father", "parents", "children", "kids", "siblings", "brother", "sister", "relatives", "home", "household"],
+    categories: ["family_parenting"],
+    concepts: ["kin_selection"]
+  },
+  "MONEY": {
+    tags: ["money", "wealth", "debt", "financial", "finance", "capitalism", "rich", "poor", "income", "salary", "bills", "economy", "bank"],
+    categories: ["economics_resources"],
+    concepts: ["delayed_return", "status_competition"]
+  },
+  "SEX": {
+    tags: ["sex", "sexual", "sexuality", "attraction", "desire", "mating", "reproduction", "lust", "seduction"],
+    categories: ["relationships_mating"],
+    concepts: ["mate_selection", "fitness_evaluation"]
+  },
+  "SCREENS": {
+    tags: ["technology", "social media", "smartphone", "screen time", "digital", "phone", "tablet", "computer", "device", "online", "internet", "apps"],
+    categories: ["technology_digital"],
+    concepts: ["proxy_consumption"]
+  },
+  "SCROLLING": {
+    tags: ["scrolling", "scroll", "feed", "infinite scroll", "timeline", "social media", "doom scrolling", "endless"],
+    categories: ["technology_digital", "attention_cognition"],
+    concepts: ["proxy_consumption", "open_loop_anxiety"]
+  },
+  "COMPARISON": {
+    tags: ["comparison", "social comparison", "compare", "envy", "jealousy", "keeping up", "better than", "worse than"],
+    categories: ["status_reputation", "mental_emotional"],
+    concepts: ["internal_audience", "status_competition", "fitness_evaluation"]
+  },
+  "NEWS": {
+    tags: ["news", "media", "headlines", "journalism", "politics", "current events", "breaking news", "24/7"],
+    categories: ["technology_digital", "attention_cognition"],
+    concepts: ["open_loop_anxiety", "stranger_overload"]
+  },
+  "HUSTLE": {
+    tags: ["hustle", "grind", "productivity", "work culture", "side hustle", "entrepreneur", "success", "ambition", "driven"],
+    categories: ["work_purpose"],
+    concepts: ["delayed_return", "status_competition"]
+  },
+  "ADDICTION": {
+    tags: ["addiction", "addicted", "dopamine", "habit", "compulsion", "craving", "withdrawal", "dependent"],
+    categories: ["proxy_superstimuli", "mental_emotional"],
+    concepts: ["proxy_consumption"]
+  },
+  "DATING": {
+    tags: ["dating", "dating apps", "tinder", "bumble", "hinge", "swipe", "match", "single", "courtship", "romance"],
+    categories: ["relationships_mating"],
+    concepts: ["mate_selection", "proxy_consumption", "stranger_overload"]
+  },
+  "MARRIAGE": {
+    tags: ["marriage", "married", "wedding", "spouse", "husband", "wife", "divorce", "vows", "commitment"],
+    categories: ["relationships_mating", "family_parenting"],
+    concepts: ["mate_selection", "tribal_bonding"]
+  },
+  "PARENTING": {
+    tags: ["parenting", "parent", "motherhood", "fatherhood", "childcare", "raising kids", "baby", "toddler", "teenager"],
+    categories: ["family_parenting"],
+    concepts: ["kin_selection"]
+  },
+  "FRIENDSHIP": {
+    tags: ["friendship", "friends", "friend", "buddy", "pal", "social bonds", "companionship", "bestie"],
+    categories: ["social_connection"],
+    concepts: ["tribal_bonding", "dunbar_violation"]
+  },
+  "FOOD": {
+    tags: ["food", "eating", "diet", "nutrition", "hunger", "obesity", "meal", "snack", "junk food", "processed food", "calories"],
+    categories: ["food_body"],
+    concepts: ["proxy_consumption"]
+  },
+  "FITNESS": {
+    tags: ["fitness", "exercise", "gym", "workout", "physical activity", "training", "muscles", "cardio", "running", "lifting"],
+    categories: ["food_body", "health_wellbeing"],
+    concepts: ["fitness_evaluation", "internal_audience"]
+  },
+  "SLEEP": {
+    tags: ["sleep", "insomnia", "rest", "tired", "circadian", "bed", "night", "wake", "dreams", "fatigue", "sleepless"],
+    categories: ["health_wellbeing"],
+    concepts: ["environmental_signal"]
+  },
+  "BODY IMAGE": {
+    tags: ["body image", "beauty standards", "appearance", "looks", "attractive", "ugly", "weight", "thin", "fat", "mirror"],
+    categories: ["food_body", "identity_self"],
+    concepts: ["fitness_evaluation", "internal_audience", "status_competition"]
+  },
+  "STRANGERS": {
+    tags: ["strangers", "stranger", "anonymity", "anonymous", "unknown", "unfamiliar", "crowd", "public"],
+    categories: ["social_connection"],
+    concepts: ["stranger_overload", "dunbar_violation"]
+  },
+  "STATUS": {
+    tags: ["status", "reputation", "hierarchy", "rank", "prestige", "respect", "clout", "influence", "power"],
+    categories: ["status_reputation"],
+    concepts: ["status_competition", "internal_audience"]
+  },
+  "VALIDATION": {
+    tags: ["validation", "approval", "likes", "attention", "recognition", "praise", "feedback", "acceptance"],
+    categories: ["status_reputation", "identity_self"],
+    concepts: ["internal_audience", "proxy_consumption"]
+  },
+  "ISOLATION": {
+    tags: ["isolation", "isolated", "cut off", "disconnected", "withdrawn", "hermit", "alone", "solitary"],
+    categories: ["social_connection"],
+    concepts: ["dunbar_violation", "stranger_overload"]
+  },
+  "AGING": {
+    tags: ["aging", "old", "elderly", "senior", "getting older", "retirement", "wrinkles", "decline", "elder"],
+    categories: ["death_mortality", "identity_self"],
+    concepts: []
+  },
+  "DEATH": {
+    tags: ["death", "dying", "mortality", "end of life", "funeral", "grave", "loss", "terminal"],
+    categories: ["death_mortality"],
+    concepts: []
+  },
+  "TRIBE": {
+    tags: ["tribe", "tribal", "clan", "band", "group", "belonging", "kinship", "village"],
+    categories: ["tribal_structure", "social_connection"],
+    concepts: ["tribal_bonding", "demand_sharing"]
+  },
+  "NATURE": {
+    tags: ["nature", "outdoors", "forest", "wilderness", "natural", "trees", "mountains", "ocean", "outside", "fresh air", "sunlight"],
+    categories: ["nature_environment"],
+    concepts: ["de_mismatch"]
+  },
+  "COMMUNITY": {
+    tags: ["community", "village", "neighborhood", "neighbors", "local", "together", "collective", "commune"],
+    categories: ["social_connection", "tribal_structure"],
+    concepts: ["tribal_bonding", "dunbar_violation"]
+  },
+  "RITUAL": {
+    tags: ["ritual", "tradition", "ceremony", "practice", "custom", "routine", "sacred", "celebration"],
+    categories: ["tradition_ritual"],
+    concepts: ["tribal_bonding"]
+  },
+  "PURPOSE": {
+    tags: ["purpose", "meaning", "fulfillment", "contribution", "calling", "mission", "why", "direction"],
+    categories: ["work_purpose", "identity_self"],
+    concepts: ["de_mismatch", "delayed_return"]
+  },
+  "MEANING": {
+    tags: ["meaning", "meaningful", "significance", "purpose", "fulfillment", "depth", "value", "matters"],
+    categories: ["identity_self", "work_purpose"],
+    concepts: ["de_mismatch"]
+  }
+};
+
+// Check if an image matches a quick tag
+function imageMatchesQuickTag(img: ImageData, tagName: string): boolean {
+  const mapping = TAG_MAPPINGS[tagName];
+  if (!mapping) return false;
+
+  // Check if any of the image's tags match
+  const imgTagsLower = img.tags.map(t => t.toLowerCase());
+  for (const tag of mapping.tags) {
+    if (imgTagsLower.some(t => t.includes(tag.toLowerCase()))) {
+      return true;
+    }
+  }
+
+  // Check if any of the image's categories match
+  for (const cat of mapping.categories) {
+    if (img.categories.includes(cat)) {
+      return true;
+    }
+  }
+
+  // Check if any of the image's concepts match
+  for (const concept of mapping.concepts) {
+    if (img.framework_concepts.includes(concept)) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 export default function LibraryPage() {
@@ -61,12 +421,18 @@ function LibraryContent() {
   const [selectedConcepts, setSelectedConcepts] = useState<Set<string>>(new Set());
   const [tagSearch, setTagSearch] = useState("");
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
+  const [selectedQuickTags, setSelectedQuickTags] = useState<Set<string>>(new Set());
+
+  // Search state
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   // UI state
-  const [sortBy, setSortBy] = useState<SortOption>("alphabetical");
+  const [sortBy, setSortBy] = useState<SortOption>("relevant");
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(["types", "categories"]));
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(["types"]));
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [toast, setToast] = useState("");
   const [displayCount, setDisplayCount] = useState(30);
 
@@ -76,13 +442,17 @@ function LibraryContent() {
     const categoryParam = searchParams.get("category");
     const conceptParam = searchParams.get("concept");
     const tagsParam = searchParams.get("tags");
+    const quickTagsParam = searchParams.get("quicktags");
     const sortParam = searchParams.get("sort") as SortOption;
+    const queryParam = searchParams.get("q");
 
     if (typeParam) setSelectedTypes(new Set(typeParam.split(",")));
     if (categoryParam) setSelectedCategories(new Set(categoryParam.split(",")));
     if (conceptParam) setSelectedConcepts(new Set(conceptParam.split(",")));
     if (tagsParam) setSelectedTags(new Set(tagsParam.split(",")));
+    if (quickTagsParam) setSelectedQuickTags(new Set(quickTagsParam.split(",")));
     if (sortParam) setSortBy(sortParam);
+    if (queryParam) setSearchQuery(queryParam);
   }, [searchParams]);
 
   // Fetch data
@@ -122,17 +492,19 @@ function LibraryContent() {
     if (selectedCategories.size > 0) params.set("category", Array.from(selectedCategories).join(","));
     if (selectedConcepts.size > 0) params.set("concept", Array.from(selectedConcepts).join(","));
     if (selectedTags.size > 0) params.set("tags", Array.from(selectedTags).join(","));
-    if (sortBy !== "alphabetical") params.set("sort", sortBy);
+    if (selectedQuickTags.size > 0) params.set("quicktags", Array.from(selectedQuickTags).join(","));
+    if (sortBy !== "relevant") params.set("sort", sortBy);
+    if (searchQuery) params.set("q", searchQuery);
 
     const queryString = params.toString();
     router.replace(`/library${queryString ? `?${queryString}` : ""}`, { scroll: false });
-  }, [selectedTypes, selectedCategories, selectedConcepts, selectedTags, sortBy, router]);
+  }, [selectedTypes, selectedCategories, selectedConcepts, selectedTags, selectedQuickTags, sortBy, searchQuery, router]);
 
   useEffect(() => {
     if (!isLoading) {
       updateURL();
     }
-  }, [selectedTypes, selectedCategories, selectedConcepts, selectedTags, sortBy, isLoading, updateURL]);
+  }, [selectedTypes, selectedCategories, selectedConcepts, selectedTags, selectedQuickTags, sortBy, searchQuery, isLoading, updateURL]);
 
   // Compute category and concept counts
   const categoryCounts = useMemo(() => {
@@ -153,7 +525,19 @@ function LibraryContent() {
     return counts;
   }, [taxonomy]);
 
-  // Compute tag frequencies
+  // Compute tag frequency map (lookup object for scoring)
+  const tagFrequencyMap = useMemo(() => {
+    const freq: Record<string, number> = {};
+    for (const img of allImages) {
+      for (const tag of img.tags) {
+        const tagLower = tag.toLowerCase();
+        freq[tagLower] = (freq[tagLower] || 0) + 1;
+      }
+    }
+    return freq;
+  }, [allImages]);
+
+  // Compute tag frequencies (sorted array for UI display)
   const tagFrequencies = useMemo(() => {
     const freq: Record<string, number> = {};
     for (const img of allImages) {
@@ -166,9 +550,57 @@ function LibraryContent() {
       .slice(0, 50);
   }, [allImages]);
 
+  // Compute search suggestions
+  const searchSuggestions = useMemo(() => {
+    if (!searchQuery || searchQuery.length < 2) return [];
+    const query = searchQuery.toLowerCase();
+    const suggestions: Array<{ text: string; type: "tag" | "category" | "concept" }> = [];
+
+    // Search in tags
+    for (const [tag] of tagFrequencies) {
+      if (tag.toLowerCase().includes(query)) {
+        suggestions.push({ text: tag, type: "tag" });
+      }
+    }
+
+    // Search in categories
+    if (taxonomy) {
+      for (const cat of Object.keys(taxonomy.by_category)) {
+        if (cat.toLowerCase().includes(query) || formatLabel(cat).toLowerCase().includes(query)) {
+          suggestions.push({ text: formatLabel(cat), type: "category" });
+        }
+      }
+
+      // Search in concepts
+      for (const concept of Object.keys(taxonomy.by_framework_concept)) {
+        if (concept.toLowerCase().includes(query) || formatLabel(concept).toLowerCase().includes(query)) {
+          suggestions.push({ text: formatLabel(concept), type: "concept" });
+        }
+      }
+    }
+
+    return suggestions.slice(0, 8);
+  }, [searchQuery, tagFrequencies, taxonomy]);
+
   // Filter images
   const filteredImages = useMemo(() => {
     let result = allImages;
+
+    // Filter by search query
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(img => {
+        // Search in title
+        if (img.title.toLowerCase().includes(query)) return true;
+        // Search in tags
+        if (img.tags.some(tag => tag.toLowerCase().includes(query))) return true;
+        // Search in categories
+        if (img.categories.some(cat => cat.toLowerCase().includes(query) || formatLabel(cat).toLowerCase().includes(query))) return true;
+        // Search in framework concepts
+        if (img.framework_concepts.some(c => c.toLowerCase().includes(query) || formatLabel(c).toLowerCase().includes(query))) return true;
+        return false;
+      });
+    }
 
     // Filter by type
     if (selectedTypes.size > 0) {
@@ -204,8 +636,40 @@ function LibraryContent() {
       );
     }
 
+    // Filter by quick tags (AND logic - image must match ALL selected quick tags)
+    if (selectedQuickTags.size > 0) {
+      result = result.filter(img =>
+        Array.from(selectedQuickTags).every(tagName => imageMatchesQuickTag(img, tagName))
+      );
+    }
+
     // Sort
     switch (sortBy) {
+      case "relevant":
+        if (selectedQuickTags.size > 0) {
+          // Tag-specific relevance scoring when quick tags are selected
+          result = [...result].sort((a, b) => {
+            // Primary: tag-specific relevance score (descending)
+            const tagScoreA = calculateTagRelevance(a, selectedQuickTags, TAG_MAPPINGS, tagFrequencyMap);
+            const tagScoreB = calculateTagRelevance(b, selectedQuickTags, TAG_MAPPINGS, tagFrequencyMap);
+            if (tagScoreB !== tagScoreA) return tagScoreB - tagScoreA;
+
+            // Secondary: image type priority (problem > comparison > explanation > solution)
+            const typeDiff = (TYPE_PRIORITY[a.image_type] ?? 4) - (TYPE_PRIORITY[b.image_type] ?? 4);
+            if (typeDiff !== 0) return typeDiff;
+
+            // Tertiary: framework concept score as tiebreaker
+            return calculateRelevanceScore(b) - calculateRelevanceScore(a);
+          });
+        } else {
+          // Original relevance scoring when no quick tags selected
+          result = [...result].sort((a, b) => {
+            const typeDiff = (TYPE_PRIORITY[a.image_type] ?? 4) - (TYPE_PRIORITY[b.image_type] ?? 4);
+            if (typeDiff !== 0) return typeDiff;
+            return calculateRelevanceScore(b) - calculateRelevanceScore(a);
+          });
+        }
+        break;
       case "alphabetical":
         result = [...result].sort((a, b) => a.title.localeCompare(b.title));
         break;
@@ -220,7 +684,7 @@ function LibraryContent() {
     }
 
     return result;
-  }, [allImages, selectedTypes, selectedCategories, selectedConcepts, selectedTags, sortBy, taxonomy]);
+  }, [allImages, searchQuery, selectedTypes, selectedCategories, selectedConcepts, selectedTags, selectedQuickTags, sortBy, taxonomy, tagFrequencyMap]);
 
   // Filter tags by search
   const filteredTags = useMemo(() => {
@@ -266,6 +730,15 @@ function LibraryContent() {
     });
   };
 
+  const toggleQuickTag = (tagName: string) => {
+    setSelectedQuickTags(prev => {
+      const next = new Set(prev);
+      if (next.has(tagName)) next.delete(tagName);
+      else next.add(tagName);
+      return next;
+    });
+  };
+
   const toggleSection = (section: string) => {
     setExpandedSections(prev => {
       const next = new Set(prev);
@@ -280,10 +753,12 @@ function LibraryContent() {
     setSelectedCategories(new Set());
     setSelectedConcepts(new Set());
     setSelectedTags(new Set());
+    setSelectedQuickTags(new Set());
+    setSearchQuery("");
   };
 
   const hasActiveFilters = selectedTypes.size > 0 || selectedCategories.size > 0 ||
-    selectedConcepts.size > 0 || selectedTags.size > 0;
+    selectedConcepts.size > 0 || selectedTags.size > 0 || selectedQuickTags.size > 0 || searchQuery.length > 0;
 
   // Watermark and download functions
   const showToast = (message: string) => {
@@ -377,6 +852,23 @@ function LibraryContent() {
     }
   };
 
+  // DEV ONLY: Delete image from Supabase
+  const deleteImage = async (image: ImageData) => {
+    if (!confirm(`Delete "${image.title}"? This cannot be undone.`)) {
+      return;
+    }
+    try {
+      const res = await fetch(`/api/images/${image.id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Delete failed");
+      setAllImages(prev => prev.filter(img => img.id !== image.id));
+      setSelectedImage(null);
+      showToast(`Deleted: ${image.title}`);
+    } catch (err) {
+      console.error("Delete error:", err);
+      showToast("Failed to delete image");
+    }
+  };
+
   // Load more for infinite scroll
   const loadMore = () => {
     setDisplayCount(prev => Math.min(prev + 30, filteredImages.length));
@@ -385,7 +877,7 @@ function LibraryContent() {
   // Reset display count when filters change
   useEffect(() => {
     setDisplayCount(30);
-  }, [selectedTypes, selectedCategories, selectedConcepts, selectedTags]);
+  }, [selectedTypes, selectedCategories, selectedConcepts, selectedTags, selectedQuickTags, searchQuery]);
 
   const displayedImages = filteredImages.slice(0, displayCount);
 
@@ -418,92 +910,107 @@ function LibraryContent() {
         )}
       </div>
 
-      {/* Categories */}
-      <div className="border-b border-[var(--border-color)] pb-4">
-        <button
-          className="w-full flex items-center justify-between py-2 text-sm font-bold tracking-wide"
-          onClick={() => toggleSection("categories")}
-        >
-          <span>Categories</span>
-          <span>{expandedSections.has("categories") ? "−" : "+"}</span>
-        </button>
-        {expandedSections.has("categories") && taxonomy && (
-          <div className="space-y-1 mt-2 max-h-60 overflow-y-auto">
-            {Object.keys(taxonomy.by_category).sort().map(cat => (
-              <label key={cat} className="flex items-center gap-2 cursor-pointer py-1">
-                <input
-                  type="checkbox"
-                  checked={selectedCategories.has(cat)}
-                  onChange={() => toggleCategory(cat)}
-                  className="accent-[var(--accent-primary)]"
-                />
-                <span className="text-sm flex-1">{formatLabel(cat)}</span>
-                <span className="text-xs text-[var(--text-muted)]">{categoryCounts[cat]}</span>
-              </label>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Framework Concepts */}
-      <div className="border-b border-[var(--border-color)] pb-4">
-        <button
-          className="w-full flex items-center justify-between py-2 text-sm font-bold tracking-wide"
-          onClick={() => toggleSection("concepts")}
-        >
-          <span>Framework Concepts</span>
-          <span>{expandedSections.has("concepts") ? "−" : "+"}</span>
-        </button>
-        {expandedSections.has("concepts") && taxonomy && (
-          <div className="space-y-1 mt-2 max-h-60 overflow-y-auto">
-            {Object.keys(taxonomy.by_framework_concept).sort().map(concept => (
-              <label key={concept} className="flex items-center gap-2 cursor-pointer py-1">
-                <input
-                  type="checkbox"
-                  checked={selectedConcepts.has(concept)}
-                  onChange={() => toggleConcept(concept)}
-                  className="accent-[var(--accent-primary)]"
-                />
-                <span className="text-sm flex-1">{formatLabel(concept)}</span>
-                <span className="text-xs text-[var(--text-muted)]">{conceptCounts[concept]}</span>
-              </label>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Tags */}
+      {/* Advanced Filters (collapsed by default) */}
       <div className="pb-4">
         <button
-          className="w-full flex items-center justify-between py-2 text-sm font-bold tracking-wide"
-          onClick={() => toggleSection("tags")}
+          className="w-full flex items-center justify-between py-2 text-xs font-medium tracking-wide text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+          onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
         >
-          <span>Tags</span>
-          <span>{expandedSections.has("tags") ? "−" : "+"}</span>
+          <span>ADVANCED FILTERS</span>
+          <span>{showAdvancedFilters ? "−" : "+"}</span>
         </button>
-        {expandedSections.has("tags") && (
-          <div className="mt-2">
-            <input
-              type="text"
-              placeholder="Search tags..."
-              value={tagSearch}
-              onChange={(e) => setTagSearch(e.target.value)}
-              className="w-full px-3 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded text-sm mb-2"
-            />
-            <div className="flex flex-wrap gap-1 max-h-40 overflow-y-auto">
-              {filteredTags.map(([tag, count]) => (
-                <button
-                  key={tag}
-                  onClick={() => toggleTag(tag)}
-                  className={`px-2 py-1 text-xs rounded transition-colors ${
-                    selectedTags.has(tag)
-                      ? "bg-[var(--accent-primary)] text-[var(--bg-primary)]"
-                      : "bg-[var(--bg-tertiary)] hover:bg-[var(--bg-secondary)]"
-                  }`}
-                >
-                  {tag} ({count})
-                </button>
-              ))}
+
+        {showAdvancedFilters && (
+          <div className="mt-3 space-y-4 pl-2 border-l-2 border-[var(--border-color)]">
+            {/* Categories */}
+            <div>
+              <button
+                className="w-full flex items-center justify-between py-1 text-sm font-bold tracking-wide"
+                onClick={() => toggleSection("categories")}
+              >
+                <span>Categories</span>
+                <span>{expandedSections.has("categories") ? "−" : "+"}</span>
+              </button>
+              {expandedSections.has("categories") && taxonomy && (
+                <div className="space-y-1 mt-2 max-h-48 overflow-y-auto">
+                  {Object.keys(taxonomy.by_category).sort().map(cat => (
+                    <label key={cat} className="flex items-center gap-2 cursor-pointer py-1">
+                      <input
+                        type="checkbox"
+                        checked={selectedCategories.has(cat)}
+                        onChange={() => toggleCategory(cat)}
+                        className="accent-[var(--accent-primary)]"
+                      />
+                      <span className="text-sm flex-1">{formatLabel(cat)}</span>
+                      <span className="text-xs text-[var(--text-muted)]">{categoryCounts[cat]}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Framework Concepts */}
+            <div>
+              <button
+                className="w-full flex items-center justify-between py-1 text-sm font-bold tracking-wide"
+                onClick={() => toggleSection("concepts")}
+              >
+                <span>Framework Concepts</span>
+                <span>{expandedSections.has("concepts") ? "−" : "+"}</span>
+              </button>
+              {expandedSections.has("concepts") && taxonomy && (
+                <div className="space-y-1 mt-2 max-h-48 overflow-y-auto">
+                  {Object.keys(taxonomy.by_framework_concept).sort().map(concept => (
+                    <label key={concept} className="flex items-center gap-2 cursor-pointer py-1">
+                      <input
+                        type="checkbox"
+                        checked={selectedConcepts.has(concept)}
+                        onChange={() => toggleConcept(concept)}
+                        className="accent-[var(--accent-primary)]"
+                      />
+                      <span className="text-sm flex-1">{formatLabel(concept)}</span>
+                      <span className="text-xs text-[var(--text-muted)]">{conceptCounts[concept]}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Tags */}
+            <div>
+              <button
+                className="w-full flex items-center justify-between py-1 text-sm font-bold tracking-wide"
+                onClick={() => toggleSection("tags")}
+              >
+                <span>Tags</span>
+                <span>{expandedSections.has("tags") ? "−" : "+"}</span>
+              </button>
+              {expandedSections.has("tags") && (
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    placeholder="Search tags..."
+                    value={tagSearch}
+                    onChange={(e) => setTagSearch(e.target.value)}
+                    className="w-full px-3 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded text-sm mb-2"
+                  />
+                  <div className="flex flex-wrap gap-1 max-h-32 overflow-y-auto">
+                    {filteredTags.map(([tag, count]) => (
+                      <button
+                        key={tag}
+                        onClick={() => toggleTag(tag)}
+                        className={`px-2 py-1 text-xs rounded transition-colors ${
+                          selectedTags.has(tag)
+                            ? "bg-[var(--accent-primary)] text-[var(--bg-primary)]"
+                            : "bg-[var(--bg-tertiary)] hover:bg-[var(--bg-secondary)]"
+                        }`}
+                      >
+                        {tag} ({count})
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -538,22 +1045,91 @@ function LibraryContent() {
   return (
     <main className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="p-4 md:p-6 border-b border-[var(--border-color)] flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link href="/" className="text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
-            <HomeIcon />
-          </Link>
-          <h1 className="text-xl md:text-2xl font-bold tracking-[0.15em]">
-            <span className="text-[var(--accent-primary)]">IMAGE</span> LIBRARY
-          </h1>
+      <header className="p-4 md:p-6 border-b border-[var(--border-color)]">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-4">
+            <Link href="/" className="text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
+              <HomeIcon />
+            </Link>
+            <h1 className="text-xl md:text-2xl font-bold tracking-[0.15em]">
+              <span className="text-[var(--accent-primary)]">DEMISMATCH</span> IMAGE LIBRARY
+            </h1>
+          </div>
+          <button
+            className="md:hidden btn-secondary py-2 px-3"
+            onClick={() => setShowMobileFilters(true)}
+          >
+            <FilterIcon />
+            <span className="ml-2">Filters</span>
+          </button>
         </div>
-        <button
-          className="md:hidden btn-secondary py-2 px-3"
-          onClick={() => setShowMobileFilters(true)}
-        >
-          <FilterIcon />
-          <span className="ml-2">Filters</span>
-        </button>
+
+        {/* Search Bar */}
+        <div className="relative max-w-2xl mx-auto">
+          <div className="relative">
+            <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
+            <input
+              type="text"
+              placeholder="Search by title, tag, category, or concept..."
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setShowSuggestions(true);
+              }}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+              className="w-full pl-12 pr-4 py-3 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-lg text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:border-[var(--accent-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-glow)]"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          {/* Search Suggestions */}
+          {showSuggestions && searchSuggestions.length > 0 && (
+            <div className="absolute z-20 w-full mt-1 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-lg shadow-xl overflow-hidden">
+              {searchSuggestions.map((suggestion, index) => (
+                <button
+                  key={index}
+                  className="w-full px-4 py-2 text-left hover:bg-[var(--bg-tertiary)] flex items-center gap-2"
+                  onMouseDown={() => {
+                    setSearchQuery(suggestion.text);
+                    setShowSuggestions(false);
+                  }}
+                >
+                  <span className={`text-xs px-1.5 py-0.5 rounded ${
+                    suggestion.type === "tag" ? "bg-gray-500/30 text-gray-400" :
+                    suggestion.type === "category" ? "bg-blue-500/30 text-blue-400" :
+                    "bg-[var(--accent-primary)]/30 text-[var(--accent-primary)]"
+                  }`}>
+                    {suggestion.type}
+                  </span>
+                  <span className="text-sm">{suggestion.text}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Quick Filter Tags */}
+        <div className="mt-4">
+          <div className="flex flex-wrap gap-2 justify-center">
+            {QUICK_TAGS.map(tag => (
+              <button
+                key={tag}
+                onClick={() => toggleQuickTag(tag)}
+                className={`quick-tag ${selectedQuickTags.has(tag) ? "quick-tag-active" : ""}`}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        </div>
       </header>
 
       <div className="flex flex-1">
@@ -609,6 +1185,12 @@ function LibraryContent() {
                   <button onClick={() => toggleTag(tag)} className="ml-1">✕</button>
                 </span>
               ))}
+              {Array.from(selectedQuickTags).map(tag => (
+                <span key={tag} className="filter-pill bg-[var(--accent-primary)] text-[var(--bg-primary)]">
+                  {tag}
+                  <button onClick={() => toggleQuickTag(tag)} className="ml-1">✕</button>
+                </span>
+              ))}
               <button
                 onClick={clearAllFilters}
                 className="text-xs text-[var(--error)] hover:underline"
@@ -628,6 +1210,7 @@ function LibraryContent() {
               onChange={(e) => setSortBy(e.target.value as SortOption)}
               className="px-3 py-2 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded text-sm"
             >
+              <option value="relevant">Sort: Most Relevant</option>
               <option value="alphabetical">Sort: A-Z</option>
               <option value="type">Sort: Type</option>
               <option value="category">Sort: Category</option>
@@ -644,7 +1227,7 @@ function LibraryContent() {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {displayedImages.map((image) => (
                   <div
                     key={image.id}
@@ -682,6 +1265,13 @@ function LibraryContent() {
                         onClick={(e) => { e.stopPropagation(); downloadImage(image); }}
                       >
                         <DownloadIcon />
+                      </button>
+                      <button
+                        className="p-1.5 bg-red-600/80 rounded hover:bg-red-600"
+                        onClick={(e) => { e.stopPropagation(); deleteImage(image); }}
+                        title="Delete image"
+                      >
+                        <TrashIcon />
                       </button>
                     </div>
                   </div>
@@ -800,6 +1390,14 @@ function LibraryContent() {
                   Download
                 </button>
               </div>
+
+              {/* DEV ONLY: Delete button */}
+              <button
+                className="w-full mt-3 py-2 px-4 bg-red-600/20 border border-red-600/50 text-red-400 rounded hover:bg-red-600/30 text-sm font-medium"
+                onClick={() => deleteImage(selectedImage)}
+              >
+                <TrashIcon /> Delete Image (Dev Only)
+              </button>
             </div>
           </div>
         </div>
@@ -844,6 +1442,24 @@ function DownloadIcon() {
       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
       <polyline points="7 10 12 15 17 10" />
       <line x1="12" y1="15" x2="12" y2="3" />
+    </svg>
+  );
+}
+
+function SearchIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+  );
+}
+
+function TrashIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <polyline points="3 6 5 6 21 6" />
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
     </svg>
   );
 }

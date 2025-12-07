@@ -34,6 +34,7 @@ export default function Home() {
   const [showHistory, setShowHistory] = useState(false);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [currentQuery, setCurrentQuery] = useState("");
+  const [sourcePreview, setSourcePreview] = useState<{ type: "screenshot" | "url"; image: string; url?: string } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const hasResults = problemImages.length > 0 || solutionImages.length > 0;
@@ -55,6 +56,7 @@ export default function Home() {
     setProblemImages([]);
     setSolutionImages([]);
     setShowGoDeeper(false);
+    setSourcePreview(null);
   };
 
   const applyResponse = (response: SearchResponse) => {
@@ -112,6 +114,15 @@ export default function Home() {
     clearResults();
     setLoadingMessage("Initializing OCR...");
     setOcrProgress(0);
+
+    // Create preview from uploaded file
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target?.result) {
+        setSourcePreview({ type: "screenshot", image: e.target.result as string });
+      }
+    };
+    reader.readAsDataURL(file);
 
     try {
       const Tesseract = await import("tesseract.js");
@@ -206,6 +217,12 @@ export default function Home() {
       }
 
       const data = await response.json();
+
+      // Set preview with og:image if available
+      if (data.ogImage) {
+        setSourcePreview({ type: "url", image: data.ogImage, url: urlInput });
+      }
+
       setInputText(data.text);
       await handleSearch(data.text);
     } catch (err) {
@@ -344,7 +361,7 @@ export default function Home() {
       {/* Header */}
       <header className="p-6 text-center border-b border-[var(--border-color)]">
         <h1 className="text-2xl md:text-3xl font-bold tracking-[0.2em] mb-2">
-          <span className="text-[var(--accent-primary)]">SQUARE</span> TRUTHS
+          <span className="text-[var(--accent-primary)]">DEMISMATCH</span>
         </h1>
         <p className="text-[var(--text-secondary)] text-sm tracking-wide">
           Find the perfect mismatch image
@@ -633,8 +650,40 @@ export default function Home() {
           </div>
         )}
 
+        {/* Source Preview (Screenshot or URL og:image) */}
+        {sourcePreview && hasResults && (
+          <div className="mb-6 fade-in">
+            <div className="p-4 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-lg">
+              <p className="text-xs text-[var(--text-muted)] uppercase tracking-wide mb-3">
+                {sourcePreview.type === "screenshot" ? "Analyzed Screenshot" : "Source"}
+              </p>
+              <div className="flex gap-4 items-start">
+                <div className="w-32 h-32 flex-shrink-0 rounded overflow-hidden bg-[var(--bg-tertiary)]">
+                  <img
+                    src={sourcePreview.image}
+                    alt="Source preview"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                {sourcePreview.url && (
+                  <div className="flex-1 min-w-0">
+                    <a
+                      href={sourcePreview.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-[var(--accent-primary)] hover:underline break-all"
+                    >
+                      {sourcePreview.url}
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Current Query Display */}
-        {currentQuery && hasResults && (
+        {currentQuery && hasResults && !sourcePreview && (
           <div className="mb-4 p-3 bg-[var(--bg-tertiary)] rounded border border-[var(--border-color)]">
             <p className="text-xs text-[var(--text-muted)] uppercase tracking-wide mb-1">Query</p>
             <p className="text-sm text-[var(--text-secondary)] line-clamp-2">{currentQuery}</p>

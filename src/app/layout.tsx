@@ -2,13 +2,13 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SQUARE TRUTHS",
+  title: "DEMISMATCH",
   description: "Find the perfect evolutionary mismatch image to respond to any content",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "SQUARE TRUTHS",
+    title: "DEMISMATCH",
   },
 };
 

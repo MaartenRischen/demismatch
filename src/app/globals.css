@@ -409,3 +409,68 @@ body::before {
 .filter-pill button:hover {
   opacity: 1;
 }
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Quick filter tags - 3D pill style */
+.quick-tag {
+  padding: 0.5rem 1rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+  border: 1px solid #3a3a3a;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  transform: translateY(0);
+}
+
+.quick-tag:hover {
+  color: var(--text-primary);
+  background: linear-gradient(180deg, #3a3a3a 0%, #2a2a2a 100%);
+  border-color: #4a4a4a;
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.quick-tag-active {
+  color: #fff !important;
+  background: linear-gradient(180deg, #ff4d1a 0%, #cc3300 100%) !important;
+  border-color: #ff6633 !important;
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 12px rgba(255, 61, 0, 0.4),
+    0 2px 6px rgba(255, 61, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 20px rgba(255, 61, 0, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.quick-tag-active:hover {
+  background: linear-gradient(180deg, #ff5c33 0%, #e63900 100%) !important;
+  transform: translateY(-3px);
+  box-shadow:
+    0 6px 16px rgba(255, 61, 0, 0.5),
+    0 3px 8px rgba(255, 61, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 0 30px rgba(255, 61, 0, 0.3);
+}

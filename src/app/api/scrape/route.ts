@@ -49,6 +49,8 @@ export async function POST(request: NextRequest) {
     const title = $('title').text().trim();
     const metaDescription = $('meta[name="description"]').attr('content') || '';
     const ogDescription = $('meta[property="og:description"]').attr('content') || '';
+    const ogImage = $('meta[property="og:image"]').attr('content') ||
+                    $('meta[name="twitter:image"]').attr('content') || '';
     
     // Get main content - try article first, then main, then body
     let mainContent = '';
@@ -74,9 +76,20 @@ export async function POST(request: NextRequest) {
       mainContent.slice(0, 5000) // Limit content length
     ].filter(Boolean).join('\n\n');
 
-    return NextResponse.json({ 
+    // Resolve relative og:image URLs to absolute
+    let resolvedOgImage = ogImage;
+    if (ogImage && !ogImage.startsWith('http')) {
+      try {
+        resolvedOgImage = new URL(ogImage, url).href;
+      } catch {
+        resolvedOgImage = '';
+      }
+    }
+
+    return NextResponse.json({
       text: extractedText,
-      title 
+      title,
+      ogImage: resolvedOgImage
     });
   } catch (error) {
     console.error('Scraping error:', error);
