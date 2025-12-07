@@ -901,7 +901,9 @@ function LibraryContent() {
       const url = URL.createObjectURL(watermarkedBlob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `${image.title.replace(/[^a-z0-9]/gi, "_")}_demismatch.png`;
+      // Use file_name (e.g., "36_THE_3AM_WORRY.png") as the download name
+      const baseName = image.file_name.replace(/\.[^/.]+$/, ""); // Remove extension
+      a.download = `${baseName}_demismatch.com.png`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
