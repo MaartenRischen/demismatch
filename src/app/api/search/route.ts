@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '';
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+
+// Framework document URLs from Supabase Storage
+const FRAMEWORK_URLS = {
+  main: `${SUPABASE_URL}/storage/v1/object/public/framework/main.md`,
+  supplementary: `${SUPABASE_URL}/storage/v1/object/public/framework/supplementary.md`
+};
 
 let supabase: SupabaseClient | null = null;
 
@@ -17,56 +24,38 @@ function getSupabase(): SupabaseClient {
   return supabase;
 }
 
-// Conversational framework context - no jargon, talk like a friend
-const FRAMEWORK_CONTEXT = `
-# How to Think About This
+// Fetch framework documents from Supabase Storage
+async function getFrameworkDocuments(): Promise<{ main: string; supplementary: string }> {
+  try {
+    const [mainResponse, supplementaryResponse] = await Promise.all([
+      fetch(FRAMEWORK_URLS.main),
+      fetch(FRAMEWORK_URLS.supplementary)
+    ]);
 
-For most of human history, we lived in small groups. Everyone knew everyone. You saw the same 150 people your whole life. Work had visible results. Status was achievable. Belonging was automatic.
+    if (!mainResponse.ok) {
+      console.error('Failed to fetch main framework:', mainResponse.status);
+      throw new Error('Failed to fetch main framework document');
+    }
 
-Then everything changed—fast. The last 10,000 years (and especially the last 100) created a world our brains weren't built for.
+    if (!supplementaryResponse.ok) {
+      console.error('Failed to fetch supplementary framework:', supplementaryResponse.status);
+      throw new Error('Failed to fetch supplementary framework document');
+    }
 
-That's it. That's the whole framework.
+    const [mainText, supplementaryText] = await Promise.all([
+      mainResponse.text(),
+      supplementaryResponse.text()
+    ]);
 
-## What This Explains
-
-Pretty much everything humans do that seems weird or self-destructive makes sense when you ask: "What would this behavior have done for someone in a small tribe?"
-
-**Why we can't stop checking our phones:**
-The brain treats every notification like news from the tribe. Back then, information about others was rare and valuable. Now it's infinite. The hunger doesn't go away just because the supply is unlimited.
-
-**Why we compare ourselves to everyone:**
-Comparison used to work. You competed against maybe 20 people for your spot. Now you're comparing yourself to the best in the world, at everything, all the time. The brain doesn't know the game changed.
-
-**Why work feels meaningless:**
-For most of history, you could see your work matter. You made something, gave it to someone, watched them use it. Now you send emails into a void and hope the shareholders are happy.
-
-**Why loneliness is an epidemic:**
-We need to be known by people who will still be there tomorrow. Followers aren't that. Friends you see twice a year aren't that. The brain knows the difference.
-
-**Why politics feels like war:**
-Tribal loyalty instincts firing at political parties. We treat strangers in the other party like enemy tribe members who threaten our survival. Because that's what the brain thinks is happening.
-
-**Why therapy often fails:**
-You can't buy belonging. An hour a week with someone paid to listen isn't the same as 20 people who actually know you and will still be there when the session ends.
-
-## The Pattern
-
-Almost everything works like this:
-1. We had a real need (belonging, status, purpose, meaning)
-2. Modern life offers a substitute (social media, career, therapy, entertainment)
-3. The substitute triggers the same feelings but doesn't actually satisfy the need
-4. We keep consuming more of the substitute, wondering why we're still hungry
-
-## What Actually Works
-
-The solution is usually boring and obvious once you see it:
-- Loneliness → actual ongoing relationships with the same people
-- Meaningless work → work that visibly helps people you know
-- Status anxiety → status within a real community, not global comparison
-- Mental health issues → often just correct responses to wrong environments
-
-The framework isn't about going back to caves. It's about noticing when you're using a substitute for something real, and finding the real thing instead.
-`;
+    return {
+      main: mainText,
+      supplementary: supplementaryText
+    };
+  } catch (error) {
+    console.error('Error fetching framework documents:', error);
+    throw error;
+  }
+}
 
 interface ImageMetadata {
   id: number;
@@ -144,10 +133,10 @@ function buildImageMenu(images: ImageMetadata[]): string {
   ).join('\n');
 }
 
-async function callLLM(userContent: string, imageMenu: string): Promise<LLMResponse> {
+async function callLLM(userContent: string, imageMenu: string, frameworkContent: string): Promise<LLMResponse> {
   const systemPrompt = `You help people understand what's really going on in their lives and the world around them.
 
-${FRAMEWORK_CONTEXT}
+${frameworkContent}
 
 ## Available Images (file_name: "title" - explanation):
 ${imageMenu}
@@ -312,7 +301,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const allImages = await fetchAllImages();
+    // Fetch framework documents and images in parallel
+    const [frameworkDocs, allImages] = await Promise.all([
+      getFrameworkDocuments(),
+      fetchAllImages()
+    ]);
 
     if (allImages.length === 0) {
       return NextResponse.json(
@@ -321,8 +314,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Combine framework documents into a single context string
+    const frameworkContent = `# MAIN FRAMEWORK\n\n${frameworkDocs.main}\n\n# SUPPLEMENTARY FRAMEWORK\n\n${frameworkDocs.supplementary}`;
+
     const imageMenu = buildImageMenu(allImages);
-    const llmResponse = await callLLM(text, imageMenu);
+    const llmResponse = await callLLM(text, imageMenu, frameworkContent);
 
     const totalImages = llmResponse.problem_images.length + llmResponse.solution_images.length;
     if (totalImages === 0) {
