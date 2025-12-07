@@ -23,12 +23,21 @@ export async function POST(
     }
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
     const openRouterKey = process.env.OPENROUTER_API_KEY;
 
-    if (!supabaseUrl || !supabaseKey || !openRouterKey) {
-      return NextResponse.json({ error: 'Missing environment variables' }, { status: 500 });
+    if (!supabaseUrl || !supabaseServiceKey) {
+      return NextResponse.json({
+        error: 'Missing SUPABASE_SERVICE_ROLE_KEY - this is required to upload edited images',
+        hint: 'Add SUPABASE_SERVICE_ROLE_KEY to Railway environment variables'
+      }, { status: 500 });
     }
+
+    if (!openRouterKey) {
+      return NextResponse.json({ error: 'Missing OPENROUTER_API_KEY' }, { status: 500 });
+    }
+
+    const supabaseKey = supabaseServiceKey;
 
     const supabase = createClient(supabaseUrl, supabaseKey);
 
