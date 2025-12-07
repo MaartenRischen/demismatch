@@ -16,10 +16,10 @@ export async function POST(
       return NextResponse.json({ error: 'Invalid image ID' }, { status: 400 });
     }
 
-    const { prompt, imageBase64 } = await request.json();
+    const { prompt } = await request.json();
 
-    if (!prompt || !imageBase64) {
-      return NextResponse.json({ error: 'Missing prompt or image data' }, { status: 400 });
+    if (!prompt) {
+      return NextResponse.json({ error: 'Missing prompt' }, { status: 400 });
     }
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -43,9 +43,15 @@ export async function POST(
       return NextResponse.json({ error: 'Image not found' }, { status: 404 });
     }
 
-    console.log(`[Edit] Processing edit for image ${imageId}: "${prompt.substring(0, 50)}..."`);
+    // Get the PUBLIC URL of the image (Nano Banana Pro requires URL, not base64)
+    const filePath = `${imageRecord.folder_name}/${imageRecord.file_name}`;
+    const publicImageUrl = `${supabaseUrl}/storage/v1/object/public/mismatch-images/${filePath}`;
 
-    // Call OpenRouter with Gemini 3 Pro Image for image editing
+    console.log(`[Edit] Processing edit for image ${imageId}: "${prompt.substring(0, 50)}..."`);
+    console.log(`[Edit] Source image URL: ${publicImageUrl}`);
+
+    // Call OpenRouter with Gemini Nano Banana Pro for image editing
+    // IMPORTANT: Gemini 3 Pro Image requires a PUBLIC URL, not base64
     const openRouterResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -63,7 +69,7 @@ export async function POST(
               {
                 type: 'image_url',
                 image_url: {
-                  url: imageBase64
+                  url: publicImageUrl  // Public URL, not base64!
                 }
               },
               {
@@ -127,8 +133,6 @@ export async function POST(
     // Convert base64 to buffer for upload
     const base64Data = newImageBase64.replace(/^data:image\/\w+;base64,/, '');
     const imageBuffer = Buffer.from(base64Data, 'base64');
-
-    const filePath = `${imageRecord.folder_name}/${imageRecord.file_name}`;
 
     console.log(`[Edit] Uploading edited image to: ${filePath}`);
 

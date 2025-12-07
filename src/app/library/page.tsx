@@ -940,25 +940,13 @@ function LibraryContent() {
     setIsEditing(true);
 
     try {
-      const imageResponse = await fetch(image.image_url);
-      const imageBlob = await imageResponse.blob();
-
-      const base64 = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = reject;
-        reader.readAsDataURL(imageBlob);
-      });
-
       showToast("Sending to AI for editing...");
 
+      // Just send the prompt - the API will use the public URL from Supabase
       const res = await fetch(`/api/images/${image.id}/edit`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt: editPrompt,
-          imageBase64: base64
-        })
+        body: JSON.stringify({ prompt: editPrompt })
       });
 
       if (!res.ok) {
