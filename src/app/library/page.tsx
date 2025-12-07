@@ -154,12 +154,18 @@ interface TagMapping {
 }
 
 const QUICK_TAGS = [
-  "ANXIETY", "LONELINESS", "BURNOUT", "EMPTINESS", "WORK", "LOVE", "SCREENS",
-  "DATING", "FAMILY", "MONEY", "FOOD", "SLEEP", "SEX", "STATUS", "COMPARISON",
-  "SCROLLING", "REJECTION", "SHAME", "GRIEF", "PARENTING", "MARRIAGE",
-  "FRIENDSHIP", "AGING", "DEATH", "FITNESS", "BODY IMAGE", "NEWS", "HUSTLE",
-  "STRANGERS", "VALIDATION", "ISOLATION", "OVERWHELM", "ADDICTION", "TRIBE",
-  "NATURE", "COMMUNITY", "RITUAL", "PURPOSE", "MEANING"
+  // Feelings first
+  "ANXIETY", "LONELINESS", "DEPRESSION", "BURNOUT", "SOCIAL ANXIETY", "EMPTINESS",
+  "SHAME", "OVERWHELM", "GRIEF", "REJECTION",
+  // Core framework concepts
+  "OPEN LOOPS", "PROXY", "DUNBAR", "COMPARISON", "SURVIVAL",
+  // Life topics
+  "WORK", "LOVE", "SCREENS", "DATING", "FAMILY", "MONEY", "FOOD", "SLEEP", "SEX", "STATUS",
+  "BELONGING", "TRUST", "SCROLLING", "NEWS", "HUSTLE", "NOTIFICATIONS", "ADDICTION",
+  "STRANGERS", "VALIDATION", "ISOLATION", "PARENTING", "MARRIAGE", "FRIENDSHIP",
+  "AGING", "DEATH", "FITNESS", "BODY IMAGE",
+  // Solutions
+  "TRIBE", "NATURE", "COMMUNITY", "RITUAL", "TRADITION", "PURPOSE", "MEANING"
 ];
 
 const TAG_MAPPINGS: Record<string, TagMapping> = {
@@ -167,6 +173,56 @@ const TAG_MAPPINGS: Record<string, TagMapping> = {
     tags: ["anxiety", "stress", "worry", "fear", "panic", "nervous", "dread", "unease", "social anxiety", "fear response"],
     categories: ["mental_emotional", "survival_safety"],
     concepts: ["open_loop_anxiety", "environmental_signal"]
+  },
+  "SOCIAL ANXIETY": {
+    tags: ["social anxiety", "social fear", "awkward", "shy", "nervous around people"],
+    categories: ["social_connection", "mental_emotional"],
+    concepts: ["stranger_overload", "dunbar_violation"]
+  },
+  "DEPRESSION": {
+    tags: ["depression", "depressed", "hopeless", "despair", "sad", "numb", "empty"],
+    categories: ["mental_emotional"],
+    concepts: ["environmental_signal", "delayed_return"]
+  },
+  "OPEN LOOPS": {
+    tags: ["open loop", "open loops", "unfinished", "unresolved", "incomplete", "nagging", "hanging"],
+    categories: ["attention_cognition", "mental_emotional"],
+    concepts: ["open_loop_anxiety"]
+  },
+  "PROXY": {
+    tags: ["proxy", "proxy consumption", "proxy connection", "substitute", "fake", "simulated", "virtual"],
+    categories: ["proxy_superstimuli", "technology_digital"],
+    concepts: ["proxy_consumption"]
+  },
+  "DUNBAR": {
+    tags: ["dunbar's number", "dunbar", "150", "too many people", "social limit", "cognitive limit"],
+    categories: ["tribal_structure", "social_connection"],
+    concepts: ["dunbar_violation"]
+  },
+  "SURVIVAL": {
+    tags: ["survival", "threat", "threat detection", "danger", "fight or flight", "fear response", "hypervigilance"],
+    categories: ["survival_safety"],
+    concepts: ["environmental_signal", "open_loop_anxiety"]
+  },
+  "BELONGING": {
+    tags: ["belonging", "belong", "acceptance", "inclusion", "fitting in", "part of", "included"],
+    categories: ["social_connection", "tribal_structure"],
+    concepts: ["tribal_bonding"]
+  },
+  "TRADITION": {
+    tags: ["tradition", "ritual", "ceremony", "customs", "heritage", "ancestral", "elders"],
+    categories: ["tradition_ritual"],
+    concepts: ["tribal_bonding", "de_mismatch"]
+  },
+  "TRUST": {
+    tags: ["trust", "distrust", "betrayal", "reliability", "faith", "dependable", "broken trust"],
+    categories: ["social_connection", "relationships_mating"],
+    concepts: ["tribal_bonding", "stranger_overload"]
+  },
+  "NOTIFICATIONS": {
+    tags: ["notification", "notifications", "alert", "alerts", "ping", "buzz", "ding", "push notification"],
+    categories: ["technology_digital", "attention_cognition"],
+    concepts: ["open_loop_anxiety", "proxy_consumption"]
   },
   "LONELINESS": {
     tags: ["loneliness", "lonely", "alone", "isolation", "social isolation", "disconnection", "alienation", "solitude"],
