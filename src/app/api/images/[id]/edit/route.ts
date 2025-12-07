@@ -61,7 +61,7 @@ export async function POST(
         'X-Title': 'Demismatch Image Editor'
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.0-flash-exp',
+        model: 'google/gemini-3-pro-preview',
         messages: [
           {
             role: 'user',
