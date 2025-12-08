@@ -5,8 +5,10 @@ export interface HistoryEntry {
   timestamp: number;
   query: string;
   whats_happening: string;
+  the_players: string;
   whats_missing: string;
-  go_deeper: string;
+  what_actually_helps: string;
+  example_comment: string;
   problem_images: ImageResult[];
   solution_images: ImageResult[];
 }

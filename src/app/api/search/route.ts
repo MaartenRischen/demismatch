@@ -4,11 +4,8 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '';
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 
-// Framework document URLs from Supabase Storage
-const FRAMEWORK_URLS = {
-  main: `${SUPABASE_URL}/storage/v1/object/public/framework/main.md`,
-  supplementary: `${SUPABASE_URL}/storage/v1/object/public/framework/supplementary.md`
-};
+// Framework rules URL from Supabase Storage
+const RULES_URL = 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/framework/rules.md';
 
 let supabase: SupabaseClient | null = null;
 
@@ -24,37 +21,16 @@ function getSupabase(): SupabaseClient {
   return supabase;
 }
 
-// Fetch framework documents from Supabase Storage
-async function getFrameworkDocuments(): Promise<{ main: string; supplementary: string }> {
-  try {
-    const [mainResponse, supplementaryResponse] = await Promise.all([
-      fetch(FRAMEWORK_URLS.main),
-      fetch(FRAMEWORK_URLS.supplementary)
-    ]);
+// Fetch framework rules from Supabase Storage
+async function getFrameworkRules(): Promise<string> {
+  const response = await fetch(RULES_URL, { cache: 'no-store' });
 
-    if (!mainResponse.ok) {
-      console.error('Failed to fetch main framework:', mainResponse.status);
-      throw new Error('Failed to fetch main framework document');
-    }
-
-    if (!supplementaryResponse.ok) {
-      console.error('Failed to fetch supplementary framework:', supplementaryResponse.status);
-      throw new Error('Failed to fetch supplementary framework document');
-    }
-
-    const [mainText, supplementaryText] = await Promise.all([
-      mainResponse.text(),
-      supplementaryResponse.text()
-    ]);
-
-    return {
-      main: mainText,
-      supplementary: supplementaryText
-    };
-  } catch (error) {
-    console.error('Error fetching framework documents:', error);
-    throw error;
+  if (!response.ok) {
+    console.error('Failed to fetch framework rules:', response.status);
+    throw new Error('Failed to fetch framework rules');
   }
+
+  return response.text();
 }
 
 interface ImageMetadata {
@@ -72,8 +48,10 @@ interface RankedImage {
 
 interface LLMResponse {
   whats_happening: string;
+  the_players: string;
   whats_missing: string;
-  go_deeper: string;
+  what_actually_helps: string;
+  example_comment: string;
   problem_images: RankedImage[];
   solution_images: RankedImage[];
 }
@@ -133,44 +111,26 @@ function buildImageMenu(images: ImageMetadata[]): string {
   ).join('\n');
 }
 
-async function callLLM(userContent: string, imageMenu: string, frameworkContent: string): Promise<LLMResponse> {
-  const systemPrompt = `You are the voice of DEMISMATCH. Not describing a framework - you ARE the lens.
+async function callLLM(userContent: string, imageMenu: string, rules: string): Promise<LLMResponse> {
+  const systemPrompt = `You are the voice of DEMISMATCH.
 
-Read and fully internalize this:
-
-=== FRAMEWORK ===
-${frameworkContent}
-=== END FRAMEWORK ===
-
-CRITICAL INSTRUCTIONS:
-
-1. You ARE this perspective. Never say "the framework says" or "the framework sees" - just state the analysis directly.
-
-2. Never adopt psychiatric terminology uncritically. Put diagnostic labels in quotes ("schizophrenia", "psychotic", "bipolar") or reframe them entirely. Describe what's actually happening rather than accepting psychiatric categories as valid.
-
-3. Do not go outside this framework. Do not balance it with mainstream views. Do not soften its positions. Do not add caveats it doesn't include.
-
-4. Be direct. The framework errs toward clarity over hedging.
-
-Analyze content by identifying:
-- What's happening (the mismatch pattern at play)
-- The dynamic (what evolved needs are unmet)
-- What's missing (environmental conditions absent)
-- What actually helps (what would address root causes)
+${rules}
 
 === AVAILABLE IMAGES ===
 ${imageMenu}
 === END IMAGES ===
 
 Select images that illustrate:
-- problem_images: Images showing the mismatch dynamic at play (up to 10)
-- solution_images: Images showing what actually meets the need (up to 10)
+- problem_images: Images showing the mismatch dynamic at play, including the meta-dynamics of consuming this content (up to 10)
+- solution_images: Images showing what actually meets the need - real actions, not consuming content (up to 10)
 
 Return ONLY valid JSON:
 {
-  "whats_happening": "2-3 sentences. State directly, not 'the framework says'.",
-  "whats_missing": "1-2 sentences. What's actually needed.",
-  "go_deeper": "Brief context.",
+  "whats_happening": "Brief 2-3 sentence summary of the surface event/content.",
+  "the_players": "Analyze EACH party through the mismatch lens. Format as: **[Person/Group 1]:** analysis. **[Person/Group 2]:** analysis. **[The Source/Publisher]:** analysis. **[The Reader/Consumer]:** analysis.",
+  "whats_missing": "What environmental conditions are absent - for the people in the story AND for the reader consuming it.",
+  "what_actually_helps": "What would address the root mismatch - for the people involved AND for the reader.",
+  "example_comment": "A sharp, witty 1-2 sentence comment the reader could post under the original content to share this analysis. Should be provocative but not mean - designed to make people think.",
   "problem_images": [{"file_name": "example.png", "reason": "why"}],
   "solution_images": [{"file_name": "example.png", "reason": "why"}]
 }`;
@@ -248,8 +208,10 @@ function parseLLMResponse(content: string): LLMResponse {
     const parsed = JSON.parse(jsonStr);
     return {
       whats_happening: parsed.whats_happening || '',
+      the_players: parsed.the_players || '',
       whats_missing: parsed.whats_missing || '',
-      go_deeper: parsed.go_deeper || '',
+      what_actually_helps: parsed.what_actually_helps || '',
+      example_comment: parsed.example_comment || '',
       problem_images: Array.isArray(parsed.problem_images) ? parsed.problem_images.slice(0, 10) : [],
       solution_images: Array.isArray(parsed.solution_images) ? parsed.solution_images.slice(0, 10) : []
     };
@@ -257,8 +219,10 @@ function parseLLMResponse(content: string): LLMResponse {
     console.error('Failed to parse LLM response:', e, content);
     return {
       whats_happening: 'Unable to parse response',
+      the_players: '',
       whats_missing: '',
-      go_deeper: '',
+      what_actually_helps: '',
+      example_comment: '',
       problem_images: [],
       solution_images: []
     };
@@ -276,9 +240,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Fetch framework documents and images in parallel
-    const [frameworkDocs, allImages] = await Promise.all([
-      getFrameworkDocuments(),
+    // Fetch framework rules and images in parallel
+    const [rules, allImages] = await Promise.all([
+      getFrameworkRules(),
       fetchAllImages()
     ]);
 
@@ -289,11 +253,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Combine framework documents into a single context string
-    const frameworkContent = `# MAIN FRAMEWORK\n\n${frameworkDocs.main}\n\n# SUPPLEMENTARY FRAMEWORK\n\n${frameworkDocs.supplementary}`;
-
     const imageMenu = buildImageMenu(allImages);
-    const llmResponse = await callLLM(text, imageMenu, frameworkContent);
+    const llmResponse = await callLLM(text, imageMenu, rules);
 
     const totalImages = llmResponse.problem_images.length + llmResponse.solution_images.length;
     if (totalImages === 0) {
@@ -322,8 +283,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       whats_happening: llmResponse.whats_happening,
+      the_players: llmResponse.the_players,
       whats_missing: llmResponse.whats_missing,
-      go_deeper: llmResponse.go_deeper,
+      what_actually_helps: llmResponse.what_actually_helps,
+      example_comment: llmResponse.example_comment,
       problem_images: resolveImages(llmResponse.problem_images),
       solution_images: resolveImages(llmResponse.solution_images)
     });

@@ -27,8 +27,10 @@ export interface ImageResult {
 
 export interface SearchResponse {
   whats_happening: string;
+  the_players: string;
   whats_missing: string;
-  go_deeper: string;
+  what_actually_helps: string;
+  example_comment: string;
   problem_images: ImageResult[];
   solution_images: ImageResult[];
 }
@@ -51,8 +53,10 @@ export async function searchImagesWithLLM(text: string): Promise<SearchResponse>
   const data = await response.json();
   return {
     whats_happening: data.whats_happening || '',
+    the_players: data.the_players || '',
     whats_missing: data.whats_missing || '',
-    go_deeper: data.go_deeper || '',
+    what_actually_helps: data.what_actually_helps || '',
+    example_comment: data.example_comment || '',
     problem_images: data.problem_images || [],
     solution_images: data.solution_images || []
   };

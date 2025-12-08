@@ -23,24 +23,28 @@
 html, body {
   margin: 0;
   padding: 0;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: 'Space Mono', 'JetBrains Mono', 'SF Mono', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* Geometric background pattern */
-body::before {
+/* Dark theme pages (app, library) - apply via class */
+.dark-theme {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Space Mono', 'JetBrains Mono', 'SF Mono', monospace;
+}
+
+/* Dark theme geometric background pattern */
+.dark-theme::before {
   content: '';
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
+  background:
     radial-gradient(circle at 20% 80%, var(--accent-glow) 0%, transparent 40%),
     radial-gradient(circle at 80% 20%, rgba(255, 109, 0, 0.15) 0%, transparent 40%),
     repeating-linear-gradient(
