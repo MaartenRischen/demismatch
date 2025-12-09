@@ -1,25 +1,13 @@
 import Link from "next/link";
 import LibraryStrip from "@/components/LibraryStrip";
+import Navigation from "@/components/Navigation";
 
 const IMAGE_BASE = "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/";
 
 export default function PractitionersPage() {
   return (
-    <main className="min-h-screen bg-[#FAF9F6]">
-      {/* Navigation */}
-      <nav className="flex items-center justify-between px-8 py-6 max-w-6xl mx-auto border-b border-[#E5E0D8]">
-        <Link href="/" className="text-xl tracking-widest text-[#1A1A1A]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-          DEMISMATCH
-        </Link>
-        <div className="hidden md:flex gap-8 text-sm text-[#4A4A4A]">
-          <Link href="/framework" className="hover:text-[#1A1A1A]">Framework</Link>
-          <Link href="/systems" className="hover:text-[#1A1A1A]">For Systems</Link>
-          <Link href="/practitioners" className="text-[#C75B39] font-medium">For Practitioners</Link>
-          <Link href="/foryou" className="hover:text-[#1A1A1A]">For You</Link>
-          <Link href="/projects" className="hover:text-[#1A1A1A]">Projects</Link>
-          <Link href="/sources" className="hover:text-[#1A1A1A]">Sources</Link>
-        </div>
-      </nav>
+    <main className="min-h-screen bg-[#FAF9F6] pt-20">
+      <Navigation />
 
       {/* Hero Section */}
       <section className="px-8 py-16 md:py-24 max-w-4xl mx-auto">

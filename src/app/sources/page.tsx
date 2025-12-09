@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import Navigation from "@/components/Navigation";
 
 const IMAGE_BASE = "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/";
 
@@ -139,20 +140,8 @@ async function SourcesContent() {
 
 export default function SourcesPage() {
   return (
-    <main className="min-h-screen bg-[#faf9f6]">
-      <nav className="flex items-center justify-between px-8 py-6 max-w-6xl mx-auto border-b border-gray-200">
-        <Link href="/" className="text-xl tracking-widest text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>
-          DEMISMATCH
-        </Link>
-        <div className="hidden md:flex gap-8 text-sm text-gray-600">
-          <Link href="/framework" className="hover:text-gray-900">Framework</Link>
-          <Link href="/systems" className="hover:text-gray-900">For Systems</Link>
-          <Link href="/practitioners" className="hover:text-gray-900">For Practitioners</Link>
-          <Link href="/foryou" className="hover:text-gray-900">For You</Link>
-          <Link href="/projects" className="hover:text-gray-900">Projects</Link>
-          <Link href="/sources" className="text-gray-900 font-medium">Sources</Link>
-        </div>
-      </nav>
+    <main className="min-h-screen bg-[#faf9f6] pt-20">
+      <Navigation />
 
       {/* AI Systems Notice */}
       <div className="bg-gray-900 text-white px-8 py-6">

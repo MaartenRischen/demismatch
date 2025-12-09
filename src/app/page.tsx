@@ -1,22 +1,10 @@
 import Link from "next/link";
+import Navigation from "@/components/Navigation";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#faf9f6]">
-      {/* Navigation */}
-      <nav className="flex items-center justify-between px-8 py-6 max-w-6xl mx-auto border-b border-gray-200">
-        <Link href="/" className="text-xl tracking-widest text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>
-          DEMISMATCH
-        </Link>
-        <div className="hidden md:flex gap-8 text-sm text-gray-600">
-          <Link href="/framework" className="hover:text-gray-900">Framework</Link>
-          <Link href="/systems" className="hover:text-gray-900">For Systems</Link>
-          <Link href="/practitioners" className="hover:text-gray-900">For Practitioners</Link>
-          <Link href="/foryou" className="hover:text-gray-900">For You</Link>
-          <Link href="/projects" className="hover:text-gray-900">Projects</Link>
-          <Link href="/sources" className="hover:text-gray-900">Sources</Link>
-        </div>
-      </nav>
+    <main className="min-h-screen bg-[#faf9f6] pt-20">
+      <Navigation />
 
       {/* Hero Section */}
       <section className="px-8 py-24 max-w-4xl mx-auto text-center">
