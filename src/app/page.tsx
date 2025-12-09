@@ -28,7 +28,7 @@ export default function Home() {
         <p className="text-xl text-gray-600 mb-3">
           Every condition we call mental illness is the machinery working correctly in the wrong environment. A fish on land isn't broken. It's misplaced.
         </p>
-        <p className="text-xl text-gray-600 mb-10">
+        <p className="text-xl text-gray-600 mb-10 font-bold">
           This framework explains the what, the why, and the 'now what?'
         </p>
         <div className="flex gap-4 justify-center">
@@ -65,7 +65,7 @@ export default function Home() {
           {/* The Mismatch Analyzer */}
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
             <img
-              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/13_App_Preview___Mismatch_Analyzer.png"
+              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/Mismatch analyzer.png"
               alt="Mismatch Analyzer preview"
               className="w-full h-48 object-cover"
             />
@@ -86,7 +86,7 @@ export default function Home() {
           {/* The Image Library */}
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
             <img
-              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/14_Image_Library_Preview.png"
+              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/Image Library.png"
               alt="Image Library preview"
               className="w-full h-48 object-cover"
             />

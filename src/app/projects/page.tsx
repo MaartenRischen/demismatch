@@ -61,7 +61,7 @@ export default function ProjectsPage() {
             </p>
             
             <img
-              src={`${IMAGE_BASE}13_App_Preview___Mismatch_Analyzer.png`}
+              src={`${IMAGE_BASE}Mismatch analyzer.png`}
               alt="Mismatch Analyzer preview"
               className="rounded-lg w-full border border-gray-200 mb-6"
             />
@@ -158,6 +158,12 @@ export default function ProjectsPage() {
             <p className="text-xl text-gray-700 mb-6">
               2,500+ educational images explaining evolutionary psychology, mismatch theory, and human nature.
             </p>
+            
+            <img
+              src={`${IMAGE_BASE}Image Library.png`}
+              alt="Image Library preview"
+              className="rounded-lg w-full border border-gray-200 mb-6"
+            />
 
             {/* Sample Image Grid */}
             <div className="grid grid-cols-4 gap-2 mb-6">
