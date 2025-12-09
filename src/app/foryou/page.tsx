@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+const IMAGE_BASE = "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/";
+
 export default function ForYouPage() {
   return (
     <main className="min-h-screen bg-[#faf9f6]">
@@ -26,9 +28,10 @@ export default function ForYouPage() {
         </p>
       </header>
 
-      {/* Section 1 */}
+      {/* Section 1: You're Not Broken */}
       <section className="px-8 py-12 max-w-4xl mx-auto">
         <h2 className="text-3xl text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>1. You're Not Broken</h2>
+        
         <p className="text-lg text-gray-700 mb-6 leading-relaxed">
           A fish on land flops around gasping. You don't diagnose it with "Flopping Disorder" and prescribe anti-flopping medication. You put it back in water.
         </p>
@@ -40,8 +43,8 @@ export default function ForYouPage() {
         </p>
 
         <img
-          src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/9_Signals_Not_Symptoms__4-Panel_Grid_.png"
-          alt="Signals not symptoms"
+          src={`${IMAGE_BASE}9_Signals_Not_Symptoms__4-Panel_Grid_.png`}
+          alt="Signals not symptoms - your emotions are information, not malfunction"
           className="rounded-lg w-full my-8"
         />
 
@@ -57,7 +60,7 @@ export default function ForYouPage() {
         </p>
       </section>
 
-      {/* Section 2 */}
+      {/* Section 2: Why You Feel This Way */}
       <section className="px-8 py-12 max-w-4xl mx-auto">
         <h2 className="text-3xl text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>2. Why You Feel This Way</h2>
         
@@ -70,8 +73,8 @@ export default function ForYouPage() {
         </p>
 
         <img
-          src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/7_Internal_Audience_Illustration.png"
-          alt="The internal audience"
+          src={`${IMAGE_BASE}7_Internal_Audience_Illustration.png`}
+          alt="The internal audience - performing for phantoms"
           className="rounded-lg w-full my-8"
         />
 
@@ -84,8 +87,8 @@ export default function ForYouPage() {
         </p>
 
         <img
-          src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/8_Open_Loops_Visual.png"
-          alt="Open loops"
+          src={`${IMAGE_BASE}8_Open_Loops_Visual.png`}
+          alt="Open loops - nothing ever closes in modern life"
           className="rounded-lg w-full my-8"
         />
 
@@ -101,7 +104,7 @@ export default function ForYouPage() {
         </p>
       </section>
 
-      {/* Section 3 */}
+      {/* Section 3: It's Not Your Fault */}
       <section className="px-8 py-12 max-w-4xl mx-auto">
         <h2 className="text-3xl text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>3. It's Not Your Fault</h2>
         <p className="text-lg text-gray-700 mb-6 leading-relaxed">
@@ -124,7 +127,7 @@ export default function ForYouPage() {
         </p>
       </section>
 
-      {/* Section 4 */}
+      {/* Section 4: What Actually Helps */}
       <section className="px-8 py-12 max-w-4xl mx-auto">
         <h2 className="text-3xl text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>4. What Actually Helps</h2>
         <p className="text-lg text-gray-700 mb-6 leading-relaxed">
@@ -146,13 +149,12 @@ export default function ForYouPage() {
           For every proxy you consume, ask: what's the real need underneath? Then find a real way to meet it. Social media → actual face time. Porn → actual intimacy. News → actual local engagement. It's harder. It's also the only thing that works.
         </p>
 
+        <h3 className="text-xl text-gray-900 mt-8 mb-4 font-semibold">Dissolve the Phantom Audience</h3>
         <img
-          src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/37_Internal_Audience_Dissolution.png"
-          alt="Internal audience dissolution"
+          src={`${IMAGE_BASE}37_Internal_Audience_Dissolution.png`}
+          alt="Internal audience dissolution - real tribe replaces phantom judges"
           className="rounded-lg w-full my-8"
         />
-
-        <h3 className="text-xl text-gray-900 mt-8 mb-4 font-semibold">Dissolve the Phantom Audience</h3>
         <p className="text-lg text-gray-700 mb-4 leading-relaxed">
           The internal audience quiets when you have a real one. When actual people actually know you, your brain stops running simulations about what hypothetical people might think. This is why tribe comes first.
         </p>
@@ -167,6 +169,56 @@ export default function ForYouPage() {
         </p>
       </section>
 
+      {/* Section 5: The Path */}
+      <section className="px-8 py-12 max-w-4xl mx-auto">
+        <h2 className="text-3xl text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>5. The Path</h2>
+        
+        <img
+          src={`${IMAGE_BASE}Demismatch_Augment.png`}
+          alt="The progression: EEA → MISMATCH → DEMISMATCH → AUGMENTED"
+          className="rounded-lg w-full my-8"
+        />
+
+        <div className="bg-white border border-gray-200 rounded-lg p-6 my-8">
+          <p className="text-lg text-gray-700 mb-2"><strong>EEA</strong> — What we evolved for. The baseline.</p>
+          <p className="text-lg text-gray-700 mb-2"><strong>MISMATCH</strong> — Where most of us are. Signals firing, needs unmet.</p>
+          <p className="text-lg text-gray-700 mb-2"><strong>DEMISMATCH</strong> — Realigning environment with biology.</p>
+          <p className="text-lg text-gray-700"><strong>AUGMENTED</strong> — Building from healthy baseline to something even better.</p>
+        </div>
+
+        <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+          You're probably somewhere in MISMATCH. The path is through DEMISMATCH toward AUGMENTED.
+        </p>
+        <p className="text-lg text-gray-700 leading-relaxed">
+          You can't skip steps. But you can start moving.
+        </p>
+      </section>
+
+      {/* Section 6: What Now? */}
+      <section className="px-8 py-12 max-w-4xl mx-auto">
+        <h2 className="text-3xl text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>6. What Now?</h2>
+        <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+          Understanding is step one. But understanding alone changes nothing.
+        </p>
+        <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+          Will you restructure your environment? Build tribe? Close loops?
+        </p>
+        <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+          Will you build for others? Spread understanding?
+        </p>
+        <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+          The framework will still be here. But don't let reading become another proxy.
+        </p>
+
+        <div className="p-6 bg-[#c75b3a]/10 border border-[#c75b3a]/20 rounded-lg mb-8">
+          <p className="text-lg text-gray-900 mb-4 font-medium">Analyze your situation</p>
+          <p className="text-gray-700 mb-4">Paste what you're struggling with. Get framework-grounded insight.</p>
+          <Link href="/app?prompt=Why%20do%20I%20feel%20this%20way%3F" className="bg-[#c75b3a] text-white px-5 py-2.5 rounded-lg hover:bg-[#b54d2e] transition inline-block">
+            Open the Analyzer →
+          </Link>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="px-8 py-12 max-w-4xl mx-auto">
         <div className="bg-gray-100 rounded-lg p-8">
@@ -174,12 +226,15 @@ export default function ForYouPage() {
           <p className="text-lg text-gray-700 mb-6">
             This page is the beginning. The full framework explains the entire machine — how humans work, what went wrong, and the complete path forward.
           </p>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-4">
             <Link href="/framework" className="bg-[#c75b3a] text-white px-6 py-3 rounded-lg hover:bg-[#b54d2e] transition inline-block">
               Read the Framework
             </Link>
             <Link href="/sources" className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition inline-block">
               See the Sources
+            </Link>
+            <Link href="/builders" className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition inline-block">
+              Ready to Build →
             </Link>
           </div>
         </div>
