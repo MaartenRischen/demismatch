@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 interface ImageData {
@@ -65,10 +65,13 @@ function imageMatchesTags(img: ImageData, searchTags: string[]): boolean {
   });
 }
 
-export default function LibraryStrip({ tags, title, count = 6 }: LibraryStripProps) {
+export default function LibraryStrip({ tags, title }: LibraryStripProps) {
   const [images, setImages] = useState<ImageData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     async function fetchImages() {
@@ -90,9 +93,9 @@ export default function LibraryStrip({ tags, title, count = 6 }: LibraryStripPro
           imageMatchesTags(img, tags)
         );
         
-        // Shuffle and take 'count' images
+        // Shuffle and use ALL matching images (no limit)
         const shuffled = [...filtered].sort(() => Math.random() - 0.5);
-        setImages(shuffled.slice(0, count));
+        setImages(shuffled);
       } catch (err: any) {
         console.error('Failed to fetch library images:', err);
         setError(err.message || 'Failed to load images');
@@ -106,7 +109,43 @@ export default function LibraryStrip({ tags, title, count = 6 }: LibraryStripPro
     } else {
       setLoading(false);
     }
-  }, [tags, count]);
+  }, [tags]);
+
+  // Auto-scroll effect
+  useEffect(() => {
+    if (loading || error || images.length === 0 || isPaused || !scrollContainerRef.current) {
+      if (scrollIntervalRef.current) {
+        clearInterval(scrollIntervalRef.current);
+        scrollIntervalRef.current = null;
+      }
+      return;
+    }
+
+    // Duplicate images for seamless loop
+    const container = scrollContainerRef.current;
+    const scrollAmount = 1; // pixels per scroll
+    const scrollSpeed = 50; // milliseconds between scrolls (slow)
+
+    scrollIntervalRef.current = setInterval(() => {
+      if (container) {
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        const currentScroll = container.scrollLeft;
+        
+        if (currentScroll >= maxScroll) {
+          // Loop back to start
+          container.scrollLeft = 0;
+        } else {
+          container.scrollLeft += scrollAmount;
+        }
+      }
+    }, scrollSpeed);
+
+    return () => {
+      if (scrollIntervalRef.current) {
+        clearInterval(scrollIntervalRef.current);
+      }
+    };
+  }, [loading, error, images.length, isPaused]);
 
   // Don't render if no tags provided
   if (tags.length === 0) return null;
@@ -123,7 +162,7 @@ export default function LibraryStrip({ tags, title, count = 6 }: LibraryStripPro
           </h4>
         )}
         <div className="flex gap-4 overflow-x-auto pb-4">
-          {Array.from({ length: count }).map((_, i) => (
+          {Array.from({ length: 6 }).map((_, i) => (
             <div
               key={i}
               className="flex-shrink-0 w-48 h-48 bg-gray-100 rounded-lg animate-pulse"
@@ -156,21 +195,54 @@ export default function LibraryStrip({ tags, title, count = 6 }: LibraryStripPro
     );
   }
 
+  // Duplicate images for seamless infinite scroll
+  const duplicatedImages = [...images, ...images, ...images];
+
   return (
     <div className="my-12 py-8 border-t border-b border-[#E5E0D8] px-8">
-      {title && (
-        <h4 className="text-sm font-medium text-[#6b6b6b] uppercase tracking-wide mb-4">
-          {title}
-        </h4>
-      )}
-      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-        {images.map((img) => (
+      <div className="flex items-center justify-between mb-4">
+        {title && (
+          <h4 className="text-sm font-medium text-[#6b6b6b] uppercase tracking-wide">
+            {title}
+          </h4>
+        )}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setIsPaused(!isPaused)}
+            className="text-[#6b6b6b] hover:text-[#C75B39] transition-colors p-1"
+            aria-label={isPaused ? 'Resume carousel' : 'Pause carousel'}
+          >
+            {isPaused ? (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            )}
+          </button>
+          <Link 
+            href={`/library?tags=${tagsParam}`}
+            className="text-xs text-[#6b6b6b] hover:text-[#C75B39] transition-colors"
+          >
+            View all ({images.length}) →
+          </Link>
+        </div>
+      </div>
+      <div 
+        ref={scrollContainerRef}
+        className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide"
+        style={{ scrollBehavior: 'auto' }}
+      >
+        {duplicatedImages.map((img, index) => (
           <Link
-            key={img.id}
+            key={`${img.id}-${index}`}
             href={`/library?search=${encodeURIComponent(img.title)}`}
             className="flex-shrink-0 group"
           >
-            <div className="w-48 h-48 rounded-lg overflow-hidden bg-[#F5F3EF] border border-[#E5E0D8]">
+            <div className="w-48 h-48 rounded-lg overflow-hidden bg-[#F5F3EF] border border-[#E5E0D8] hover:border-[#C75B39] transition-colors">
               <img
                 src={img.image_url}
                 alt={img.title}
@@ -178,18 +250,9 @@ export default function LibraryStrip({ tags, title, count = 6 }: LibraryStripPro
                 loading="lazy"
               />
             </div>
-            <p className="mt-2 text-xs text-[#4A4A4A] truncate w-48 group-hover:text-[#C75B39] transition-colors">
-              {img.title}
-            </p>
           </Link>
         ))}
       </div>
-      <Link 
-        href={`/library?tags=${tagsParam}`}
-        className="inline-flex items-center gap-1 text-sm text-[#C75B39] hover:underline mt-2"
-      >
-        See more in library →
-      </Link>
     </div>
   );
 }
