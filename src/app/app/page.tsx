@@ -514,24 +514,24 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
   };
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white">
+    <main className="min-h-screen bg-[#FAF9F6] text-[#1A1A1A]">
       <Navigation />
 
       {/* Header with padding for fixed nav */}
       <header className="pt-24 pb-4 px-6 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold mb-2">Mismatch Analyzer</h1>
-        <p className="text-[#a3a3a3] text-sm tracking-wide">
+        <h1 className="text-3xl md:text-4xl font-bold mb-2" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Mismatch Analyzer</h1>
+        <p className="text-[#4A4A4A] text-sm tracking-wide">
           See any content through the mismatch lens
         </p>
         {/* History Button */}
         <button
-          className="mt-4 py-2 px-4 flex items-center gap-2 text-sm text-[#a3a3a3] hover:text-[#ff3d00] border border-[#333] hover:border-[#ff3d00] transition-colors mx-auto"
+          className="mt-4 py-2 px-4 flex items-center gap-2 text-sm text-[#4A4A4A] hover:text-[#C75B39] border border-[#E5E0D8] hover:border-[#C75B39] transition-colors mx-auto rounded"
           onClick={() => setShowHistory(!showHistory)}
         >
           <HistoryIcon />
           History
           {history.length > 0 && (
-            <span className="text-xs bg-[#ff3d00] text-white rounded-full px-1.5">
+            <span className="text-xs bg-[#C75B39] text-white rounded-full px-1.5">
               {history.length}
             </span>
           )}
@@ -540,25 +540,25 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 
       {/* History Panel */}
       {showHistory && (
-        <div className="fixed inset-0 z-50 bg-black/70" onClick={() => setShowHistory(false)}>
+        <div className="fixed inset-0 z-50 bg-black/50" onClick={() => setShowHistory(false)}>
           <div
-            className="absolute right-0 top-0 bottom-0 w-full max-w-md bg-[#0a0a0a] border-l border-[#333] overflow-hidden flex flex-col"
+            className="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white border-l border-[#E5E0D8] overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* History Header */}
-            <div className="p-4 border-b border-[#333] flex items-center justify-between">
-              <h2 className="text-lg font-bold tracking-wide text-white">Search History</h2>
+            <div className="p-4 border-b border-[#E5E0D8] flex items-center justify-between">
+              <h2 className="text-lg font-bold tracking-wide text-[#1A1A1A]">Search History</h2>
               <div className="flex gap-2">
                 {history.length > 0 && (
                   <button
-                    className="text-xs text-[#666] hover:text-red-500"
+                    className="text-xs text-[#8B8B8B] hover:text-red-500"
                     onClick={handleClearHistory}
                   >
                     Clear All
                   </button>
                 )}
                 <button
-                  className="text-[#666] hover:text-white"
+                  className="text-[#8B8B8B] hover:text-[#1A1A1A]"
                   onClick={() => setShowHistory(false)}
                 >
                   ✕
@@ -569,30 +569,30 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
             {/* History List */}
             <div className="flex-1 overflow-y-auto">
               {history.length === 0 ? (
-                <div className="p-8 text-center text-[#666]">
+                <div className="p-8 text-center text-[#8B8B8B]">
                   <HistoryIcon />
                   <p className="mt-2">No search history yet</p>
                   <p className="text-sm mt-1">Your searches will appear here</p>
                 </div>
               ) : (
-                <div className="divide-y divide-[#1a1a1a]">
+                <div className="divide-y divide-[#E5E0D8]">
                   {history.map((entry) => (
                     <div
                       key={entry.id}
-                      className="p-4 hover:bg-[#1a1a1a] cursor-pointer transition-colors group"
+                      className="p-4 hover:bg-[#F5F3EF] cursor-pointer transition-colors group"
                       onClick={() => loadHistoryEntry(entry)}
                     >
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm text-white line-clamp-2 mb-1">
+                          <p className="text-sm text-[#1A1A1A] line-clamp-2 mb-1">
                             {entry.query}
                           </p>
-                          <p className="text-xs text-[#666]">
+                          <p className="text-xs text-[#8B8B8B]">
                             {formatTimestamp(entry.timestamp)} · {entry.problem_images.length + entry.solution_images.length} images
                           </p>
                         </div>
                         <button
-                          className="opacity-0 group-hover:opacity-100 text-[#666] hover:text-red-500 transition-opacity p-1"
+                          className="opacity-0 group-hover:opacity-100 text-[#8B8B8B] hover:text-red-500 transition-opacity p-1"
                           onClick={(e) => handleDeleteHistoryEntry(entry.id, e)}
                         >
                           <TrashIcon />
@@ -604,7 +604,7 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
                         {[...entry.problem_images, ...entry.solution_images].slice(0, 4).map((result, i) => (
                           <div
                             key={i}
-                            className="w-10 h-10 rounded overflow-hidden bg-[#1a1a1a]"
+                            className="w-10 h-10 rounded overflow-hidden bg-[#F5F3EF]"
                           >
                             <img
                               src={result.image_url}
@@ -615,7 +615,7 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
                           </div>
                         ))}
                         {entry.problem_images.length + entry.solution_images.length > 4 && (
-                          <div className="w-10 h-10 rounded bg-[#1a1a1a] flex items-center justify-center text-xs text-[#666]">
+                          <div className="w-10 h-10 rounded bg-[#F5F3EF] flex items-center justify-center text-xs text-[#8B8B8B]">
                             +{entry.problem_images.length + entry.solution_images.length - 4}
                           </div>
                         )}
@@ -632,7 +632,7 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
       {/* Main Content */}
       <div className="flex-1 p-4 md:p-8 max-w-4xl mx-auto w-full">
         {/* Input Tabs */}
-        <div className="flex border-b border-[#333] mb-6 overflow-x-auto">
+        <div className="flex border-b border-[#E5E0D8] mb-6 overflow-x-auto">
           {[
             { id: "describe", label: "Describe" },
             { id: "text", label: "Paste Text" },
@@ -644,8 +644,8 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
               key={tab.id}
               className={`relative px-4 py-3 text-sm font-medium transition-colors ${
                 mode === tab.id
-                  ? "text-[#ff3d00]"
-                  : "text-[#666] hover:text-white"
+                  ? "text-[#C75B39]"
+                  : "text-[#8B8B8B] hover:text-[#1A1A1A]"
               }`}
               onClick={() => {
                 setMode(tab.id as InputMode);
@@ -654,7 +654,7 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
             >
               {tab.label}
               {mode === tab.id && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#ff3d00]" />
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#C75B39]" />
               )}
             </button>
           ))}
@@ -664,17 +664,17 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
         <div className="mb-6 max-w-2xl mx-auto">
           {mode === "describe" && (
             <div className="animate-fadeIn">
-              <label className="block text-sm text-[#a3a3a3] mb-2 tracking-wide">
+              <label className="block text-sm text-[#4A4A4A] mb-2 tracking-wide">
                 Describe the situation or content
               </label>
               <textarea
-                className="w-full p-4 min-h-[120px] resize-none bg-[#1a1a1a] border border-[#333] text-white placeholder:text-[#666] focus:border-[#ff3d00] focus:outline-none focus:ring-2 focus:ring-[#ff3d00]/20"
+                className="w-full p-4 min-h-[120px] resize-none bg-white border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg"
                 placeholder="e.g., Someone bragging about working 80 hours a week..."
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
               />
               <button
-                className="w-full mt-4 px-6 py-3 bg-[#ff3d00] text-white font-medium hover:bg-[#e63600] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full mt-4 px-6 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 rounded-lg"
                 onClick={() => handleSearch(inputText)}
                 disabled={isLoading}
               >
@@ -695,17 +695,17 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 
           {mode === "text" && (
             <div className="animate-fadeIn">
-              <label className="block text-sm text-[#a3a3a3] mb-2 tracking-wide">
+              <label className="block text-sm text-[#4A4A4A] mb-2 tracking-wide">
                 Paste the content you want to respond to
               </label>
               <textarea
-                className="w-full p-4 min-h-[200px] resize-none bg-[#1a1a1a] border border-[#333] text-white placeholder:text-[#666] focus:border-[#ff3d00] focus:outline-none focus:ring-2 focus:ring-[#ff3d00]/20"
+                className="w-full p-4 min-h-[200px] resize-none bg-white border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg"
                 placeholder="Paste article text, social media post, or any content..."
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
               />
               <button
-                className="w-full mt-4 px-6 py-3 bg-[#ff3d00] text-white font-medium hover:bg-[#e63600] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full mt-4 px-6 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 rounded-lg"
                 onClick={() => handleSearch(inputText)}
                 disabled={isLoading}
               >
@@ -726,18 +726,18 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 
           {mode === "url" && (
             <div className="animate-fadeIn">
-              <label className="block text-sm text-[#a3a3a3] mb-2 tracking-wide">
+              <label className="block text-sm text-[#4A4A4A] mb-2 tracking-wide">
                 Enter the URL of an article or page
               </label>
               <input
                 type="url"
-                className="w-full p-4 bg-[#1a1a1a] border border-[#333] text-white placeholder:text-[#666] focus:border-[#ff3d00] focus:outline-none focus:ring-2 focus:ring-[#ff3d00]/20"
+                className="w-full p-4 bg-white border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg"
                 placeholder="https://example.com/article..."
                 value={urlInput}
                 onChange={(e) => setUrlInput(e.target.value)}
               />
               <button
-                className="w-full mt-4 px-6 py-3 bg-[#ff3d00] text-white font-medium hover:bg-[#e63600] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full mt-4 px-6 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 rounded-lg"
                 onClick={handleUrlScrape}
                 disabled={isLoading}
               >
@@ -758,21 +758,21 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 
           {mode === "youtube" && (
             <div className="animate-fadeIn">
-              <label className="block text-sm text-[#a3a3a3] mb-2 tracking-wide">
+              <label className="block text-sm text-[#4A4A4A] mb-2 tracking-wide">
                 Enter a YouTube video URL
               </label>
               <input
                 type="url"
-                className="w-full p-4 bg-[#1a1a1a] border border-[#333] text-white placeholder:text-[#666] focus:border-[#ff3d00] focus:outline-none focus:ring-2 focus:ring-[#ff3d00]/20"
+                className="w-full p-4 bg-white border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg"
                 placeholder="https://youtube.com/watch?v=... or https://youtu.be/..."
                 value={youtubeUrl}
                 onChange={(e) => setYoutubeUrl(e.target.value)}
               />
-              <p className="text-xs text-[#666] mt-2">
+              <p className="text-xs text-[#8B8B8B] mt-2">
                 Works with youtube.com, youtu.be, and YouTube Shorts links
               </p>
               <button
-                className="w-full mt-4 px-6 py-3 bg-[#ff3d00] text-white font-medium hover:bg-[#e63600] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full mt-4 px-6 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 rounded-lg"
                 onClick={handleYouTubeAnalyze}
                 disabled={isLoading}
               >
@@ -793,14 +793,14 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 
           {mode === "screenshot" && (
             <div className="animate-fadeIn">
-              <label className="block text-sm text-[#a3a3a3] mb-2 tracking-wide">
+              <label className="block text-sm text-[#4A4A4A] mb-2 tracking-wide">
                 Upload a screenshot to analyze
               </label>
               <div
-                className={`flex flex-col items-center justify-center gap-4 min-h-[200px] p-8 border-2 border-dashed cursor-pointer transition-colors ${
+                className={`flex flex-col items-center justify-center gap-4 min-h-[200px] p-8 border-2 border-dashed cursor-pointer transition-colors rounded-lg ${
                   isDragging
-                    ? "border-[#ff3d00] bg-[#ff3d00]/5"
-                    : "border-[#333] hover:border-[#ff3d00] hover:bg-[#1a1a1a]"
+                    ? "border-[#C75B39] bg-[#C75B39]/5"
+                    : "border-[#E5E0D8] hover:border-[#C75B39] hover:bg-[#F5F3EF]"
                 }`}
                 onDragOver={(e) => {
                   e.preventDefault();
@@ -819,15 +819,15 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
                 />
                 {isLoading ? (
                   <>
-                    <span className="w-8 h-8 border-2 border-[#ff3d00]/30 border-t-[#ff3d00] rounded-full animate-spin" />
-                    <p className="text-sm text-[#a3a3a3]">
+                    <span className="w-8 h-8 border-2 border-[#C75B39]/30 border-t-[#C75B39] rounded-full animate-spin" />
+                    <p className="text-sm text-[#4A4A4A]">
                       {loadingMessage} {ocrProgress > 0 && `(${ocrProgress}%)`}
                     </p>
                   </>
                 ) : (
                   <>
                     <UploadIcon />
-                    <p className="text-sm text-[#a3a3a3]">
+                    <p className="text-sm text-[#4A4A4A]">
                       Drop image here or tap to upload
                     </p>
                   </>
@@ -839,7 +839,7 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 
         {/* Error Message */}
         {error && (
-          <div className="p-4 mb-6 bg-red-900/20 border border-red-800 text-red-400 text-sm animate-fadeIn max-w-2xl mx-auto">
+          <div className="p-4 mb-6 bg-red-50 border border-red-200 text-red-600 text-sm animate-fadeIn max-w-2xl mx-auto rounded-lg">
             {error}
           </div>
         )}
@@ -847,12 +847,12 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
         {/* Source Preview (Screenshot, URL og:image, or YouTube) */}
         {sourcePreview && hasResults && (
           <div className="mb-6 animate-fadeIn">
-            <div className="p-4 bg-[#1a1a1a] border border-[#333]">
-              <p className="text-xs text-[#666] uppercase tracking-wide mb-3">
+            <div className="p-4 bg-white border border-[#E5E0D8] rounded-lg">
+              <p className="text-xs text-[#8B8B8B] uppercase tracking-wide mb-3">
                 {sourcePreview.type === "screenshot" ? "Analyzed Screenshot" : sourcePreview.type === "youtube" ? "YouTube Video" : "Source"}
               </p>
               <div className="flex gap-4 items-start">
-                <div className={`${sourcePreview.type === "youtube" ? "w-40 h-24" : "w-32 h-32"} flex-shrink-0 overflow-hidden bg-[#0a0a0a]`}>
+                <div className={`${sourcePreview.type === "youtube" ? "w-40 h-24" : "w-32 h-32"} flex-shrink-0 overflow-hidden bg-[#F5F3EF] rounded`}>
                   <img
                     src={sourcePreview.image}
                     alt="Source preview"
@@ -861,12 +861,12 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
                 </div>
                 <div className="flex-1 min-w-0">
                   {sourcePreview.type === "youtube" && sourcePreview.title && (
-                    <p className="text-sm font-medium text-white mb-1 line-clamp-2">
+                    <p className="text-sm font-medium text-[#1A1A1A] mb-1 line-clamp-2">
                       {sourcePreview.title}
                     </p>
                   )}
                   {sourcePreview.type === "youtube" && sourcePreview.channel && (
-                    <p className="text-xs text-[#666] mb-2">
+                    <p className="text-xs text-[#8B8B8B] mb-2">
                       {sourcePreview.channel}
                     </p>
                   )}
@@ -875,7 +875,7 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
                       href={sourcePreview.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm text-[#ff3d00] hover:underline break-all"
+                      className="text-sm text-[#C75B39] hover:underline break-all"
                     >
                       {sourcePreview.type === "youtube" ? "Watch on YouTube" : sourcePreview.url}
                     </a>
@@ -888,20 +888,20 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 
         {/* Current Query Display */}
         {currentQuery && hasResults && !sourcePreview && (
-          <div className="mb-4 p-3 bg-[#1a1a1a] border border-[#333]">
-            <p className="text-xs text-[#666] uppercase tracking-wide mb-1">Query</p>
-            <p className="text-sm text-[#a3a3a3] line-clamp-2">{currentQuery}</p>
+          <div className="mb-4 p-3 bg-white border border-[#E5E0D8] rounded-lg">
+            <p className="text-xs text-[#8B8B8B] uppercase tracking-wide mb-1">Query</p>
+            <p className="text-sm text-[#4A4A4A] line-clamp-2">{currentQuery}</p>
           </div>
         )}
 
         {/* WHAT'S HAPPENING Section */}
         {whatsHappening && (
           <div className="mb-6 animate-fadeIn">
-            <div className="p-5 bg-[#1a1a1a] border border-[#333]">
-              <h2 className="text-xs font-bold tracking-[0.2em] text-[#ff3d00] uppercase mb-3">
+            <div className="p-5 bg-white border border-[#E5E0D8] rounded-lg">
+              <h2 className="text-xs font-bold tracking-[0.2em] text-[#C75B39] uppercase mb-3">
                 What&apos;s Happening
               </h2>
-              <p className="text-white text-lg leading-relaxed">
+              <p className="text-[#1A1A1A] text-lg leading-relaxed">
                 {whatsHappening}
               </p>
             </div>
@@ -911,14 +911,14 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
         {/* Problem Images */}
         {problemImages.length > 0 && (
           <div className="mb-8 animate-fadeIn">
-            <h3 className="text-xs font-bold tracking-[0.2em] text-[#666] uppercase mb-3">
+            <h3 className="text-xs font-bold tracking-[0.2em] text-[#8B8B8B] uppercase mb-3">
               The Dynamic at Play
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {problemImages.map((image, index) => (
                 <div
                   key={image.id}
-                  className="group relative overflow-hidden cursor-pointer bg-[#1a1a1a] animate-fadeIn"
+                  className="group relative overflow-hidden cursor-pointer bg-[#F5F3EF] rounded-lg animate-fadeIn"
                   style={{ animationDelay: `${index * 50}ms` }}
                   onClick={() => setSelectedImage(image)}
                 >
@@ -935,13 +935,13 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
                   </div>
                   <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
-                      className="p-1.5 bg-black/60 hover:bg-black/80"
+                      className="p-1.5 bg-black/60 hover:bg-black/80 rounded"
                       onClick={(e) => { e.stopPropagation(); copyToClipboard(image.image_url); }}
                     >
                       <CopyIcon />
                     </button>
                     <button
-                      className="p-1.5 bg-black/60 hover:bg-black/80"
+                      className="p-1.5 bg-black/60 hover:bg-black/80 rounded"
                       onClick={(e) => { e.stopPropagation(); downloadImage(image); }}
                     >
                       <DownloadIcon />
@@ -956,11 +956,11 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
         {/* WHAT'S MISSING Section */}
         {whatsMissing && (
           <div className="mb-6 animate-fadeIn">
-            <div className="p-5 bg-[#1a1a1a] border border-[#ff3d00]/30">
-              <h2 className="text-xs font-bold tracking-[0.2em] text-[#ff3d00] uppercase mb-3">
+            <div className="p-5 bg-white border-2 border-[#C75B39]/30 rounded-lg">
+              <h2 className="text-xs font-bold tracking-[0.2em] text-[#C75B39] uppercase mb-3">
                 What&apos;s Missing
               </h2>
-              <p className="text-[#a3a3a3] text-lg leading-relaxed">
+              <p className="text-[#4A4A4A] text-lg leading-relaxed">
                 {whatsMissing}
               </p>
             </div>
@@ -970,14 +970,14 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
         {/* Solution Images */}
         {solutionImages.length > 0 && (
           <div className="mb-8 animate-fadeIn">
-            <h3 className="text-xs font-bold tracking-[0.2em] text-[#666] uppercase mb-3">
+            <h3 className="text-xs font-bold tracking-[0.2em] text-[#8B8B8B] uppercase mb-3">
               What Actually Helps
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {solutionImages.map((image, index) => (
                 <div
                   key={image.id}
-                  className="group relative overflow-hidden cursor-pointer bg-[#1a1a1a] animate-fadeIn"
+                  className="group relative overflow-hidden cursor-pointer bg-[#F5F3EF] rounded-lg animate-fadeIn"
                   style={{ animationDelay: `${index * 50}ms` }}
                   onClick={() => setSelectedImage(image)}
                 >
@@ -994,13 +994,13 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
                   </div>
                   <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
-                      className="p-1.5 bg-black/60 hover:bg-black/80"
+                      className="p-1.5 bg-black/60 hover:bg-black/80 rounded"
                       onClick={(e) => { e.stopPropagation(); copyToClipboard(image.image_url); }}
                     >
                       <CopyIcon />
                     </button>
                     <button
-                      className="p-1.5 bg-black/60 hover:bg-black/80"
+                      className="p-1.5 bg-black/60 hover:bg-black/80 rounded"
                       onClick={(e) => { e.stopPropagation(); downloadImage(image); }}
                     >
                       <DownloadIcon />
@@ -1016,24 +1016,24 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
         {thePlayers && (
           <div className="mb-8 animate-fadeIn">
             <button
-              className="w-full p-4 bg-[#1a1a1a] border border-[#333] text-left flex items-center justify-between hover:bg-[#252525] transition-colors"
+              className="w-full p-4 bg-white border border-[#E5E0D8] text-left flex items-center justify-between hover:bg-[#F5F3EF] transition-colors rounded-lg"
               onClick={() => setShowThePlayers(!showThePlayers)}
             >
-              <span className="text-sm font-bold tracking-[0.15em] text-[#a3a3a3] uppercase">
+              <span className="text-sm font-bold tracking-[0.15em] text-[#4A4A4A] uppercase">
                 The Players
               </span>
-              <span className="text-[#666]">
+              <span className="text-[#8B8B8B]">
                 {showThePlayers ? "−" : "+"}
               </span>
             </button>
             {showThePlayers && (
-              <div className="mt-2 p-5 bg-[#1a1a1a] border border-[#333] animate-fadeIn">
+              <div className="mt-2 p-5 bg-white border border-[#E5E0D8] rounded-lg animate-fadeIn">
                 <div
-                  className="text-[#a3a3a3] text-sm leading-relaxed prose prose-sm max-w-none prose-invert"
+                  className="text-[#4A4A4A] text-sm leading-relaxed prose prose-sm max-w-none"
                   dangerouslySetInnerHTML={{
                     __html: thePlayers
-                      .replace(/\*\*\[([^\]]+)\]:\*\*/g, '<strong class="text-[#ff3d00] block mt-3 first:mt-0">$1:</strong>')
-                      .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-white">$1</strong>')
+                      .replace(/\*\*\[([^\]]+)\]:\*\*/g, '<strong class="text-[#C75B39] block mt-3 first:mt-0">$1:</strong>')
+                      .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-[#1A1A1A]">$1</strong>')
                   }}
                 />
               </div>
@@ -1044,11 +1044,11 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
         {/* WHAT ACTUALLY HELPS Section */}
         {whatActuallyHelps && (
           <div className="mb-6 animate-fadeIn">
-            <div className="p-5 bg-[#0f2f0f] border border-[#1a4a1a]">
-              <h2 className="text-xs font-bold tracking-[0.2em] text-[#4ade80] uppercase mb-3">
+            <div className="p-5 bg-green-50 border border-green-200 rounded-lg">
+              <h2 className="text-xs font-bold tracking-[0.2em] text-green-700 uppercase mb-3">
                 What Actually Helps
               </h2>
-              <p className="text-[#a3a3a3] text-lg leading-relaxed">
+              <p className="text-[#4A4A4A] text-lg leading-relaxed">
                 {whatActuallyHelps}
               </p>
             </div>
@@ -1058,13 +1058,13 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
         {/* EXAMPLE COMMENT Section */}
         {exampleComment && (
           <div className="mb-8 animate-fadeIn">
-            <div className="p-5 bg-[#1a1a1a] border border-[#333]">
+            <div className="p-5 bg-white border border-[#E5E0D8] rounded-lg">
               <div className="flex items-center justify-between mb-3">
-                <h2 className="text-xs font-bold tracking-[0.2em] text-[#ff3d00] uppercase">
+                <h2 className="text-xs font-bold tracking-[0.2em] text-[#C75B39] uppercase">
                   Share This Take
                 </h2>
                 <button
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-[#ff3d00] text-white text-xs font-medium hover:bg-[#e63600] transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-[#C75B39] text-white text-xs font-medium hover:bg-[#A84A2D] transition-colors rounded"
                   onClick={() => {
                     navigator.clipboard.writeText(exampleComment);
                     showToast("Comment copied to clipboard!");
@@ -1078,24 +1078,24 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
               {/* Comment Display */}
               <div className="relative">
                 {isRegenerating && (
-                  <div className="absolute inset-0 bg-[#1a1a1a]/80 flex items-center justify-center">
-                    <span className="w-5 h-5 border-2 border-[#ff3d00]/30 border-t-[#ff3d00] rounded-full animate-spin" />
+                  <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
+                    <span className="w-5 h-5 border-2 border-[#C75B39]/30 border-t-[#C75B39] rounded-full animate-spin" />
                   </div>
                 )}
-                <p className="text-white text-base leading-relaxed italic">
+                <p className="text-[#1A1A1A] text-base leading-relaxed italic">
                   &ldquo;{exampleComment}&rdquo;
                 </p>
               </div>
 
               {/* Sliders and Regenerate */}
-              <div className="mt-4 pt-4 border-t border-[#333]">
+              <div className="mt-4 pt-4 border-t border-[#E5E0D8]">
                 {/* Length Slider */}
                 <div className="mb-4">
                   <div className="flex justify-between items-center mb-2">
-                    <label className="text-xs text-[#666] uppercase tracking-wide">
+                    <label className="text-xs text-[#8B8B8B] uppercase tracking-wide">
                       Length
                     </label>
-                    <span className="text-xs text-white font-medium">
+                    <span className="text-xs text-[#1A1A1A] font-medium">
                       {commentLength} sentence{commentLength > 1 ? 's' : ''}
                     </span>
                   </div>
@@ -1105,9 +1105,9 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
                     max="30"
                     value={commentLength}
                     onChange={(e) => setCommentLength(parseInt(e.target.value))}
-                    className="w-full h-2 bg-[#0a0a0a] appearance-none cursor-pointer accent-[#ff3d00]"
+                    className="w-full h-2 bg-[#E5E0D8] appearance-none cursor-pointer accent-[#C75B39] rounded"
                     style={{
-                      background: `linear-gradient(to right, #ff3d00 0%, #ff3d00 ${((commentLength - 1) / 29) * 100}%, #0a0a0a ${((commentLength - 1) / 29) * 100}%, #0a0a0a 100%)`
+                      background: `linear-gradient(to right, #C75B39 0%, #C75B39 ${((commentLength - 1) / 29) * 100}%, #E5E0D8 ${((commentLength - 1) / 29) * 100}%, #E5E0D8 100%)`
                     }}
                   />
                 </div>
@@ -1115,10 +1115,10 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
                 {/* Tone Slider */}
                 <div className="mb-4">
                   <div className="flex justify-between items-center mb-2">
-                    <label className="text-xs text-[#666] uppercase tracking-wide">
+                    <label className="text-xs text-[#8B8B8B] uppercase tracking-wide">
                       Tone
                     </label>
-                    <span className="text-xs text-white font-medium">
+                    <span className="text-xs text-[#1A1A1A] font-medium">
                       {getToneLabel(commentTone)}
                     </span>
                   </div>
@@ -1128,12 +1128,12 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
                     max="100"
                     value={commentTone}
                     onChange={(e) => setCommentTone(parseInt(e.target.value))}
-                    className="w-full h-2 bg-[#0a0a0a] appearance-none cursor-pointer accent-[#ff3d00]"
+                    className="w-full h-2 bg-[#E5E0D8] appearance-none cursor-pointer accent-[#C75B39] rounded"
                     style={{
-                      background: `linear-gradient(to right, #ff3d00 0%, #ff3d00 ${commentTone}%, #0a0a0a ${commentTone}%, #0a0a0a 100%)`
+                      background: `linear-gradient(to right, #C75B39 0%, #C75B39 ${commentTone}%, #E5E0D8 ${commentTone}%, #E5E0D8 100%)`
                     }}
                   />
-                  <div className="flex justify-between text-[10px] text-[#666] mt-1">
+                  <div className="flex justify-between text-[10px] text-[#8B8B8B] mt-1">
                     <span>Respectful</span>
                     <span>Extremely Sassy</span>
                   </div>
@@ -1141,13 +1141,13 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 
                 {/* Regenerate Button */}
                 <button
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#333] text-white text-sm font-medium hover:bg-[#444] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#F5F3EF] text-[#1A1A1A] text-sm font-medium hover:bg-[#E5E0D8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
                   onClick={regenerateComment}
                   disabled={isRegenerating}
                 >
                   {isRegenerating ? (
                     <>
-                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <span className="w-4 h-4 border-2 border-[#1A1A1A]/30 border-t-[#1A1A1A] rounded-full animate-spin" />
                       Regenerating...
                     </>
                   ) : (
@@ -1159,7 +1159,7 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
                 </button>
               </div>
 
-              <p className="text-[#666] text-xs mt-3">
+              <p className="text-[#8B8B8B] text-xs mt-3">
                 Adjust sliders and hit regenerate to customize your comment
               </p>
             </div>
@@ -1169,14 +1169,14 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
         {/* FOLLOW-UP QUESTION Section */}
         {hasResults && (
           <div className="mb-8 animate-fadeIn">
-            <div className="p-5 bg-[#1a1a1a] border border-[#333]">
-              <h2 className="text-xs font-bold tracking-[0.2em] text-[#a3a3a3] uppercase mb-3">
+            <div className="p-5 bg-white border border-[#E5E0D8] rounded-lg">
+              <h2 className="text-xs font-bold tracking-[0.2em] text-[#4A4A4A] uppercase mb-3">
                 Ask a Follow-up
               </h2>
               <div className="flex gap-3">
                 <input
                   type="text"
-                  className="flex-1 p-3 bg-[#0a0a0a] border border-[#333] text-white placeholder:text-[#666] focus:border-[#ff3d00] focus:outline-none focus:ring-2 focus:ring-[#ff3d00]/20"
+                  className="flex-1 p-3 bg-[#FAF9F6] border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg"
                   placeholder="Ask more about how this connects to the framework..."
                   value={followUpQuestion}
                   onChange={(e) => setFollowUpQuestion(e.target.value)}
@@ -1191,7 +1191,7 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
                   disabled={isAskingFollowUp}
                 />
                 <button
-                  className="px-4 py-3 bg-[#ff3d00] text-white font-medium hover:bg-[#e63600] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-4 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 rounded-lg"
                   onClick={() => {
                     if (followUpQuestion.trim()) {
                       const followUpText = `Original content: ${currentQuery}\n\nPrevious analysis: ${whatsHappening}\n\nFollow-up question: ${followUpQuestion}`;
@@ -1216,15 +1216,15 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
       {/* Image Modal */}
       {selectedImage && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4"
           onClick={() => setSelectedImage(null)}
         >
           <div
-            className="relative max-w-lg w-full bg-[#1a1a1a] overflow-hidden"
+            className="relative max-w-lg w-full bg-white overflow-hidden rounded-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-[#0a0a0a] border border-[#333] text-white hover:border-[#ff3d00] hover:text-[#ff3d00] z-10 transition-colors"
+              className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-white border border-[#E5E0D8] text-[#4A4A4A] hover:border-[#C75B39] hover:text-[#C75B39] z-10 transition-colors rounded-lg"
               onClick={() => setSelectedImage(null)}
             >
               ✕
@@ -1235,27 +1235,27 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
               className="w-full"
             />
             <div className="p-4">
-              <h3 className="text-lg font-bold mb-2 text-white">{selectedImage.title}</h3>
+              <h3 className="text-lg font-bold mb-2 text-[#1A1A1A]">{selectedImage.title}</h3>
               {selectedImage.reason && (
-                <p className="text-sm text-[#ff3d00] mb-2">
+                <p className="text-sm text-[#C75B39] mb-2">
                   <strong>Why this matches:</strong> {selectedImage.reason}
                 </p>
               )}
               {selectedImage.body_text && (
-                <p className="text-sm text-[#a3a3a3] mb-4">
+                <p className="text-sm text-[#4A4A4A] mb-4">
                   {selectedImage.body_text}
                 </p>
               )}
               <div className="flex gap-3">
                 <button
-                  className="flex-1 px-4 py-3 bg-[#ff3d00] text-white font-medium hover:bg-[#e63600] transition-colors flex items-center justify-center gap-2"
+                  className="flex-1 px-4 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors flex items-center justify-center gap-2 rounded-lg"
                   onClick={() => copyToClipboard(selectedImage.image_url)}
                 >
                   <CopyIcon />
                   Copy
                 </button>
                 <button
-                  className="flex-1 px-4 py-3 bg-[#0a0a0a] border border-[#333] text-white font-medium hover:bg-[#1a1a1a] hover:border-[#ff3d00] transition-colors flex items-center justify-center gap-2"
+                  className="flex-1 px-4 py-3 bg-[#FAF9F6] border border-[#E5E0D8] text-[#1A1A1A] font-medium hover:bg-[#F5F3EF] hover:border-[#C75B39] transition-colors flex items-center justify-center gap-2 rounded-lg"
                   onClick={() => downloadImage(selectedImage)}
                 >
                   <DownloadIcon />
@@ -1269,7 +1269,7 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 
       {/* Toast */}
       {toast && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-[#1a1a1a] border border-[#333] text-white text-sm font-medium shadow-lg z-50 animate-slideUp">
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-white border border-[#E5E0D8] text-[#1A1A1A] text-sm font-medium shadow-lg z-50 animate-slideUp rounded-lg">
           {toast}
         </div>
       )}
@@ -1311,7 +1311,7 @@ function LinkIcon() {
 
 function UploadIcon() {
   return (
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff3d00" strokeWidth="1.5">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C75B39" strokeWidth="1.5">
       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
       <polyline points="17 8 12 3 7 8" />
       <line x1="12" y1="3" x2="12" y2="15" />

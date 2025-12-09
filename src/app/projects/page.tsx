@@ -1,253 +1,184 @@
-import Navigation from "@/components/Navigation";
 import Link from "next/link";
 
 export default function ProjectsPage() {
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white">
-      <Navigation />
-
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-8">
-            Projects
-          </h1>
-          <p className="text-xl md:text-2xl text-[#a3a3a3] leading-relaxed max-w-3xl">
-            Tools for applying the mismatch framework. See the pattern everywhere.
-            Stop being played.
-          </p>
+    <main className="min-h-screen bg-[#faf9f6]">
+      {/* Navigation */}
+      <nav className="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
+        <Link href="/" className="text-xl font-bold tracking-tight text-gray-900">
+          DEMISMATCH
+        </Link>
+        <div className="flex gap-8 text-sm text-gray-600">
+          <Link href="/framework" className="hover:text-gray-900">Framework</Link>
+          <Link href="/builders" className="hover:text-gray-900">For Builders</Link>
+          <Link href="/foryou" className="hover:text-gray-900">For You</Link>
+          <Link href="/projects" className="text-gray-900 font-medium">Projects</Link>
+          <Link href="/sources" className="hover:text-gray-900">Sources</Link>
         </div>
-      </section>
+      </nav>
 
-      {/* Main Projects */}
-      <section className="py-20 px-6 bg-[#0f0f0f]">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Analyzer */}
+      {/* Header */}
+      <header className="px-8 py-16 max-w-4xl mx-auto">
+        <h1 className="text-5xl font-bold text-gray-900 mb-6">Projects</h1>
+        <p className="text-xl text-gray-700">
+          Tools and resources built on the framework. Use them, learn from them, build better ones.
+        </p>
+      </header>
+
+      {/* Project 1: Mismatch Analyzer */}
+      <section className="px-8 py-12 max-w-4xl mx-auto">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="p-8">
+            <div className="flex items-start justify-between mb-4">
+              <h2 className="text-2xl font-bold text-gray-900">The Mismatch Analyzer</h2>
+              <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">Live</span>
+            </div>
+            <p className="text-lg text-gray-700 mb-6">
+              AI-powered tool that analyzes any situation through the evolutionary mismatch lens. Paste content, describe a situation, or ask a question — get framework-grounded analysis with relevant supporting images from the library.
+            </p>
+            <div className="mb-6">
+              <img
+                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/13_App_Preview___Mismatch_Analyzer.png"
+                alt="Mismatch Analyzer preview"
+                className="rounded-lg w-full border border-gray-200"
+              />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">What it does:</h3>
+            <ul className="text-gray-700 space-y-2 mb-6">
+              <li className="flex items-start gap-2">
+                <span className="text-green-600 mt-1">✓</span>
+                <span>Analyzes situations through evolutionary psychology lens</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-600 mt-1">✓</span>
+                <span>Identifies mismatch patterns and exploitation dynamics</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-600 mt-1">✓</span>
+                <span>Suggests environment-level interventions, not just coping strategies</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-600 mt-1">✓</span>
+                <span>Pulls relevant images from 2,500+ educational graphics library</span>
+              </li>
+            </ul>
             <Link
               href="/app"
-              className="group p-10 bg-[#1a1a1a] border border-[#333] hover:border-[#ff3d00] transition-all"
+              className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition inline-block"
             >
-              <div className="w-16 h-16 border border-[#ff3d00] flex items-center justify-center mb-6">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ff3d00" strokeWidth="2">
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-              </div>
-              <h2 className="text-3xl font-bold mb-4 group-hover:text-[#ff3d00] transition-colors">
-                Mismatch Analyzer
-              </h2>
-              <p className="text-[#a3a3a3] mb-6 text-lg">
-                Paste any content - articles, social media, advice, news - and see it
-                through the mismatch lens. Understand what&apos;s really happening.
-              </p>
-              <ul className="space-y-3 text-[#666]">
-                <li className="flex items-start gap-3">
-                  <span className="text-[#ff3d00]">+</span>
-                  Analyze text, URLs, YouTube videos, screenshots
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-[#ff3d00]">+</span>
-                  See who benefits from your attention
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-[#ff3d00]">+</span>
-                  Get actionable alternatives
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-[#ff3d00]">+</span>
-                  Generate shareable insights
-                </li>
-              </ul>
-              <div className="mt-8 text-[#ff3d00] font-semibold tracking-wide flex items-center gap-2">
-                OPEN ANALYZER
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </div>
+              Try the Analyzer →
             </Link>
+          </div>
+        </div>
+      </section>
 
-            {/* Library */}
+      {/* Project 2: Image Library */}
+      <section className="px-8 py-12 max-w-4xl mx-auto">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="p-8">
+            <div className="flex items-start justify-between mb-4">
+              <h2 className="text-2xl font-bold text-gray-900">The Image Library</h2>
+              <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">Live</span>
+            </div>
+            <p className="text-lg text-gray-700 mb-6">
+              2,500+ educational images explaining evolutionary psychology, mismatch theory, and human nature. Searchable, tagged, and free to use. Built to spread understanding.
+            </p>
+            <div className="mb-6">
+              <img
+                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/14_Image_Library_Preview.png"
+                alt="Image Library preview"
+                className="rounded-lg w-full border border-gray-200"
+              />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">What's inside:</h3>
+            <ul className="text-gray-700 space-y-2 mb-6">
+              <li className="flex items-start gap-2">
+                <span className="text-green-600 mt-1">✓</span>
+                <span>Diagrams explaining evolutionary concepts</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-600 mt-1">✓</span>
+                <span>Before/after comparisons (EEA vs modern)</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-600 mt-1">✓</span>
+                <span>Exploitation pattern breakdowns</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-600 mt-1">✓</span>
+                <span>Mismatch visualizations across domains</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-600 mt-1">✓</span>
+                <span>All AI-analyzed and tagged for searchability</span>
+              </li>
+            </ul>
             <Link
               href="/library"
-              className="group p-10 bg-[#1a1a1a] border border-[#333] hover:border-[#ff3d00] transition-all"
+              className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition inline-block"
             >
-              <div className="w-16 h-16 border border-[#ff3d00] flex items-center justify-center mb-6">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ff3d00" strokeWidth="2">
-                  <rect x="3" y="3" width="7" height="7" />
-                  <rect x="14" y="3" width="7" height="7" />
-                  <rect x="14" y="14" width="7" height="7" />
-                  <rect x="3" y="14" width="7" height="7" />
-                </svg>
-              </div>
-              <h2 className="text-3xl font-bold mb-4 group-hover:text-[#ff3d00] transition-colors">
-                Image Library
-              </h2>
-              <p className="text-[#a3a3a3] mb-6 text-lg">
-                Browse and search visual explanations of mismatch concepts.
-                Use them to share the framework with others.
-              </p>
-              <ul className="space-y-3 text-[#666]">
-                <li className="flex items-start gap-3">
-                  <span className="text-[#ff3d00]">+</span>
-                  Hundreds of illustrations
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-[#ff3d00]">+</span>
-                  Semantic search by concept
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-[#ff3d00]">+</span>
-                  Copy or download with attribution
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-[#ff3d00]">+</span>
-                  Organized by category
-                </li>
-              </ul>
-              <div className="mt-8 text-[#ff3d00] font-semibold tracking-wide flex items-center gap-2">
-                BROWSE LIBRARY
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </div>
+              Browse the Library →
             </Link>
           </div>
         </div>
       </section>
 
-      {/* How to Use Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
-            How to Use These Tools
-          </h2>
-
-          <div className="space-y-8">
-            <div className="flex gap-6">
-              <div className="w-12 h-12 border border-[#ff3d00] flex items-center justify-center flex-shrink-0">
-                <span className="text-[#ff3d00] font-bold">1</span>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold mb-2">See Content Differently</h3>
-                <p className="text-[#a3a3a3]">
-                  Run anything through the Analyzer. That viral tweet. That self-help article.
-                  That ad. See who benefits and what&apos;s actually being sold.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-6">
-              <div className="w-12 h-12 border border-[#ff3d00] flex items-center justify-center flex-shrink-0">
-                <span className="text-[#ff3d00] font-bold">2</span>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold mb-2">Learn the Patterns</h3>
-                <p className="text-[#a3a3a3]">
-                  Browse the Library to see mismatch dynamics visualized. The same patterns
-                  repeat everywhere once you know what to look for.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-6">
-              <div className="w-12 h-12 border border-[#ff3d00] flex items-center justify-center flex-shrink-0">
-                <span className="text-[#ff3d00] font-bold">3</span>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold mb-2">Share the Framework</h3>
-                <p className="text-[#a3a3a3]">
-                  Use the analysis and images to help others see through the same lens.
-                  Not to convert - to equip.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-6">
-              <div className="w-12 h-12 border border-[#ff3d00] flex items-center justify-center flex-shrink-0">
-                <span className="text-[#ff3d00] font-bold">4</span>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold mb-2">Take Real Action</h3>
-                <p className="text-[#a3a3a3]">
-                  Don&apos;t get stuck in analysis. Use the insights to make actual changes.
-                  Close the app and go do something in the physical world.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Warning Section */}
-      <section className="py-20 px-6 bg-[#0f0f0f]">
-        <div className="max-w-4xl mx-auto">
-          <div className="p-8 border border-[#ff3d00]">
-            <h2 className="text-2xl font-bold mb-4 text-[#ff3d00]">
-              A Note on These Tools
-            </h2>
-            <p className="text-[#a3a3a3] mb-4">
-              These tools are themselves potential mismatch traps. If you find yourself
-              spending hours analyzing content instead of changing your environment,
-              that&apos;s the mismatch at work.
+      {/* Coming Soon */}
+      <section className="px-8 py-12 max-w-4xl mx-auto">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Coming Soon</h2>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-gray-100 rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Tribe Formation Tools</h3>
+            <p className="text-gray-600">
+              Infrastructure for finding and building Dunbar-scale communities. Matching, coordination, and maintenance tools.
             </p>
-            <p className="text-white">
-              Use them for insight. Then act. The goal is less screen time, not more.
+          </div>
+          <div className="bg-gray-100 rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Environment Audit</h3>
+            <p className="text-gray-600">
+              Systematic assessment of your current environment against the EEA spec sheet. Identify your biggest mismatches.
+            </p>
+          </div>
+          <div className="bg-gray-100 rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Builder Resources</h3>
+            <p className="text-gray-600">
+              Templates, checklists, and design patterns for building spec-aligned technology, spaces, and institutions.
+            </p>
+          </div>
+          <div className="bg-gray-100 rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Case Study Database</h3>
+            <p className="text-gray-600">
+              Documented examples of successful and failed de-mismatch interventions. Learn from what's been tried.
             </p>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Understand the Framework First
-          </h2>
-          <p className="text-xl text-[#a3a3a3] mb-10">
-            These tools are more powerful when you understand the underlying theory.
-            Read the full framework to get the most out of them.
+      {/* Build With Us */}
+      <section className="px-8 py-12 max-w-4xl mx-auto">
+        <div className="bg-gray-900 text-white rounded-xl p-8">
+          <h2 className="text-2xl font-bold mb-4">Build With Us</h2>
+          <p className="text-lg text-gray-300 mb-6">
+            The framework is open. The tools are open. If you're building something that helps humans de-mismatch — technology, spaces, communities, institutions — we want to know about it.
           </p>
-          <Link
-            href="/framework"
-            className="inline-block px-8 py-4 bg-[#ff3d00] text-white font-semibold tracking-wide hover:bg-[#e63600] transition-colors"
-          >
-            READ THE FRAMEWORK
-          </Link>
+          <p className="text-gray-400">
+            This framework is open. Fork it, improve it, implement it.
+          </p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-16 px-6 border-t border-[#1a1a1a]">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-            <div>
-              <Link href="/" className="text-2xl font-bold tracking-[0.2em] text-white hover:text-[#ff3d00] transition-colors">
-                DEMISMATCH
-              </Link>
-              <p className="text-[#666] mt-2 text-sm">
-                Understanding the gap between evolved needs and modern reality.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-8">
-              <Link href="/framework" className="text-[#a3a3a3] hover:text-white transition-colors">
-                Framework
-              </Link>
-              <Link href="/builders" className="text-[#a3a3a3] hover:text-white transition-colors">
-                For Builders
-              </Link>
-              <Link href="/foryou" className="text-[#a3a3a3] hover:text-white transition-colors">
-                For You
-              </Link>
-              <Link href="/projects" className="text-[#ff3d00]">
-                Projects
-              </Link>
-              <Link href="/sources" className="text-[#a3a3a3] hover:text-white transition-colors">
-                Sources
-              </Link>
-            </div>
-          </div>
+      <footer className="px-8 py-12 border-t border-gray-200 max-w-4xl mx-auto">
+        <div className="flex gap-8 text-sm text-gray-600 mb-6">
+          <Link href="/framework" className="hover:text-gray-900">Framework</Link>
+          <Link href="/builders" className="hover:text-gray-900">For Builders</Link>
+          <Link href="/foryou" className="hover:text-gray-900">For You</Link>
+          <Link href="/projects" className="hover:text-gray-900">Projects</Link>
+          <Link href="/sources" className="hover:text-gray-900">Sources</Link>
         </div>
+        <p className="text-sm text-gray-500">
+          This framework is open. Fork it, improve it, implement it.
+        </p>
       </footer>
     </main>
   );

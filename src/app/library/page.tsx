@@ -450,10 +450,10 @@ function imageMatchesQuickTag(img: ImageData, tagName: string): boolean {
 export default function LibraryPage() {
   return (
     <Suspense fallback={
-      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+      <main className="min-h-screen bg-[#FAF9F6] flex items-center justify-center">
         <div className="text-center">
-          <span className="w-8 h-8 border-2 border-[#ff3d00]/30 border-t-[#ff3d00] rounded-full animate-spin inline-block" />
-          <p className="mt-4 text-[#a3a3a3]">Loading library...</p>
+          <span className="w-8 h-8 border-2 border-[#C75B39]/30 border-t-[#C75B39] rounded-full animate-spin inline-block" />
+          <p className="mt-4 text-[#4A4A4A]">Loading library...</p>
         </div>
       </main>
     }>
@@ -994,13 +994,13 @@ function LibraryContent() {
   const FilterContent = () => (
     <div className="space-y-4">
       {/* Image Types */}
-      <div className="border-b border-[#333] pb-4">
+      <div className="border-b border-[#E5E0D8] pb-4">
         <button
-          className="w-full flex items-center justify-between py-2 text-sm font-bold tracking-wide text-white"
+          className="w-full flex items-center justify-between py-2 text-sm font-bold tracking-wide text-[#1A1A1A]"
           onClick={() => toggleSection("types")}
         >
           <span>Image Type</span>
-          <span className="text-[#666]">{expandedSections.has("types") ? "−" : "+"}</span>
+          <span className="text-[#8B8B8B]">{expandedSections.has("types") ? "−" : "+"}</span>
         </button>
         {expandedSections.has("types") && (
           <div className="space-y-2 mt-2">
@@ -1010,9 +1010,9 @@ function LibraryContent() {
                   type="checkbox"
                   checked={selectedTypes.has(type)}
                   onChange={() => toggleType(type)}
-                  className="accent-[#ff3d00]"
+                  className="accent-[#C75B39]"
                 />
-                <span className="text-sm capitalize text-[#a3a3a3]">{type}</span>
+                <span className="text-sm capitalize text-[#4A4A4A]">{type}</span>
               </label>
             ))}
           </div>
@@ -1022,7 +1022,7 @@ function LibraryContent() {
       {/* Advanced Filters (collapsed by default) */}
       <div className="pb-4">
         <button
-          className="w-full flex items-center justify-between py-2 text-xs font-medium tracking-wide text-[#666] hover:text-[#a3a3a3]"
+          className="w-full flex items-center justify-between py-2 text-xs font-medium tracking-wide text-[#8B8B8B] hover:text-[#4A4A4A]"
           onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
         >
           <span>ADVANCED FILTERS</span>
@@ -1030,15 +1030,15 @@ function LibraryContent() {
         </button>
 
         {showAdvancedFilters && (
-          <div className="mt-3 space-y-4 pl-2 border-l-2 border-[#333]">
+          <div className="mt-3 space-y-4 pl-2 border-l-2 border-[#E5E0D8]">
             {/* Categories */}
             <div>
               <button
-                className="w-full flex items-center justify-between py-1 text-sm font-bold tracking-wide text-white"
+                className="w-full flex items-center justify-between py-1 text-sm font-bold tracking-wide text-[#1A1A1A]"
                 onClick={() => toggleSection("categories")}
               >
                 <span>Categories</span>
-                <span className="text-[#666]">{expandedSections.has("categories") ? "−" : "+"}</span>
+                <span className="text-[#8B8B8B]">{expandedSections.has("categories") ? "−" : "+"}</span>
               </button>
               {expandedSections.has("categories") && taxonomy && (
                 <div className="space-y-1 mt-2 max-h-48 overflow-y-auto">
@@ -1048,10 +1048,10 @@ function LibraryContent() {
                         type="checkbox"
                         checked={selectedCategories.has(cat)}
                         onChange={() => toggleCategory(cat)}
-                        className="accent-[#ff3d00]"
+                        className="accent-[#C75B39]"
                       />
-                      <span className="text-sm flex-1 text-[#a3a3a3]">{formatLabel(cat)}</span>
-                      <span className="text-xs text-[#666]">{categoryCounts[cat]}</span>
+                      <span className="text-sm flex-1 text-[#4A4A4A]">{formatLabel(cat)}</span>
+                      <span className="text-xs text-[#8B8B8B]">{categoryCounts[cat]}</span>
                     </label>
                   ))}
                 </div>
@@ -1061,11 +1061,11 @@ function LibraryContent() {
             {/* Framework Concepts */}
             <div>
               <button
-                className="w-full flex items-center justify-between py-1 text-sm font-bold tracking-wide text-white"
+                className="w-full flex items-center justify-between py-1 text-sm font-bold tracking-wide text-[#1A1A1A]"
                 onClick={() => toggleSection("concepts")}
               >
                 <span>Framework Concepts</span>
-                <span className="text-[#666]">{expandedSections.has("concepts") ? "−" : "+"}</span>
+                <span className="text-[#8B8B8B]">{expandedSections.has("concepts") ? "−" : "+"}</span>
               </button>
               {expandedSections.has("concepts") && taxonomy && (
                 <div className="space-y-1 mt-2 max-h-48 overflow-y-auto">
@@ -1075,10 +1075,10 @@ function LibraryContent() {
                         type="checkbox"
                         checked={selectedConcepts.has(concept)}
                         onChange={() => toggleConcept(concept)}
-                        className="accent-[#ff3d00]"
+                        className="accent-[#C75B39]"
                       />
-                      <span className="text-sm flex-1 text-[#a3a3a3]">{formatLabel(concept)}</span>
-                      <span className="text-xs text-[#666]">{conceptCounts[concept]}</span>
+                      <span className="text-sm flex-1 text-[#4A4A4A]">{formatLabel(concept)}</span>
+                      <span className="text-xs text-[#8B8B8B]">{conceptCounts[concept]}</span>
                     </label>
                   ))}
                 </div>
@@ -1088,11 +1088,11 @@ function LibraryContent() {
             {/* Tags */}
             <div>
               <button
-                className="w-full flex items-center justify-between py-1 text-sm font-bold tracking-wide text-white"
+                className="w-full flex items-center justify-between py-1 text-sm font-bold tracking-wide text-[#1A1A1A]"
                 onClick={() => toggleSection("tags")}
               >
                 <span>Tags</span>
-                <span className="text-[#666]">{expandedSections.has("tags") ? "−" : "+"}</span>
+                <span className="text-[#8B8B8B]">{expandedSections.has("tags") ? "−" : "+"}</span>
               </button>
               {expandedSections.has("tags") && (
                 <div className="mt-2">
@@ -1101,7 +1101,7 @@ function LibraryContent() {
                     placeholder="Search tags..."
                     value={tagSearch}
                     onChange={(e) => setTagSearch(e.target.value)}
-                    className="w-full px-3 py-2 bg-[#1a1a1a] border border-[#333] text-sm text-white placeholder:text-[#666] focus:border-[#ff3d00] focus:outline-none mb-2"
+                    className="w-full px-3 py-2 bg-white border border-[#E5E0D8] text-sm text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none mb-2 rounded"
                   />
                   <div className="flex flex-wrap gap-1 max-h-32 overflow-y-auto">
                     {filteredTags.map(([tag, count]) => (
@@ -1110,8 +1110,8 @@ function LibraryContent() {
                         onClick={() => toggleTag(tag)}
                         className={`px-2 py-1 text-xs rounded transition-colors ${
                           selectedTags.has(tag)
-                            ? "bg-[#ff3d00] text-white"
-                            : "bg-[#333] text-[#a3a3a3] hover:bg-[#444]"
+                            ? "bg-[#C75B39] text-white"
+                            : "bg-[#F5F3EF] text-[#4A4A4A] hover:bg-[#E5E0D8]"
                         }`}
                       >
                         {tag} ({count})
@@ -1129,10 +1129,10 @@ function LibraryContent() {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+      <main className="min-h-screen bg-[#FAF9F6] flex items-center justify-center">
         <div className="text-center">
-          <span className="w-8 h-8 border-2 border-[#ff3d00]/30 border-t-[#ff3d00] rounded-full animate-spin inline-block" />
-          <p className="mt-4 text-[#a3a3a3]">Loading library...</p>
+          <span className="w-8 h-8 border-2 border-[#C75B39]/30 border-t-[#C75B39] rounded-full animate-spin inline-block" />
+          <p className="mt-4 text-[#4A4A4A]">Loading library...</p>
         </div>
       </main>
     );
@@ -1140,10 +1140,10 @@ function LibraryContent() {
 
   if (error) {
     return (
-      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+      <main className="min-h-screen bg-[#FAF9F6] flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-500">{error}</p>
-          <Link href="/" className="inline-block mt-4 px-6 py-3 bg-[#ff3d00] text-white font-medium hover:bg-[#e63600] transition-colors">
+          <Link href="/" className="inline-block mt-4 px-6 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors rounded-lg">
             Back to Home
           </Link>
         </div>
@@ -1152,18 +1152,18 @@ function LibraryContent() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white flex flex-col">
+    <main className="min-h-screen bg-[#FAF9F6] text-[#1A1A1A] flex flex-col">
       <Navigation />
 
       {/* Header */}
-      <header className="pt-20 p-4 md:p-6 md:pt-24 border-b border-[#333] bg-[#0a0a0a]">
+      <header className="pt-20 p-4 md:p-6 md:pt-24 border-b border-[#E5E0D8] bg-[#FAF9F6]">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-2xl font-bold">Image Library</h1>
-            <p className="text-sm text-[#a3a3a3]">Visual explanations of mismatch concepts</p>
+            <h1 className="text-2xl font-bold" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Image Library</h1>
+            <p className="text-sm text-[#4A4A4A]">Visual explanations of mismatch concepts</p>
           </div>
           <button
-            className="md:hidden py-2 px-3 flex items-center gap-2 text-sm text-[#a3a3a3] border border-[#333] hover:border-[#ff3d00] transition-colors"
+            className="md:hidden py-2 px-3 flex items-center gap-2 text-sm text-[#4A4A4A] border border-[#E5E0D8] hover:border-[#C75B39] transition-colors rounded"
             onClick={() => setShowMobileFilters(true)}
           >
             <FilterIcon />
@@ -1174,7 +1174,7 @@ function LibraryContent() {
         {/* Search Bar */}
         <div className="relative max-w-2xl mx-auto">
           <div className="relative">
-            <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666]" />
+            <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8B8B8B]" />
             <input
               type="text"
               placeholder="Search by title, tag, category, or concept..."
@@ -1185,12 +1185,12 @@ function LibraryContent() {
               }}
               onFocus={() => setShowSuggestions(true)}
               onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-              className="w-full pl-12 pr-4 py-3 bg-[#1a1a1a] border border-[#333] text-white placeholder:text-[#666] focus:border-[#ff3d00] focus:outline-none focus:ring-2 focus:ring-[#ff3d00]/20"
+              className="w-full pl-12 pr-4 py-3 bg-white border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#666] hover:text-white"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8B8B8B] hover:text-[#1A1A1A]"
               >
                 ✕
               </button>
@@ -1199,24 +1199,24 @@ function LibraryContent() {
 
           {/* Search Suggestions */}
           {showSuggestions && searchSuggestions.length > 0 && (
-            <div className="absolute z-20 w-full mt-1 bg-[#1a1a1a] border border-[#333] shadow-xl overflow-hidden">
+            <div className="absolute z-20 w-full mt-1 bg-white border border-[#E5E0D8] shadow-xl overflow-hidden rounded-lg">
               {searchSuggestions.map((suggestion, index) => (
                 <button
                   key={index}
-                  className="w-full px-4 py-2 text-left hover:bg-[#333] flex items-center gap-2"
+                  className="w-full px-4 py-2 text-left hover:bg-[#F5F3EF] flex items-center gap-2"
                   onMouseDown={() => {
                     setSearchQuery(suggestion.text);
                     setShowSuggestions(false);
                   }}
                 >
                   <span className={`text-xs px-1.5 py-0.5 rounded ${
-                    suggestion.type === "tag" ? "bg-[#333] text-[#a3a3a3]" :
-                    suggestion.type === "category" ? "bg-blue-900/50 text-blue-400" :
-                    "bg-[#ff3d00]/20 text-[#ff3d00]"
+                    suggestion.type === "tag" ? "bg-[#F5F3EF] text-[#4A4A4A]" :
+                    suggestion.type === "category" ? "bg-blue-100 text-blue-700" :
+                    "bg-[#C75B39]/20 text-[#C75B39]"
                   }`}>
                     {suggestion.type}
                   </span>
-                  <span className="text-sm text-white">{suggestion.text}</span>
+                  <span className="text-sm text-[#1A1A1A]">{suggestion.text}</span>
                 </button>
               ))}
             </div>
@@ -1232,8 +1232,8 @@ function LibraryContent() {
                 onClick={() => toggleQuickTag(tag)}
                 className={`px-3 py-1.5 text-xs font-medium rounded-full transition-all ${
                   selectedQuickTags.has(tag)
-                    ? "bg-[#ff3d00] text-white shadow-md"
-                    : "bg-[#1a1a1a] text-[#a3a3a3] hover:bg-[#333] hover:text-white"
+                    ? "bg-[#C75B39] text-white shadow-md"
+                    : "bg-white text-[#4A4A4A] hover:bg-[#F5F3EF] hover:text-[#1A1A1A] border border-[#E5E0D8]"
                 }`}
               >
                 {tag}
@@ -1245,7 +1245,7 @@ function LibraryContent() {
 
       <div className="flex flex-1">
         {/* Desktop Sidebar */}
-        <aside className="hidden md:block w-72 border-r border-[#333] p-4 overflow-y-auto bg-[#0a0a0a]">
+        <aside className="hidden md:block w-72 border-r border-[#E5E0D8] p-4 overflow-y-auto bg-[#FAF9F6]">
           <FilterContent />
         </aside>
 
@@ -1253,12 +1253,12 @@ function LibraryContent() {
         {showMobileFilters && (
           <div className="fixed inset-0 z-50 bg-black/50" onClick={() => setShowMobileFilters(false)}>
             <div
-              className="absolute left-0 top-0 bottom-0 w-full max-w-sm bg-[#0a0a0a] overflow-y-auto"
+              className="absolute left-0 top-0 bottom-0 w-full max-w-sm bg-white overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="p-4 border-b border-[#333] flex items-center justify-between">
-                <h2 className="font-bold text-white">Filters</h2>
-                <button onClick={() => setShowMobileFilters(false)} className="text-[#a3a3a3] hover:text-white">✕</button>
+              <div className="p-4 border-b border-[#E5E0D8] flex items-center justify-between">
+                <h2 className="font-bold text-[#1A1A1A]">Filters</h2>
+                <button onClick={() => setShowMobileFilters(false)} className="text-[#8B8B8B] hover:text-[#1A1A1A]">✕</button>
               </div>
               <div className="p-4">
                 <FilterContent />
@@ -1273,31 +1273,31 @@ function LibraryContent() {
           {hasActiveFilters && (
             <div className="mb-4 flex flex-wrap items-center gap-2">
               {Array.from(selectedTypes).map(type => (
-                <span key={type} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#ff3d00] text-white rounded-full">
+                <span key={type} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
                   {type}
                   <button onClick={() => toggleType(type)} className="hover:opacity-70">✕</button>
                 </span>
               ))}
               {Array.from(selectedCategories).map(cat => (
-                <span key={cat} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#ff3d00] text-white rounded-full">
+                <span key={cat} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
                   {formatLabel(cat)}
                   <button onClick={() => toggleCategory(cat)} className="hover:opacity-70">✕</button>
                 </span>
               ))}
               {Array.from(selectedConcepts).map(concept => (
-                <span key={concept} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#ff3d00] text-white rounded-full">
+                <span key={concept} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
                   {formatLabel(concept)}
                   <button onClick={() => toggleConcept(concept)} className="hover:opacity-70">✕</button>
                 </span>
               ))}
               {Array.from(selectedTags).map(tag => (
-                <span key={tag} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#ff3d00] text-white rounded-full">
+                <span key={tag} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
                   #{tag}
                   <button onClick={() => toggleTag(tag)} className="hover:opacity-70">✕</button>
                 </span>
               ))}
               {Array.from(selectedQuickTags).map(tag => (
-                <span key={tag} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#ff3d00] text-white rounded-full">
+                <span key={tag} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
                   {tag}
                   <button onClick={() => toggleQuickTag(tag)} className="hover:opacity-70">✕</button>
                 </span>
@@ -1313,13 +1313,13 @@ function LibraryContent() {
 
           {/* Results Header */}
           <div className="mb-4 flex items-center justify-between">
-            <p className="text-sm text-[#a3a3a3]">
+            <p className="text-sm text-[#4A4A4A]">
               Showing {displayedImages.length} of {filteredImages.length} images
             </p>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="px-3 py-2 bg-[#1a1a1a] border border-[#333] text-sm text-white focus:border-[#ff3d00] focus:outline-none"
+              className="px-3 py-2 bg-white border border-[#E5E0D8] text-sm text-[#1A1A1A] focus:border-[#C75B39] focus:outline-none rounded"
             >
               <option value="relevant">Sort: Most Relevant</option>
               <option value="alphabetical">Sort: A-Z</option>
@@ -1331,8 +1331,8 @@ function LibraryContent() {
           {/* Image Grid */}
           {filteredImages.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-[#666]">No images match your filters</p>
-              <button onClick={clearAllFilters} className="mt-4 px-4 py-2 bg-[#1a1a1a] border border-[#333] text-[#a3a3a3] hover:border-[#ff3d00] transition-colors">
+              <p className="text-[#8B8B8B]">No images match your filters</p>
+              <button onClick={clearAllFilters} className="mt-4 px-4 py-2 bg-white border border-[#E5E0D8] text-[#4A4A4A] hover:border-[#C75B39] transition-colors rounded">
                 Clear Filters
               </button>
             </div>
@@ -1342,7 +1342,7 @@ function LibraryContent() {
                 {displayedImages.map((image) => (
                   <div
                     key={image.id}
-                    className="group relative overflow-hidden cursor-pointer bg-[#333]"
+                    className="group relative overflow-hidden cursor-pointer bg-[#F5F3EF] rounded-lg"
                     onClick={() => setSelectedImage(image)}
                   >
                     <img
@@ -1399,7 +1399,7 @@ function LibraryContent() {
               {/* Load More */}
               {displayCount < filteredImages.length && (
                 <div className="text-center mt-6">
-                  <button onClick={loadMore} className="px-6 py-3 bg-[#1a1a1a] border border-[#333] text-[#a3a3a3] hover:border-[#ff3d00] hover:text-[#ff3d00] transition-colors">
+                  <button onClick={loadMore} className="px-6 py-3 bg-white border border-[#E5E0D8] text-[#4A4A4A] hover:border-[#C75B39] hover:text-[#C75B39] transition-colors rounded-lg">
                     Load More ({filteredImages.length - displayCount} remaining)
                   </button>
                 </div>
@@ -1412,15 +1412,15 @@ function LibraryContent() {
       {/* Image Modal */}
       {selectedImage && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4"
           onClick={() => setSelectedImage(null)}
         >
           <div
-            className="relative max-w-2xl w-full max-h-[90vh] overflow-y-auto bg-[#1a1a1a]"
+            className="relative max-w-2xl w-full max-h-[90vh] overflow-y-auto bg-white rounded-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-[#0a0a0a] border border-[#333] text-white hover:border-[#ff3d00] hover:text-[#ff3d00] z-10 transition-colors"
+              className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-white border border-[#E5E0D8] text-[#4A4A4A] hover:border-[#C75B39] hover:text-[#C75B39] z-10 transition-colors rounded-lg"
               onClick={() => setSelectedImage(null)}
             >
               ✕
@@ -1431,29 +1431,29 @@ function LibraryContent() {
               className="w-full"
             />
             <div className="p-4">
-              <h3 className="text-lg font-bold mb-2 text-white">{selectedImage.title}</h3>
+              <h3 className="text-lg font-bold mb-2 text-[#1A1A1A]">{selectedImage.title}</h3>
 
               <span className={`text-xs px-2 py-1 rounded inline-block mb-3 ${
-                selectedImage.image_type === "problem" ? "bg-red-900/50 text-red-400" :
-                selectedImage.image_type === "solution" ? "bg-green-900/50 text-green-400" :
-                selectedImage.image_type === "comparison" ? "bg-blue-900/50 text-blue-400" :
-                "bg-gray-700 text-gray-300"
+                selectedImage.image_type === "problem" ? "bg-red-100 text-red-700" :
+                selectedImage.image_type === "solution" ? "bg-green-100 text-green-700" :
+                selectedImage.image_type === "comparison" ? "bg-blue-100 text-blue-700" :
+                "bg-gray-100 text-gray-700"
               }`}>
                 {selectedImage.image_type}
               </span>
 
               {selectedImage.body_text && (
-                <p className="text-sm text-[#a3a3a3] mb-4">
+                <p className="text-sm text-[#4A4A4A] mb-4">
                   {selectedImage.body_text}
                 </p>
               )}
 
               {selectedImage.categories.length > 0 && (
                 <div className="mb-3">
-                  <p className="text-xs text-[#666] uppercase mb-1">Categories</p>
+                  <p className="text-xs text-[#8B8B8B] uppercase mb-1">Categories</p>
                   <div className="flex flex-wrap gap-1">
                     {selectedImage.categories.map(cat => (
-                      <span key={cat} className="text-xs bg-[#333] text-[#a3a3a3] px-2 py-1 rounded">
+                      <span key={cat} className="text-xs bg-[#F5F3EF] text-[#4A4A4A] px-2 py-1 rounded">
                         {formatLabel(cat)}
                       </span>
                     ))}
@@ -1463,10 +1463,10 @@ function LibraryContent() {
 
               {selectedImage.framework_concepts.length > 0 && (
                 <div className="mb-3">
-                  <p className="text-xs text-[#666] uppercase mb-1">Framework Concepts</p>
+                  <p className="text-xs text-[#8B8B8B] uppercase mb-1">Framework Concepts</p>
                   <div className="flex flex-wrap gap-1">
                     {selectedImage.framework_concepts.map(concept => (
-                      <span key={concept} className="text-xs bg-[#ff3d00]/20 text-[#ff3d00] px-2 py-1 rounded">
+                      <span key={concept} className="text-xs bg-[#C75B39]/20 text-[#C75B39] px-2 py-1 rounded">
                         {formatLabel(concept)}
                       </span>
                     ))}
@@ -1476,15 +1476,15 @@ function LibraryContent() {
 
               {selectedImage.tags.length > 0 && (
                 <div className="mb-4">
-                  <p className="text-xs text-[#666] uppercase mb-1">Tags</p>
+                  <p className="text-xs text-[#8B8B8B] uppercase mb-1">Tags</p>
                   <div className="flex flex-wrap gap-1">
                     {selectedImage.tags.slice(0, 10).map(tag => (
-                      <span key={tag} className="text-xs text-[#666]">
+                      <span key={tag} className="text-xs text-[#8B8B8B]">
                         #{tag}
                       </span>
                     ))}
                     {selectedImage.tags.length > 10 && (
-                      <span className="text-xs text-[#666]">
+                      <span className="text-xs text-[#8B8B8B]">
                         +{selectedImage.tags.length - 10} more
                       </span>
                     )}
@@ -1494,14 +1494,14 @@ function LibraryContent() {
 
               <div className="flex gap-3">
                 <button
-                  className="flex-1 px-4 py-3 bg-[#ff3d00] text-white font-medium hover:bg-[#e63600] transition-colors flex items-center justify-center gap-2"
+                  className="flex-1 px-4 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors flex items-center justify-center gap-2 rounded-lg"
                   onClick={() => copyToClipboard(selectedImage.image_url)}
                 >
                   <CopyIcon />
                   Copy
                 </button>
                 <button
-                  className="flex-1 px-4 py-3 bg-[#0a0a0a] border border-[#333] text-white font-medium hover:bg-[#333] hover:border-[#ff3d00] transition-colors flex items-center justify-center gap-2"
+                  className="flex-1 px-4 py-3 bg-[#FAF9F6] border border-[#E5E0D8] text-[#1A1A1A] font-medium hover:bg-[#F5F3EF] hover:border-[#C75B39] transition-colors flex items-center justify-center gap-2 rounded-lg"
                   onClick={() => downloadImage(selectedImage)}
                 >
                   <DownloadIcon />
@@ -1511,7 +1511,7 @@ function LibraryContent() {
 
               {/* DEV ONLY: Edit button */}
               <button
-                className="w-full mt-3 py-2 px-4 bg-blue-900/30 border border-blue-800 text-blue-400 hover:bg-blue-900/50 text-sm font-medium flex items-center justify-center gap-2"
+                className="w-full mt-3 py-2 px-4 bg-blue-50 border border-blue-200 text-blue-700 hover:bg-blue-100 text-sm font-medium flex items-center justify-center gap-2 rounded-lg"
                 onClick={() => { setEditingImage(selectedImage); setEditPrompt(""); }}
               >
                 <EditIcon /> Edit with AI (Dev Only)
@@ -1519,7 +1519,7 @@ function LibraryContent() {
 
               {/* DEV ONLY: Delete button */}
               <button
-                className="w-full mt-2 py-2 px-4 bg-red-900/30 border border-red-800 text-red-400 hover:bg-red-900/50 text-sm font-medium flex items-center justify-center gap-2"
+                className="w-full mt-2 py-2 px-4 bg-red-50 border border-red-200 text-red-700 hover:bg-red-100 text-sm font-medium flex items-center justify-center gap-2 rounded-lg"
                 onClick={() => deleteImage(selectedImage)}
               >
                 <TrashIcon /> Delete Image (Dev Only)
@@ -1531,7 +1531,7 @@ function LibraryContent() {
 
       {/* Toast */}
       {toast && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-[#1a1a1a] border border-[#333] text-white text-sm font-medium shadow-lg z-50">
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-white border border-[#E5E0D8] text-[#1A1A1A] text-sm font-medium shadow-lg z-50 rounded-lg">
           {toast}
         </div>
       )}
@@ -1539,18 +1539,18 @@ function LibraryContent() {
       {/* DEV ONLY: Edit Modal */}
       {editingImage && (
         <div
-          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4"
           onClick={() => !isEditing && setEditingImage(null)}
         >
           <div
-            className="bg-[#1a1a1a] max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-lg"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-4 border-b border-[#333] flex items-center justify-between">
-              <h2 className="text-lg font-bold text-white">Edit Image with AI</h2>
+            <div className="p-4 border-b border-[#E5E0D8] flex items-center justify-between">
+              <h2 className="text-lg font-bold text-[#1A1A1A]">Edit Image with AI</h2>
               <button
                 onClick={() => !isEditing && setEditingImage(null)}
-                className="text-[#666] hover:text-white"
+                className="text-[#8B8B8B] hover:text-[#1A1A1A]"
                 disabled={isEditing}
               >
                 ✕
@@ -1558,7 +1558,7 @@ function LibraryContent() {
             </div>
 
             <div className="p-4 space-y-4">
-              <div className="aspect-square w-full max-w-sm mx-auto overflow-hidden bg-[#333]">
+              <div className="aspect-square w-full max-w-sm mx-auto overflow-hidden bg-[#F5F3EF] rounded-lg">
                 <img
                   src={editingImage.image_url}
                   alt={editingImage.title}
@@ -1566,19 +1566,19 @@ function LibraryContent() {
                 />
               </div>
 
-              <p className="text-sm text-[#a3a3a3] text-center">
+              <p className="text-sm text-[#4A4A4A] text-center">
                 {editingImage.title}
               </p>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-white">
+                <label className="block text-sm font-medium mb-2 text-[#1A1A1A]">
                   Describe your edit:
                 </label>
                 <textarea
                   value={editPrompt}
                   onChange={(e) => setEditPrompt(e.target.value)}
                   placeholder="e.g., 'fix the garbled text', 'change the font to bold', 'remove the person on the left', 'make it more vibrant'..."
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#333] text-white placeholder:text-[#666] focus:border-[#ff3d00] focus:outline-none min-h-[100px] resize-none"
+                  className="w-full px-4 py-3 bg-[#FAF9F6] border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none min-h-[100px] resize-none rounded-lg"
                   disabled={isEditing}
                 />
               </div>
@@ -1594,7 +1594,7 @@ function LibraryContent() {
                   <button
                     key={suggestion}
                     onClick={() => setEditPrompt(suggestion)}
-                    className="px-3 py-1 text-xs bg-[#333] hover:bg-[#444] rounded-full text-[#a3a3a3]"
+                    className="px-3 py-1 text-xs bg-[#F5F3EF] hover:bg-[#E5E0D8] rounded-full text-[#4A4A4A]"
                     disabled={isEditing}
                   >
                     {suggestion}
@@ -1605,14 +1605,14 @@ function LibraryContent() {
               <div className="flex gap-3 pt-4">
                 <button
                   onClick={() => setEditingImage(null)}
-                  className="flex-1 py-2 px-4 bg-[#333] text-[#a3a3a3] hover:bg-[#444]"
+                  className="flex-1 py-2 px-4 bg-[#F5F3EF] text-[#4A4A4A] hover:bg-[#E5E0D8] rounded-lg"
                   disabled={isEditing}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => editImage(editingImage)}
-                  className="flex-1 py-2 px-4 bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="flex-1 py-2 px-4 bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 rounded-lg"
                   disabled={isEditing || !editPrompt.trim()}
                 >
                   {isEditing ? (
@@ -1629,7 +1629,7 @@ function LibraryContent() {
                 </button>
               </div>
 
-              <p className="text-xs text-[#666] text-center">
+              <p className="text-xs text-[#8B8B8B] text-center">
                 Warning: This will replace the original image. Make sure you have a backup if needed.
               </p>
             </div>

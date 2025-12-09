@@ -1,318 +1,233 @@
-import Navigation from "@/components/Navigation";
-import Image from "next/image";
 import Link from "next/link";
 
-const GRAPHICS_BASE = "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics";
-
-export default function LandingPage() {
+export default function Home() {
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white">
-      <Navigation />
+    <main className="min-h-screen bg-[#faf9f6]">
+      {/* Navigation */}
+      <nav className="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
+        <Link href="/" className="text-xl font-bold tracking-tight text-gray-900">
+          DEMISMATCH
+        </Link>
+        <div className="flex gap-8 text-sm text-gray-600">
+          <Link href="/framework" className="hover:text-gray-900">Framework</Link>
+          <Link href="/builders" className="hover:text-gray-900">For Builders</Link>
+          <Link href="/foryou" className="hover:text-gray-900">For You</Link>
+          <Link href="/projects" className="hover:text-gray-900">Projects</Link>
+          <Link href="/sources" className="hover:text-gray-900">Sources</Link>
+        </div>
+      </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-24 px-6 min-h-screen flex items-center">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <h1 className="text-5xl md:text-7xl font-bold leading-[1.1] mb-8">
-              You are not broken.
-              <br />
-              <span className="text-[#ff3d00]">The world is.</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-[#a3a3a3] mb-10 leading-relaxed max-w-xl">
-              Modern life violates every condition we evolved to thrive in.
-              Your anxiety, depression, and addiction aren&apos;t malfunctions.
-              They&apos;re accurate signals from ancient hardware running in an alien environment.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                href="/framework"
-                className="px-8 py-4 bg-[#ff3d00] text-white font-semibold tracking-wide hover:bg-[#e63600] transition-colors text-center"
-              >
-                READ THE FRAMEWORK
-              </Link>
-              <Link
-                href="/projects"
-                className="px-8 py-4 border border-[#333] text-white font-semibold tracking-wide hover:bg-[#1a1a1a] transition-colors text-center"
-              >
-                EXPLORE TOOLS
-              </Link>
-            </div>
-          </div>
-          <div className="relative aspect-square max-w-lg mx-auto lg:mx-0">
-            <Image
-              src={`${GRAPHICS_BASE}/1_Fish_on_Land__Hero_Metaphor_.png`}
-              alt="Fish on land - the mismatch metaphor"
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
+      <section className="px-8 py-20 max-w-4xl mx-auto text-center">
+        <h1 className="text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-8">
+          Modern civilization is incompatible with human nature.
+        </h1>
+        <p className="text-xl text-gray-700 mb-4">
+          This is not metaphor. This is biology.
+        </p>
+        <p className="text-xl text-gray-700 mb-4">
+          Every condition we call mental illness is the machinery working correctly in the wrong environment. A fish on land isn&apos;t broken. It&apos;s misplaced.
+        </p>
+        <p className="text-xl text-gray-700 mb-8">
+          This framework explains the what, the why, and the &apos;now what?&apos;
+        </p>
+        <div className="flex gap-4 justify-center">
+          <Link
+            href="/framework"
+            className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition"
+          >
+            Enter the Framework
+          </Link>
+          <Link
+            href="/framework"
+            className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+          >
+            Download
+          </Link>
+        </div>
+
+        {/* Hero Image */}
+        <div className="mt-12">
+          <img
+            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/1_Fish_on_Land__Hero_Metaphor_.png"
+            alt="Fish on land metaphor"
+            className="rounded-lg mx-auto w-full max-w-3xl"
+          />
         </div>
       </section>
 
       {/* The Problem Section */}
-      <section className="py-24 px-6 bg-[#0f0f0f]">
-        <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              The Problem
-            </h2>
-            <p className="text-xl text-[#a3a3a3] leading-relaxed">
-              For 99.9% of human history, we lived in small bands of 50-150 people.
-              Face-to-face. Immediate feedback. Visible purpose. Real stakes.
-            </p>
-          </div>
+      <section className="px-8 py-20 max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8">The Problem</h2>
+        <p className="text-lg text-gray-700 mb-4">
+          For 300,000 years, humans lived in conditions that remained remarkably consistent. Small bands. Known faces. Visible contribution. Daily closure. The hardware was built for this.
+        </p>
+        <p className="text-lg text-gray-700 mb-8">
+          10,000 years of agriculture. 200 years of industry. 15 years of smartphones.
+        </p>
+        <p className="text-lg text-gray-700 mb-8">
+          The hardware hasn&apos;t changed. The operating environment is unrecognizable.
+        </p>
 
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="relative aspect-[4/3]">
-              <Image
-                src={`${GRAPHICS_BASE}/15_Fire_Circle_vs_Modern_Evening.png`}
-                alt="Fire circle vs modern evening - ancestral vs modern life"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <div className="space-y-8">
-              <div className="border-l-2 border-[#ff3d00] pl-6">
-                <h3 className="text-2xl font-bold mb-3">Then</h3>
-                <p className="text-[#a3a3a3] text-lg">
-                  Firelight conversations with your band. Everyone knew your name.
-                  Your work had visible impact. Status came from contribution.
-                  The future was tomorrow.
-                </p>
-              </div>
-              <div className="border-l-2 border-[#333] pl-6">
-                <h3 className="text-2xl font-bold mb-3">Now</h3>
-                <p className="text-[#a3a3a3] text-lg">
-                  Scrolling alone in blue light. Anonymous in crowds of millions.
-                  Abstract labor for invisible outcomes. Status from consumption.
-                  The future is a crushing abstraction.
-                </p>
-              </div>
-              <p className="text-[#666] italic">
-                The environment changed. We didn&apos;t.
-              </p>
-            </div>
-          </div>
+        {/* Fire Circle Image */}
+        <div className="my-12">
+          <img
+            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/15_Fire_Circle_vs_Modern_Evening.png"
+            alt="Fire circle vs modern evening"
+            className="rounded-lg w-full"
+          />
         </div>
+
+        <p className="text-lg text-gray-700 mb-4">
+          What we call anxiety, depression, addiction, loneliness - these aren&apos;t malfunctions. They&apos;re accurate signals from systems that work exactly as designed, reporting that the environment doesn&apos;t meet spec.
+        </p>
+        <p className="text-xl font-semibold text-gray-900">
+          The signals aren&apos;t broken. The environment is.
+        </p>
       </section>
 
       {/* The Timeline Section */}
-      <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="order-2 lg:order-1">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                The Timeline
-              </h2>
-              <p className="text-xl text-[#a3a3a3] leading-relaxed mb-8">
-                If human history were a 24-hour clock, the agricultural revolution
-                happened at 11:58 PM. The industrial revolution at 11:59:58.
-                The smartphone at 11:59:59.9.
-              </p>
-              <p className="text-xl text-[#a3a3a3] leading-relaxed mb-8">
-                Evolution takes thousands of generations to adapt.
-                We&apos;ve had a few hundred years.
-              </p>
-              <p className="text-lg text-white font-medium">
-                Your brain is Paleolithic hardware running a post-industrial operating system.
-                The bugs are features.
-              </p>
-            </div>
-            <div className="relative aspect-square order-1 lg:order-2">
-              <Image
-                src={`${GRAPHICS_BASE}/18_Timeline_Compression.png`}
-                alt="Timeline compression - evolutionary mismatch"
-                fill
-                className="object-contain"
-              />
-            </div>
-          </div>
+      <section className="px-8 py-20 max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8">The Timeline</h2>
+
+        {/* Timeline Image */}
+        <div className="my-8">
+          <img
+            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/18_Timeline_Compression.png"
+            alt="Timeline compression"
+            className="rounded-lg w-full"
+          />
         </div>
+
+        <div className="font-mono text-lg text-gray-700 space-y-2 my-8">
+          <p>300,000 years &nbsp;&nbsp;&nbsp; — consistent conditions</p>
+          <p>10,000 years &nbsp;&nbsp;&nbsp;&nbsp; — agriculture</p>
+          <p>200 years &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; — industrialization</p>
+          <p>15 years &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; — smartphones</p>
+        </div>
+
+        <p className="text-xl font-semibold text-gray-900">
+          Four numbers. The entire story.
+        </p>
       </section>
 
       {/* The Economy of Mismatch Section */}
-      <section className="py-24 px-6 bg-[#0f0f0f]">
-        <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              The Economy of Mismatch
-            </h2>
-            <p className="text-xl text-[#a3a3a3] leading-relaxed">
-              Your suffering isn&apos;t an accident. It&apos;s profitable.
-              Entire industries exist to exploit the gap between what you evolved
-              to need and what the modern world provides.
-            </p>
-          </div>
+      <section className="px-8 py-20 max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8">The Economy of Mismatch</h2>
+        <p className="text-xl text-gray-700 mb-8">
+          This isn&apos;t conspiracy. It&apos;s documented business strategy.
+        </p>
 
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="relative aspect-[4/3]">
-              <Image
-                src={`${GRAPHICS_BASE}/38_The_Exploitation_Players.png`}
-                alt="The exploitation players - who profits from mismatch"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <div className="space-y-6">
-              <div className="p-6 bg-[#1a1a1a] border border-[#333]">
-                <h3 className="text-xl font-bold text-[#ff3d00] mb-2">The Problem Sellers</h3>
-                <p className="text-[#a3a3a3]">
-                  Social media, junk food, gambling, pornography - engineering superstimuli
-                  that hijack reward circuits designed for scarcity.
-                </p>
-              </div>
-              <div className="p-6 bg-[#1a1a1a] border border-[#333]">
-                <h3 className="text-xl font-bold text-[#ff3d00] mb-2">The Solution Sellers</h3>
-                <p className="text-[#a3a3a3]">
-                  Self-help, therapy, pharmaceuticals, wellness - profiting from the symptoms
-                  they don&apos;t want cured. A customer healed is a customer lost.
-                </p>
-              </div>
-              <div className="p-6 bg-[#1a1a1a] border border-[#333]">
-                <h3 className="text-xl font-bold text-[#ff3d00] mb-2">The Diagnosis</h3>
-                <p className="text-[#a3a3a3]">
-                  We call it anxiety, depression, ADHD. We medicalize appropriate responses
-                  to inappropriate conditions. The fish gets therapy. The land stays dry.
-                </p>
-              </div>
-            </div>
-          </div>
+        {/* Exploitation Players Image */}
+        <div className="my-8">
+          <img
+            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/38_The_Exploitation_Players.png"
+            alt="Exploitation economy players"
+            className="rounded-lg w-full"
+          />
         </div>
+
+        <p className="text-lg text-gray-700 mb-4">
+          Internal Facebook research showed Instagram harms teen mental health. Nothing changed. Pharmaceutical companies market signal-override for conditions with no biomarkers. Food scientists optimize for &quot;bliss points&quot; that override satiety. Dating apps profit most from users who never find partners.
+        </p>
+        <p className="text-lg text-gray-700 mb-4">
+          No shadowy cabal. Just incentives. The truth isn&apos;t profitable. The profitable isn&apos;t true.
+        </p>
+        <p className="text-lg text-gray-700 mb-8">
+          Every unmet human need is a market. The systems aren&apos;t failing - they&apos;re working exactly as designed. Just not for you.
+        </p>
+        <Link href="/sources" className="text-gray-900 underline hover:no-underline">
+          See the evidence →
+        </Link>
       </section>
 
       {/* The Vision Section */}
-      <section className="py-24 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8">
-            The Vision
-          </h2>
-          <p className="text-xl md:text-2xl text-[#a3a3a3] leading-relaxed mb-12">
-            What if we stopped trying to fix humans and started fixing environments?
-            What if we designed lives, communities, and systems that actually match
-            what we evolved to need?
-          </p>
-          <div className="grid sm:grid-cols-3 gap-8 text-left">
-            <div>
-              <div className="w-12 h-12 border border-[#ff3d00] flex items-center justify-center mb-4">
-                <span className="text-[#ff3d00] font-bold">01</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Understand</h3>
-              <p className="text-[#a3a3a3]">
-                Learn the evolutionary logic behind your struggles. See the mismatch clearly.
-              </p>
-            </div>
-            <div>
-              <div className="w-12 h-12 border border-[#ff3d00] flex items-center justify-center mb-4">
-                <span className="text-[#ff3d00] font-bold">02</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Recognize</h3>
-              <p className="text-[#a3a3a3]">
-                Spot mismatch dynamics everywhere - in media, advice, products, and systems.
-              </p>
-            </div>
-            <div>
-              <div className="w-12 h-12 border border-[#ff3d00] flex items-center justify-center mb-4">
-                <span className="text-[#ff3d00] font-bold">03</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Rebuild</h3>
-              <p className="text-[#a3a3a3]">
-                Engineer your environment toward baseline conditions. Help others do the same.
-              </p>
-            </div>
-          </div>
-        </div>
+      <section className="px-8 py-20 max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8">The Vision</h2>
+        <p className="text-2xl font-bold text-gray-900 mb-6">
+          Demismatch first. Then augment.
+        </p>
+        <p className="text-lg text-gray-700 mb-4">
+          Not return to the past. Conscious alignment of environment with biology - enhanced by technology, chosen deliberately. The path forward isn&apos;t backward. It&apos;s through.
+        </p>
+        <p className="text-lg text-gray-700 mb-4">
+          Build environments that fit the hardware. Then extend what humans can do and be, without breaking what we are.
+        </p>
+        <p className="text-xl italic text-gray-900 mt-8">
+          The most human post-human.
+        </p>
       </section>
 
       {/* The Call Section */}
-      <section className="py-24 px-6 bg-[#ff3d00]">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8 text-black">
-            The Call
-          </h2>
-          <p className="text-xl md:text-2xl text-black/80 leading-relaxed mb-12">
-            This isn&apos;t self-help. This is a framework for understanding reality.
-            A lens that reveals what&apos;s actually happening when you&apos;re struggling,
-            when someone&apos;s selling you something, when the world feels wrong.
+      <section className="px-8 py-20 max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8">The Call</h2>
+        <p className="text-lg text-gray-700 mb-8">This framework is for:</p>
+
+        <div className="space-y-4 mb-12">
+          <p className="text-lg">
+            <span className="font-semibold text-gray-900">Systems changers</span>
+            <span className="text-gray-600"> — policy makers, researchers, journalists shifting the paradigm</span>
           </p>
+          <p className="text-lg">
+            <span className="font-semibold text-gray-900">Builders</span>
+            <span className="text-gray-600"> — technologists, architects, entrepreneurs building what comes next</span>
+          </p>
+          <p className="text-lg">
+            <span className="font-semibold text-gray-900">Gatekeepers</span>
+            <span className="text-gray-600"> — clinicians, parents, educators shaping others&apos; environments</span>
+          </p>
+          <p className="text-lg">
+            <span className="font-semibold text-gray-900">The questioning</span>
+            <span className="text-gray-600"> — those who sensed something was wrong</span>
+          </p>
+          <p className="text-lg">
+            <span className="font-semibold text-gray-900">Those in pain</span>
+            <span className="text-gray-600"> — your signals are accurate</span>
+          </p>
+        </div>
+
+        <div className="flex gap-4">
           <Link
-            href="/framework"
-            className="inline-block px-12 py-5 bg-black text-white font-bold text-lg tracking-wide hover:bg-[#1a1a1a] transition-colors"
+            href="/builders"
+            className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition"
           >
-            START READING
+            For Builders →
+          </Link>
+          <Link
+            href="/foryou"
+            className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+          >
+            For You →
           </Link>
         </div>
       </section>
 
       {/* The Foundation Section */}
-      <section className="py-24 px-6 bg-[#0f0f0f]">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
-            The Foundation
-          </h2>
-          <p className="text-xl text-[#a3a3a3] leading-relaxed mb-12 text-center">
-            DEMISMATCH synthesizes insights from evolutionary psychology, anthropology,
-            behavioral economics, and neuroscience. The framework stands on the shoulders
-            of decades of research.
-          </p>
-          <div className="grid sm:grid-cols-2 gap-6">
-            <Link
-              href="/sources"
-              className="p-8 bg-[#1a1a1a] border border-[#333] hover:border-[#ff3d00] transition-colors group"
-            >
-              <h3 className="text-xl font-bold mb-2 group-hover:text-[#ff3d00] transition-colors">
-                Sources & Research
-              </h3>
-              <p className="text-[#a3a3a3]">
-                Academic papers, books, and studies behind the framework.
-              </p>
-            </Link>
-            <Link
-              href="/framework"
-              className="p-8 bg-[#1a1a1a] border border-[#333] hover:border-[#ff3d00] transition-colors group"
-            >
-              <h3 className="text-xl font-bold mb-2 group-hover:text-[#ff3d00] transition-colors">
-                Full Framework
-              </h3>
-              <p className="text-[#a3a3a3]">
-                The complete mismatch framework in detail.
-              </p>
-            </Link>
-          </div>
-        </div>
+      <section className="px-8 py-20 max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8">The Foundation</h2>
+        <p className="text-lg text-gray-700 mb-4">
+          This framework synthesizes evolutionary psychology, anthropology, and neuroscience into a single coherent lens. It explains human behavior from first principles - every action traces to survival and reproduction, every emotion is biological GPS, every &quot;disorder&quot; is a signal.
+        </p>
+        <p className="text-lg text-gray-700 mb-4">
+          It&apos;s not the only lens. But it&apos;s the one that makes everything else click into place.
+        </p>
+        <p className="text-xl font-semibold text-gray-900 mt-8">
+          Once you see it, you can&apos;t unsee it.
+        </p>
       </section>
 
       {/* Footer */}
-      <footer className="py-16 px-6 border-t border-[#1a1a1a]">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-            <div>
-              <Link href="/" className="text-2xl font-bold tracking-[0.2em] text-white hover:text-[#ff3d00] transition-colors">
-                DEMISMATCH
-              </Link>
-              <p className="text-[#666] mt-2 text-sm">
-                Understanding the gap between evolved needs and modern reality.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-8">
-              <Link href="/framework" className="text-[#a3a3a3] hover:text-white transition-colors">
-                Framework
-              </Link>
-              <Link href="/builders" className="text-[#a3a3a3] hover:text-white transition-colors">
-                For Builders
-              </Link>
-              <Link href="/foryou" className="text-[#a3a3a3] hover:text-white transition-colors">
-                For You
-              </Link>
-              <Link href="/projects" className="text-[#a3a3a3] hover:text-white transition-colors">
-                Projects
-              </Link>
-              <Link href="/sources" className="text-[#a3a3a3] hover:text-white transition-colors">
-                Sources
-              </Link>
-            </div>
-          </div>
+      <footer className="px-8 py-12 border-t border-gray-200 max-w-4xl mx-auto">
+        <div className="flex gap-8 text-sm text-gray-600 mb-6">
+          <Link href="/framework" className="hover:text-gray-900">Framework</Link>
+          <Link href="/builders" className="hover:text-gray-900">For Builders</Link>
+          <Link href="/foryou" className="hover:text-gray-900">For You</Link>
+          <Link href="/projects" className="hover:text-gray-900">Projects</Link>
+          <Link href="/sources" className="hover:text-gray-900">Sources</Link>
         </div>
+        <p className="text-sm text-gray-500">
+          This framework is open. Fork it, improve it, implement it.
+        </p>
       </footer>
     </main>
   );
