@@ -466,57 +466,50 @@ function normalizeTag(tag: string): string {
   return tag.toLowerCase().replace(/[\s\-_]/g, '');
 }
 
-// Check if an image matches a quick tag (fuzzy matching)
+// Check if an image matches a quick tag (TAG-ONLY matching, no categories/concepts)
 function imageMatchesQuickTag(img: ImageData, tagName: string): boolean {
   const mapping = TAG_MAPPINGS[tagName];
   if (!mapping) return false;
 
+  // Normalize the quick tag name itself
   const normalizedTagName = normalizeTag(tagName);
-
-  // Check if any of the image's tags match (fuzzy)
-  const imgTagsLower = img.tags.map(t => normalizeTag(t));
-  for (const tag of mapping.tags) {
-    const normalizedTag = normalizeTag(tag);
-    if (imgTagsLower.some(imgTag => 
-      imgTag.includes(normalizedTag) || normalizedTag.includes(imgTag) ||
-      imgTag.includes(normalizedTagName) || normalizedTagName.includes(imgTag)
-    )) {
-      return true;
-    }
+  
+  // Get all image tags normalized
+  const imgTagsNormalized = img.tags.map(t => normalizeTag(t));
+  
+  // Check if image title contains the tag (strong signal)
+  const titleNormalized = normalizeTag(img.title || '');
+  if (titleNormalized.includes(normalizedTagName)) {
+    return true;
   }
-
-  // Check if any of the image's categories match (fuzzy)
-  for (const cat of mapping.categories) {
-    const normalizedCat = normalizeTag(cat);
-    if (img.categories.some(imgCat => {
-      const normalizedImgCat = normalizeTag(imgCat);
-      return normalizedImgCat.includes(normalizedCat) || normalizedCat.includes(normalizedImgCat);
-    })) {
-      return true;
-    }
-  }
-
-  // Check if any of the image's concepts match (fuzzy)
-  for (const concept of mapping.concepts) {
-    const normalizedConcept = normalizeTag(concept);
-    if (img.framework_concepts.some(imgConcept => {
-      const normalizedImgConcept = normalizeTag(imgConcept);
-      return normalizedImgConcept.includes(normalizedConcept) || normalizedConcept.includes(normalizedImgConcept);
-    })) {
-      return true;
-    }
-  }
-
-  // Also check themes if they exist
-  if ('themes' in img && Array.isArray((img as any).themes)) {
-    const imgThemes = (img as any).themes.map((t: string) => normalizeTag(t));
-    for (const tag of mapping.tags) {
-      const normalizedTag = normalizeTag(tag);
-      if (imgThemes.some((theme: string) => 
-        theme.includes(normalizedTag) || normalizedTag.includes(theme) ||
-        theme.includes(normalizedTagName) || normalizedTagName.includes(theme)
-      )) {
+  
+  // Check if any of the mapping's tags match any of the image's tags
+  for (const mappingTag of mapping.tags) {
+    const normalizedMappingTag = normalizeTag(mappingTag);
+    
+    for (const imgTag of imgTagsNormalized) {
+      // Exact match or substring match
+      if (imgTag === normalizedMappingTag || 
+          imgTag.includes(normalizedMappingTag) || 
+          normalizedMappingTag.includes(imgTag)) {
         return true;
+      }
+    }
+  }
+  
+  // Also check themes if they exist (these are like tags)
+  if ('themes' in img && Array.isArray((img as any).themes)) {
+    const themesNormalized = (img as any).themes.map((t: string) => normalizeTag(t));
+    
+    for (const mappingTag of mapping.tags) {
+      const normalizedMappingTag = normalizeTag(mappingTag);
+      
+      for (const theme of themesNormalized) {
+        if (theme === normalizedMappingTag || 
+            theme.includes(normalizedMappingTag) || 
+            normalizedMappingTag.includes(theme)) {
+          return true;
+        }
       }
     }
   }
