@@ -3,9 +3,8 @@ import Link from "next/link";
 export default function ForYouPage() {
   return (
     <main className="min-h-screen bg-[#faf9f6]">
-      {/* Navigation */}
-      <nav className="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
-        <Link href="/" className="text-xl font-bold tracking-tight text-gray-900">
+      <nav className="flex items-center justify-between px-8 py-6 max-w-6xl mx-auto border-b border-gray-200">
+        <Link href="/" className="text-xl tracking-widest text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>
           DEMISMATCH
         </Link>
         <div className="flex gap-8 text-sm text-gray-600">
@@ -17,163 +16,176 @@ export default function ForYouPage() {
         </div>
       </nav>
 
-      {/* Header */}
-      <header className="px-8 py-12 max-w-4xl mx-auto">
-        <h1 className="text-5xl font-bold text-gray-900 mb-6">For You</h1>
+      <header className="px-8 py-16 max-w-4xl mx-auto">
+        <h1 className="text-5xl text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>For You</h1>
         <p className="text-xl text-gray-700 mb-4">
-          You&apos;re here because something doesn&apos;t feel right. You&apos;ve been told the problem is you - your brain chemistry, your motivation, your choices.
+          You're here because something feels wrong. Maybe you've tried therapy, medication, self-help, optimization. Maybe it helped a little. Maybe it didn't. Either way, something still isn't right.
         </p>
         <p className="text-xl text-gray-700">
-          What if the signals are accurate and the environment is wrong?
+          Here's what no one told you.
         </p>
       </header>
 
-      {/* Signals Not Symptoms */}
-      <section className="px-8 py-16 max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">Signals, Not Symptoms</h2>
-        <p className="text-lg text-gray-700 mb-8">
-          What we call mental illness is often the machinery working correctly in the wrong environment.
+      {/* Section 1 */}
+      <section className="px-8 py-12 max-w-4xl mx-auto">
+        <h2 className="text-3xl text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>1. You're Not Broken</h2>
+        <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+          A fish on land flops around gasping. You don't diagnose it with "Flopping Disorder" and prescribe anti-flopping medication. You put it back in water.
         </p>
-        <div className="my-8">
-          <img
-            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/9_Signals_Not_Symptoms__4-Panel_Grid_.png"
-            alt="Signals Not Symptoms"
-            className="rounded-lg w-full"
-          />
-        </div>
-        <div className="space-y-6 mt-8">
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Anxiety</h3>
-            <p className="text-gray-700">A threat detection system that evolved for lions and snakes, now triggered by emails and social media. The system works. The threats have changed.</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Depression</h3>
-            <p className="text-gray-700">Often a signal of social defeat, resource scarcity, or loss of agency. In ancestral environments, these states triggered rest and social support. Now they&apos;re pathologized.</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Loneliness</h3>
-            <p className="text-gray-700">The pain of social disconnection. It hurts because isolation was lethal for most of human history. The signal is accurate. You need your people.</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Addiction</h3>
-            <p className="text-gray-700">Reward systems hijacked by superstimuli. The brain is working exactly as designed - it&apos;s the inputs that have been engineered to exploit it.</p>
+        <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+          You are the fish. Modern life is the land.
+        </p>
+        <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+          What you're experiencing — the anxiety, the depression, the loneliness, the sense that something is deeply wrong — these aren't malfunctions. They're accurate signals from biological systems that work exactly as designed.
+        </p>
+
+        <img
+          src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/9_Signals_Not_Symptoms__4-Panel_Grid_.png"
+          alt="Signals not symptoms"
+          className="rounded-lg w-full my-8"
+        />
+
+        <ul className="text-lg text-gray-700 space-y-4 ml-6 list-disc">
+          <li><strong>Anxiety</strong> is accurate threat detection. Your environment contains more strangers, more uncertainty, more uncontrollable variables than any human was designed to handle.</li>
+          <li><strong>Depression</strong> is accurate meaning assessment. It's signaling that your current strategies aren't working, that something fundamental needs to change.</li>
+          <li><strong>Loneliness</strong> is accurate isolation alarm. You're surrounded by people but known by almost no one. The signal is correct.</li>
+          <li><strong>The feeling that something is wrong</strong> — that's the most accurate signal of all.</li>
+        </ul>
+
+        <p className="text-xl text-gray-900 font-medium mt-8" style={{ fontFamily: 'Georgia, serif' }}>
+          Your signals aren't broken. Your environment is.
+        </p>
+      </section>
+
+      {/* Section 2 */}
+      <section className="px-8 py-12 max-w-4xl mx-auto">
+        <h2 className="text-3xl text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>2. Why You Feel This Way</h2>
+        
+        <h3 className="text-xl text-gray-900 mt-8 mb-4 font-semibold">The Internal Audience</h3>
+        <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+          Humans evolved to live in groups of ~150 where everyone knew everyone. Your brain still thinks it lives there. So it simulates an audience — running predictions about what "people" think of you.
+        </p>
+        <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+          But in a world of strangers, there's no real feedback. The simulation never updates. You're performing for phantoms, being judged by a crowd that doesn't exist, exhausted by an audience that never claps and never leaves.
+        </p>
+
+        <img
+          src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/7_Internal_Audience_Illustration.png"
+          alt="The internal audience"
+          className="rounded-lg w-full my-8"
+        />
+
+        <h3 className="text-xl text-gray-900 mt-8 mb-4 font-semibold">Open Loops</h3>
+        <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+          Your brain was designed for a world where most things that started also ended. Hunt, eat, done. Conflict, resolution, done. Day's work, fire circle, sleep.
+        </p>
+        <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+          Now nothing ever closes. Infinite email. Infinite scroll. Infinite news. Global problems you can do nothing about. Relationships that never quite resolve. Your brain is running hundreds of background processes with no end state, burning energy on loops that never complete.
+        </p>
+
+        <img
+          src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/8_Open_Loops_Visual.png"
+          alt="Open loops"
+          className="rounded-lg w-full my-8"
+        />
+
+        <h3 className="text-xl text-gray-900 mt-8 mb-4 font-semibold">The Proxy Trap</h3>
+        <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+          You have real needs — belonging, status, intimacy, meaning. The modern world offers proxies — social media followers, dating app matches, Netflix instead of a fire circle.
+        </p>
+        <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+          The proxies trigger the same reward circuits as the real thing, but they don't satisfy the underlying need. So you consume more. And more. The drive never quiets because the need is never met.
+        </p>
+        <p className="text-lg text-gray-700 leading-relaxed">
+          It's like drinking salt water for thirst. The more you drink, the thirstier you get.
+        </p>
+      </section>
+
+      {/* Section 3 */}
+      <section className="px-8 py-12 max-w-4xl mx-auto">
+        <h2 className="text-3xl text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>3. It's Not Your Fault</h2>
+        <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+          This isn't about personal failure. It's not about needing more willpower, better habits, a more positive mindset.
+        </p>
+        <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+          The environment you live in was not designed for your wellbeing. It was designed for profit. And your suffering is a feature, not a bug.
+        </p>
+        <ul className="text-lg text-gray-700 space-y-3 ml-6 list-disc mb-6">
+          <li>Social media companies profit when you keep scrolling — so they design for addiction, not satisfaction</li>
+          <li>Pharmaceutical companies profit when you stay medicated — so they market signal-override, not environmental change</li>
+          <li>The self-help industry profits when nothing quite works — so you buy the next book, the next course, the next fix</li>
+          <li>Food companies profit when you overeat — so they engineer "bliss points" that override your satiety signals</li>
+        </ul>
+        <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+          Every unmet human need is a market. Your loneliness is a profit center. Your anxiety is a customer acquisition strategy.
+        </p>
+        <p className="text-xl text-gray-900 font-medium" style={{ fontFamily: 'Georgia, serif' }}>
+          You are not failing at life. You are living in an environment that fails you.
+        </p>
+      </section>
+
+      {/* Section 4 */}
+      <section className="px-8 py-12 max-w-4xl mx-auto">
+        <h2 className="text-3xl text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>4. What Actually Helps</h2>
+        <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+          If the problem is environmental, the solution is environmental. Not mindset. Not medication. Environment.
+        </p>
+
+        <h3 className="text-xl text-gray-900 mt-8 mb-4 font-semibold">Build Real Tribe</h3>
+        <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+          Not followers. Not "community." Actual people who know you, see you regularly, depend on you and are depended upon. This is the single most important factor. Start small — 5 people who would show up at 3am. Then 15. The structure matters more than the speed.
+        </p>
+
+        <h3 className="text-xl text-gray-900 mt-8 mb-4 font-semibold">Close the Loops</h3>
+        <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+          Create completion. Make things with your hands and finish them. Have conversations that resolve. Do work where you can see the result. Reduce the open tabs — literal and metaphorical. Your brain needs endings.
+        </p>
+
+        <h3 className="text-xl text-gray-900 mt-8 mb-4 font-semibold">Replace Proxies with Reality</h3>
+        <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+          For every proxy you consume, ask: what's the real need underneath? Then find a real way to meet it. Social media → actual face time. Porn → actual intimacy. News → actual local engagement. It's harder. It's also the only thing that works.
+        </p>
+
+        <img
+          src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/37_Internal_Audience_Dissolution.png"
+          alt="Internal audience dissolution"
+          className="rounded-lg w-full my-8"
+        />
+
+        <h3 className="text-xl text-gray-900 mt-8 mb-4 font-semibold">Dissolve the Phantom Audience</h3>
+        <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+          The internal audience quiets when you have a real one. When actual people actually know you, your brain stops running simulations about what hypothetical people might think. This is why tribe comes first.
+        </p>
+
+        <h3 className="text-xl text-gray-900 mt-8 mb-4 font-semibold">Read Your Signals</h3>
+        <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+          Stop treating your emotions as problems to solve and start treating them as information to read. What is your anxiety actually pointing at? What is your depression actually saying? The signals are accurate. Learn to listen.
+        </p>
+
+        <p className="text-xl text-gray-900 font-medium mt-8" style={{ fontFamily: 'Georgia, serif' }}>
+          This isn't about fixing yourself. It's about fixing your environment. You are not broken. You're just in the wrong habitat.
+        </p>
+      </section>
+
+      {/* CTA */}
+      <section className="px-8 py-12 max-w-4xl mx-auto">
+        <div className="bg-gray-100 rounded-lg p-8">
+          <h3 className="text-2xl text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>Go Deeper</h3>
+          <p className="text-lg text-gray-700 mb-6">
+            This page is the beginning. The full framework explains the entire machine — how humans work, what went wrong, and the complete path forward.
+          </p>
+          <div className="flex gap-4">
+            <Link href="/framework" className="bg-[#c75b3a] text-white px-6 py-3 rounded-lg hover:bg-[#b54d2e] transition inline-block">
+              Read the Framework
+            </Link>
+            <Link href="/sources" className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition inline-block">
+              See the Sources
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* The Internal Audience */}
-      <section className="px-8 py-16 max-w-4xl mx-auto bg-white -mx-8 px-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">The Internal Audience</h2>
-        <p className="text-lg text-gray-700 mb-8">
-          You&apos;re never alone in your head. Evolution installed an audience.
-        </p>
-        <div className="my-8">
-          <img
-            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/7_Internal_Audience_Illustration.png"
-            alt="The Internal Audience"
-            className="rounded-lg w-full"
-          />
-        </div>
-        <p className="text-lg text-gray-700 mt-8">
-          That voice judging you? It&apos;s running a simulation of how your tribe would react. The shame you feel when no one&apos;s watching? That&apos;s the internal audience. This made sense when reputation determined survival. Now it creates anxiety in isolation.
-        </p>
-      </section>
-
-      {/* Open Loops */}
-      <section className="px-8 py-16 max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">Open Loops</h2>
-        <p className="text-lg text-gray-700 mb-8">
-          Modern life is full of started-but-never-finished. Your brain keeps these active, draining resources.
-        </p>
-        <div className="my-8">
-          <img
-            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/8_Open_Loops_Visual.png"
-            alt="Open Loops"
-            className="rounded-lg w-full"
-          />
-        </div>
-        <p className="text-lg text-gray-700 mt-8">
-          In ancestral environments, most tasks had completion. Hunt, eat, sleep. Build shelter, use shelter. Modern life creates infinite open loops - emails awaiting response, notifications unchecked, projects half-done, relationships unresolved.
-        </p>
-        <p className="text-lg text-gray-700 mt-4">
-          The exhaustion you feel isn&apos;t laziness. It&apos;s cognitive load from a thousand unclosed loops.
-        </p>
-      </section>
-
-      {/* What To Do */}
-      <section className="px-8 py-16 max-w-4xl mx-auto bg-white -mx-8 px-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">What To Do</h2>
-        <p className="text-lg text-gray-700 mb-8">
-          You can&apos;t change 300,000 years of evolution. But you can change your environment.
-        </p>
-        <div className="space-y-8">
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">1. Audit Your Environment</h3>
-            <p className="text-gray-700">Compare your daily reality to the spec sheet. Where are the biggest gaps? Light exposure? Movement? Social contact? Sleep timing? Start there.</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">2. Close Loops</h3>
-            <p className="text-gray-700">Identify what&apos;s draining you through incompleteness. Either finish it or explicitly decide not to (which closes the loop).</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">3. Find Your 5</h3>
-            <p className="text-gray-700">You need 5 people you could call at 3am. Not 500 followers. Five real humans who know you and have your back.</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">4. Dissolve the Unhealthy Internal Audience</h3>
-            <p className="text-gray-700">That critical voice in your head? It&apos;s often simulating people who don&apos;t actually matter to your survival anymore. Upgrade your internal audience to people who actually support you.</p>
-          </div>
-        </div>
-        <div className="my-8">
-          <img
-            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/37_Internal_Audience_Dissolution.png"
-            alt="Internal Audience Dissolution"
-            className="rounded-lg w-full"
-          />
-        </div>
-      </section>
-
-      {/* The Trap */}
-      <section className="px-8 py-16 max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">The Trap</h2>
-        <p className="text-lg text-gray-700 mb-4">
-          Understanding this framework can itself become a trap. Reading about mismatch while sitting alone, scrolling, under artificial light - that&apos;s not progress.
-        </p>
-        <p className="text-lg text-gray-700 mb-4">
-          The point isn&apos;t to understand. It&apos;s to change your environment.
-        </p>
-        <p className="text-xl font-semibold text-gray-900 mt-8">
-          Close this tab. Go outside. Find your people. Do something with your hands.
-        </p>
-        <p className="text-lg text-gray-700 mt-4">
-          The framework will still be here when you need it.
-        </p>
-      </section>
-
-      {/* Call to Action */}
-      <section className="px-8 py-16 max-w-4xl mx-auto bg-white -mx-8 px-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">Go Deeper</h2>
-        <p className="text-lg text-gray-700 mb-8">
-          If you want to understand the full picture - the evolutionary logic, the economic forces, the path forward - read the complete framework.
-        </p>
-        <div className="flex gap-4">
-          <Link
-            href="/framework"
-            className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition"
-          >
-            Read the Framework
-          </Link>
-          <Link
-            href="/sources"
-            className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
-          >
-            See the Sources
-          </Link>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="px-8 py-12 border-t border-gray-200 max-w-4xl mx-auto">
+      <footer className="px-8 py-12 border-t border-gray-200 max-w-6xl mx-auto">
         <div className="flex gap-8 text-sm text-gray-600 mb-6">
           <Link href="/framework" className="hover:text-gray-900">Framework</Link>
           <Link href="/builders" className="hover:text-gray-900">For Builders</Link>
@@ -181,9 +193,7 @@ export default function ForYouPage() {
           <Link href="/projects" className="hover:text-gray-900">Projects</Link>
           <Link href="/sources" className="hover:text-gray-900">Sources</Link>
         </div>
-        <p className="text-sm text-gray-500">
-          This framework is open. Fork it, improve it, implement it.
-        </p>
+        <p className="text-sm text-gray-500">This framework is open. Fork it, improve it, implement it.</p>
       </footer>
     </main>
   );
