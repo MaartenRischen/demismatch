@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 import Navigation from "@/components/Navigation";
 
 // Map FAQ references to framework anchors
@@ -965,8 +968,57 @@ Yes and no. Touch grass captures something real. Framework explains why it helps
 
 *The framework is open. Fork it, improve it, implement it. No one owns truth about human nature.*`;
 
+function FAQAccordionItem({ item, isOpen, onToggle }: { item: FAQItem; isOpen: boolean; onToggle: () => void }) {
+  return (
+    <div className="border-b border-[#E5E0D8]">
+      <button
+        onClick={onToggle}
+        className="w-full text-left py-4 flex items-start justify-between gap-4 hover:bg-[#FAF9F6] transition-colors group"
+      >
+        <h3
+          className="text-xl font-semibold text-[#1A1A1A] flex-1"
+          style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+        >
+          {item.questionNum && (
+            <span className="text-[#C75B39]">{item.questionNum}.</span>
+          )}{' '}
+          {item.questionText}
+        </h3>
+        <svg
+          className={`w-6 h-6 text-[#6b6b6b] flex-shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {isOpen && (
+        <div className="pb-4 pl-0 pr-0">
+          <div className="text-[#4A4A4A]">
+            {item.answer}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function FAQPage() {
-  const elements = parseFAQContent(FAQ_CONTENT);
+  const { sections, footer } = parseFAQContent(FAQ_CONTENT);
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
+
+  const toggleItem = (id: string) => {
+    setExpandedItems(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
 
   return (
     <main className="min-h-screen bg-[#FAF9F6] pt-20">
@@ -986,7 +1038,29 @@ export default function FAQPage() {
         </header>
 
         <div className="prose prose-lg max-w-none">
-          {elements}
+          {sections.map((section, sectionIdx) => (
+            <div key={section.title}>
+              <h2
+                className="text-3xl font-bold text-[#1A1A1A] mt-16 mb-8 pt-8 border-t border-[#E5E0D8] first:mt-0 first:pt-0 first:border-t-0"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                {section.title}
+              </h2>
+              {section.items.map((item) => (
+                <FAQAccordionItem
+                  key={item.id}
+                  item={item}
+                  isOpen={expandedItems.has(item.id)}
+                  onToggle={() => toggleItem(item.id)}
+                />
+              ))}
+            </div>
+          ))}
+          {footer && (
+            <p className="text-[#6b6b6b] italic mt-12 text-center">
+              {footer}
+            </p>
+          )}
         </div>
       </div>
     </main>
