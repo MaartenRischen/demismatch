@@ -287,7 +287,36 @@ export default function FrameworkPage() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    // Handle hash links from FAQ or other pages
+    const handleHashScroll = () => {
+      if (window.location.hash) {
+        const hash = window.location.hash.substring(1);
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            const offset = 100; // Account for fixed navigation
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - offset;
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        }, 500); // Delay to ensure content is loaded
+      }
+    };
+
+    // Try scrolling immediately
+    handleHashScroll();
+    
+    // Also try after a delay in case content loads asynchronously
+    const timeoutId = setTimeout(handleHashScroll, 1000);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   return (
