@@ -78,10 +78,71 @@ function getFrameworkLink(text: string): string {
   return "/framework";
 }
 
-function parseFAQContent(content: string): React.ReactNode[] {
+interface FAQItem {
+  id: string;
+  questionNum: string;
+  questionText: string;
+  answer: React.ReactNode[];
+  section?: string;
+}
+
+function parseTextWithLinks(text: string): React.ReactNode[] {
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  const linkRegex = /\[([^\]]+)\]/g;
+  let match;
+  let linkKey = 0;
+
+  while ((match = linkRegex.exec(text)) !== null) {
+    // Add text before the link
+    if (match.index > lastIndex) {
+      const beforeText = text.substring(lastIndex, match.index);
+      if (beforeText.trim() === '→') {
+        parts.push(<span key={`arrow-${linkKey++}`} className="text-[#6b6b6b]">→ </span>);
+      } else if (beforeText) {
+        parts.push(beforeText);
+      }
+    }
+
+    // Add the link
+    const linkText = match[1];
+    const href = getFrameworkLink(linkText);
+    parts.push(
+      <Link
+        key={`link-${linkKey++}`}
+        href={href}
+        className="text-[#C75B39] hover:underline font-medium"
+      >
+        {linkText}
+      </Link>
+    );
+
+    lastIndex = match.index + match[0].length;
+  }
+
+  // Add remaining text
+  if (lastIndex < text.length) {
+    const remaining = text.substring(lastIndex);
+    if (remaining.trim()) {
+      parts.push(remaining);
+    }
+  }
+
+  // If no links found, just use the text
+  if (parts.length === 0) {
+    parts.push(text);
+  }
+
+  return parts;
+}
+
+function parseFAQContent(content: string): { sections: { title: string; items: FAQItem[] }[]; footer?: string } {
   const lines = content.split('\n');
-  const elements: React.ReactNode[] = [];
-  let key = 0;
+  const sections: { title: string; items: FAQItem[] }[] = [];
+  let currentSection: { title: string; items: FAQItem[] } | null = null;
+  let currentQuestion: FAQItem | null = null;
+  let currentAnswer: string[] = [];
+  let footer: string | null = null;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -89,32 +150,51 @@ function parseFAQContent(content: string): React.ReactNode[] {
 
     // Main title (#)
     if (trimmed.startsWith('# ') && trimmed === '# DEMISMATCH FAQ') {
-      continue; // Skip, we'll render it in the header
+      continue;
     }
 
     // Subtitle line
     if (trimmed === 'No fluff. Real answers. Links to learn more.') {
-      continue; // Skip, we'll render it in the header
+      continue;
     }
 
     // Section headers (##)
     if (trimmed.startsWith('## ')) {
+      // Save previous question if exists
+      if (currentQuestion && currentAnswer.length > 0) {
+        currentQuestion.answer = currentAnswer.map((text, idx) => (
+          <p key={`${currentQuestion!.id}-answer-${idx}`} className="text-[#4A4A4A] mb-4 leading-relaxed">
+            {parseTextWithLinks(text)}
+          </p>
+        ));
+        if (currentSection) {
+          currentSection.items.push(currentQuestion);
+        }
+        currentQuestion = null;
+        currentAnswer = [];
+      }
+
       const sectionTitle = trimmed.substring(3);
-      elements.push(
-        <h2
-          key={key++}
-          className="text-3xl font-bold text-[#1A1A1A] mt-16 mb-8 pt-8 border-t border-[#E5E0D8] first:mt-0 first:pt-0 first:border-t-0"
-          style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-        >
-          {sectionTitle}
-        </h2>
-      );
+      currentSection = { title: sectionTitle, items: [] };
+      sections.push(currentSection);
       continue;
     }
 
     // Horizontal rule
     if (trimmed === '---') {
-      elements.push(<hr key={key++} className="my-12 border-[#E5E0D8]" />);
+      // Save previous question if exists
+      if (currentQuestion && currentAnswer.length > 0) {
+        currentQuestion.answer = currentAnswer.map((text, idx) => (
+          <p key={`${currentQuestion!.id}-answer-${idx}`} className="text-[#4A4A4A] mb-4 leading-relaxed">
+            {parseTextWithLinks(text)}
+          </p>
+        ));
+        if (currentSection) {
+          currentSection.items.push(currentQuestion);
+        }
+        currentQuestion = null;
+        currentAnswer = [];
+      }
       continue;
     }
 
@@ -125,105 +205,74 @@ function parseFAQContent(content: string): React.ReactNode[] {
 
     // Bold questions (format: **number. Question text**)
     if (trimmed.startsWith('**') && trimmed.includes('**')) {
+      // Save previous question if exists
+      if (currentQuestion && currentAnswer.length > 0) {
+        currentQuestion.answer = currentAnswer.map((text, idx) => (
+          <p key={`${currentQuestion!.id}-answer-${idx}`} className="text-[#4A4A4A] mb-4 leading-relaxed">
+            {parseTextWithLinks(text)}
+          </p>
+        ));
+        if (currentSection) {
+          currentSection.items.push(currentQuestion);
+        }
+      }
+
       const match = trimmed.match(/\*\*(\d+)\.\s*(.+?)\*\*/);
       if (match) {
         const questionNum = match[1];
         const questionText = match[2];
-        elements.push(
-          <h3
-            key={key++}
-            className="text-xl font-semibold text-[#1A1A1A] mt-8 mb-3"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-          >
-            <span className="text-[#C75B39]">{questionNum}.</span> {questionText}
-          </h3>
-        );
+        currentQuestion = {
+          id: `q-${questionNum}`,
+          questionNum,
+          questionText,
+          answer: [],
+          section: currentSection?.title
+        };
+        currentAnswer = [];
       } else {
         // Handle quoted objections like **"I'm an introvert."**
         const quotedMatch = trimmed.match(/\*\*"(.+?)"\*\*/);
         if (quotedMatch) {
-          elements.push(
-            <h3
-              key={key++}
-              className="text-xl font-semibold text-[#1A1A1A] mt-8 mb-3"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-            >
-              "{quotedMatch[1]}"
-            </h3>
-          );
+          currentQuestion = {
+            id: `q-quoted-${sections.length}-${currentSection?.items.length || 0}`,
+            questionNum: '',
+            questionText: quotedMatch[1],
+            answer: [],
+            section: currentSection?.title
+          };
+          currentAnswer = [];
         }
       }
       continue;
     }
 
-    // Regular paragraphs with link conversion
+    // Regular paragraphs (answers)
     if (trimmed.length > 0 && !trimmed.startsWith('*')) {
-      // Convert [text] to links
-      const parts: React.ReactNode[] = [];
-      let lastIndex = 0;
-      const linkRegex = /\[([^\]]+)\]/g;
-      let match;
-      let linkKey = 0;
-
-      while ((match = linkRegex.exec(trimmed)) !== null) {
-        // Add text before the link
-        if (match.index > lastIndex) {
-          const beforeText = trimmed.substring(lastIndex, match.index);
-          if (beforeText.trim() === '→') {
-            parts.push(<span key={`arrow-${linkKey++}`} className="text-[#6b6b6b]">→ </span>);
-          } else if (beforeText) {
-            parts.push(beforeText);
-          }
-        }
-
-        // Add the link
-        const linkText = match[1];
-        const href = getFrameworkLink(linkText);
-        parts.push(
-          <Link
-            key={`link-${linkKey++}`}
-            href={href}
-            className="text-[#C75B39] hover:underline font-medium"
-          >
-            {linkText}
-          </Link>
-        );
-
-        lastIndex = match.index + match[0].length;
+      if (currentQuestion) {
+        currentAnswer.push(trimmed);
       }
-
-      // Add remaining text
-      if (lastIndex < trimmed.length) {
-        const remaining = trimmed.substring(lastIndex);
-        if (remaining.trim()) {
-          parts.push(remaining);
-        }
-      }
-
-      // If no links found, just use the text
-      if (parts.length === 0) {
-        parts.push(trimmed);
-      }
-
-      elements.push(
-        <p key={key++} className="text-[#4A4A4A] mb-4 leading-relaxed">
-          {parts}
-        </p>
-      );
+      continue;
     }
 
     // Italic footer text
     if (trimmed.startsWith('*') && trimmed.endsWith('*')) {
-      const italicText = trimmed.slice(1, -1);
-      elements.push(
-        <p key={key++} className="text-[#6b6b6b] italic mt-12 text-center">
-          {italicText}
-        </p>
-      );
+      footer = trimmed.slice(1, -1);
     }
   }
 
-  return elements;
+  // Save last question if exists
+  if (currentQuestion && currentAnswer.length > 0) {
+    currentQuestion.answer = currentAnswer.map((text, idx) => (
+      <p key={`${currentQuestion!.id}-answer-${idx}`} className="text-[#4A4A4A] mb-4 leading-relaxed">
+        {parseTextWithLinks(text)}
+      </p>
+    ));
+    if (currentSection) {
+      currentSection.items.push(currentQuestion);
+    }
+  }
+
+  return { sections, footer: footer || undefined };
 }
 
 const FAQ_CONTENT = `# DEMISMATCH FAQ
