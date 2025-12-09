@@ -344,14 +344,14 @@ export default function FrameworkPage() {
           
           <div className="flex flex-wrap gap-4 mb-12">
             <a
-              href="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/framework/mothership-full.md"
-              download="demismatch-framework.md"
+              href="/api/download-framework-pdf"
+              download="demismatch-framework.pdf"
               className="bg-[#c75b3a] text-white px-6 py-3 rounded-lg hover:bg-[#b54d2e] transition inline-flex items-center gap-2"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
-              Download Markdown
+              Download PDF
             </a>
             <button
               onClick={() => setShowCustomModal(true)}
@@ -545,21 +545,42 @@ export default function FrameworkPage() {
                 </p>
                 <div className="mb-4">
                   <button
-                    onClick={() => {
-                      const blob = new Blob([customFramework], { type: "text/markdown" });
-                      const url = URL.createObjectURL(blob);
-                      const a = document.createElement("a");
-                      a.href = url;
-                      a.download = `demismatch-framework-${customContext.replace(/\s+/g, "-").toLowerCase()}.md`;
-                      a.click();
-                      URL.revokeObjectURL(url);
+                    onClick={async () => {
+                      try {
+                        const response = await fetch('/api/download-framework-pdf', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({
+                            markdown: customFramework,
+                            title: `DEMISMATCH - ${customContext}`,
+                            filename: `demismatch-framework-${customContext.replace(/\s+/g, "-").toLowerCase()}.pdf`
+                          }),
+                        });
+
+                        if (!response.ok) {
+                          throw new Error('Failed to generate PDF');
+                        }
+
+                        const blob = await response.blob();
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = `demismatch-framework-${customContext.replace(/\s+/g, "-").toLowerCase()}.pdf`;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                      } catch (error) {
+                        console.error('PDF download error:', error);
+                        alert('Failed to generate PDF. Please try again.');
+                      }
                     }}
                     className="bg-[#c75b3a] text-white px-6 py-2 rounded-lg hover:bg-[#b54d2e] transition inline-flex items-center gap-2"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    Download Custom Framework
+                    Download Custom Framework PDF
                   </button>
                 </div>
                 <div className="border border-gray-200 rounded-lg p-4 max-h-96 overflow-y-auto bg-gray-50">
