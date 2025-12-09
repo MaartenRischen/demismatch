@@ -154,20 +154,39 @@ interface TagMapping {
   concepts: string[];
 }
 
-const QUICK_TAGS = [
-  // Feelings first
-  "ANXIETY", "LONELINESS", "DEPRESSION", "BURNOUT", "SOCIAL ANXIETY", "EMPTINESS",
-  "SHAME", "OVERWHELM", "GRIEF", "REJECTION",
-  // Core framework concepts
-  "OPEN LOOPS", "PROXY", "DUNBAR", "COMPARISON", "SURVIVAL",
-  // Life topics
-  "WORK", "LOVE", "SCREENS", "DATING", "FAMILY", "MONEY", "FOOD", "SLEEP", "SEX", "STATUS",
-  "BELONGING", "TRUST", "SCROLLING", "NEWS", "HUSTLE", "NOTIFICATIONS", "ADDICTION",
-  "STRANGERS", "VALIDATION", "ISOLATION", "PARENTING", "MARRIAGE", "FRIENDSHIP",
-  "AGING", "DEATH", "FITNESS", "BODY IMAGE",
-  // Solutions
-  "TRIBE", "NATURE", "COMMUNITY", "RITUAL", "TRADITION", "PURPOSE", "MEANING"
+// Primary quick tags - always visible (12-15 max)
+const PRIMARY_TAGS = [
+  'DUNBAR',
+  'TRIBE', 
+  'LONELINESS',
+  'ANXIETY',
+  'DEPRESSION',
+  'SCREENS',
+  'PROXY',
+  'EXPLOITATION',
+  'OPEN LOOPS',
+  'STATUS',
+  'BELONGING',
+  'MISMATCH',
+  'SIGNALS',
+  'PARENTING',
+  'SOLUTIONS'
 ];
+
+// Secondary tags - shown on expand
+const SECONDARY_TAGS = [
+  'ADDICTION', 'BURNOUT', 'COMPARISON', 'DATING', 'DEATH',
+  'EMPTINESS', 'FAMILY', 'FITNESS', 'FOOD', 'FRIENDSHIP',
+  'GRIEF', 'HUSTLE', 'INTERNAL AUDIENCE', 'ISOLATION', 
+  'MARRIAGE', 'MEANING', 'MONEY', 'NATURE', 'NEWS',
+  'NOTIFICATIONS', 'OVERWHELM', 'PURPOSE', 'REJECTION',
+  'RITUAL', 'SCROLLING', 'SEX', 'SHAME', 'SLEEP',
+  'SOCIAL ANXIETY', 'STRANGERS', 'SURVIVAL', 'TRADITION',
+  'TRUST', 'VALIDATION', 'WORK'
+];
+
+// All tags combined for backward compatibility
+const QUICK_TAGS = [...PRIMARY_TAGS, ...SECONDARY_TAGS];
 
 const TAG_MAPPINGS: Record<string, TagMapping> = {
   "ANXIETY": {
@@ -414,33 +433,91 @@ const TAG_MAPPINGS: Record<string, TagMapping> = {
     tags: ["meaning", "meaningful", "significance", "purpose", "fulfillment", "depth", "value", "matters"],
     categories: ["identity_self", "work_purpose"],
     concepts: ["de_mismatch"]
+  },
+  "EXPLOITATION": {
+    tags: ["exploitation", "exploit", "exploitative", "monetize", "profit", "extraction", "manipulation", "predatory"],
+    categories: ["economics_resources", "proxy_superstimuli"],
+    concepts: ["proxy_consumption", "status_competition"]
+  },
+  "MISMATCH": {
+    tags: ["mismatch", "evolutionary mismatch", "environmental mismatch", "misalignment", "disconnect", "incompatible"],
+    categories: [],
+    concepts: ["environmental_signal", "dunbar_violation", "open_loop_anxiety", "delayed_return"]
+  },
+  "SIGNALS": {
+    tags: ["signal", "signals", "biological signal", "emotion", "emotions", "feeling", "feelings", "response", "alert"],
+    categories: ["mental_emotional"],
+    concepts: ["environmental_signal", "open_loop_anxiety"]
+  },
+  "SOLUTIONS": {
+    tags: ["solution", "solutions", "fix", "remedy", "intervention", "de-mismatch", "demismatch", "healing", "recovery", "improvement"],
+    categories: [],
+    concepts: ["de_mismatch", "tribal_bonding"]
+  },
+  "INTERNAL AUDIENCE": {
+    tags: ["internal audience", "phantom audience", "imagined audience", "judgment", "self-conscious", "self-awareness", "reputation anxiety"],
+    categories: ["mental_emotional", "identity_self"],
+    concepts: ["internal_audience", "status_competition"]
   }
 };
 
-// Check if an image matches a quick tag
+// Normalize tag for matching (handles spaces, hyphens, underscores, case)
+function normalizeTag(tag: string): string {
+  return tag.toLowerCase().replace(/[\s\-_]/g, '');
+}
+
+// Check if an image matches a quick tag (fuzzy matching)
 function imageMatchesQuickTag(img: ImageData, tagName: string): boolean {
   const mapping = TAG_MAPPINGS[tagName];
   if (!mapping) return false;
 
-  // Check if any of the image's tags match
-  const imgTagsLower = img.tags.map(t => t.toLowerCase());
+  const normalizedTagName = normalizeTag(tagName);
+
+  // Check if any of the image's tags match (fuzzy)
+  const imgTagsLower = img.tags.map(t => normalizeTag(t));
   for (const tag of mapping.tags) {
-    if (imgTagsLower.some(t => t.includes(tag.toLowerCase()))) {
+    const normalizedTag = normalizeTag(tag);
+    if (imgTagsLower.some(imgTag => 
+      imgTag.includes(normalizedTag) || normalizedTag.includes(imgTag) ||
+      imgTag.includes(normalizedTagName) || normalizedTagName.includes(imgTag)
+    )) {
       return true;
     }
   }
 
-  // Check if any of the image's categories match
+  // Check if any of the image's categories match (fuzzy)
   for (const cat of mapping.categories) {
-    if (img.categories.includes(cat)) {
+    const normalizedCat = normalizeTag(cat);
+    if (img.categories.some(imgCat => {
+      const normalizedImgCat = normalizeTag(imgCat);
+      return normalizedImgCat.includes(normalizedCat) || normalizedCat.includes(normalizedImgCat);
+    })) {
       return true;
     }
   }
 
-  // Check if any of the image's concepts match
+  // Check if any of the image's concepts match (fuzzy)
   for (const concept of mapping.concepts) {
-    if (img.framework_concepts.includes(concept)) {
+    const normalizedConcept = normalizeTag(concept);
+    if (img.framework_concepts.some(imgConcept => {
+      const normalizedImgConcept = normalizeTag(imgConcept);
+      return normalizedImgConcept.includes(normalizedConcept) || normalizedConcept.includes(normalizedImgConcept);
+    })) {
       return true;
+    }
+  }
+
+  // Also check themes if they exist
+  if ('themes' in img && Array.isArray((img as any).themes)) {
+    const imgThemes = (img as any).themes.map((t: string) => normalizeTag(t));
+    for (const tag of mapping.tags) {
+      const normalizedTag = normalizeTag(tag);
+      if (imgThemes.some((theme: string) => 
+        theme.includes(normalizedTag) || normalizedTag.includes(theme) ||
+        theme.includes(normalizedTagName) || normalizedTagName.includes(theme)
+      )) {
+        return true;
+      }
     }
   }
 
@@ -492,6 +569,7 @@ function LibraryContent() {
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [toast, setToast] = useState("");
   const [displayCount, setDisplayCount] = useState(30);
+  const [showAllTags, setShowAllTags] = useState(false);
   
   // Zoom state (1 = smallest/most columns, 5 = largest/fewest columns)
   const [zoomLevel, setZoomLevel] = useState(() => {
@@ -709,11 +787,54 @@ function LibraryContent() {
       result = result.filter(img => validIds.has(img.id));
     }
 
-    // Filter by tags
+    // Filter by tags (AND logic with fuzzy matching)
     if (selectedTags.size > 0) {
-      result = result.filter(img =>
-        Array.from(selectedTags).every(tag => img.tags.includes(tag))
-      );
+      result = result.filter(img => {
+        // Image must match ALL selected tags
+        return Array.from(selectedTags).every(selectedTag => {
+          const normalizedSelected = normalizeTag(selectedTag);
+          
+          // Check tags array
+          if (img.tags?.some(imgTag => {
+            const normalizedImg = normalizeTag(imgTag);
+            return normalizedImg.includes(normalizedSelected) || 
+                   normalizedSelected.includes(normalizedImg);
+          })) {
+            return true;
+          }
+          
+          // Check themes array if exists
+          if ('themes' in img && Array.isArray((img as any).themes)) {
+            if ((img as any).themes.some((theme: string) => {
+              const normalizedTheme = normalizeTag(theme);
+              return normalizedTheme.includes(normalizedSelected) ||
+                     normalizedSelected.includes(normalizedTheme);
+            })) {
+              return true;
+            }
+          }
+          
+          // Check categories array
+          if (img.categories?.some(cat => {
+            const normalizedCat = normalizeTag(cat);
+            return normalizedCat.includes(normalizedSelected) ||
+                   normalizedSelected.includes(normalizedCat);
+          })) {
+            return true;
+          }
+          
+          // Check framework_concepts array
+          if (img.framework_concepts?.some(concept => {
+            const normalizedConcept = normalizeTag(concept);
+            return normalizedConcept.includes(normalizedSelected) ||
+                   normalizedSelected.includes(normalizedConcept);
+          })) {
+            return true;
+          }
+          
+          return false;
+        });
+      });
     }
 
     // Filter by quick tags (AND logic - image must match ALL selected quick tags)
@@ -1271,22 +1392,50 @@ function LibraryContent() {
         </div>
 
         {/* Quick Filter Tags */}
-        <div className="mt-4">
+        <div className="mt-4 space-y-3">
+          {/* Primary tags - clean horizontal layout */}
           <div className="flex flex-wrap gap-2 justify-center">
-            {QUICK_TAGS.map(tag => (
+            {PRIMARY_TAGS.map(tag => (
               <button
                 key={tag}
                 onClick={() => toggleQuickTag(tag)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-full transition-all ${
+                className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${
                   selectedQuickTags.has(tag)
-                    ? "bg-[#C75B39] text-white shadow-md"
-                    : "bg-white text-[#4A4A4A] hover:bg-[#F5F3EF] hover:text-[#1A1A1A] border border-[#E5E0D8]"
+                    ? "bg-[#C75B39] text-white border-[#C75B39]"
+                    : "bg-white text-gray-700 border-gray-300 hover:border-[#C75B39]"
                 }`}
               >
                 {tag}
               </button>
             ))}
+            
+            {/* Expander */}
+            <button
+              onClick={() => setShowAllTags(!showAllTags)}
+              className="px-3 py-1.5 text-sm text-gray-500 hover:text-[#C75B39] transition-colors"
+            >
+              {showAllTags ? 'Show less' : `+${SECONDARY_TAGS.length} more`}
+            </button>
           </div>
+          
+          {/* Secondary tags - only when expanded */}
+          {showAllTags && (
+            <div className="flex flex-wrap gap-2 justify-center pt-2 border-t border-gray-100">
+              {SECONDARY_TAGS.map(tag => (
+                <button
+                  key={tag}
+                  onClick={() => toggleQuickTag(tag)}
+                  className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${
+                    selectedQuickTags.has(tag)
+                      ? "bg-[#C75B39] text-white border-[#C75B39]"
+                      : "bg-white text-gray-600 border-gray-200 hover:border-[#C75B39]"
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </header>
 
@@ -1318,43 +1467,83 @@ function LibraryContent() {
         <div className="flex-1 p-4 md:p-6">
           {/* Active Filters Bar */}
           {hasActiveFilters && (
-            <div className="mb-4 flex flex-wrap items-center gap-2">
-              {Array.from(selectedTypes).map(type => (
-                <span key={type} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
-                  {type}
-                  <button onClick={() => toggleType(type)} className="hover:opacity-70">✕</button>
-                </span>
-              ))}
-              {Array.from(selectedCategories).map(cat => (
-                <span key={cat} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
-                  {formatLabel(cat)}
-                  <button onClick={() => toggleCategory(cat)} className="hover:opacity-70">✕</button>
-                </span>
-              ))}
-              {Array.from(selectedConcepts).map(concept => (
-                <span key={concept} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
-                  {formatLabel(concept)}
-                  <button onClick={() => toggleConcept(concept)} className="hover:opacity-70">✕</button>
-                </span>
-              ))}
-              {Array.from(selectedTags).map(tag => (
-                <span key={tag} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
-                  #{tag}
-                  <button onClick={() => toggleTag(tag)} className="hover:opacity-70">✕</button>
-                </span>
-              ))}
-              {Array.from(selectedQuickTags).map(tag => (
-                <span key={tag} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
-                  {tag}
-                  <button onClick={() => toggleQuickTag(tag)} className="hover:opacity-70">✕</button>
-                </span>
-              ))}
-              <button
-                onClick={clearAllFilters}
-                className="text-xs text-red-500 hover:underline"
-              >
-                Clear all
-              </button>
+            <div className="mb-4 space-y-3">
+              {/* Quick Tags Filter Bar */}
+              {selectedQuickTags.size > 0 && (
+                <div className="flex items-start gap-2 p-3 bg-amber-50 rounded-lg">
+                  <span className="text-sm text-gray-600 whitespace-nowrap">Filtering by:</span>
+                  <div className="flex flex-wrap gap-2 flex-1">
+                    {Array.from(selectedQuickTags).map(tag => (
+                      <span 
+                        key={tag}
+                        className="inline-flex items-center gap-1 px-2 py-1 bg-[#C75B39] text-white text-sm rounded-full"
+                      >
+                        {tag}
+                        <button 
+                          onClick={() => toggleQuickTag(tag)}
+                          className="hover:bg-[#b54d2e] rounded-full p-0.5 transition-colors"
+                        >
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                  {selectedQuickTags.size > 1 && (
+                    <span className="text-xs text-gray-500 whitespace-nowrap">
+                      (matching ALL tags)
+                    </span>
+                  )}
+                  <button 
+                    onClick={() => setSelectedQuickTags(new Set())}
+                    className="text-sm text-[#C75B39] hover:underline whitespace-nowrap"
+                  >
+                    Clear all
+                  </button>
+                </div>
+              )}
+              
+              {/* Other Filters */}
+              {(selectedTypes.size > 0 || selectedCategories.size > 0 || selectedConcepts.size > 0 || selectedTags.size > 0) && (
+                <div className="flex flex-wrap items-center gap-2">
+                  {Array.from(selectedTypes).map(type => (
+                    <span key={type} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
+                      {type}
+                      <button onClick={() => toggleType(type)} className="hover:opacity-70">✕</button>
+                    </span>
+                  ))}
+                  {Array.from(selectedCategories).map(cat => (
+                    <span key={cat} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
+                      {formatLabel(cat)}
+                      <button onClick={() => toggleCategory(cat)} className="hover:opacity-70">✕</button>
+                    </span>
+                  ))}
+                  {Array.from(selectedConcepts).map(concept => (
+                    <span key={concept} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
+                      {formatLabel(concept)}
+                      <button onClick={() => toggleConcept(concept)} className="hover:opacity-70">✕</button>
+                    </span>
+                  ))}
+                  {Array.from(selectedTags).map(tag => (
+                    <span key={tag} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
+                      #{tag}
+                      <button onClick={() => toggleTag(tag)} className="hover:opacity-70">✕</button>
+                    </span>
+                  ))}
+                  <button
+                    onClick={() => {
+                      setSelectedTypes(new Set());
+                      setSelectedCategories(new Set());
+                      setSelectedConcepts(new Set());
+                      setSelectedTags(new Set());
+                    }}
+                    className="text-xs text-red-500 hover:underline"
+                  >
+                    Clear filters
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
@@ -1362,6 +1551,11 @@ function LibraryContent() {
           <div className="mb-4 flex items-center justify-between flex-wrap gap-3">
             <p className="text-sm text-[#4A4A4A]">
               Showing {displayedImages.length} of {filteredImages.length} images
+              {selectedQuickTags.size > 0 && (
+                <span className="text-gray-500 ml-1">
+                  {' '}matching {selectedQuickTags.size === 1 ? 'tag' : 'all tags'}: {Array.from(selectedQuickTags).join(' + ')}
+                </span>
+              )}
             </p>
             <div className="flex items-center gap-3">
               {/* Zoom Controls */}
