@@ -1022,10 +1022,10 @@ function FAQAccordionItem({ item, isOpen, onToggle }: { item: FAQItem; isOpen: b
     <div className="border-b border-[#E5E0D8]">
       <button
         onClick={onToggle}
-        className="w-full text-left py-4 flex items-start justify-between gap-4 hover:bg-[#FAF9F6] transition-colors group"
+        className="w-full text-left py-2 flex items-center justify-between gap-3 hover:bg-[#FAF9F6] transition-colors group"
       >
         <h3
-          className="text-xl font-semibold text-[#1A1A1A] flex-1"
+          className="text-lg font-semibold text-[#1A1A1A] flex-1 leading-tight"
           style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
         >
           {item.questionNum && (
@@ -1034,7 +1034,7 @@ function FAQAccordionItem({ item, isOpen, onToggle }: { item: FAQItem; isOpen: b
           {item.questionText}
         </h3>
         <svg
-          className={`w-6 h-6 text-[#6b6b6b] flex-shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-5 h-5 text-[#6b6b6b] flex-shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
