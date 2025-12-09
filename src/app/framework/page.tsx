@@ -251,6 +251,11 @@ export default function FrameworkPage() {
   const [content, setContent] = useState<string>("");
   const [progress, setProgress] = useState(0);
   const [activeSection, setActiveSection] = useState("part-i");
+  const [showCustomModal, setShowCustomModal] = useState(false);
+  const [customContext, setCustomContext] = useState("");
+  const [generating, setGenerating] = useState(false);
+  const [customFramework, setCustomFramework] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -329,15 +334,15 @@ export default function FrameworkPage() {
               </svg>
               Download Markdown
             </a>
-            <Link
-              href="/app?prompt=Generate%20a%20custom%20version%20of%20the%20framework%20for%20my%20context"
+            <button
+              onClick={() => setShowCustomModal(true)}
               className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition inline-flex items-center gap-2"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
               </svg>
               Request Custom Version
-            </Link>
+            </button>
           </div>
 
           <img
@@ -420,6 +425,146 @@ export default function FrameworkPage() {
         </svg>
         <span className="hidden sm:inline">Analyze anything</span>
       </Link>
+
+      {/* Custom Version Modal */}
+      {showCustomModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>
+                Request Custom Version
+              </h2>
+              <button
+                onClick={() => {
+                  setShowCustomModal(false);
+                  setCustomContext("");
+                  setCustomFramework(null);
+                  setError(null);
+                }}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {!customFramework ? (
+              <>
+                <p className="text-gray-600 mb-4">
+                  Get this framework regenerated for your specific context — as a 12-year-old would understand it, for clinicians, for policy makers, for parents, for researchers.
+                </p>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Describe your context or audience:
+                  </label>
+                  <textarea
+                    value={customContext}
+                    onChange={(e) => setCustomContext(e.target.value)}
+                    placeholder="e.g., 'for a 12-year-old', 'for clinicians', 'for policy makers', 'for parents', 'for researchers'"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#c75b3a] focus:border-transparent"
+                    rows={3}
+                  />
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={async () => {
+                      if (!customContext.trim()) {
+                        setError("Please describe your context or audience");
+                        return;
+                      }
+                      setGenerating(true);
+                      setError(null);
+                      try {
+                        const res = await fetch("/api/generate-custom-framework", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ context: customContext }),
+                        });
+                        const data = await res.json();
+                        if (!res.ok) {
+                          throw new Error(data.error || "Failed to generate custom framework");
+                        }
+                        setCustomFramework(data.framework);
+                      } catch (err: any) {
+                        setError(err.message || "Failed to generate custom framework");
+                      } finally {
+                        setGenerating(false);
+                      }
+                    }}
+                    disabled={generating}
+                    className="bg-[#c75b3a] text-white px-6 py-2 rounded-lg hover:bg-[#b54d2e] transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {generating ? "Generating..." : "Generate Custom Version"}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowCustomModal(false);
+                      setCustomContext("");
+                      setError(null);
+                    }}
+                    className="border border-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-50 transition"
+                  >
+                    Cancel
+                  </button>
+                </div>
+                {error && (
+                  <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                    {error}
+                  </div>
+                )}
+                {generating && (
+                  <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-blue-700 text-sm">
+                    Generating your custom framework... This may take a minute.
+                  </div>
+                )}
+              </>
+            ) : (
+              <div>
+                <p className="text-gray-600 mb-4">
+                  Your custom framework has been generated for: <strong>{customContext}</strong>
+                </p>
+                <div className="mb-4">
+                  <button
+                    onClick={() => {
+                      const blob = new Blob([customFramework], { type: "text/markdown" });
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement("a");
+                      a.href = url;
+                      a.download = `demismatch-framework-${customContext.replace(/\s+/g, "-").toLowerCase()}.md`;
+                      a.click();
+                      URL.revokeObjectURL(url);
+                    }}
+                    className="bg-[#c75b3a] text-white px-6 py-2 rounded-lg hover:bg-[#b54d2e] transition inline-flex items-center gap-2"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Download Custom Framework
+                  </button>
+                </div>
+                <div className="border border-gray-200 rounded-lg p-4 max-h-96 overflow-y-auto bg-gray-50">
+                  <pre className="text-xs text-gray-700 whitespace-pre-wrap font-mono">
+                    {customFramework.substring(0, 2000)}
+                    {customFramework.length > 2000 && "\n\n... (truncated - download to see full version)"}
+                  </pre>
+                </div>
+                <button
+                  onClick={() => {
+                    setShowCustomModal(false);
+                    setCustomContext("");
+                    setCustomFramework(null);
+                    setError(null);
+                  }}
+                  className="mt-4 border border-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-50 transition"
+                >
+                  Close
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </main>
   );
 }
