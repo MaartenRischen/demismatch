@@ -231,6 +231,26 @@ No fluff. Real answers. Links to learn more.
 
 ## THIS PROJECT
 
+**0. Is this made by AI?**
+
+Yes. Good thing too.
+
+Behind this is one human (Peter—someone who spent more than a decade connecting dots across evolutionary psychology, anthropology, neuroscience and technology, and realized they all point to the same thing that no one's saying clearly) and one AI (Claude). We've been collaborating for months.
+
+He could write this himself. He started with 50+ pages of dense, original framework. It's still out there somewhere. 
+
+But here's the thing: you don't want that version. The human-only version would be filtered through one person's reading list, one person's blind spots, one person's emotional history with the material. It would overemphasize what resonates with him personally and underemphasize what doesn't. It would miss connections he doesn't know exist. It would dismiss objections he finds annoying instead of steelmanning them. It would have the parts he finds exciting and skip the parts he finds tedious.
+
+AI collaboration produces something closer to the truth. Cross-referencing across fields he hasn't read. Catching inconsistencies he's blind to. No emotional attachment to pet ideas. No personal trauma shaping what gets emphasized. Able to hold the whole framework in context and spot gaps.
+
+Not just faster. Less wrong.
+
+This is what "augment" actually means. Not AI as labor-saving device. AI as bias-reduction mechanism. Human conviction plus AI objectivity, producing something more accurate than either alone.
+
+The ideas are either true or they aren't. How they got here matters less than whether they hold up.
+
+---
+
 **1. What is this website?**
 A framework explaining why modern humans suffer and what conditions would let them thrive. Not therapy. Not self-help. A spec sheet for human nature.
 
