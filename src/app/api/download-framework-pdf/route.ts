@@ -311,7 +311,7 @@ export async function GET(request: NextRequest) {
     await page.setContent(html, { waitUntil: 'networkidle0' });
 
     // Generate PDF
-    const pdf = await page.pdf({
+    const pdfBuffer = await page.pdf({
       format: 'A4',
       margin: {
         top: '2cm',
@@ -325,8 +325,11 @@ export async function GET(request: NextRequest) {
 
     await browser.close();
 
+    // Convert Buffer to ArrayBuffer for NextResponse
+    const pdfArrayBuffer = new Uint8Array(pdfBuffer).buffer;
+
     // Return PDF
-    return new NextResponse(pdf, {
+    return new NextResponse(pdfArrayBuffer, {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': 'attachment; filename="demismatch-framework.pdf"',
@@ -364,7 +367,7 @@ export async function POST(request: NextRequest) {
     await page.setContent(html, { waitUntil: 'networkidle0' });
 
     // Generate PDF
-    const pdf = await page.pdf({
+    const pdfBuffer = await page.pdf({
       format: 'A4',
       margin: {
         top: '2cm',
@@ -378,8 +381,11 @@ export async function POST(request: NextRequest) {
 
     await browser.close();
 
+    // Convert Buffer to ArrayBuffer for NextResponse
+    const pdfArrayBuffer = new Uint8Array(pdfBuffer).buffer;
+
     // Return PDF
-    return new NextResponse(pdf, {
+    return new NextResponse(pdfArrayBuffer, {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${filename || 'demismatch-framework.pdf'}"`,
