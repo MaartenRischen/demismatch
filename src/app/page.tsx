@@ -45,14 +45,6 @@ export default function Home() {
           </a>
         </div>
         
-        {/* Hero Image */}
-        <div className="mt-16">
-          <img
-            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/1_Fish_on_Land__Hero_Metaphor_.png"
-            alt="Fish on land metaphor - the fish isn't broken, it's misplaced"
-            className="rounded-lg mx-auto max-w-2xl w-full"
-          />
-        </div>
       </section>
 
       {/* THE TOOLS - Framework in Action */}

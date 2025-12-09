@@ -39,13 +39,16 @@ export default function ForYouPage() {
           Read On ↓
         </a>
 
-        <div className="mt-12">
+        <figure className="mt-12">
           <img
             src={`${IMAGE_BASE}1_Fish_on_Land__Hero_Metaphor_.png`}
             alt="Fish on land metaphor - the fish isn't broken, it's misplaced"
-            className="rounded-lg w-full max-w-2xl mx-auto"
+            className="w-full max-w-2xl mx-auto rounded-lg shadow-sm"
           />
-        </div>
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
+            The fish isn't broken. It's misplaced.
+          </figcaption>
+        </figure>
       </section>
 
       {/* The Signals */}
@@ -105,13 +108,16 @@ export default function ForYouPage() {
           </p>
         </div>
 
-        <div className="my-12">
+        <figure className="my-12">
           <img
             src={`${IMAGE_BASE}9_Signals_Not_Symptoms__4-Panel_Grid_.png`}
             alt="Signals not symptoms"
-            className="rounded-lg w-full"
+            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
           />
-        </div>
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
+            Your signals are working correctly. The environment is wrong.
+          </figcaption>
+        </figure>
       </section>
 
       <div className="px-8">
@@ -169,21 +175,27 @@ export default function ForYouPage() {
           The hardware hasn't changed. The operating environment is unrecognizable.
         </p>
 
-        <div className="my-8">
+        <figure className="my-12">
           <img
             src={`${IMAGE_BASE}18_Timeline_Compression.png`}
             alt="Timeline compression"
-            className="rounded-lg w-full"
+            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
           />
-        </div>
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
+            300,000 years. 15 years. The hardware hasn't caught up.
+          </figcaption>
+        </figure>
 
-        <div className="my-8">
+        <figure className="my-12">
           <img
             src={`${IMAGE_BASE}15_Fire_Circle_vs_Modern_Evening.png`}
             alt="Fire circle vs modern evening"
-            className="rounded-lg w-full"
+            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
           />
-        </div>
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
+            What we evolved for vs. what we have.
+          </figcaption>
+        </figure>
       </section>
 
       <div className="px-8">
@@ -205,11 +217,13 @@ export default function ForYouPage() {
           <p className="text-lg text-[#4A4A4A] leading-relaxed mb-6">
             Now nothing ever closes. Infinite scroll. Infinite email. Infinite news. Your background processes are maxed with open loops that have no end state.
           </p>
-          <img
-            src={`${IMAGE_BASE}8_Open_Loops_Visual.png`}
-            alt="Open loops visual"
-            className="rounded-lg w-full max-w-2xl"
-          />
+          <figure className="mt-6">
+            <img
+              src={`${IMAGE_BASE}8_Open_Loops_Visual.png`}
+              alt="Open loops visual"
+              className="w-full max-w-xl mx-auto rounded-lg shadow-sm"
+            />
+          </figure>
         </div>
 
         {/* The Internal Audience */}
@@ -221,11 +235,13 @@ export default function ForYouPage() {
           <p className="text-lg text-[#4A4A4A] leading-relaxed mb-6">
             But you don't have 150 people who know you. So the simulation runs on phantoms. You're performing for an audience that doesn't exist.
           </p>
-          <img
-            src={`${IMAGE_BASE}7_Internal_Audience_Illustration.png`}
-            alt="Internal audience illustration"
-            className="rounded-lg w-full max-w-2xl"
-          />
+          <figure>
+            <img
+              src={`${IMAGE_BASE}7_Internal_Audience_Illustration.png`}
+              alt="Internal audience illustration"
+              className="w-full max-w-xl mx-auto rounded-lg shadow-sm"
+            />
+          </figure>
         </div>
 
         {/* Stranger Overload */}
@@ -245,11 +261,13 @@ export default function ForYouPage() {
           <p className="text-lg text-[#4A4A4A] leading-relaxed mb-6">
             You evolved to compete for status among ~150. Now you're compared against 8 billion. You see the highlight reels of everyone, everywhere.
           </p>
-          <img
-            src={`${IMAGE_BASE}19_Status_Competition_Scale.png`}
-            alt="Status competition scale"
-            className="rounded-lg w-full max-w-2xl"
-          />
+          <figure>
+            <img
+              src={`${IMAGE_BASE}19_Status_Competition_Scale.png`}
+              alt="Status competition scale"
+              className="w-full max-w-xl mx-auto rounded-lg shadow-sm"
+            />
+          </figure>
         </div>
 
         {/* Proxy Consumption */}
@@ -258,17 +276,23 @@ export default function ForYouPage() {
           <p className="text-lg text-[#4A4A4A] leading-relaxed mb-6">
             You have real needs: connection, status, intimacy, meaning. What you're offered: followers, matches, likes, content. Proxies. Salt water for thirst.
           </p>
-          <div className="grid md:grid-cols-2 gap-6">
-            <img
-              src={`${IMAGE_BASE}3_Proxy_vs_Real_Graph.png`}
-              alt="Proxy vs real graph"
-              className="rounded-lg w-full"
-            />
-            <img
-              src={`${IMAGE_BASE}16_Salt_Water_Metaphor.png`}
-              alt="Salt water metaphor"
-              className="rounded-lg w-full"
-            />
+          <div className="grid md:grid-cols-2 gap-8">
+            <figure>
+              <img
+                src={`${IMAGE_BASE}3_Proxy_vs_Real_Graph.png`}
+                alt="Proxy vs real graph"
+                className="w-full rounded-lg shadow-sm"
+              />
+              <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">Proxy vs real satisfaction</figcaption>
+            </figure>
+            <figure>
+              <img
+                src={`${IMAGE_BASE}16_Salt_Water_Metaphor.png`}
+                alt="Salt water metaphor"
+                className="w-full rounded-lg shadow-sm"
+              />
+              <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">Salt water for thirst</figcaption>
+            </figure>
           </div>
         </div>
       </section>
@@ -321,17 +345,23 @@ export default function ForYouPage() {
           You are not failing at life. You are living in an environment designed to fail you.
         </p>
 
-        <div className="grid md:grid-cols-2 gap-6 my-12">
-          <img
-            src={`${IMAGE_BASE}38_The_Exploitation_Players.png`}
-            alt="The exploitation players"
-            className="rounded-lg w-full"
-          />
-          <img
-            src={`${IMAGE_BASE}2_Exploitation_Loop_Diagram.png`}
-            alt="Exploitation loop diagram"
-            className="rounded-lg w-full"
-          />
+        <div className="my-12 grid md:grid-cols-2 gap-8">
+          <figure>
+            <img
+              src={`${IMAGE_BASE}38_The_Exploitation_Players.png`}
+              alt="The exploitation players"
+              className="w-full rounded-lg shadow-sm"
+            />
+            <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">Who profits from your suffering</figcaption>
+          </figure>
+          <figure>
+            <img
+              src={`${IMAGE_BASE}2_Exploitation_Loop_Diagram.png`}
+              alt="Exploitation loop diagram"
+              className="w-full rounded-lg shadow-sm"
+            />
+            <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">The exploitation loop</figcaption>
+          </figure>
         </div>
 
         <Link href="/sources" className="text-[#C75B39] hover:underline text-lg">
@@ -357,13 +387,16 @@ export default function ForYouPage() {
           </p>
         </div>
 
-        <div className="my-8">
+        <figure className="my-8">
           <img
             src={`${IMAGE_BASE}17_Oil_Light_Override.png`}
             alt="Oil light override metaphor"
-            className="rounded-lg w-full max-w-2xl mx-auto"
+            className="w-full max-w-xl mx-auto rounded-lg shadow-sm"
           />
-        </div>
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
+            Medication covers the oil light. It doesn't fix the engine.
+          </figcaption>
+        </figure>
 
         {/* Self-Help */}
         <div className="bg-white rounded-xl border border-[#E5E0D8] p-6 md:p-8 mb-6">
@@ -418,13 +451,16 @@ export default function ForYouPage() {
           </ul>
         </div>
 
-        <div className="my-8">
+        <figure className="my-12">
           <img
             src={`${IMAGE_BASE}25_Closed_Loop_vs_Open_Loop.png`}
             alt="Closed loop vs open loop"
-            className="rounded-lg w-full max-w-2xl mx-auto"
+            className="w-full max-w-xl mx-auto rounded-lg shadow-sm"
           />
-        </div>
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
+            Closed loops resolve. Open loops accumulate.
+          </figcaption>
+        </figure>
 
         {/* Replace Proxies with Reality */}
         <div className="bg-white rounded-xl border border-[#E5E0D8] p-6 md:p-8 mb-6">
@@ -461,13 +497,16 @@ export default function ForYouPage() {
           </ul>
         </div>
 
-        <div className="my-8">
+        <figure className="my-12">
           <img
             src={`${IMAGE_BASE}37_Internal_Audience_Dissolution.png`}
             alt="Internal audience dissolution"
-            className="rounded-lg w-full max-w-2xl mx-auto"
+            className="w-full max-w-xl mx-auto rounded-lg shadow-sm"
           />
-        </div>
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
+            Replace the phantom audience with real tribe.
+          </figcaption>
+        </figure>
       </section>
 
       <div className="px-8">
@@ -497,13 +536,16 @@ export default function ForYouPage() {
           You can't skip steps. You can't augment from broken. But you can start moving. Today.
         </p>
 
-        <div className="my-8">
+        <figure className="my-12">
           <img
             src={`${IMAGE_BASE}Demismatch_Augment.png`}
             alt="The progression: EEA → MISMATCH → DEMISMATCH → AUGMENTED"
-            className="rounded-lg w-full"
+            className="w-full rounded-lg shadow-sm"
           />
-        </div>
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
+            EEA → MISMATCH → DEMISMATCH → AUGMENTED
+          </figcaption>
+        </figure>
       </section>
 
       {/* The Call */}

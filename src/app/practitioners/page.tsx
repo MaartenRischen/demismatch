@@ -44,14 +44,6 @@ export default function PractitionersPage() {
         <a href="#reframe" className="text-[#C75B39] hover:underline text-lg">
           See the Reframe ↓
         </a>
-
-        <div className="mt-12">
-          <img
-            src={`${IMAGE_BASE}1_Fish_on_Land__Hero_Metaphor_.png`}
-            alt="Fish on land metaphor - the fish isn't broken, it's misplaced"
-            className="rounded-lg w-full max-w-2xl mx-auto"
-          />
-        </div>
       </section>
 
       {/* The Signals Reframe */}
@@ -98,13 +90,16 @@ export default function PractitionersPage() {
           <p className="text-[#4A4A4A]"><strong>Actually:</strong> Hunter cognition—varied attention, movement-seeking, novelty-responsive—trapped in farmer environments</p>
         </div>
 
-        <div className="my-12">
+        <figure className="my-12">
           <img
             src={`${IMAGE_BASE}9_Signals_Not_Symptoms__4-Panel_Grid_.png`}
             alt="Signals not symptoms - 4 panel grid"
-            className="rounded-lg w-full"
+            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
           />
-        </div>
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
+            Signals are data, not disorder.
+          </figcaption>
+        </figure>
       </section>
 
       <div className="px-8">
@@ -170,26 +165,35 @@ export default function PractitionersPage() {
           </ul>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 my-12">
-          <img
-            src={`${IMAGE_BASE}27_Dunbar_Layers_Detailed.png`}
-            alt="Dunbar layers detailed"
-            className="rounded-lg w-full"
-          />
-          <img
-            src={`${IMAGE_BASE}5_Spec_Sheet_Comparison.png`}
-            alt="Spec sheet comparison"
-            className="rounded-lg w-full"
-          />
+        <div className="my-12 grid md:grid-cols-2 gap-8">
+          <figure>
+            <img
+              src={`${IMAGE_BASE}27_Dunbar_Layers_Detailed.png`}
+              alt="Dunbar layers detailed"
+              className="w-full rounded-lg shadow-sm"
+            />
+            <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">Dunbar layers: 5 → 15 → 50 → 150</figcaption>
+          </figure>
+          <figure>
+            <img
+              src={`${IMAGE_BASE}5_Spec_Sheet_Comparison.png`}
+              alt="Spec sheet comparison"
+              className="w-full rounded-lg shadow-sm"
+            />
+            <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">EEA vs Modern comparison</figcaption>
+          </figure>
         </div>
 
-        <div className="my-8">
+        <figure className="my-12">
           <img
             src={`${IMAGE_BASE}25_Closed_Loop_vs_Open_Loop.png`}
             alt="Closed loop vs open loop"
-            className="rounded-lg w-full"
+            className="w-full max-w-2xl mx-auto rounded-lg shadow-sm"
           />
-        </div>
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
+            Closed loops resolve. Open loops accumulate.
+          </figcaption>
+        </figure>
       </section>
 
       <div className="px-8">
@@ -231,17 +235,23 @@ export default function PractitionersPage() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 my-12">
-          <img
-            src={`${IMAGE_BASE}31_Therapy_Spectrum.png`}
-            alt="Therapy spectrum - proxy to bridge"
-            className="rounded-lg w-full"
-          />
-          <img
-            src={`${IMAGE_BASE}37_Internal_Audience_Dissolution.png`}
-            alt="Internal audience dissolution"
-            className="rounded-lg w-full"
-          />
+        <div className="my-12 grid md:grid-cols-2 gap-8">
+          <figure>
+            <img
+              src={`${IMAGE_BASE}31_Therapy_Spectrum.png`}
+              alt="Therapy spectrum - proxy to bridge"
+              className="w-full rounded-lg shadow-sm"
+            />
+            <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">Therapy: proxy or bridge?</figcaption>
+          </figure>
+          <figure>
+            <img
+              src={`${IMAGE_BASE}37_Internal_Audience_Dissolution.png`}
+              alt="Internal audience dissolution"
+              className="w-full rounded-lg shadow-sm"
+            />
+            <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">Internal audience → real tribe</figcaption>
+          </figure>
         </div>
       </section>
 
@@ -332,17 +342,23 @@ export default function PractitionersPage() {
           </ul>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 my-12">
-          <img
-            src={`${IMAGE_BASE}20_Child-Rearing_Comparison.png`}
-            alt="Child-rearing comparison"
-            className="rounded-lg w-full"
-          />
-          <img
-            src={`${IMAGE_BASE}8_Open_Loops_Visual.png`}
-            alt="Open loops visual"
-            className="rounded-lg w-full"
-          />
+        <div className="my-12 grid md:grid-cols-2 gap-8">
+          <figure>
+            <img
+              src={`${IMAGE_BASE}20_Child-Rearing_Comparison.png`}
+              alt="Child-rearing comparison"
+              className="w-full rounded-lg shadow-sm"
+            />
+            <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">Village vs nuclear parenting</figcaption>
+          </figure>
+          <figure>
+            <img
+              src={`${IMAGE_BASE}8_Open_Loops_Visual.png`}
+              alt="Open loops visual"
+              className="w-full rounded-lg shadow-sm"
+            />
+            <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">Open loops drain capacity</figcaption>
+          </figure>
         </div>
       </section>
 
@@ -387,13 +403,16 @@ export default function PractitionersPage() {
           You're not crazy for sensing this. Your voice matters.
         </p>
 
-        <div className="my-12">
+        <figure className="my-12">
           <img
             src={`${IMAGE_BASE}22_WHO_Schizophrenia_Outcomes.png`}
             alt="WHO schizophrenia outcomes"
-            className="rounded-lg w-full max-w-2xl"
+            className="w-full max-w-2xl mx-auto rounded-lg shadow-sm"
           />
-        </div>
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
+            WHO: Better outcomes in developing nations.
+          </figcaption>
+        </figure>
 
         <Link href="/sources" className="text-[#C75B39] hover:underline text-lg">
           See the full evidence base →

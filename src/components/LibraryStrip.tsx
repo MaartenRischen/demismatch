@@ -1,50 +1,45 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 interface ImageData {
   id: number;
   title: string;
-  tags: string[];
   image_url: string;
+  tags: string[];
 }
 
 interface LibraryStripProps {
   tags: string[];
-  count?: number;
   title?: string;
+  count?: number;
 }
 
-export default function LibraryStrip({ tags, count = 6, title }: LibraryStripProps) {
+export default function LibraryStrip({ tags, title, count = 6 }: LibraryStripProps) {
   const [images, setImages] = useState<ImageData[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchImages() {
       try {
-        const res = await fetch("/api/images");
-        if (!res.ok) throw new Error("Failed to fetch");
+        const res = await fetch('/api/images');
+        if (!res.ok) return;
         const data = await res.json();
         
-        // Filter images that match any of the provided tags
-        const normalizeTag = (t: string) => t.toLowerCase().replace(/[\s_-]/g, "");
-        const normalizedSearchTags = tags.map(normalizeTag);
-        
+        // Filter images that have ANY of the specified tags
         const filtered = (data.images || []).filter((img: ImageData) => {
-          const imgTags = (img.tags || []).map(normalizeTag);
-          return normalizedSearchTags.some(searchTag => 
-            imgTags.some(imgTag => 
-              imgTag.includes(searchTag) || searchTag.includes(imgTag)
-            )
+          const imgTags = img.tags?.map(t => t.toLowerCase()) || [];
+          return tags.some(tag => 
+            imgTags.some(imgTag => imgTag.includes(tag.toLowerCase()))
           );
         });
         
-        // Shuffle and take the requested count
+        // Shuffle and take 'count' images
         const shuffled = filtered.sort(() => Math.random() - 0.5);
         setImages(shuffled.slice(0, count));
       } catch (err) {
-        console.error("Error fetching library images:", err);
+        console.error('Failed to fetch library images:', err);
       } finally {
         setLoading(false);
       }
@@ -53,40 +48,25 @@ export default function LibraryStrip({ tags, count = 6, title }: LibraryStripPro
     fetchImages();
   }, [tags, count]);
 
-  if (loading) {
-    return (
-      <div className="py-8">
-        <div className="flex gap-3 overflow-x-auto pb-4">
-          {Array.from({ length: count }).map((_, i) => (
-            <div
-              key={i}
-              className="flex-shrink-0 w-40 h-40 bg-gray-100 rounded-lg animate-pulse"
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
+  if (loading || images.length === 0) return null;
 
-  if (images.length === 0) {
-    return null;
-  }
-
-  const tagsQuery = tags.join(",");
+  const tagsParam = tags.join(',');
 
   return (
-    <div className="py-8 max-w-6xl mx-auto">
+    <div className="my-12 py-8 border-t border-b border-[#E5E0D8]">
       {title && (
-        <h3 className="text-lg font-medium text-[#4A4A4A] mb-4">{title}</h3>
+        <h4 className="text-sm font-medium text-[#6b6b6b] uppercase tracking-wide mb-4">
+          {title}
+        </h4>
       )}
-      <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-300">
+      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
         {images.map((img) => (
           <Link
             key={img.id}
             href={`/library?search=${encodeURIComponent(img.title)}`}
             className="flex-shrink-0 group"
           >
-            <div className="w-40 h-40 rounded-lg overflow-hidden border border-[#E5E0D8] bg-white shadow-sm group-hover:shadow-md transition-shadow">
+            <div className="w-48 h-48 rounded-lg overflow-hidden bg-[#F5F3EF]">
               <img
                 src={img.image_url}
                 alt={img.title}
@@ -94,20 +74,18 @@ export default function LibraryStrip({ tags, count = 6, title }: LibraryStripPro
                 loading="lazy"
               />
             </div>
-            <p className="mt-2 text-xs text-[#6b6b6b] truncate w-40 group-hover:text-[#C75B39] transition-colors">
+            <p className="mt-2 text-xs text-[#4A4A4A] truncate w-48 group-hover:text-[#C75B39]">
               {img.title}
             </p>
           </Link>
         ))}
-        <Link
-          href={`/library?tags=${encodeURIComponent(tagsQuery)}`}
-          className="flex-shrink-0 w-40 h-40 rounded-lg border border-dashed border-[#E5E0D8] bg-white flex items-center justify-center hover:border-[#C75B39] hover:text-[#C75B39] transition-colors group"
-        >
-          <span className="text-sm text-[#6b6b6b] group-hover:text-[#C75B39]">
-            See more →
-          </span>
-        </Link>
       </div>
+      <Link 
+        href={`/library?tags=${tagsParam}`}
+        className="inline-flex items-center gap-1 text-sm text-[#C75B39] hover:underline mt-2"
+      >
+        See more in library →
+      </Link>
     </div>
   );
 }

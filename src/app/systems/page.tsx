@@ -50,21 +50,27 @@ export default function SystemsPage() {
           The standard response—medicating individuals to tolerate intolerable conditions—has failed. The systems themselves must change.
         </p>
         
-        <div className="my-12">
+        <figure className="my-12">
           <img
             src={`${IMAGE_BASE}18_Timeline_Compression.png`}
             alt="Timeline compression - 300,000 years of evolution vs 15 years of smartphones"
-            className="rounded-lg w-full"
+            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
           />
-        </div>
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
+            300,000 years of consistent conditions. 15 years of smartphones.
+          </figcaption>
+        </figure>
         
-        <div className="my-8">
+        <figure className="my-12">
           <img
             src={`${IMAGE_BASE}34_Modern_Defaults_vs_Spec.png`}
             alt="Modern defaults vs evolutionary spec"
-            className="rounded-lg w-full"
+            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
           />
-        </div>
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
+            Modern defaults violate every biological constraint.
+          </figcaption>
+        </figure>
       </section>
 
       <div className="px-8">
@@ -153,26 +159,35 @@ export default function SystemsPage() {
           </ul>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 my-12">
-          <img
-            src={`${IMAGE_BASE}27_Dunbar_Layers_Detailed.png`}
-            alt="Dunbar layers detailed"
-            className="rounded-lg w-full"
-          />
-          <img
-            src={`${IMAGE_BASE}33_EEA_Spec_Sheet.png`}
-            alt="EEA spec sheet"
-            className="rounded-lg w-full"
-          />
+        <div className="my-12 grid md:grid-cols-2 gap-8">
+          <figure>
+            <img
+              src={`${IMAGE_BASE}27_Dunbar_Layers_Detailed.png`}
+              alt="Dunbar layers detailed"
+              className="w-full rounded-lg shadow-sm"
+            />
+            <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">Dunbar layers: 5 → 15 → 50 → 150</figcaption>
+          </figure>
+          <figure>
+            <img
+              src={`${IMAGE_BASE}33_EEA_Spec_Sheet.png`}
+              alt="EEA spec sheet"
+              className="w-full rounded-lg shadow-sm"
+            />
+            <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">The evolutionary spec sheet</figcaption>
+          </figure>
         </div>
         
-        <div className="my-8">
+        <figure className="my-12">
           <img
             src={`${IMAGE_BASE}9_Signals_Not_Symptoms__4-Panel_Grid_.png`}
             alt="Signals not symptoms"
-            className="rounded-lg w-full"
+            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
           />
-        </div>
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
+            Signals are information, not malfunction.
+          </figcaption>
+        </figure>
       </section>
 
       <div className="px-8">
@@ -224,26 +239,35 @@ export default function SystemsPage() {
           Whatever you build will compete against systems that profit from suffering. Plan accordingly.
         </p>
 
-        <div className="grid md:grid-cols-2 gap-6 my-12">
-          <img
-            src={`${IMAGE_BASE}2_Exploitation_Loop_Diagram.png`}
-            alt="Exploitation loop diagram"
-            className="rounded-lg w-full"
-          />
-          <img
-            src={`${IMAGE_BASE}3_Proxy_vs_Real_Graph.png`}
-            alt="Proxy vs real satisfaction"
-            className="rounded-lg w-full"
-          />
+        <div className="my-12 grid md:grid-cols-2 gap-8">
+          <figure>
+            <img
+              src={`${IMAGE_BASE}2_Exploitation_Loop_Diagram.png`}
+              alt="Exploitation loop diagram"
+              className="w-full rounded-lg shadow-sm"
+            />
+            <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">The exploitation loop</figcaption>
+          </figure>
+          <figure>
+            <img
+              src={`${IMAGE_BASE}3_Proxy_vs_Real_Graph.png`}
+              alt="Proxy vs real satisfaction"
+              className="w-full rounded-lg shadow-sm"
+            />
+            <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">Proxy vs real satisfaction</figcaption>
+          </figure>
         </div>
 
-        <div className="my-8">
+        <figure className="my-12">
           <img
             src={`${IMAGE_BASE}38_The_Exploitation_Players.png`}
             alt="The exploitation economy players"
-            className="rounded-lg w-full"
+            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
           />
-        </div>
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
+            The players profiting from your suffering.
+          </figcaption>
+        </figure>
 
         <Link href="/sources" className="text-[#C75B39] hover:underline text-lg">
           See the evidence →
@@ -310,26 +334,35 @@ export default function SystemsPage() {
           </ul>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 my-12">
-          <img
-            src={`${IMAGE_BASE}6_Build_Checklist.png`}
-            alt="Build checklist"
-            className="rounded-lg w-full"
-          />
-          <img
-            src={`${IMAGE_BASE}26_Tribe_vs_Cult_Checklist.png`}
-            alt="Tribe vs cult checklist"
-            className="rounded-lg w-full"
-          />
+        <div className="my-12 grid md:grid-cols-2 gap-8">
+          <figure>
+            <img
+              src={`${IMAGE_BASE}6_Build_Checklist.png`}
+              alt="Build checklist"
+              className="w-full rounded-lg shadow-sm"
+            />
+            <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">Build checklist</figcaption>
+          </figure>
+          <figure>
+            <img
+              src={`${IMAGE_BASE}26_Tribe_vs_Cult_Checklist.png`}
+              alt="Tribe vs cult checklist"
+              className="w-full rounded-lg shadow-sm"
+            />
+            <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">Tribe vs cult: know the difference</figcaption>
+          </figure>
         </div>
 
-        <div className="my-8">
+        <figure className="my-12">
           <img
             src={`${IMAGE_BASE}15_Fire_Circle_vs_Modern_Evening.png`}
             alt="Fire circle vs modern evening"
-            className="rounded-lg w-full"
+            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
           />
-        </div>
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
+            Fire circle vs. modern evening: what we lost.
+          </figcaption>
+        </figure>
       </section>
 
       <div className="px-8">
@@ -345,17 +378,23 @@ export default function SystemsPage() {
           This framework synthesizes research across evolutionary psychology, anthropology, neuroscience, and clinical research. Key findings include WHO studies showing better schizophrenia outcomes in developing nations, environmental intervention trials outperforming medication, and industry internal research documenting deliberate exploitation.
         </p>
 
-        <div className="grid md:grid-cols-2 gap-6 my-12">
-          <img
-            src={`${IMAGE_BASE}12_Evidence_Categories_Diagram.png`}
-            alt="Evidence categories"
-            className="rounded-lg w-full"
-          />
-          <img
-            src={`${IMAGE_BASE}22_WHO_Schizophrenia_Outcomes.png`}
-            alt="WHO schizophrenia outcomes"
-            className="rounded-lg w-full"
-          />
+        <div className="my-12 grid md:grid-cols-2 gap-8">
+          <figure>
+            <img
+              src={`${IMAGE_BASE}12_Evidence_Categories_Diagram.png`}
+              alt="Evidence categories"
+              className="w-full rounded-lg shadow-sm"
+            />
+            <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">Evidence categories</figcaption>
+          </figure>
+          <figure>
+            <img
+              src={`${IMAGE_BASE}22_WHO_Schizophrenia_Outcomes.png`}
+              alt="WHO schizophrenia outcomes"
+              className="w-full rounded-lg shadow-sm"
+            />
+            <figcaption className="text-center text-sm text-[#6b6b6b] mt-2">WHO: better outcomes in developing nations</figcaption>
+          </figure>
         </div>
 
         <Link href="/sources" className="bg-[#C75B39] text-white px-6 py-3 rounded-lg hover:bg-[#b54d2e] transition inline-block">
@@ -385,16 +424,16 @@ export default function SystemsPage() {
           The most human post-human.
         </p>
 
-        <div className="my-8">
+        <figure className="my-12">
           <img
             src={`${IMAGE_BASE}Demismatch_Augment.png`}
             alt="The progression: EEA → MISMATCH → DEMISMATCH → AUGMENTED"
-            className="rounded-lg w-full"
+            className="w-full rounded-lg shadow-sm"
           />
-          <p className="text-center text-sm text-[#6b6b6b] mt-4">
+          <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
             EEA → MISMATCH → DEMISMATCH → AUGMENTED
-          </p>
-        </div>
+          </figcaption>
+        </figure>
       </section>
 
       {/* Resources */}
