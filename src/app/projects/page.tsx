@@ -3,9 +3,8 @@ import Link from "next/link";
 export default function ProjectsPage() {
   return (
     <main className="min-h-screen bg-[#faf9f6]">
-      {/* Navigation */}
-      <nav className="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
-        <Link href="/" className="text-xl font-bold tracking-tight text-gray-900">
+      <nav className="flex items-center justify-between px-8 py-6 max-w-6xl mx-auto border-b border-gray-200">
+        <Link href="/" className="text-xl tracking-widest text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>
           DEMISMATCH
         </Link>
         <div className="flex gap-8 text-sm text-gray-600">
@@ -17,106 +16,99 @@ export default function ProjectsPage() {
         </div>
       </nav>
 
-      {/* Header */}
       <header className="px-8 py-16 max-w-4xl mx-auto">
-        <h1 className="text-5xl font-bold text-gray-900 mb-6">Projects</h1>
+        <h1 className="text-5xl text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>Projects</h1>
         <p className="text-xl text-gray-700">
           Tools and resources built on the framework. Use them, learn from them, build better ones.
         </p>
       </header>
 
-      {/* Project 1: Mismatch Analyzer */}
-      <section className="px-8 py-12 max-w-4xl mx-auto">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      {/* Mismatch Analyzer */}
+      <section className="px-8 py-8 max-w-4xl mx-auto">
+        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <div className="p-8">
             <div className="flex items-start justify-between mb-4">
-              <h2 className="text-2xl font-bold text-gray-900">The Mismatch Analyzer</h2>
+              <h2 className="text-2xl text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>The Mismatch Analyzer</h2>
               <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">Live</span>
             </div>
             <p className="text-lg text-gray-700 mb-6">
               AI-powered tool that analyzes any situation through the evolutionary mismatch lens. Paste content, describe a situation, or ask a question — get framework-grounded analysis with relevant supporting images from the library.
             </p>
-            <div className="mb-6">
-              <img
-                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/13_App_Preview___Mismatch_Analyzer.png"
-                alt="Mismatch Analyzer preview"
-                className="rounded-lg w-full border border-gray-200"
-              />
-            </div>
+            
+            <img
+              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/13_App_Preview___Mismatch_Analyzer.png"
+              alt="Mismatch Analyzer preview"
+              className="rounded-lg w-full border border-gray-200 mb-6"
+            />
+            
             <h3 className="text-lg font-semibold text-gray-900 mb-3">What it does:</h3>
             <ul className="text-gray-700 space-y-2 mb-6">
               <li className="flex items-start gap-2">
-                <span className="text-green-600 mt-1">✓</span>
+                <span className="text-[#c75b3a] mt-1">✓</span>
                 <span>Analyzes situations through evolutionary psychology lens</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-600 mt-1">✓</span>
+                <span className="text-[#c75b3a] mt-1">✓</span>
                 <span>Identifies mismatch patterns and exploitation dynamics</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-600 mt-1">✓</span>
+                <span className="text-[#c75b3a] mt-1">✓</span>
                 <span>Suggests environment-level interventions, not just coping strategies</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-600 mt-1">✓</span>
+                <span className="text-[#c75b3a] mt-1">✓</span>
                 <span>Pulls relevant images from 2,500+ educational graphics library</span>
               </li>
             </ul>
-            <Link
-              href="/app"
-              className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition inline-block"
-            >
+            <Link href="/app" className="bg-[#c75b3a] text-white px-6 py-3 rounded-lg hover:bg-[#b54d2e] transition inline-block">
               Try the Analyzer →
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Project 2: Image Library */}
-      <section className="px-8 py-12 max-w-4xl mx-auto">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      {/* Image Library */}
+      <section className="px-8 py-8 max-w-4xl mx-auto">
+        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <div className="p-8">
             <div className="flex items-start justify-between mb-4">
-              <h2 className="text-2xl font-bold text-gray-900">The Image Library</h2>
+              <h2 className="text-2xl text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>The Image Library</h2>
               <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">Live</span>
             </div>
             <p className="text-lg text-gray-700 mb-6">
               2,500+ educational images explaining evolutionary psychology, mismatch theory, and human nature. Searchable, tagged, and free to use. Built to spread understanding.
             </p>
-            <div className="mb-6">
-              <img
-                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/14_Image_Library_Preview.png"
-                alt="Image Library preview"
-                className="rounded-lg w-full border border-gray-200"
-              />
-            </div>
+            
+            <img
+              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/14_Image_Library_Preview.png"
+              alt="Image Library preview"
+              className="rounded-lg w-full border border-gray-200 mb-6"
+            />
+            
             <h3 className="text-lg font-semibold text-gray-900 mb-3">What's inside:</h3>
             <ul className="text-gray-700 space-y-2 mb-6">
               <li className="flex items-start gap-2">
-                <span className="text-green-600 mt-1">✓</span>
+                <span className="text-[#c75b3a] mt-1">✓</span>
                 <span>Diagrams explaining evolutionary concepts</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-600 mt-1">✓</span>
+                <span className="text-[#c75b3a] mt-1">✓</span>
                 <span>Before/after comparisons (EEA vs modern)</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-600 mt-1">✓</span>
+                <span className="text-[#c75b3a] mt-1">✓</span>
                 <span>Exploitation pattern breakdowns</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-600 mt-1">✓</span>
+                <span className="text-[#c75b3a] mt-1">✓</span>
                 <span>Mismatch visualizations across domains</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-600 mt-1">✓</span>
+                <span className="text-[#c75b3a] mt-1">✓</span>
                 <span>All AI-analyzed and tagged for searchability</span>
               </li>
             </ul>
-            <Link
-              href="/library"
-              className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition inline-block"
-            >
+            <Link href="/library" className="bg-[#c75b3a] text-white px-6 py-3 rounded-lg hover:bg-[#b54d2e] transition inline-block">
               Browse the Library →
             </Link>
           </div>
@@ -125,7 +117,7 @@ export default function ProjectsPage() {
 
       {/* Coming Soon */}
       <section className="px-8 py-12 max-w-4xl mx-auto">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Coming Soon</h2>
+        <h2 className="text-2xl text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>Coming Soon</h2>
         <div className="grid md:grid-cols-2 gap-6">
           <div className="bg-gray-100 rounded-xl p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Tribe Formation Tools</h3>
@@ -157,8 +149,8 @@ export default function ProjectsPage() {
       {/* Build With Us */}
       <section className="px-8 py-12 max-w-4xl mx-auto">
         <div className="bg-gray-900 text-white rounded-xl p-8">
-          <h2 className="text-2xl font-bold mb-4">Build With Us</h2>
-          <p className="text-lg text-gray-300 mb-6">
+          <h2 className="text-2xl font-medium mb-4" style={{ fontFamily: 'Georgia, serif' }}>Build With Us</h2>
+          <p className="text-lg text-gray-300 mb-4">
             The framework is open. The tools are open. If you're building something that helps humans de-mismatch — technology, spaces, communities, institutions — we want to know about it.
           </p>
           <p className="text-gray-400">
@@ -167,8 +159,7 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="px-8 py-12 border-t border-gray-200 max-w-4xl mx-auto">
+      <footer className="px-8 py-12 border-t border-gray-200 max-w-6xl mx-auto">
         <div className="flex gap-8 text-sm text-gray-600 mb-6">
           <Link href="/framework" className="hover:text-gray-900">Framework</Link>
           <Link href="/builders" className="hover:text-gray-900">For Builders</Link>
@@ -176,9 +167,7 @@ export default function ProjectsPage() {
           <Link href="/projects" className="hover:text-gray-900">Projects</Link>
           <Link href="/sources" className="hover:text-gray-900">Sources</Link>
         </div>
-        <p className="text-sm text-gray-500">
-          This framework is open. Fork it, improve it, implement it.
-        </p>
+        <p className="text-sm text-gray-500">This framework is open. Fork it, improve it, implement it.</p>
       </footer>
     </main>
   );
