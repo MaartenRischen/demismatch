@@ -1017,13 +1017,19 @@ Yes and no. Touch grass captures something real. Framework explains why it helps
 
 *The framework is open. Fork it, improve it, implement it. No one owns truth about human nature.*`;
 
-function FAQAccordionItem({ item, isOpen, onToggle }: { item: FAQItem; isOpen: boolean; onToggle: () => void }) {
+function FAQAccordionItem({ item, isOpen, onMouseEnter, onMouseLeave }: { 
+  item: FAQItem; 
+  isOpen: boolean; 
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+}) {
   return (
-    <div className="border-b border-[#E5E0D8]">
-      <button
-        onClick={onToggle}
-        className="w-full text-left py-2 flex items-center justify-between gap-3 hover:bg-[#FAF9F6] transition-colors group"
-      >
+    <div 
+      className="border-b border-[#E5E0D8]"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      <div className="w-full text-left py-2 flex items-center justify-between gap-3 hover:bg-[#FAF9F6] transition-colors group cursor-pointer">
         <h3
           className="text-lg font-semibold text-[#1A1A1A] flex-1 leading-tight"
           style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
@@ -1041,7 +1047,7 @@ function FAQAccordionItem({ item, isOpen, onToggle }: { item: FAQItem; isOpen: b
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
-      </button>
+      </div>
       {isOpen && (
         <div className="pb-4 pl-0 pr-0">
           <div className="text-[#4A4A4A]">
@@ -1057,14 +1063,14 @@ export default function FAQPage() {
   const { sections, footer } = parseFAQContent(FAQ_CONTENT);
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
 
-  const toggleItem = (id: string) => {
+  const handleMouseEnter = (id: string) => {
+    setExpandedItems(prev => new Set(prev).add(id));
+  };
+
+  const handleMouseLeave = (id: string) => {
     setExpandedItems(prev => {
       const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
+      next.delete(id);
       return next;
     });
   };
@@ -1100,7 +1106,8 @@ export default function FAQPage() {
                   key={item.id}
                   item={item}
                   isOpen={expandedItems.has(item.id)}
-                  onToggle={() => toggleItem(item.id)}
+                  onMouseEnter={() => handleMouseEnter(item.id)}
+                  onMouseLeave={() => handleMouseLeave(item.id)}
                 />
               ))}
             </div>
