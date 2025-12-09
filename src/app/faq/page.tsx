@@ -2,26 +2,56 @@ import Link from "next/link";
 import Navigation from "@/components/Navigation";
 
 // Map FAQ references to framework anchors
+// The framework page uses IDs like part-i, part-ii, etc. based on Roman numerals
 function getFrameworkLink(text: string): string {
   const mapping: Record<string, string> = {
-    "Part I: The Pattern": "/framework#part-i-the-pattern",
-    "Part II: The Machine": "/framework#part-ii-the-machine",
-    "Part III: The Spec Sheet": "/framework#part-iii-the-costs",
-    "Part III: The Costs": "/framework#part-iii-the-costs",
-    "Part IV: The Violations": "/framework#part-iv-the-violations",
-    "Part V: The Exploitation": "/framework#part-vi-the-exploitation",
-    "Part VI: The Cascades": "/framework#part-v-the-cascades",
-    "Part VII: The Misdiagnosis": "/framework#part-vii-psychiatry",
-    "Part VIII: The Constraints": "/framework#part-viii-the-constraints",
-    "Part IX: The Destination": "/framework#part-ix-the-destination",
-    "Supplementary: Research Directions": "/framework#supplementary-materials",
-    "Supplementary: Objections": "/framework#supplementary-materials",
-    "Supplementary: Fission-Fusion": "/framework#supplementary-materials",
-    "Supplementary: Governance": "/framework#supplementary-materials",
-    "Supplementary: Technology": "/framework#supplementary-materials",
-    "Supplementary: Transition": "/framework#supplementary-materials",
-    "Supplementary: Research": "/framework#supplementary-materials",
-    "Supplementary: Governance Case Studies": "/framework#supplementary-materials",
+    // Part I variations
+    "Part I: The Pattern": "/framework#part-i",
+    "Part I": "/framework#part-i",
+    
+    // Part II variations
+    "Part II: The Machine": "/framework#part-ii",
+    "Part II": "/framework#part-ii",
+    
+    // Part III variations
+    "Part III: The Spec Sheet": "/framework#part-iii",
+    "Part III: The Costs": "/framework#part-iii",
+    "Part III": "/framework#part-iii",
+    
+    // Part IV variations
+    "Part IV: The Violations": "/framework#part-iv",
+    "Part IV": "/framework#part-iv",
+    
+    // Part V variations (Note: Part V in FAQ is Part VI in framework - The Exploitation)
+    "Part V: The Exploitation": "/framework#part-vi",
+    "Part V": "/framework#part-v",
+    
+    // Part VI variations (Note: Part VI in FAQ is Part V in framework - The Cascades)
+    "Part VI: The Cascades": "/framework#part-v",
+    "Part VI": "/framework#part-vi",
+    
+    // Part VII variations
+    "Part VII: The Misdiagnosis": "/framework#part-vii",
+    "Part VII": "/framework#part-vii",
+    
+    // Part VIII variations
+    "Part VIII: The Constraints": "/framework#part-viii",
+    "Part VIII": "/framework#part-viii",
+    
+    // Part IX variations
+    "Part IX: The Destination": "/framework#part-ix",
+    "Part IX": "/framework#part-ix",
+    
+    // Supplementary materials (all go to supplementary section if it exists, otherwise just framework)
+    "Supplementary: Research Directions": "/framework#supplementary",
+    "Supplementary: Objections": "/framework#supplementary",
+    "Supplementary: Fission-Fusion": "/framework#supplementary",
+    "Supplementary: Governance": "/framework#supplementary",
+    "Supplementary: Technology": "/framework#supplementary",
+    "Supplementary: Transition": "/framework#supplementary",
+    "Supplementary: Research": "/framework#supplementary",
+    "Supplementary: Governance Case Studies": "/framework#supplementary",
+    "Supplementary": "/framework#supplementary",
   };
 
   // Check for exact match first
@@ -29,11 +59,16 @@ function getFrameworkLink(text: string): string {
     return mapping[text];
   }
 
-  // Check for partial matches
-  for (const [key, value] of Object.entries(mapping)) {
-    if (text.includes(key) || key.includes(text)) {
-      return value;
-    }
+  // Check for partial matches - look for "Part X" pattern
+  const partMatch = text.match(/Part\s+([IVX]+)/i);
+  if (partMatch) {
+    const romanNumeral = partMatch[1].toLowerCase();
+    return `/framework#part-${romanNumeral}`;
+  }
+
+  // Check for "Supplementary" references
+  if (text.toLowerCase().includes("supplementary")) {
+    return "/framework#supplementary";
   }
 
   // Default to framework page
