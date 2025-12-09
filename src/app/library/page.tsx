@@ -492,6 +492,24 @@ function LibraryContent() {
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [toast, setToast] = useState("");
   const [displayCount, setDisplayCount] = useState(30);
+  
+  // Zoom state (1 = smallest/most columns, 5 = largest/fewest columns)
+  const [zoomLevel, setZoomLevel] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('library-zoom');
+      return saved ? parseInt(saved, 10) : 3;
+    }
+    return 3;
+  });
+
+  // Track window size for responsive grid
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // DEV ONLY: Edit state
   const [editingImage, setEditingImage] = useState<ImageData | null>(null);
@@ -988,6 +1006,35 @@ function LibraryContent() {
     setDisplayCount(30);
   }, [selectedTypes, selectedCategories, selectedConcepts, selectedTags, selectedQuickTags, searchQuery]);
 
+  // Save zoom level to localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('library-zoom', zoomLevel.toString());
+    }
+  }, [zoomLevel]);
+
+  // Zoom functions
+  const zoomIn = () => {
+    setZoomLevel(prev => Math.min(5, prev + 1));
+  };
+
+  const zoomOut = () => {
+    setZoomLevel(prev => Math.max(1, prev - 1));
+  };
+
+  // Calculate grid columns based on zoom level
+  const getGridCols = () => {
+    if (isMobile) return 1;
+    // Desktop: zoom 1 = 5 cols, zoom 2 = 4 cols, zoom 3 = 3 cols, zoom 4 = 2 cols, zoom 5 = 1 col
+    return 6 - zoomLevel;
+  };
+
+  const getGap = () => {
+    // Smaller gap for more columns, larger gap for fewer columns
+    const gaps = ['0.5rem', '0.75rem', '1rem', '1rem', '1rem'];
+    return gaps[zoomLevel - 1];
+  };
+
   const displayedImages = filteredImages.slice(0, displayCount);
 
   // Sidebar content (shared between desktop and mobile)
@@ -1312,20 +1359,51 @@ function LibraryContent() {
           )}
 
           {/* Results Header */}
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex items-center justify-between flex-wrap gap-3">
             <p className="text-sm text-[#4A4A4A]">
               Showing {displayedImages.length} of {filteredImages.length} images
             </p>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="px-3 py-2 bg-white border border-[#E5E0D8] text-sm text-[#1A1A1A] focus:border-[#C75B39] focus:outline-none rounded"
-            >
-              <option value="relevant">Sort: Most Relevant</option>
-              <option value="alphabetical">Sort: A-Z</option>
-              <option value="type">Sort: Type</option>
-              <option value="category">Sort: Category</option>
-            </select>
+            <div className="flex items-center gap-3">
+              {/* Zoom Controls */}
+              <div className="flex items-center gap-1 border border-[#E5E0D8] rounded-lg bg-white">
+                <button
+                  onClick={zoomOut}
+                  disabled={zoomLevel <= 1}
+                  className="p-2 text-[#4A4A4A] hover:text-[#C75B39] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                  title="Zoom out (more images per row)"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="8" y1="12" x2="16" y2="12" />
+                  </svg>
+                </button>
+                <span className="px-2 text-xs text-[#4A4A4A] min-w-[3rem] text-center">
+                  {zoomLevel}/5
+                </span>
+                <button
+                  onClick={zoomIn}
+                  disabled={zoomLevel >= 5}
+                  className="p-2 text-[#4A4A4A] hover:text-[#C75B39] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                  title="Zoom in (fewer images per row)"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="16" />
+                    <line x1="8" y1="12" x2="16" y2="12" />
+                  </svg>
+                </button>
+              </div>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortOption)}
+                className="px-3 py-2 bg-white border border-[#E5E0D8] text-sm text-[#1A1A1A] focus:border-[#C75B39] focus:outline-none rounded"
+              >
+                <option value="relevant">Sort: Most Relevant</option>
+                <option value="alphabetical">Sort: A-Z</option>
+                <option value="type">Sort: Type</option>
+                <option value="category">Sort: Category</option>
+              </select>
+            </div>
           </div>
 
           {/* Image Grid */}
@@ -1338,7 +1416,13 @@ function LibraryContent() {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div 
+                className="grid"
+                style={{
+                  gridTemplateColumns: `repeat(${getGridCols()}, minmax(0, 1fr))`,
+                  gap: getGap(),
+                } as React.CSSProperties}
+              >
                 {displayedImages.map((image) => (
                   <div
                     key={image.id}
