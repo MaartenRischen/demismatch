@@ -32,9 +32,10 @@ export default function ProjectsPage() {
         <Link href="/" className="text-xl tracking-widest text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>
           DEMISMATCH
         </Link>
-        <div className="flex gap-8 text-sm text-gray-600">
+        <div className="hidden md:flex gap-8 text-sm text-gray-600">
           <Link href="/framework" className="hover:text-gray-900">Framework</Link>
-          <Link href="/builders" className="hover:text-gray-900">For Builders</Link>
+          <Link href="/systems" className="hover:text-gray-900">For Systems</Link>
+          <Link href="/practitioners" className="hover:text-gray-900">For Practitioners</Link>
           <Link href="/foryou" className="hover:text-gray-900">For You</Link>
           <Link href="/projects" className="text-gray-900 font-medium">Projects</Link>
           <Link href="/sources" className="hover:text-gray-900">Sources</Link>
@@ -305,9 +306,10 @@ export default function ProjectsPage() {
       </section>
 
       <footer className="px-8 py-12 border-t border-gray-200 max-w-6xl mx-auto">
-        <div className="flex gap-8 text-sm text-gray-600 mb-6">
+        <div className="flex flex-wrap gap-8 text-sm text-gray-600 mb-6">
           <Link href="/framework" className="hover:text-gray-900">Framework</Link>
-          <Link href="/builders" className="hover:text-gray-900">For Builders</Link>
+          <Link href="/systems" className="hover:text-gray-900">For Systems</Link>
+          <Link href="/practitioners" className="hover:text-gray-900">For Practitioners</Link>
           <Link href="/foryou" className="hover:text-gray-900">For You</Link>
           <Link href="/projects" className="hover:text-gray-900">Projects</Link>
           <Link href="/sources" className="hover:text-gray-900">Sources</Link>

@@ -292,9 +292,10 @@ export default function FrameworkPage() {
         <Link href="/" className="text-xl tracking-widest text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>
           DEMISMATCH
         </Link>
-        <div className="flex gap-8 text-sm text-gray-600">
+        <div className="hidden md:flex gap-8 text-sm text-gray-600">
           <Link href="/framework" className="text-gray-900 font-medium">Framework</Link>
-          <Link href="/builders" className="hover:text-gray-900">For Builders</Link>
+          <Link href="/systems" className="hover:text-gray-900">For Systems</Link>
+          <Link href="/practitioners" className="hover:text-gray-900">For Practitioners</Link>
           <Link href="/foryou" className="hover:text-gray-900">For You</Link>
           <Link href="/projects" className="hover:text-gray-900">Projects</Link>
           <Link href="/sources" className="hover:text-gray-900">Sources</Link>
@@ -379,11 +380,11 @@ export default function FrameworkPage() {
                 <p className="text-gray-600">Browse 2,500+ images for teaching, inspiration, and understanding.</p>
               </Link>
               <Link
-                href="/builders"
+                href="/systems"
                 className="block p-6 bg-white border border-gray-200 rounded-xl hover:shadow-lg transition"
               >
-                <h3 className="text-xl text-gray-900 mb-2 font-semibold">Ready to build</h3>
-                <p className="text-gray-600">Framework distilled for those who shape environments.</p>
+                <h3 className="text-xl text-gray-900 mb-2 font-semibold">Ready to build systems</h3>
+                <p className="text-gray-600">Framework for policy makers, technologists, and architects.</p>
               </Link>
               <Link
                 href="/foryou"
@@ -397,9 +398,10 @@ export default function FrameworkPage() {
         </article>
 
         <footer className="px-8 py-12 border-t border-gray-200 max-w-6xl mx-auto">
-          <div className="flex gap-8 text-sm text-gray-600 mb-6">
+          <div className="flex flex-wrap gap-8 text-sm text-gray-600 mb-6">
             <Link href="/framework" className="hover:text-gray-900">Framework</Link>
-            <Link href="/builders" className="hover:text-gray-900">For Builders</Link>
+            <Link href="/systems" className="hover:text-gray-900">For Systems</Link>
+            <Link href="/practitioners" className="hover:text-gray-900">For Practitioners</Link>
             <Link href="/foryou" className="hover:text-gray-900">For You</Link>
             <Link href="/projects" className="hover:text-gray-900">Projects</Link>
             <Link href="/sources" className="hover:text-gray-900">Sources</Link>
