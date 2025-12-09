@@ -1,279 +1,192 @@
-import Navigation from "@/components/Navigation";
 import Link from "next/link";
 
 export default function BuildersPage() {
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white">
-      <Navigation />
+    <main className="min-h-screen bg-[#faf9f6]">
+      {/* Navigation */}
+      <nav className="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
+        <Link href="/" className="text-xl font-bold tracking-tight text-gray-900">
+          DEMISMATCH
+        </Link>
+        <div className="flex gap-8 text-sm text-gray-600">
+          <Link href="/framework" className="hover:text-gray-900">Framework</Link>
+          <Link href="/builders" className="text-gray-900 font-medium">For Builders</Link>
+          <Link href="/foryou" className="hover:text-gray-900">For You</Link>
+          <Link href="/projects" className="hover:text-gray-900">Projects</Link>
+          <Link href="/sources" className="hover:text-gray-900">Sources</Link>
+        </div>
+      </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-8">
-            For Builders
-          </h1>
-          <p className="text-xl md:text-2xl text-[#a3a3a3] leading-relaxed max-w-3xl">
-            You build products, systems, or communities. The mismatch framework
-            is your competitive advantage - or your ethical compass.
-          </p>
+      {/* Header */}
+      <header className="px-8 py-12 max-w-4xl mx-auto">
+        <h1 className="text-5xl font-bold text-gray-900 mb-6">For Builders</h1>
+        <p className="text-xl text-gray-700 mb-4">
+          You&apos;re building something. This framework gives you a lens for what actually works - and what&apos;s just repackaging the problem.
+        </p>
+        <p className="text-lg text-gray-600">
+          Whether you&apos;re creating technology, communities, products, or systems - these principles separate solutions that address root causes from those that exploit symptoms.
+        </p>
+      </header>
+
+      {/* The Core Question */}
+      <section className="px-8 py-16 max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">The Core Question</h2>
+        <p className="text-2xl text-gray-900 font-semibold mb-6">
+          Does this close the gap between evolved needs and modern reality?
+        </p>
+        <p className="text-lg text-gray-700 mb-4">
+          Or does it monetize the gap?
+        </p>
+        <p className="text-lg text-gray-700">
+          Every intervention either moves people toward baseline (meeting evolved needs) or extracts value from the distance between where they are and where their biology expects to be.
+        </p>
+      </section>
+
+      {/* Dunbar Layers */}
+      <section className="px-8 py-16 max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">The Social Architecture</h2>
+        <p className="text-lg text-gray-700 mb-8">
+          Human social systems have a specific architecture. Dunbar&apos;s numbers aren&apos;t arbitrary - they reflect cognitive limits shaped by 300,000 years of evolution.
+        </p>
+        <div className="my-8">
+          <img
+            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/4_Dunbar_Layers_Diagram.png"
+            alt="Dunbar's Layers - Social group size limits"
+            className="rounded-lg w-full"
+          />
+        </div>
+        <div className="space-y-4 text-lg text-gray-700">
+          <p><strong>5:</strong> Intimate support group (daily contact, unconditional support)</p>
+          <p><strong>15:</strong> Close friends (weekly contact, high trust)</p>
+          <p><strong>50:</strong> Good friends (monthly contact, mutual aid)</p>
+          <p><strong>150:</strong> Meaningful relationships (known history, social obligation)</p>
+          <p><strong>500:</strong> Acquaintances (recognized, limited interaction)</p>
+          <p><strong>1,500:</strong> Names you can attach to faces</p>
+        </div>
+        <p className="text-lg text-gray-700 mt-8">
+          Most social technology ignores this architecture. Building with it means designing for depth over breadth, for layers over scale.
+        </p>
+      </section>
+
+      {/* Spec Sheet Comparison */}
+      <section className="px-8 py-16 max-w-4xl mx-auto bg-white -mx-8 px-8">
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">The Environment Spec Sheet</h2>
+        <p className="text-lg text-gray-700 mb-8">
+          What the hardware was built for vs. what most people are running:
+        </p>
+        <div className="my-8">
+          <img
+            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/5_Spec_Sheet_Comparison.png"
+            alt="EEA vs Modern Environment Comparison"
+            className="rounded-lg w-full"
+          />
         </div>
       </section>
 
-      {/* The Choice Section */}
-      <section className="py-20 px-6 bg-[#0f0f0f]">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12">
-            The Choice
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="p-8 border border-[#ff3d00] bg-[#1a1a1a]">
-              <h3 className="text-2xl font-bold text-[#ff3d00] mb-4">Exploit the Mismatch</h3>
-              <p className="text-[#a3a3a3] mb-6">
-                Design for addiction. Hijack reward circuits. Manufacture anxiety
-                then sell the cure. It works. Billions of dollars prove it works.
-              </p>
-              <ul className="space-y-3 text-[#666]">
-                <li className="flex items-start gap-3">
-                  <span className="text-[#ff3d00]">-</span>
-                  Infinite scroll to exploit novelty-seeking
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-[#ff3d00]">-</span>
-                  Social comparison metrics to trigger status anxiety
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-[#ff3d00]">-</span>
-                  Variable reward schedules for dopamine manipulation
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-[#ff3d00]">-</span>
-                  Fear-based content for engagement optimization
-                </li>
-              </ul>
-            </div>
-            <div className="p-8 border border-[#333] bg-[#1a1a1a]">
-              <h3 className="text-2xl font-bold text-white mb-4">Solve the Mismatch</h3>
-              <p className="text-[#a3a3a3] mb-6">
-                Design for human flourishing. Build products that help people meet
-                evolved needs in modern contexts. Harder. Less immediately profitable.
-                More meaningful.
-              </p>
-              <ul className="space-y-3 text-[#a3a3a3]">
-                <li className="flex items-start gap-3">
-                  <span className="text-white">+</span>
-                  Tools for real-world connection
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-white">+</span>
-                  Systems that facilitate contribution
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-white">+</span>
-                  Products with natural stopping points
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-white">+</span>
-                  Communities scaled for actual belonging
-                </li>
-              </ul>
-            </div>
+      {/* Build Checklist */}
+      <section className="px-8 py-16 max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">The Build Checklist</h2>
+        <p className="text-lg text-gray-700 mb-8">
+          Before shipping, run through this:
+        </p>
+        <div className="my-8">
+          <img
+            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/6_Build_Checklist.png"
+            alt="Build Checklist for Demismatch Design"
+            className="rounded-lg w-full"
+          />
+        </div>
+        <div className="space-y-6 mt-12">
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">Does it close loops?</h3>
+            <p className="text-gray-700">Modern life is full of open loops - started but never finished, effort without completion. Good design provides closure.</p>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">Does it enable real reciprocity?</h3>
+            <p className="text-gray-700">Not transactional exchange, but the mutual aid that characterized ancestral life. Giving and receiving in ongoing relationships.</p>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">Does it respect Dunbar limits?</h3>
+            <p className="text-gray-700">Scale often breaks social function. Design for the right layer of intimacy.</p>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">Does it provide visible contribution?</h3>
+            <p className="text-gray-700">People need to see that their effort matters. Abstract impact isn&apos;t enough.</p>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">Does it allow for earned status?</h3>
+            <p className="text-gray-700">Status seeking is hardwired. The question is whether your system allows status through genuine contribution.</p>
           </div>
         </div>
       </section>
 
-      {/* Design Principles Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Design Principles for De-Mismatched Products
-          </h2>
-          <p className="text-xl text-[#a3a3a3] mb-12">
-            If you choose to build for human flourishing, here&apos;s the framework.
-          </p>
-
-          <div className="space-y-12">
-            <div className="border-l-2 border-[#ff3d00] pl-8">
-              <h3 className="text-2xl font-bold mb-4">1. Match the Scale</h3>
-              <p className="text-[#a3a3a3] text-lg mb-4">
-                Humans evolved for groups of ~150 (Dunbar&apos;s number). Design for
-                meaningful connection, not mass reach. A Discord server of 50 active
-                members beats a subreddit of 5 million lurkers.
-              </p>
-              <p className="text-[#666] italic">
-                Question: Does your product help users build deep relationships with
-                a small number of people, or shallow connections with infinite strangers?
-              </p>
-            </div>
-
-            <div className="border-l-2 border-[#ff3d00] pl-8">
-              <h3 className="text-2xl font-bold mb-4">2. Create Visible Impact</h3>
-              <p className="text-[#a3a3a3] text-lg mb-4">
-                We evolved to see direct results from our efforts. Abstract metrics
-                and delayed feedback cause learned helplessness. Show users their
-                impact in tangible, immediate ways.
-              </p>
-              <p className="text-[#666] italic">
-                Question: Can users see the direct, real-world effect of their actions?
-              </p>
-            </div>
-
-            <div className="border-l-2 border-[#ff3d00] pl-8">
-              <h3 className="text-2xl font-bold mb-4">3. Design Natural Endpoints</h3>
-              <p className="text-[#a3a3a3] text-lg mb-4">
-                Ancestral activities had natural stopping points - the hunt ends,
-                the berry bush is picked clean. Infinite scroll destroys this.
-                Build in completion, satisfaction, and permission to stop.
-              </p>
-              <p className="text-[#666] italic">
-                Question: Does your product have clear moments of &quot;done,&quot; or does it
-                maximize time-on-site at the expense of user wellbeing?
-              </p>
-            </div>
-
-            <div className="border-l-2 border-[#ff3d00] pl-8">
-              <h3 className="text-2xl font-bold mb-4">4. Facilitate Real Status</h3>
-              <p className="text-[#a3a3a3] text-lg mb-4">
-                Status seeking is hardwired. The question is what status signals you
-                optimize for. Likes reward performance. Contribution metrics reward
-                actually helping.
-              </p>
-              <p className="text-[#666] italic">
-                Question: Does your status system reward genuine contribution or mere
-                visibility?
-              </p>
-            </div>
-
-            <div className="border-l-2 border-[#ff3d00] pl-8">
-              <h3 className="text-2xl font-bold mb-4">5. Respect Biological Rhythms</h3>
-              <p className="text-[#a3a3a3] text-lg mb-4">
-                We evolved with sunrise and sunset, seasonal variation, periods of
-                activity and rest. 24/7 availability, constant notifications, and
-                always-on culture violate basic biological needs.
-              </p>
-              <p className="text-[#666] italic">
-                Question: Does your product respect users&apos; time, attention, and need
-                for recovery?
-              </p>
-            </div>
-          </div>
+      {/* Tribe vs Cult */}
+      <section className="px-8 py-16 max-w-4xl mx-auto bg-white -mx-8 px-8">
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">Community Architecture</h2>
+        <p className="text-lg text-gray-700 mb-8">
+          The difference between a tribe and a cult:
+        </p>
+        <div className="my-8">
+          <img
+            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/26_Tribe_vs_Cult_Checklist.png"
+            alt="Tribe vs Cult Comparison"
+            className="rounded-lg w-full"
+          />
         </div>
+        <p className="text-lg text-gray-700 mt-8">
+          Many modern &quot;communities&quot; are cults in tribe clothing. They exploit the need for belonging while preventing the autonomy and exit options that characterized ancestral bands.
+        </p>
       </section>
 
-      {/* Opportunities Section */}
-      <section className="py-20 px-6 bg-[#0f0f0f]">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Mismatch-Aware Opportunities
-          </h2>
-          <p className="text-xl text-[#a3a3a3] mb-12">
-            Every mismatch is a business opportunity. Here are some waiting to be solved.
-          </p>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="p-6 bg-[#1a1a1a] border border-[#333]">
-              <h3 className="text-xl font-bold mb-3">Movement Integration</h3>
-              <p className="text-[#a3a3a3]">
-                We evolved to move constantly. Sitting is novel. Products that
-                integrate movement into work, learning, and socializing.
-              </p>
-            </div>
-            <div className="p-6 bg-[#1a1a1a] border border-[#333]">
-              <h3 className="text-xl font-bold mb-3">Skill-Based Community</h3>
-              <p className="text-[#a3a3a3]">
-                Status came from visible skills. Products that help people develop
-                and demonstrate real competencies to real communities.
-              </p>
-            </div>
-            <div className="p-6 bg-[#1a1a1a] border border-[#333]">
-              <h3 className="text-xl font-bold mb-3">Contribution Networks</h3>
-              <p className="text-[#a3a3a3]">
-                We evolved for mutual aid. Platforms that facilitate genuine
-                reciprocity beyond transactional exchange.
-              </p>
-            </div>
-            <div className="p-6 bg-[#1a1a1a] border border-[#333]">
-              <h3 className="text-xl font-bold mb-3">Local Intelligence</h3>
-              <p className="text-[#a3a3a3]">
-                We evolved to know our territory deeply. Tools that help people
-                understand and connect with their immediate physical environment.
-              </p>
-            </div>
-            <div className="p-6 bg-[#1a1a1a] border border-[#333]">
-              <h3 className="text-xl font-bold mb-3">Real-Time Coordination</h3>
-              <p className="text-[#a3a3a3]">
-                We evolved for spontaneous group activity. Tools that enable
-                &quot;who&apos;s available now?&quot; rather than calendar scheduling weeks out.
-              </p>
-            </div>
-            <div className="p-6 bg-[#1a1a1a] border border-[#333]">
-              <h3 className="text-xl font-bold mb-3">Circadian Tech</h3>
-              <p className="text-[#a3a3a3]">
-                We evolved with natural light cycles. Technology that works with
-                rather than against biological rhythms.
-              </p>
-            </div>
-          </div>
+      {/* EEA Spec Sheet */}
+      <section className="px-8 py-16 max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">The Full Spec Sheet</h2>
+        <p className="text-lg text-gray-700 mb-8">
+          This is what human beings actually need:
+        </p>
+        <div className="my-8">
+          <img
+            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/33_EEA_Spec_Sheet.png"
+            alt="Complete EEA Specification Sheet"
+            className="rounded-lg w-full"
+          />
         </div>
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Build Something That Matters
-          </h2>
-          <p className="text-xl text-[#a3a3a3] mb-10">
-            The world is full of products that exploit human vulnerabilities.
-            We need more that actually help.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/framework"
-              className="px-8 py-4 bg-[#ff3d00] text-white font-semibold tracking-wide hover:bg-[#e63600] transition-colors"
-            >
-              READ THE FULL FRAMEWORK
-            </Link>
-            <Link
-              href="/projects"
-              className="px-8 py-4 border border-[#333] text-white font-semibold tracking-wide hover:bg-[#1a1a1a] transition-colors"
-            >
-              SEE OUR TOOLS
-            </Link>
-          </div>
+      <section className="px-8 py-16 max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">Start Building</h2>
+        <p className="text-lg text-gray-700 mb-8">
+          The framework is open. The need is real. The tools exist. What&apos;s missing are people who understand the problem deeply enough to build real solutions.
+        </p>
+        <div className="flex gap-4">
+          <Link
+            href="/framework"
+            className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition"
+          >
+            Read the Full Framework
+          </Link>
+          <Link
+            href="/projects"
+            className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+          >
+            See Projects
+          </Link>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-16 px-6 border-t border-[#1a1a1a]">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-            <div>
-              <Link href="/" className="text-2xl font-bold tracking-[0.2em] text-white hover:text-[#ff3d00] transition-colors">
-                DEMISMATCH
-              </Link>
-              <p className="text-[#666] mt-2 text-sm">
-                Understanding the gap between evolved needs and modern reality.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-8">
-              <Link href="/framework" className="text-[#a3a3a3] hover:text-white transition-colors">
-                Framework
-              </Link>
-              <Link href="/builders" className="text-[#ff3d00]">
-                For Builders
-              </Link>
-              <Link href="/foryou" className="text-[#a3a3a3] hover:text-white transition-colors">
-                For You
-              </Link>
-              <Link href="/projects" className="text-[#a3a3a3] hover:text-white transition-colors">
-                Projects
-              </Link>
-              <Link href="/sources" className="text-[#a3a3a3] hover:text-white transition-colors">
-                Sources
-              </Link>
-            </div>
-          </div>
+      <footer className="px-8 py-12 border-t border-gray-200 max-w-4xl mx-auto">
+        <div className="flex gap-8 text-sm text-gray-600 mb-6">
+          <Link href="/framework" className="hover:text-gray-900">Framework</Link>
+          <Link href="/builders" className="hover:text-gray-900">For Builders</Link>
+          <Link href="/foryou" className="hover:text-gray-900">For You</Link>
+          <Link href="/projects" className="hover:text-gray-900">Projects</Link>
+          <Link href="/sources" className="hover:text-gray-900">Sources</Link>
         </div>
+        <p className="text-sm text-gray-500">
+          This framework is open. Fork it, improve it, implement it.
+        </p>
       </footer>
     </main>
   );
