@@ -231,10 +231,26 @@ function NavigationSidebar({ activeSection }: { activeSection: string }) {
           </Link>
           <Link
             href="/library"
-            className="block text-sm text-[#c75b3a] hover:underline"
+            className="block text-sm text-[#c75b3a] hover:underline mb-4"
           >
             → Visual resources
           </Link>
+          <a
+            href="/api/download-framework-pdf"
+            download="demismatch-framework.pdf"
+            className="block text-sm text-[#c75b3a] hover:underline mb-6"
+          >
+            → Download PDF
+          </a>
+        </div>
+
+        {/* Framework Map - Small version */}
+        <div className="mt-6 pt-6 border-t border-gray-200">
+          <img
+            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/10_Framework_Map__10_Parts_.png"
+            alt="Framework Map - 10 Parts"
+            className="rounded-lg w-full shadow-sm"
+          />
         </div>
       </aside>
 
@@ -336,42 +352,7 @@ export default function FrameworkPage() {
       </div>
 
       <div className="lg:ml-64">
-        <header className="px-8 py-16 max-w-4xl mx-auto">
-          <h1 className="text-5xl text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>The Framework</h1>
-          <p className="text-xl text-gray-700 mb-8">
-            From Mismatch to Baseline — the complete framework for understanding human suffering and what to do about it.
-          </p>
-          
-          <div className="flex flex-wrap gap-4 mb-12">
-            <a
-              href="/api/download-framework-pdf"
-              download="demismatch-framework.pdf"
-              className="bg-[#c75b3a] text-white px-6 py-3 rounded-lg hover:bg-[#b54d2e] transition inline-flex items-center gap-2"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              Download PDF
-            </a>
-            <button
-              onClick={() => setShowCustomModal(true)}
-              className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition inline-flex items-center gap-2"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
-              </svg>
-              Request Custom Version
-            </button>
-          </div>
-
-          <img
-            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/10_Framework_Map__10_Parts_.png"
-            alt="Framework Map - 10 Parts"
-            className="rounded-lg w-full"
-          />
-        </header>
-
-        <article ref={contentRef} className="px-8 pb-20 max-w-4xl mx-auto">
+        <article ref={contentRef} className="px-8 py-16 pb-20 max-w-4xl mx-auto">
           {content ? (
             <FrameworkContent content={content} />
           ) : (
