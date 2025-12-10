@@ -78,7 +78,7 @@ function transformRow(row: DbImageRow, supabaseUrl: string): ImageData | null {
     folder_name: folderName,
     title,
     body_text,
-    image_type: row.image_type || 'explanation',
+    image_type: row.image_type || 'problem',
     categories: row.categories || [],
     framework_concepts: row.framework_concepts || [],
     tags: row.tags_normalized || [],

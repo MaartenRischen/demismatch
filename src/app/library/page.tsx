@@ -25,14 +25,13 @@ interface TaxonomyIndex {
 
 type SortOption = "relevant" | "alphabetical" | "type" | "category";
 
-const IMAGE_TYPES = ["problem", "solution", "comparison", "explanation"];
+const IMAGE_TYPES = ["problem", "solution", "comparison"];
 
 // Type priority for relevance sorting (lower = higher priority)
 const TYPE_PRIORITY: Record<string, number> = {
   problem: 0,
   comparison: 1,
-  explanation: 2,
-  solution: 3,
+  solution: 2,
 };
 
 // High-value framework concepts with bonus weights
