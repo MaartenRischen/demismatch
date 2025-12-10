@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       .map(([key, val]: [string, any]) => `${key}: ${val.level}`)
       .join(', ');
     
-    const prompt = `Edit this image to add a sci-fi "Evolutionary HUD" overlay. Style: video game / fighter jet cockpit.
+    const prompt = `Generate an edited version of this image with a sci-fi "Evolutionary HUD" overlay added. Style: video game / fighter jet cockpit.
 
 COLOR SCHEME: ${colorScheme}
 
@@ -45,7 +45,37 @@ ${analysis.is_mismatch
   ? `Add subtle RED tint/vignette. Bottom warning: "⚠ MISMATCH: ${(analysis.mismatch_details || '').substring(0, 60)}"` 
   : ''}
 
-Keep original image visible. Semi-transparent dark panels. Clean sans-serif font.`;
+Keep original image visible. Semi-transparent dark panels. Clean sans-serif font.
+
+OUTPUT: Generate and return the edited image with the HUD overlay applied.`;
+
+    const requestBody = {
+      model: 'google/gemini-3-pro-image-preview',
+      modalities: ['image', 'text'],
+      messages: [
+        {
+          role: 'user',
+          content: [
+            {
+              type: 'image_url',
+              image_url: { url: `data:image/jpeg;base64,${base64Data}` }
+            },
+            {
+              type: 'text', 
+              text: prompt
+            }
+          ]
+        }
+      ]
+    };
+
+    console.log('HUD Generate Request:', JSON.stringify({
+      model: requestBody.model,
+      modalities: requestBody.modalities,
+      hasImage: !!base64Data,
+      promptLength: prompt.length,
+      messageCount: requestBody.messages.length
+    }));
 
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
@@ -53,24 +83,7 @@ Keep original image visible. Semi-transparent dark panels. Clean sans-serif font
         'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        model: 'google/gemini-3-pro-image-preview',
-        messages: [
-          {
-            role: 'user',
-            content: [
-              {
-                type: 'image_url',
-                image_url: { url: `data:image/jpeg;base64,${base64Data}` }
-              },
-              {
-                type: 'text', 
-                text: prompt
-              }
-            ]
-          }
-        ]
-      })
+      body: JSON.stringify(requestBody)
     });
 
     if (!response.ok) {
@@ -81,17 +94,42 @@ Keep original image visible. Semi-transparent dark panels. Clean sans-serif font
 
     const data = await response.json();
     
+    console.log('HUD Generate Response:', JSON.stringify({
+      hasChoices: !!data.choices,
+      choiceCount: data.choices?.length,
+      hasContent: !!data.choices?.[0]?.message?.content,
+      hasReasoning: !!data.choices?.[0]?.message?.reasoning,
+      contentType: typeof data.choices?.[0]?.message?.content,
+      isArray: Array.isArray(data.choices?.[0]?.message?.content),
+      finishReason: data.choices?.[0]?.finish_reason,
+      rawContent: data.choices?.[0]?.message?.content ? 
+        (Array.isArray(data.choices[0].message.content) ? 
+          data.choices[0].message.content.map((c: any) => ({ type: c.type, hasData: !!c.data || !!c.image })) :
+          data.choices[0].message.content.substring(0, 100)) : null
+    }));
+    
     // Handle image response - check various formats
-    if (data.choices?.[0]?.message?.content) {
-      const content = data.choices[0].message.content;
+    const message = data.choices?.[0]?.message;
+    
+    if (message?.content) {
+      const content = message.content;
       
       // Check for base64 image in array format
       if (Array.isArray(content)) {
-        const imageBlock = content.find((c: any) => c.type === 'image' || c.image || c.type === 'image_url');
+        const imageBlock = content.find((c: any) => 
+          c.type === 'image' || 
+          c.type === 'image_url' || 
+          c.image || 
+          c.data
+        );
         if (imageBlock) {
-          const imgData = imageBlock.image?.data || imageBlock.data || imageBlock.image_url?.url;
+          const imgData = imageBlock.image?.data || 
+                         imageBlock.data || 
+                         imageBlock.image_url?.url ||
+                         imageBlock.url;
           if (imgData) {
             const base64 = imgData.startsWith('data:') ? imgData : `data:image/png;base64,${imgData}`;
+            console.log('Found image in content array, length:', imgData.length);
             return NextResponse.json({ image: base64 });
           }
         }
@@ -100,27 +138,42 @@ Keep original image visible. Semi-transparent dark panels. Clean sans-serif font
       // Direct base64 string
       if (typeof content === 'string') {
         if (content.match(/^[A-Za-z0-9+/=]+$/) && content.length > 1000) {
+          console.log('Found base64 string in content, length:', content.length);
           return NextResponse.json({ image: `data:image/png;base64,${content}` });
         }
         if (content.startsWith('data:image')) {
+          console.log('Found data URL in content');
           return NextResponse.json({ image: content });
         }
       }
     }
     
+    // Check for image in top-level images array
+    if (data.images && Array.isArray(data.images) && data.images.length > 0) {
+      const imgData = data.images[0];
+      console.log('Found image in top-level images array');
+      return NextResponse.json({ 
+        image: imgData.startsWith('data:') ? imgData : `data:image/png;base64,${imgData}` 
+      });
+    }
+    
     // Check for image in different response format
     if (data.data?.[0]?.b64_json) {
+      console.log('Found image in data.b64_json');
       return NextResponse.json({ image: `data:image/png;base64,${data.data[0].b64_json}` });
     }
     
     if (data.data?.[0]?.url) {
+      console.log('Found image URL in data.url');
       return NextResponse.json({ image: data.data[0].url });
     }
     
-    console.log('No image found in response:', JSON.stringify(data).substring(0, 500));
+    console.error('No image found in response. Full response structure:', JSON.stringify(data, null, 2).substring(0, 2000));
     return NextResponse.json({ 
-      error: 'No image generated - model may not support image generation',
-      analysis: analysis
+      error: 'No image generated - check server logs for response structure',
+      hasReasoning: !!message?.reasoning,
+      hasContent: !!message?.content,
+      finishReason: data.choices?.[0]?.finish_reason
     }, { status: 500 });
     
   } catch (error) {
