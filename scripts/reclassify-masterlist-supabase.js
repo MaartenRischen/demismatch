@@ -37,23 +37,100 @@ function classifyImage(image) {
     image.analysis?.content_description
   ].join(' ').toLowerCase();
   
+  // PROBLEM indicators - these are definitive negative signals
   const problemWords = [
     'mismatch', 'problem', 'anxiety', 'stress', 'isolation', 'loneliness',
     'dysfunction', 'exploitation', 'trap', 'proxy', 'unfulfilled', 'toxic',
     'emptiness', 'disconnection', 'artificial', 'superficial', 'addictive',
-    'suffering', 'inadequacy', 'alienation'
+    'suffering', 'inadequacy', 'alienation', 'fear', 'dread', 'despair',
+    'hopeless', 'overwhelm', 'burnout', 'exhaustion', 'fatigue', 'tired',
+    'sad', 'depressed', 'depression', 'lonely', 'alone', 'withdrawn',
+    'shame', 'guilt', 'failure', 'rejected', 'excluded', 'abandoned',
+    'numb', 'hollow', 'void', 'meaningless', 'pointless', 'stuck',
+    'trapped', 'helpless', 'powerless', 'lost', 'confused', 'broken',
+    'hurt', 'pain', 'ache', 'crisis', 'breakdown', 'collapse',
+    'conflict', 'struggle', 'fight', 'battle', 'war', 'tension',
+    'negative', 'harmful', 'damaging', 'destructive', 'dangerous',
+    'false', 'fake', 'pretend', 'illusion', 'delusion', 'lie',
+    'substitute', 'replacement', 'surrogate', 'at the expense of',
+    'lack of', 'absence of', 'without', 'missing', 'loss of', 'losing'
   ];
   
+  // SOLUTION indicators - positive outcomes achieved
   const solutionWords = [
-    'solution', 'demismatch', 'fulfillment', 'connection', 'authentic',
-    'genuine', 'tribal', 'community', 'meaningful', 'healthy', 'aligned',
-    'belonging', 'purpose', 'thriving', 'well-being', 'restoration'
+    'solution', 'demismatch', 'de-mismatch', 'after demismatch',
+    'resolution', 'resolved', 'healed', 'healing', 'recovery', 'recovered',
+    'restored', 'restoration', 'reconnected', 'reunited', 'realigned',
+    'thriving', 'flourishing', 'blooming', 'growing', 'growth',
+    'joy', 'joyful', 'happy', 'happiness', 'content', 'contentment',
+    'peace', 'peaceful', 'calm', 'serene', 'tranquil', 'relaxed',
+    'satisfied', 'satisfaction', 'fulfilled', 'gratitude', 'grateful',
+    'hope', 'hopeful', 'optimistic', 'confident', 'empowered',
+    'strong', 'resilient', 'capable', 'competent', 'mastery',
+    'free', 'freedom', 'liberated', 'autonomous', 'independent',
+    'connected', 'bonded', 'united', 'together', 'supported',
+    'loved', 'cared for', 'nurtured', 'cherished', 'valued',
+    'meaningful work', 'genuine connection', 'true belonging',
+    'real community', 'authentic relationship', 'deep bond'
   ];
   
-  const probCount = problemWords.filter(w => text.includes(w)).length;
-  const solCount = solutionWords.filter(w => text.includes(w)).length;
+  // Negative context patterns that negate solution words
+  const negativeContextPatterns = [
+    /proxy for \w+/g,
+    /substitute for \w+/g,
+    /lack of \w+/g,
+    /absence of \w+/g,
+    /loss of \w+/g,
+    /missing \w+/g,
+    /without \w+/g,
+    /no (real|genuine|true|authentic)/g,
+    /at the expense of/g,
+    /instead of (real|genuine|true)/g,
+    /not (truly|really|genuinely)/g,
+    /false sense of/g,
+    /illusion of/g
+  ];
   
-  return probCount > solCount ? 'problem' : 'solution';
+  // Count problem words (each match = 1 point)
+  let probScore = 0;
+  for (const word of problemWords) {
+    if (text.includes(word)) {
+      probScore += 1;
+    }
+  }
+  
+  // Count solution words (each match = 1 point)
+  let solScore = 0;
+  for (const word of solutionWords) {
+    if (text.includes(word)) {
+      solScore += 1;
+    }
+  }
+  
+  // Check for negative context patterns - these indicate the image is about PROBLEMS
+  // even if solution words appear (e.g., "proxy for belonging" is a problem)
+  let negativeContextCount = 0;
+  for (const pattern of negativeContextPatterns) {
+    const matches = text.match(pattern);
+    if (matches) {
+      negativeContextCount += matches.length;
+    }
+  }
+  
+  // If negative context patterns are found, boost problem score significantly
+  probScore += negativeContextCount * 3;
+  
+  // Strong problem indicators get extra weight
+  const strongProblemWords = ['mismatch', 'proxy', 'trap', 'exploitation', 'dysfunction', 'toxic'];
+  for (const word of strongProblemWords) {
+    if (text.includes(word)) {
+      probScore += 2; // Extra weight for definitive problem indicators
+    }
+  }
+  
+  // Default to problem if scores are equal or close
+  // (most images in this collection are about problems/mismatches)
+  return probScore >= solScore ? 'problem' : 'solution';
 }
 
 async function main() {
@@ -140,15 +217,17 @@ async function main() {
   try {
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
     
-    // Convert to JSON string
+    // Convert to JSON string and then to Buffer
     const jsonContent = JSON.stringify(masterlist, null, 2);
+    const buffer = Buffer.from(jsonContent, 'utf-8');
     
-    // Upload to storage
+    // Upload to storage (use Buffer for binary upload)
     const { data, error } = await supabase.storage
       .from('mismatch-data')
-      .upload('masterlist.json', jsonContent, {
+      .upload('masterlist.json', buffer, {
         upsert: true,
-        contentType: 'application/json'
+        contentType: 'application/json',
+        cacheControl: 'no-cache'
       });
     
     if (error) {
