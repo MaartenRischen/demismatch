@@ -42,7 +42,7 @@ export default function SystemsPage() {
           <img
             src={`${IMAGE_BASE}18_Timeline_Compression.png`}
             alt="Timeline compression - 300,000 years of evolution vs 15 years of smartphones"
-            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
+            className="w-full max-w-2xl mx-auto rounded-lg shadow-sm"
           />
           <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
             300,000 years of consistent conditions. 15 years of smartphones.
@@ -53,7 +53,7 @@ export default function SystemsPage() {
           <img
             src={`${IMAGE_BASE}34_Modern_Defaults_vs_Spec.png`}
             alt="Modern defaults vs evolutionary spec"
-            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
+            className="w-full max-w-2xl mx-auto rounded-lg shadow-sm"
           />
           <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
             Modern defaults violate every biological constraint.
@@ -170,7 +170,7 @@ export default function SystemsPage() {
           <img
             src={`${IMAGE_BASE}9_Signals_Not_Symptoms__4-Panel_Grid_.png`}
             alt="Signals not symptoms"
-            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
+            className="w-full max-w-2xl mx-auto rounded-lg shadow-sm"
           />
           <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
             Signals are information, not malfunction.
@@ -250,7 +250,7 @@ export default function SystemsPage() {
           <img
             src={`${IMAGE_BASE}38_The_Exploitation_Players.png`}
             alt="The exploitation economy players"
-            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
+            className="w-full max-w-2xl mx-auto rounded-lg shadow-sm"
           />
           <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
             The players profiting from your suffering.
@@ -345,7 +345,7 @@ export default function SystemsPage() {
           <img
             src={`${IMAGE_BASE}15_Fire_Circle_vs_Modern_Evening.png`}
             alt="Fire circle vs modern evening"
-            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
+            className="w-full max-w-2xl mx-auto rounded-lg shadow-sm"
           />
           <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
             Fire circle vs. modern evening: what we lost.
@@ -416,7 +416,7 @@ export default function SystemsPage() {
           <img
             src={`${IMAGE_BASE}Demismatch_Augment.png`}
             alt="The progression: EEA → MISMATCH → DEMISMATCH → AUGMENTED"
-            className="w-full rounded-lg shadow-sm"
+            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
           />
           <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
             EEA → MISMATCH → DEMISMATCH → AUGMENTED

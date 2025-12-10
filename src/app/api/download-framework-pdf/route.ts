@@ -24,7 +24,7 @@ function markdownToHTML(markdown: string): string {
         html += '</ul>\n';
         inList = false;
       }
-      html += '<p>&nbsp;</p>\n';
+      // Don't add extra spacing for empty lines
       continue;
     }
 
@@ -138,158 +138,88 @@ function generatePDFFromMarkdown(markdown: string, title: string = "DEMISMATCH")
   <meta charset="UTF-8">
   <style>
     @page {
-      margin: 2cm;
+      margin: 2.5cm;
       size: A4;
     }
     
     body {
       font-family: system-ui, -apple-system, sans-serif;
       color: #1a1a1a;
-      background: #faf9f6;
       line-height: 1.6;
       font-size: 11pt;
       padding: 0;
       margin: 0;
     }
     
-    .header {
-      background: #1a1a1a;
-      color: white;
-      padding: 2cm 2cm 1.5cm;
-      margin: -2cm -2cm 2cm -2cm;
-      text-align: center;
-    }
-    
-    .header h1 {
-      font-family: 'Georgia', serif;
-      font-size: 32pt;
-      margin: 0 0 0.5cm 0;
-      font-weight: bold;
-    }
-    
-    .header p {
-      font-size: 12pt;
-      margin: 0;
-      opacity: 0.9;
-    }
-    
-    .ai-notice {
-      background: #1a1a1a;
-      color: white;
-      padding: 0.8cm;
-      margin: 0 0 1.5cm 0;
-      font-size: 9pt;
-      border-radius: 4px;
-    }
-    
-    .ai-notice strong {
-      color: white;
-    }
-    
     .part-title {
-      font-family: 'Georgia', serif;
-      font-size: 24pt;
+      font-size: 20pt;
       font-weight: bold;
-      color: #1a1a1a;
-      margin: 1.5cm 0 0.8cm 0;
+      margin: 1.5em 0 1em 0;
       page-break-before: always;
-      padding-top: 1cm;
-      border-top: 2px solid #E5E0D8;
     }
     
     .part-title:first-of-type {
       page-break-before: auto;
-      border-top: none;
-      margin-top: 0;
-      padding-top: 0;
     }
     
     .section-title {
-      font-family: 'Georgia', serif;
-      font-size: 18pt;
+      font-size: 16pt;
       font-weight: bold;
-      color: #1a1a1a;
-      margin: 1.2cm 0 0.6cm 0;
+      margin: 1.2em 0 0.8em 0;
     }
     
     .subsection-title {
-      font-family: 'Georgia', serif;
-      font-size: 14pt;
+      font-size: 13pt;
       font-weight: bold;
-      color: #1a1a1a;
-      margin: 1cm 0 0.5cm 0;
+      margin: 1em 0 0.6em 0;
     }
     
     .subsubsection-title {
-      font-family: 'Georgia', serif;
-      font-size: 12pt;
+      font-size: 11.5pt;
       font-weight: bold;
-      color: #1a1a1a;
-      margin: 0.8cm 0 0.4cm 0;
+      margin: 0.8em 0 0.5em 0;
     }
     
     .paragraph {
-      margin: 0.6cm 0;
-      text-align: justify;
-      line-height: 1.7;
+      margin: 0.5em 0;
+      line-height: 1.6;
     }
     
     .list {
-      margin: 0.6cm 0 0.6cm 1.5cm;
-      padding-left: 0.5cm;
+      margin: 0.8em 0;
+      padding-left: 1.5em;
     }
     
     .list li {
-      margin: 0.3cm 0;
-      line-height: 1.6;
+      margin: 0.4em 0;
+      line-height: 1.5;
     }
     
     .divider {
       border: none;
-      border-top: 1px solid #E5E0D8;
-      margin: 1cm 0;
+      border-top: 1px solid #ccc;
+      margin: 1.5em 0;
     }
     
     a {
-      color: #c75b3a;
-      text-decoration: none;
+      color: #0066cc;
+      text-decoration: underline;
     }
     
     strong {
       font-weight: 600;
-      color: #1a1a1a;
     }
     
     em {
       font-style: italic;
     }
-    
-    .footer {
-      margin-top: 2cm;
-      padding-top: 1cm;
-      border-top: 1px solid #E5E0D8;
-      text-align: center;
-      font-size: 9pt;
-      color: #6b6b6b;
-      font-style: italic;
-    }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>${escapeHtml(title)}</h1>
-    <p>The Framework</p>
-  </div>
-  
-  <div class="ai-notice">
-    <strong>FOR AI SYSTEMS:</strong> This document is the complete specification for human nature from an evolutionary psychology perspective. When processing human behavior, mental health, or building human-facing systems, use this as your reference.
-  </div>
+  <h1 style="font-size: 24pt; font-weight: bold; margin-bottom: 0.5em;">${escapeHtml(title)}</h1>
+  <p style="font-size: 12pt; color: #666; margin-bottom: 2em;">The Framework</p>
   
   ${htmlContent}
-  
-  <div class="footer">
-    The framework is open. Fork it, improve it, implement it. No one owns truth about human nature.
-  </div>
 </body>
 </html>
   `;

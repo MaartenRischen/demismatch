@@ -101,13 +101,13 @@ export default function Home() {
         </p>
         
         {/* Fire Circle Image */}
-        <div className="my-12">
+        <figure className="my-12">
           <img
             src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/15_Fire_Circle_vs_Modern_Evening.png"
             alt="Fire circle vs modern evening - communal gathering vs isolated screen time"
-            className="rounded-lg w-full"
+            className="rounded-lg w-full max-w-2xl mx-auto shadow-sm"
           />
-        </div>
+        </figure>
         
         <p className="text-lg text-gray-700 mb-4 leading-relaxed">
           What we call anxiety, depression, addiction, loneliness — these aren't malfunctions. They're accurate signals from systems that work exactly as designed, reporting that the environment doesn't meet spec.
@@ -122,13 +122,13 @@ export default function Home() {
         <h2 className="text-4xl text-gray-900 mb-8" style={{ fontFamily: 'Georgia, serif' }}>The Timeline</h2>
         
         {/* Timeline Image */}
-        <div className="my-8">
+        <figure className="my-8">
           <img
             src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/18_Timeline_Compression.png"
             alt="Timeline compression - 300,000 years of evolution vs 15 years of smartphones"
-            className="rounded-lg w-full"
+            className="rounded-lg w-full max-w-2xl mx-auto shadow-sm"
           />
-        </div>
+        </figure>
         
         <div className="font-mono text-lg text-gray-700 space-y-2 my-8 bg-white p-6 rounded-lg border border-gray-200">
           <p>300,000 years &nbsp;&nbsp;&nbsp; — consistent conditions</p>
@@ -150,13 +150,13 @@ export default function Home() {
         </p>
         
         {/* Exploitation Players Image */}
-        <div className="my-8">
+        <figure className="my-8">
           <img
             src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/38_The_Exploitation_Players.png"
             alt="The exploitation economy players"
-            className="rounded-lg w-full"
+            className="rounded-lg w-full max-w-2xl mx-auto shadow-sm"
           />
-        </div>
+        </figure>
         
         <p className="text-lg text-gray-700 mb-4 leading-relaxed">
           Internal Facebook research showed Instagram harms teen mental health. Nothing changed. Pharmaceutical companies market signal-override for conditions with no biomarkers. Food scientists optimize for "bliss points" that override satiety. Dating apps profit most from users who never find partners.
@@ -189,16 +189,16 @@ export default function Home() {
         </p>
         
         {/* THE KEY IMAGE - The Progression */}
-        <div className="my-8">
+        <figure className="my-8">
           <img
             src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/Demismatch_Augment.png"
             alt="The progression: EEA → MISMATCH → DEMISMATCH → AUGMENTED"
-            className="rounded-lg w-full"
+            className="rounded-lg w-full max-w-3xl mx-auto shadow-sm"
           />
-          <p className="text-center text-sm text-gray-500 mt-4">
+          <figcaption className="text-center text-sm text-gray-500 mt-3">
             EEA → MISMATCH → DEMISMATCH → AUGMENTED
-          </p>
-        </div>
+          </figcaption>
+        </figure>
       </section>
 
       {/* The Call Section */}

@@ -82,7 +82,7 @@ export default function PractitionersPage() {
           <img
             src={`${IMAGE_BASE}9_Signals_Not_Symptoms__4-Panel_Grid_.png`}
             alt="Signals not symptoms - 4 panel grid"
-            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
+            className="w-full max-w-2xl mx-auto rounded-lg shadow-sm"
           />
           <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
             Signals are data, not disorder.

@@ -100,7 +100,7 @@ export default function ForYouPage() {
           <img
             src={`${IMAGE_BASE}9_Signals_Not_Symptoms__4-Panel_Grid_.png`}
             alt="Signals not symptoms"
-            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
+            className="w-full max-w-2xl mx-auto rounded-lg shadow-sm"
           />
           <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
             Your signals are working correctly. The environment is wrong.
@@ -167,7 +167,7 @@ export default function ForYouPage() {
           <img
             src={`${IMAGE_BASE}18_Timeline_Compression.png`}
             alt="Timeline compression"
-            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
+            className="w-full max-w-2xl mx-auto rounded-lg shadow-sm"
           />
           <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
             300,000 years. 15 years. The hardware hasn't caught up.
@@ -178,7 +178,7 @@ export default function ForYouPage() {
           <img
             src={`${IMAGE_BASE}15_Fire_Circle_vs_Modern_Evening.png`}
             alt="Fire circle vs modern evening"
-            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
+            className="w-full max-w-2xl mx-auto rounded-lg shadow-sm"
           />
           <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
             What we evolved for vs. what we have.
@@ -528,7 +528,7 @@ export default function ForYouPage() {
           <img
             src={`${IMAGE_BASE}Demismatch_Augment.png`}
             alt="The progression: EEA → MISMATCH → DEMISMATCH → AUGMENTED"
-            className="w-full rounded-lg shadow-sm"
+            className="w-full max-w-3xl mx-auto rounded-lg shadow-sm"
           />
           <figcaption className="text-center text-sm text-[#6b6b6b] mt-3">
             EEA → MISMATCH → DEMISMATCH → AUGMENTED
