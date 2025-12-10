@@ -661,12 +661,24 @@ function LibraryContent() {
 
         console.log("Fetched data:", {
           taxonomyKeys: Object.keys(taxonomyData),
+          taxonomySample: taxonomyData.by_category ? Object.keys(taxonomyData.by_category).slice(0, 3) : 'no by_category',
+          imagesDataFull: imagesData,
+          imagesDataKeys: Object.keys(imagesData),
+          imagesArray: imagesData.images,
           imagesCount: imagesData.images?.length || 0,
-          imagesDataKeys: Object.keys(imagesData)
+          imagesType: typeof imagesData.images,
+          isArray: Array.isArray(imagesData.images)
+        });
+
+        const imagesArray = imagesData.images || imagesData || [];
+        console.log("Setting images:", {
+          arrayLength: imagesArray.length,
+          firstImage: imagesArray[0],
+          isArray: Array.isArray(imagesArray)
         });
 
         setTaxonomy(taxonomyData);
-        setAllImages(imagesData.images || []);
+        setAllImages(imagesArray);
       } catch (err) {
         console.error("Fetch error:", err);
         setError("Failed to load library data");
