@@ -609,6 +609,19 @@ function LibraryContent() {
   const [editPrompt, setEditPrompt] = useState("");
   const [isEditing, setIsEditing] = useState(false);
 
+  // ADMIN: Metadata editing state
+  const [metadataImage, setMetadataImage] = useState<ImageData | null>(null);
+  const [metadataForm, setMetadataForm] = useState({
+    image_type: "",
+    categories: "",
+    framework_concepts: "",
+    tags: "",
+    user_rating: "",
+    user_notes: "",
+    is_favorite: false
+  });
+  const [isSavingMetadata, setIsSavingMetadata] = useState(false);
+
   // Initialize filters from URL
   useEffect(() => {
     const typeParam = searchParams.get("type");
@@ -1080,6 +1093,75 @@ function LibraryContent() {
     } catch (err) {
       console.error("Download error:", err);
       showToast("Failed to download image");
+    }
+  };
+
+  // ADMIN: Open metadata editor
+  const openMetadataEditor = (image: ImageData) => {
+    setMetadataImage(image);
+    setMetadataForm({
+      image_type: image.image_type || "problem",
+      categories: image.categories?.join(", ") || "",
+      framework_concepts: image.framework_concepts?.join(", ") || "",
+      tags: image.tags?.join(", ") || "",
+      user_rating: "", // Would need to fetch from masterlist
+      user_notes: "",
+      is_favorite: false
+    });
+  };
+
+  // ADMIN: Save metadata changes
+  const saveMetadata = async () => {
+    if (!metadataImage) return;
+    
+    setIsSavingMetadata(true);
+    try {
+      const updates: Record<string, unknown> = {
+        image_type: metadataForm.image_type,
+        categories: metadataForm.categories.split(",").map(s => s.trim()).filter(Boolean),
+        framework_concepts: metadataForm.framework_concepts.split(",").map(s => s.trim()).filter(Boolean),
+        tags_normalized: metadataForm.tags.split(",").map(s => s.trim()).filter(Boolean),
+      };
+      
+      if (metadataForm.user_rating) {
+        updates.user_rating = parseInt(metadataForm.user_rating) || null;
+      }
+      if (metadataForm.user_notes) {
+        updates.user_notes = metadataForm.user_notes;
+      }
+      updates.is_favorite = metadataForm.is_favorite;
+
+      const res = await fetch(`/api/images/${metadataImage.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates)
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to save");
+      }
+
+      // Update local state
+      setAllImages(prev => prev.map(img =>
+        img.id === metadataImage.id
+          ? {
+              ...img,
+              image_type: metadataForm.image_type,
+              categories: updates.categories as string[],
+              framework_concepts: updates.framework_concepts as string[],
+              tags: updates.tags_normalized as string[]
+            }
+          : img
+      ));
+
+      setMetadataImage(null);
+      showToast("Metadata saved to masterlist & database!");
+    } catch (err) {
+      console.error("Save metadata error:", err);
+      showToast(`Failed to save: ${err instanceof Error ? err.message : 'Unknown error'}`);
+    } finally {
+      setIsSavingMetadata(false);
     }
   };
 
@@ -1684,6 +1766,13 @@ function LibraryContent() {
                         <DownloadIcon />
                       </button>
                       <button
+                        className="p-1.5 bg-amber-600/80 rounded hover:bg-amber-600"
+                        onClick={(e) => { e.stopPropagation(); openMetadataEditor(image); }}
+                        title="Edit metadata"
+                      >
+                        <MetadataIcon />
+                      </button>
+                      <button
                         className="p-1.5 bg-blue-600/80 rounded hover:bg-blue-600"
                         onClick={(e) => { e.stopPropagation(); setEditingImage(image); setEditPrompt(""); }}
                         title="Edit image with AI"
@@ -1815,9 +1904,17 @@ function LibraryContent() {
                 </button>
               </div>
 
+              {/* ADMIN: Edit Metadata button */}
+              <button
+                className="w-full mt-3 py-2 px-4 bg-amber-50 border border-amber-200 text-amber-700 hover:bg-amber-100 text-sm font-medium flex items-center justify-center gap-2 rounded-lg"
+                onClick={() => { openMetadataEditor(selectedImage); setSelectedImage(null); }}
+              >
+                <MetadataIcon /> Edit Metadata (Admin)
+              </button>
+
               {/* DEV ONLY: Edit button */}
               <button
-                className="w-full mt-3 py-2 px-4 bg-blue-50 border border-blue-200 text-blue-700 hover:bg-blue-100 text-sm font-medium flex items-center justify-center gap-2 rounded-lg"
+                className="w-full mt-2 py-2 px-4 bg-blue-50 border border-blue-200 text-blue-700 hover:bg-blue-100 text-sm font-medium flex items-center justify-center gap-2 rounded-lg"
                 onClick={() => { setEditingImage(selectedImage); setEditPrompt(""); }}
               >
                 <EditIcon /> Edit with AI (Dev Only)
@@ -1942,6 +2039,192 @@ function LibraryContent() {
           </div>
         </div>
       )}
+
+      {/* ADMIN: Metadata Editor Modal */}
+      {metadataImage && (
+        <div
+          className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4"
+          onClick={() => !isSavingMetadata && setMetadataImage(null)}
+        >
+          <div
+            className="bg-white max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-4 border-b border-[#E5E0D8] flex items-center justify-between bg-amber-50">
+              <div>
+                <h2 className="text-lg font-bold text-[#1A1A1A]">Edit Metadata</h2>
+                <p className="text-xs text-amber-700">Changes sync to masterlist.json → database</p>
+              </div>
+              <button
+                onClick={() => !isSavingMetadata && setMetadataImage(null)}
+                className="text-[#8B8B8B] hover:text-[#1A1A1A]"
+                disabled={isSavingMetadata}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="p-4 space-y-4">
+              {/* Image preview */}
+              <div className="flex gap-4 items-start">
+                <img
+                  src={metadataImage.image_url}
+                  alt={metadataImage.title}
+                  className="w-32 h-32 object-cover rounded-lg"
+                />
+                <div>
+                  <h3 className="font-bold text-[#1A1A1A]">{metadataImage.title}</h3>
+                  <p className="text-sm text-[#8B8B8B]">ID: {metadataImage.id}</p>
+                  <p className="text-sm text-[#8B8B8B]">{metadataImage.file_name}</p>
+                </div>
+              </div>
+
+              {/* Image Type */}
+              <div>
+                <label className="block text-sm font-medium mb-2 text-[#1A1A1A]">
+                  Image Type
+                </label>
+                <div className="flex gap-2">
+                  {["problem", "solution", "comparison"].map(type => (
+                    <button
+                      key={type}
+                      onClick={() => setMetadataForm(f => ({ ...f, image_type: type }))}
+                      className={`px-4 py-2 rounded-lg border transition-colors ${
+                        metadataForm.image_type === type
+                          ? type === "problem" ? "bg-red-500 text-white border-red-500" :
+                            type === "solution" ? "bg-green-500 text-white border-green-500" :
+                            "bg-blue-500 text-white border-blue-500"
+                          : "bg-white text-[#4A4A4A] border-[#E5E0D8] hover:border-[#C75B39]"
+                      }`}
+                    >
+                      {type}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Categories */}
+              <div>
+                <label className="block text-sm font-medium mb-2 text-[#1A1A1A]">
+                  Categories <span className="text-[#8B8B8B] font-normal">(comma-separated)</span>
+                </label>
+                <input
+                  type="text"
+                  value={metadataForm.categories}
+                  onChange={(e) => setMetadataForm(f => ({ ...f, categories: e.target.value }))}
+                  placeholder="e.g., mental_emotional, social_connection"
+                  className="w-full px-4 py-2 bg-[#FAF9F6] border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none rounded-lg"
+                />
+              </div>
+
+              {/* Framework Concepts */}
+              <div>
+                <label className="block text-sm font-medium mb-2 text-[#1A1A1A]">
+                  Framework Concepts <span className="text-[#8B8B8B] font-normal">(comma-separated)</span>
+                </label>
+                <input
+                  type="text"
+                  value={metadataForm.framework_concepts}
+                  onChange={(e) => setMetadataForm(f => ({ ...f, framework_concepts: e.target.value }))}
+                  placeholder="e.g., proxy_consumption, dunbar_violation"
+                  className="w-full px-4 py-2 bg-[#FAF9F6] border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none rounded-lg"
+                />
+              </div>
+
+              {/* Tags */}
+              <div>
+                <label className="block text-sm font-medium mb-2 text-[#1A1A1A]">
+                  Tags <span className="text-[#8B8B8B] font-normal">(comma-separated)</span>
+                </label>
+                <textarea
+                  value={metadataForm.tags}
+                  onChange={(e) => setMetadataForm(f => ({ ...f, tags: e.target.value }))}
+                  placeholder="e.g., anxiety, loneliness, social media, modern life"
+                  className="w-full px-4 py-2 bg-[#FAF9F6] border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none rounded-lg min-h-[80px] resize-none"
+                />
+              </div>
+
+              {/* Rating & Favorite */}
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium mb-2 text-[#1A1A1A]">
+                    Rating <span className="text-[#8B8B8B] font-normal">(1-5)</span>
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="5"
+                    value={metadataForm.user_rating}
+                    onChange={(e) => setMetadataForm(f => ({ ...f, user_rating: e.target.value }))}
+                    placeholder="1-5"
+                    className="w-full px-4 py-2 bg-[#FAF9F6] border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none rounded-lg"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-sm font-medium mb-2 text-[#1A1A1A]">
+                    Favorite
+                  </label>
+                  <button
+                    onClick={() => setMetadataForm(f => ({ ...f, is_favorite: !f.is_favorite }))}
+                    className={`w-full px-4 py-2 rounded-lg border transition-colors ${
+                      metadataForm.is_favorite
+                        ? "bg-yellow-400 text-white border-yellow-400"
+                        : "bg-white text-[#4A4A4A] border-[#E5E0D8] hover:border-yellow-400"
+                    }`}
+                  >
+                    {metadataForm.is_favorite ? "★ Favorited" : "☆ Not Favorite"}
+                  </button>
+                </div>
+              </div>
+
+              {/* Notes */}
+              <div>
+                <label className="block text-sm font-medium mb-2 text-[#1A1A1A]">
+                  Notes
+                </label>
+                <textarea
+                  value={metadataForm.user_notes}
+                  onChange={(e) => setMetadataForm(f => ({ ...f, user_notes: e.target.value }))}
+                  placeholder="Your notes about this image..."
+                  className="w-full px-4 py-2 bg-[#FAF9F6] border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none rounded-lg min-h-[80px] resize-none"
+                />
+              </div>
+
+              {/* Actions */}
+              <div className="flex gap-3 pt-4 border-t border-[#E5E0D8]">
+                <button
+                  onClick={() => setMetadataImage(null)}
+                  className="flex-1 py-2 px-4 bg-[#F5F3EF] text-[#4A4A4A] hover:bg-[#E5E0D8] rounded-lg"
+                  disabled={isSavingMetadata}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={saveMetadata}
+                  className="flex-1 py-2 px-4 bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 rounded-lg"
+                  disabled={isSavingMetadata}
+                >
+                  {isSavingMetadata ? (
+                    <>
+                      <span className="inline-block w-4 h-4 border-2 border-transparent border-t-current rounded-full animate-spin" />
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      <MetadataIcon />
+                      Save to Masterlist
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <p className="text-xs text-amber-700 text-center bg-amber-50 p-2 rounded-lg">
+                ⚡ Changes are saved to masterlist.json first, then synced to the database.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
@@ -1997,6 +2280,20 @@ function EditIcon() {
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
       <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+    </svg>
+  );
+}
+
+function MetadataIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7" />
+      <path d="M3 12h12" />
+      <path d="M3 6h12" />
+      <path d="M3 18h12" />
+      <circle cx="3" cy="6" r="1" fill="currentColor" />
+      <circle cx="3" cy="12" r="1" fill="currentColor" />
+      <circle cx="3" cy="18" r="1" fill="currentColor" />
     </svg>
   );
 }
