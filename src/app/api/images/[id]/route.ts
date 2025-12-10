@@ -86,6 +86,9 @@ export async function PATCH(
       image: {
         id: updatedImage.id,
         image_type: updatedImage.image_type,
+        categories: updatedImage.categories,
+        framework_concepts: updatedImage.framework_concepts,
+        tags_normalized: updatedImage.tags_normalized,
         user_rating: updatedImage.user_rating,
         user_notes: updatedImage.user_notes,
         is_favorite: updatedImage.is_favorite

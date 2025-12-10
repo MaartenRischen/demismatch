@@ -1142,21 +1142,26 @@ function LibraryContent() {
         throw new Error(errorData.error || "Failed to save");
       }
 
-      // Update local state
-      setAllImages(prev => prev.map(img =>
-        img.id === metadataImage.id
-          ? {
-              ...img,
-              image_type: metadataForm.image_type,
-              categories: updates.categories as string[],
-              framework_concepts: updates.framework_concepts as string[],
-              tags: updates.tags_normalized as string[]
-            }
-          : img
-      ));
+      const responseData = await res.json();
+      console.log('Metadata save response:', responseData);
+
+      // Update local state with response data
+      if (responseData.image) {
+        setAllImages(prev => prev.map(img =>
+          img.id === metadataImage.id
+            ? {
+                ...img,
+                image_type: responseData.image.image_type,
+                categories: responseData.image.categories || [],
+                framework_concepts: responseData.image.framework_concepts || [],
+                tags: responseData.image.tags_normalized || []
+              }
+            : img
+        ));
+      }
 
       setMetadataImage(null);
-      showToast("Metadata saved to masterlist & database!");
+      showToast("✓ Saved to masterlist & database!");
     } catch (err) {
       console.error("Save metadata error:", err);
       showToast(`Failed to save: ${err instanceof Error ? err.message : 'Unknown error'}`);
