@@ -70,7 +70,8 @@ function calculateTagRelevance(
   img: ImageData,
   selectedTags: Set<string>,
   tagMappings: Record<string, { tags: string[]; categories: string[]; concepts: string[] }>,
-  tagFrequencies: Record<string, number>
+  tagFrequencies: Record<string, number>,
+  taxonomy: TaxonomyIndex | null
 ): number {
   let score = 0;
   const imgTagsLower = img.tags.map(t => t.toLowerCase());
@@ -111,14 +112,14 @@ function calculateTagRelevance(
 
     // 5. Category match bonus
     for (const cat of mapping.categories) {
-      if (img.categories.includes(cat)) {
+      if (img.categories.includes(cat) || (taxonomy && taxonomy.by_category[cat]?.includes(img.id))) {
         score += 1;
       }
     }
 
     // 6. Framework concept match bonus
     for (const concept of mapping.concepts) {
-      if (img.framework_concepts.includes(concept)) {
+      if (img.framework_concepts.includes(concept) || (taxonomy && taxonomy.by_framework_concept[concept]?.includes(img.id))) {
         score += 2;
       }
     }
@@ -131,8 +132,8 @@ function calculateTagRelevance(
       if (!mapping) return false;
       return mapping.tags.some(t =>
         imgTagsLower.some(imgTag => imgTag.includes(t.toLowerCase()))
-      ) || mapping.categories.some(cat => img.categories.includes(cat))
-        || mapping.concepts.some(c => img.framework_concepts.includes(c));
+      ) || mapping.categories.some(cat => img.categories.includes(cat) || (taxonomy && taxonomy.by_category[cat]?.includes(img.id)))
+        || mapping.concepts.some(c => img.framework_concepts.includes(c) || (taxonomy && taxonomy.by_framework_concept[c]?.includes(img.id)));
     }).length;
 
     if (tagsMatched === selectedTags.size) {
@@ -467,7 +468,7 @@ function normalizeTag(tag: string): string {
 }
 
 // Check if an image matches a quick tag (checks tags, title, categories, and framework_concepts)
-function imageMatchesQuickTag(img: ImageData, tagName: string): boolean {
+function imageMatchesQuickTag(img: ImageData, tagName: string, taxonomy: TaxonomyIndex | null): boolean {
   const mapping = TAG_MAPPINGS[tagName];
   if (!mapping) return false;
 
@@ -513,6 +514,10 @@ function imageMatchesQuickTag(img: ImageData, tagName: string): boolean {
         return true;
       }
     }
+    // Check taxonomy index as fallback
+    if (taxonomy && taxonomy.by_category[mappingCat]?.includes(img.id)) {
+      return true;
+    }
   }
   
   // 4. Check framework concepts (fallback)
@@ -525,6 +530,10 @@ function imageMatchesQuickTag(img: ImageData, tagName: string): boolean {
           normalizedMappingConcept.includes(normalizedImgConcept)) {
         return true;
       }
+    }
+    // Check taxonomy index as fallback
+    if (taxonomy && taxonomy.by_framework_concept[mappingConcept]?.includes(img.id)) {
+      return true;
     }
   }
 
@@ -847,7 +856,7 @@ function LibraryContent() {
     // Filter by quick tags (AND logic - image must match ALL selected quick tags)
     if (selectedQuickTags.size > 0) {
       result = result.filter(img =>
-        Array.from(selectedQuickTags).every(tagName => imageMatchesQuickTag(img, tagName))
+        Array.from(selectedQuickTags).every(tagName => imageMatchesQuickTag(img, tagName, taxonomy))
       );
     }
 
@@ -858,8 +867,8 @@ function LibraryContent() {
           // Tag-specific relevance scoring when quick tags are selected
           result = [...result].sort((a, b) => {
             // Primary: tag-specific relevance score (descending)
-            const tagScoreA = calculateTagRelevance(a, selectedQuickTags, TAG_MAPPINGS, tagFrequencyMap);
-            const tagScoreB = calculateTagRelevance(b, selectedQuickTags, TAG_MAPPINGS, tagFrequencyMap);
+            const tagScoreA = calculateTagRelevance(a, selectedQuickTags, TAG_MAPPINGS, tagFrequencyMap, taxonomy);
+            const tagScoreB = calculateTagRelevance(b, selectedQuickTags, TAG_MAPPINGS, tagFrequencyMap, taxonomy);
             if (tagScoreB !== tagScoreA) return tagScoreB - tagScoreA;
 
             // Secondary: image type priority (problem > comparison > explanation > solution)
