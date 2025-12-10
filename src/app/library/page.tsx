@@ -633,17 +633,37 @@ function LibraryContent() {
   useEffect(() => {
     async function fetchData() {
       try {
+        console.log("Starting to fetch images and taxonomy...");
         const [taxonomyRes, imagesRes] = await Promise.all([
           fetch("/api/taxonomy"),
           fetch("/api/images")
         ]);
 
+        console.log("Fetch responses:", {
+          taxonomyOk: taxonomyRes.ok,
+          taxonomyStatus: taxonomyRes.status,
+          imagesOk: imagesRes.ok,
+          imagesStatus: imagesRes.status
+        });
+
         if (!taxonomyRes.ok || !imagesRes.ok) {
+          const taxonomyText = await taxonomyRes.text();
+          const imagesText = await imagesRes.text();
+          console.error("Fetch failed:", {
+            taxonomy: taxonomyText,
+            images: imagesText
+          });
           throw new Error("Failed to fetch data");
         }
 
         const taxonomyData = await taxonomyRes.json();
         const imagesData = await imagesRes.json();
+
+        console.log("Fetched data:", {
+          taxonomyKeys: Object.keys(taxonomyData),
+          imagesCount: imagesData.images?.length || 0,
+          imagesDataKeys: Object.keys(imagesData)
+        });
 
         setTaxonomy(taxonomyData);
         setAllImages(imagesData.images || []);
@@ -760,22 +780,25 @@ function LibraryContent() {
   const filteredImages = useMemo(() => {
     let result = allImages;
 
-    // Early return if no images
-    if (result.length === 0) {
-      return [];
-    }
-
-    // Debug logging (temporary)
+    // Debug logging (temporary) - log even when empty to see what's happening
     console.log('Filtering images:', {
       totalImages: allImages.length,
       selectedQuickTags: Array.from(selectedQuickTags),
       taxonomyLoaded: !!taxonomy,
+      taxonomyKeys: taxonomy ? Object.keys(taxonomy) : null,
       searchQuery,
       selectedTypes: Array.from(selectedTypes),
       selectedCategories: Array.from(selectedCategories),
       selectedConcepts: Array.from(selectedConcepts),
-      selectedTags: Array.from(selectedTags)
+      selectedTags: Array.from(selectedTags),
+      isLoading
     });
+
+    // Early return if no images
+    if (result.length === 0) {
+      console.log('No images to filter, returning empty array');
+      return [];
+    }
 
     // Filter by search query
     if (searchQuery) {
@@ -871,7 +894,9 @@ function LibraryContent() {
     }
 
     // Filter by quick tags (AND logic - image must match ALL selected quick tags)
-    // Only filter if quick tags are selected AND taxonomy is loaded (to avoid filtering with null taxonomy)
+    // Only filter if quick tags are selected
+    // Note: imageMatchesQuickTag can work without taxonomy (uses image's own metadata),
+    // but taxonomy provides fallback matching
     if (selectedQuickTags.size > 0) {
       result = result.filter(img =>
         Array.from(selectedQuickTags).every(tagName => imageMatchesQuickTag(img, tagName, taxonomy))
