@@ -54,7 +54,7 @@ Keep original image visible. Semi-transparent dark panels. Clean sans-serif font
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.0-flash-exp-image-generation:free',
+        model: 'google/gemini-3-pro-image-preview',
         messages: [
           {
             role: 'user',
