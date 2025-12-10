@@ -667,10 +667,18 @@ function LibraryContent() {
           imagesArray: imagesData.images,
           imagesCount: imagesData.images?.length || 0,
           imagesType: typeof imagesData.images,
-          isArray: Array.isArray(imagesData.images)
+          isArray: Array.isArray(imagesData.images),
+          hasError: !!imagesData.error
         });
 
-        const imagesArray = imagesData.images || imagesData || [];
+        // Handle error response
+        if (imagesData.error) {
+          console.error("API returned error:", imagesData.error);
+          throw new Error(imagesData.error);
+        }
+
+        // Try different possible response structures
+        const imagesArray = imagesData.images || (Array.isArray(imagesData) ? imagesData : []);
         console.log("Setting images:", {
           arrayLength: imagesArray.length,
           firstImage: imagesArray[0],
