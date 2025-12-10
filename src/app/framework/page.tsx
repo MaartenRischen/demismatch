@@ -19,189 +19,38 @@ const SECTIONS = [
   { id: "supplementary", title: "Supplementary", anchor: "supplementary-materials" },
 ];
 
-// Base URLs for images
+// Base URLs for images (kept for future manual image insertion)
 const GRAPHICS_BASE = "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/";
 const LIBRARY_BASE = "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/";
 
-// Comprehensive image mappings based on semantic analysis of 2500+ library images
-// Maps subsection titles/keywords to relevant images from the library
-const SUBSECTION_IMAGES: Record<string, { src: string; alt: string; caption?: string }[]> = {
-  // Part I: The Pattern - Suffering, signals as data, fish metaphor
-  "the pattern": [
-    { src: "the_sequencing/94_THE_CONTENTMENT_BASELINE.png", alt: "The Contentment Baseline", caption: "True contentment comes from alignment, not artificial sources" },
-    { src: "the_sequencing/84_THE_EMOTIONAL_RANGE.png", alt: "The Emotional Range", caption: "Resolving misalignment leads to flourishing" },
-  ],
-  "your anxiety is not": [
-    { src: "the_sequencing/96_THE_TIME_PERCEPTION.png", alt: "The Time Perception", caption: "Time feels different in aligned vs misaligned environments" },
-  ],
+function NoteOnEvidenceAccordion({ content }: { content: string[] }) {
+  const [isOpen, setIsOpen] = useState(false);
   
-  // Part II: The Machine
-  "the drives": [
-    { src: "social_dynamics_100_prompts (1)/3_THE_RELATIVE_POSITION.png", alt: "The Relative Position", caption: "Happiness based on relative, not absolute status" },
-    { src: "social_dynamics_100_prompts (1)/4_THE_MOVING_TARGET.png", alt: "The Moving Target", caption: "Modern goals create endless unfulfilling cycles" },
-  ],
-  "the signals": [
-    { src: "the_sequencing/14_THE_MENTAL_HEALTH_AI.png", alt: "The Mental Health AI", caption: "Treating symptoms vs addressing root causes" },
-    { src: "the_sequencing/4_THE_EMOTION_REGULATION_CHIP.png", alt: "The Emotion Regulation Chip", caption: "Technology masking needs rather than meeting them" },
-  ],
-  "the limits": [
-    { src: "the_sequencing/51_THE_NETWORK_EXPANSION.png", alt: "The Network Expansion", caption: "Dunbar's Number: quality degrades beyond 150" },
-    { src: "the_sequencing/53_THE_REPUTATION_SYSTEM.png", alt: "The Reputation System", caption: "Algorithmic ratings vs witnessed behavior" },
-  ],
-  "the interface": [
-    { src: "the_sequencing/83_THE_PATTERN_RECOGNITION.png", alt: "The Pattern Recognition", caption: "Evolved skills misfiring in wrong environments" },
-    { src: "the_sequencing/27_THE_SENSORY_UPGRADE.png", alt: "The Sensory Upgrade", caption: "Enhanced senses become burden in chaotic environments" },
-  ],
-  
-  // Part III: The Spec Sheet (EEA conditions)
-  "social structure": [
-    { src: "the_sequencing/60_THE_SAFETY_NETWORK.png", alt: "The Safety Network", caption: "Professional services vs genuine community support" },
-    { src: "the_sequencing/64_THE_CELEBRATION_COORDINATION.png", alt: "The Celebration Coordination", caption: "Events with strangers vs reunions with tribe" },
-  ],
-  "economic pattern": [
-    { src: "the_sequencing/59_THE_COMMUNITY_CURRENCY.png", alt: "The Community Currency", caption: "Transactions vs remembered reciprocity" },
-    { src: "the_sequencing/69_THE_RESOURCE_SHARING.png", alt: "The Resource Sharing", caption: "Rental economy vs genuine sharing" },
-  ],
-  "governance": [
-    { src: "the_sequencing/68_THE_COLLECTIVE_GOVERNANCE.png", alt: "The Collective Governance", caption: "Digital democracy vs tribal consensus" },
-    { src: "the_sequencing/56_THE_GROUP_DECISION_SUPPORT.png", alt: "The Group Decision Support", caption: "AI can facilitate but not replace genuine bonds" },
-  ],
-  "daily rhythm": [
-    { src: "the_sequencing/40_THE_CIRCADIAN_OPTIMIZATION.png", alt: "The Circadian Optimization", caption: "Modern demands vs natural rhythms" },
-    { src: "the_sequencing/31_THE_SLEEP_REDUCTION.png", alt: "The Sleep Reduction", caption: "Screen time vs fire circle connection" },
-  ],
-  "child-rearing": [
-    { src: "the_sequencing/61_THE_PARENTING_SUPPORT_NETWORK.png", alt: "The Parenting Support Network", caption: "Apps for advice vs village support" },
-    { src: "the_sequencing/20_THE_GENETIC_OPTIMIZATION.png", alt: "The Genetic Optimization", caption: "Genes need environment to flourish" },
-    { src: "the_sequencing/62_THE_ELDER_INTEGRATION.png", alt: "The Elder Integration", caption: "Warehousing vs wisdom sharing" },
-  ],
-  "this was not paradise": [
-    { src: "the_sequencing/89_THE_COMPASSION_EXPANSION.png", alt: "The Compassion Expansion", caption: "Manageable tribal compassion vs overwhelming global scale" },
-  ],
-  
-  // Part IV: The Violations
-  "the formula": [
-    { src: "the_sequencing/3_THE_PRODUCTIVITY_IMPLANT.png", alt: "The Productivity Implant", caption: "High output in meaningless context" },
-  ],
-  "social structure mismatch": [
-    { src: "the_sequencing/35_THE_HEARING_UPGRADE.png", alt: "The Hearing Upgrade", caption: "Amplified assault in noisy environments" },
-  ],
-  "work and purpose": [
-    { src: "the_sequencing/29_THE_ENDURANCE_BOOST.png", alt: "The Endurance Boost", caption: "Repetitive jobs vs communal contribution" },
-    { src: "the_sequencing/24_THE_KNOWLEDGE_DOWNLOAD.png", alt: "The Knowledge Download", caption: "Information hoarding vs tribal application" },
-  ],
-  "status competition": [
-    { src: "social_dynamics_100_prompts (1)/18_THE_UNIFORM.png", alt: "The Uniform", caption: "Seeking individuality through conformity" },
-    { src: "the_sequencing/19_STATUS_COMPETITION_SCALE.png", alt: "Status Competition Scale", caption: "Competing against 150 vs 8 billion" },
-  ],
-  "the addiction trap": [
-    { src: "the_sequencing/79_THE_FLOW_STATE_ACCESS.png", alt: "The Flow State Access", caption: "Hyperstimuli extraction vs meaningful craft" },
-  ],
-  "wants versus needs": [
-    { src: "the_sequencing/93_THE_LOVE_CAPACITY.png", alt: "The Love Capacity", caption: "Parasocial bonds vs real reciprocal connection" },
-  ],
-  "celebrity culture": [
-    { src: "the_sequencing/8_THE_CREATIVITY_AUGMENTATION.png", alt: "The Creativity Augmentation", caption: "Content for algorithms vs creation for community" },
-  ],
-  
-  // Part V: The Exploitation
-  "exploitation formula": [
-    { src: "the_sequencing/2_THE_EXPLOITATION_LOOP_DIAGRAM.png", alt: "The Exploitation Loop", caption: "The cycle of manufactured need" },
-  ],
-  "social media": [
-    { src: "the_sequencing/5_THE_ATTENTION_ENHANCEMENT.png", alt: "The Attention Enhancement", caption: "Attention hijacked by the attention economy" },
-    { src: "the_sequencing/6_THE_SOCIAL_PREDICTION_AI.png", alt: "The Social Prediction AI", caption: "AI exploiting strangers vs strengthening tribe" },
-  ],
-  "pharmaceutical industry": [
-    { src: "the_sequencing/14_THE_MENTAL_HEALTH_AI.png", alt: "The Mental Health AI", caption: "Palliative care vs genuine wellbeing" },
-  ],
-  "food industry": [
-    { src: "the_sequencing/32_THE_METABOLISM_CONTROL.png", alt: "The Metabolism Control", caption: "Engineered food vs communal meals" },
-    { src: "the_sequencing/37_THE_APPETITE_REGULATION.png", alt: "The Appetite Regulation", caption: "Isolated eating vs shared rhythm" },
-    { src: "the_sequencing/42_THE_MICROBIOME_ENGINEERING.png", alt: "The Microbiome Engineering", caption: "Processed food vs natural diet" },
-  ],
-  "dating apps": [
-    { src: "the_sequencing/55_THE_MATCHMAKING_ALGORITHM.png", alt: "The Matchmaking Algorithm", caption: "Data points vs shared community context" },
-  ],
-  "news media": [
-    { src: "the_sequencing/17_THE_BRAIN-COMPUTER_INTERFACE.png", alt: "The Brain-Computer Interface", caption: "News amplifying anxious minds" },
-    { src: "the_sequencing/38_THE_STRESS_RESPONSE_MODULATION.png", alt: "The Stress Response Modulation", caption: "Chronic activation vs rare genuine threats" },
-  ],
-  "self-help industry": [
-    { src: "the_sequencing/86_THE_ACCEPTANCE_DEEPENING.png", alt: "The Acceptance Deepening", caption: "Spiritual bypass vs genuine alignment" },
-    { src: "the_sequencing/76_THE_MEDITATION_ENHANCEMENT.png", alt: "The Meditation Enhancement", caption: "Meditation as band-aid vs genuine peace" },
-  ],
-  "gambling industry": [
-    { src: "the_sequencing/79_THE_FLOW_STATE_ACCESS.png", alt: "The Flow State Access", caption: "Variable ratio reinforcement everywhere" },
-  ],
-  "advertising industry": [
-    { src: "the_sequencing/81_THE_INTUITION_AMPLIFICATION.png", alt: "The Intuition Amplification", caption: "Intuition distorted by manufactured desire" },
-  ],
-  "the reinforcing loop": [
-    { src: "the_sequencing/100_THE_INTEGRATION.png", alt: "The Integration", caption: "Technology neutral—outcome depends on alignment" },
-  ],
-  "the complicity": [
-    { src: "the_sequencing/57_THE_CARE_COORDINATION.png", alt: "The Care Coordination", caption: "Paid care vs community reciprocity" },
-  ],
-  "the suppression": [
-    { src: "the_sequencing/95_THE_MEANING_PERCEPTION.png", alt: "The Meaning Perception", caption: "Pattern matching vs genuine significance" },
-  ],
-  
-  // Part VI: The Cascades
-  "cascades": [
-    { src: "the_sequencing/43_THE_NEURAL_PLASTICITY_BOOST.png", alt: "The Neural Plasticity Boost", caption: "Environment shapes neural patterns" },
-  ],
-  
-  // Part VII: Psychiatry critique
-  "psychiatry": [
-    { src: "the_sequencing/4_THE_EMOTION_REGULATION_CHIP.png", alt: "The Emotion Regulation Chip", caption: "Silencing signals while needs go unmet" },
-  ],
-  
-  // Part VIII: The Constraints
-  "constraints": [
-    { src: "the_sequencing/26_THE_TRIBE_VS_CULT_CHECKLIST.png", alt: "Tribe vs Cult Checklist", caption: "What separates healthy community from capture" },
-  ],
-  
-  // Part IX: The Destination
-  "destination": [
-    { src: "the_sequencing/100_THE_INTEGRATION.png", alt: "The Integration", caption: "Demismatch first, then augment" },
-    { src: "the_sequencing/85_THE_PRESENCE_ENHANCEMENT.png", alt: "The Presence Enhancement", caption: "Aligned presence brings fulfillment" },
-  ],
-  
-  // Supplementary - Research, Technology, Transition
-  "research directions": [
-    { src: "the_sequencing/21_THE_PREDICTIVE_HEALTH_AI.png", alt: "The Predictive Health AI", caption: "Prediction requires lifestyle alignment" },
-  ],
-  "technology explorations": [
-    { src: "the_sequencing/19_THE_PERSONAL_AI_ASSISTANT.png", alt: "The Personal AI Assistant", caption: "Tech optimizing logistics for human connection" },
-    { src: "the_sequencing/54_THE_CONFLICT_RESOLUTION_AI.png", alt: "The Conflict Resolution AI", caption: "AI supporting vs replacing community bonds" },
-  ],
-  "transition": [
-    { src: "the_sequencing/7_THE_LIFESPAN_EXTENSION.png", alt: "The Lifespan Extension", caption: "Longer life needs meaning and tribe" },
-    { src: "the_sequencing/23_THE_AGING_REVERSAL.png", alt: "The Aging Reversal", caption: "Youth without role creates emptiness" },
-  ],
-  "governance mechanics": [
-    { src: "the_sequencing/71_THE_DISPUTE_RESOLUTION.png", alt: "The Dispute Resolution", caption: "Closing files vs healing relationships" },
-    { src: "the_sequencing/88_THE_FORGIVENESS_ENHANCEMENT.png", alt: "The Forgiveness Enhancement", caption: "Forgiveness requires accountability structures" },
-  ],
-  "failure modes": [
-    { src: "the_sequencing/77_THE_PSYCHEDELIC_THERAPY.png", alt: "The Psychedelic Therapy", caption: "Insights need community integration" },
-  ],
-  "case studies": [
-    { src: "the_sequencing/65_THE_MENTORSHIP_MATCHING.png", alt: "The Mentorship Matching", caption: "Scheduled sessions vs organic guidance" },
-    { src: "the_sequencing/70_THE_COLLECTIVE_PROJECTS.png", alt: "The Collective Projects", caption: "Anonymous contributions vs visible shared goals" },
-  ],
-};
-
-// Helper to find matching images for a given text context
-function findMatchingImages(text: string): { src: string; alt: string; caption?: string }[] {
-  const lowerText = text.toLowerCase();
-  for (const [key, images] of Object.entries(SUBSECTION_IMAGES)) {
-    if (lowerText.includes(key.toLowerCase())) {
-      return images;
-    }
-  }
-  return [];
+  return (
+    <div className="bg-gray-50 border-l-4 border-gray-300 my-8">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full text-left p-4 flex items-center justify-between hover:bg-gray-100 transition-colors"
+      >
+        <h4 className="font-semibold text-gray-700 text-sm">A Note on Evidence</h4>
+        <svg
+          className={`w-4 h-4 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {isOpen && (
+        <div className="px-4 pb-4 text-sm text-gray-600">
+          {content.map((p, idx) => (
+            <p key={idx} className="mb-2 last:mb-0 leading-relaxed">{p}</p>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 
 function parseMarkdownToSections(markdown: string) {
@@ -215,7 +64,7 @@ function parseMarkdownToSections(markdown: string) {
   for (const line of lines) {
     if (line.trim() === '') continue;
     
-    // Detect "A Note on Evidence" section - make it smaller
+    // Detect "A Note on Evidence" section - make it collapsible
     if (line.toLowerCase().includes('a note on evidence')) {
       inNoteOnEvidence = true;
       if (!currentSection) {
@@ -226,15 +75,10 @@ function parseMarkdownToSections(markdown: string) {
     
     // End of note on evidence at next major heading or horizontal rule
     if (inNoteOnEvidence && (line.startsWith('## Part') || line.startsWith('# Part') || line.trim() === '---')) {
-      // Render the collected note on evidence as a smaller disclaimer
+      // Render the collected note on evidence as a collapsible accordion
       if (noteOnEvidenceContent.length > 0) {
         currentSection?.content.push(
-          <div key={key++} className="bg-gray-50 border-l-4 border-gray-300 p-4 my-8 text-sm text-gray-600">
-            <h4 className="font-semibold text-gray-700 mb-2 text-sm">A Note on Evidence</h4>
-            {noteOnEvidenceContent.map((p, idx) => (
-              <p key={idx} className="mb-2 last:mb-0 leading-relaxed">{p}</p>
-            ))}
-          </div>
+          <NoteOnEvidenceAccordion key={key++} content={noteOnEvidenceContent} />
         );
         noteOnEvidenceContent = [];
       }
@@ -266,28 +110,6 @@ function parseMarkdownToSections(markdown: string) {
           {partMatch[1]}
         </h1>
       );
-      
-      // Insert images for this part
-      const partImages = findMatchingImages(partMatch[1]);
-      if (partImages.length > 0) {
-        currentSection.content.push(
-          <div key={key++} className="my-8 grid gap-6">
-            {partImages.map((img, imgIdx) => (
-              <figure key={imgIdx} className="my-4">
-                <img
-                  src={`${LIBRARY_BASE}${img.src}`}
-                  alt={img.alt}
-                  className="rounded-lg w-full max-w-2xl mx-auto shadow-sm"
-                  loading="lazy"
-                />
-                {img.caption && (
-                  <figcaption className="text-center text-sm text-gray-500 mt-2 italic">{img.caption}</figcaption>
-                )}
-              </figure>
-            ))}
-          </div>
-        );
-      }
       continue;
     }
 
@@ -311,7 +133,7 @@ function parseMarkdownToSections(markdown: string) {
       continue;
     }
     
-    // H2 headers - check for matching images
+    // H2 headers
     if (line.startsWith('## ')) {
       const title = line.slice(3);
       currentSection.content.push(
@@ -319,61 +141,16 @@ function parseMarkdownToSections(markdown: string) {
           {title}
         </h2>
       );
-      
-      // Insert relevant images after H2 headers
-      const h2Images = findMatchingImages(title);
-      if (h2Images.length > 0) {
-        currentSection.content.push(
-          <div key={key++} className="my-8 grid gap-6">
-            {h2Images.map((img, imgIdx) => (
-              <figure key={imgIdx} className="my-4">
-                <img
-                  src={`${LIBRARY_BASE}${img.src}`}
-                  alt={img.alt}
-                  className="rounded-lg w-full max-w-2xl mx-auto shadow-sm"
-                  loading="lazy"
-                />
-                {img.caption && (
-                  <figcaption className="text-center text-sm text-gray-500 mt-2 italic">{img.caption}</figcaption>
-                )}
-              </figure>
-            ))}
-          </div>
-        );
-      }
       continue;
     }
     
-    // H3 headers - check for matching images
+    // H3 headers
     if (line.startsWith('### ')) {
-      const title = line.slice(4);
       currentSection.content.push(
         <h3 key={key++} className="text-2xl text-gray-900 mt-8 mb-3" style={{ fontFamily: 'Georgia, serif' }}>
-          {title}
+          {line.slice(4)}
         </h3>
       );
-      
-      // Insert relevant images after H3 headers
-      const h3Images = findMatchingImages(title);
-      if (h3Images.length > 0) {
-        currentSection.content.push(
-          <div key={key++} className="my-6 grid gap-4">
-            {h3Images.slice(0, 2).map((img, imgIdx) => (
-              <figure key={imgIdx} className="my-2">
-                <img
-                  src={`${LIBRARY_BASE}${img.src}`}
-                  alt={img.alt}
-                  className="rounded-lg w-full max-w-xl mx-auto shadow-sm"
-                  loading="lazy"
-                />
-                {img.caption && (
-                  <figcaption className="text-center text-sm text-gray-500 mt-2 italic">{img.caption}</figcaption>
-                )}
-              </figure>
-            ))}
-          </div>
-        );
-      }
       continue;
     }
     
