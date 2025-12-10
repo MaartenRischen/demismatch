@@ -180,7 +180,7 @@ function ProgressBar({ progress }: { progress: number }) {
   );
 }
 
-function NavigationSidebar({ activeSection }: { activeSection: string }) {
+function NavigationSidebar({ activeSection, onRequestCustom }: { activeSection: string; onRequestCustom: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -238,10 +238,19 @@ function NavigationSidebar({ activeSection }: { activeSection: string }) {
           <a
             href="/api/download-framework-pdf"
             download="demismatch-framework.pdf"
-            className="block text-sm text-[#c75b3a] hover:underline mb-6"
+            className="block text-sm text-[#c75b3a] hover:underline mb-2"
           >
             → Download PDF
           </a>
+          <button
+            onClick={() => {
+              onRequestCustom();
+              setIsOpen(false);
+            }}
+            className="block text-sm text-[#c75b3a] hover:underline mb-6 text-left w-full"
+          >
+            → Request Custom Version
+          </button>
         </div>
 
         {/* Framework Map - Small version */}
@@ -338,7 +347,7 @@ export default function FrameworkPage() {
   return (
     <main className="min-h-screen bg-[#faf9f6] pt-20">
       <ProgressBar progress={progress} />
-      <NavigationSidebar activeSection={activeSection} />
+      <NavigationSidebar activeSection={activeSection} onRequestCustom={() => setShowCustomModal(true)} />
 
       <Navigation />
 
