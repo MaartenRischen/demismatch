@@ -760,6 +760,23 @@ function LibraryContent() {
   const filteredImages = useMemo(() => {
     let result = allImages;
 
+    // Early return if no images
+    if (result.length === 0) {
+      return [];
+    }
+
+    // Debug logging (temporary)
+    console.log('Filtering images:', {
+      totalImages: allImages.length,
+      selectedQuickTags: Array.from(selectedQuickTags),
+      taxonomyLoaded: !!taxonomy,
+      searchQuery,
+      selectedTypes: Array.from(selectedTypes),
+      selectedCategories: Array.from(selectedCategories),
+      selectedConcepts: Array.from(selectedConcepts),
+      selectedTags: Array.from(selectedTags)
+    });
+
     // Filter by search query
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -854,6 +871,7 @@ function LibraryContent() {
     }
 
     // Filter by quick tags (AND logic - image must match ALL selected quick tags)
+    // Only filter if quick tags are selected AND taxonomy is loaded (to avoid filtering with null taxonomy)
     if (selectedQuickTags.size > 0) {
       result = result.filter(img =>
         Array.from(selectedQuickTags).every(tagName => imageMatchesQuickTag(img, tagName, taxonomy))
