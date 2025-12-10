@@ -1740,7 +1740,7 @@ function LibraryContent() {
                   >
                     <img
                       src={image.image_url}
-                      alt={image.title}
+                      alt=""
                       className="w-full aspect-square object-cover group-hover:opacity-80 transition-opacity"
                       loading="lazy"
                     />
