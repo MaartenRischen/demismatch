@@ -633,60 +633,25 @@ function LibraryContent() {
   useEffect(() => {
     async function fetchData() {
       try {
-        console.log("Starting to fetch images and taxonomy...");
         const [taxonomyRes, imagesRes] = await Promise.all([
           fetch("/api/taxonomy"),
           fetch("/api/images")
         ]);
 
-        console.log("Fetch responses:", {
-          taxonomyOk: taxonomyRes.ok,
-          taxonomyStatus: taxonomyRes.status,
-          imagesOk: imagesRes.ok,
-          imagesStatus: imagesRes.status
-        });
-
         if (!taxonomyRes.ok || !imagesRes.ok) {
-          const taxonomyText = await taxonomyRes.text();
-          const imagesText = await imagesRes.text();
-          console.error("Fetch failed:", {
-            taxonomy: taxonomyText,
-            images: imagesText
-          });
           throw new Error("Failed to fetch data");
         }
 
         const taxonomyData = await taxonomyRes.json();
         const imagesData = await imagesRes.json();
 
-        console.log("Fetched data:", {
-          taxonomyKeys: Object.keys(taxonomyData),
-          taxonomySample: taxonomyData.by_category ? Object.keys(taxonomyData.by_category).slice(0, 3) : 'no by_category',
-          imagesDataFull: imagesData,
-          imagesDataKeys: Object.keys(imagesData),
-          imagesArray: imagesData.images,
-          imagesCount: imagesData.images?.length || 0,
-          imagesType: typeof imagesData.images,
-          isArray: Array.isArray(imagesData.images),
-          hasError: !!imagesData.error
-        });
-
         // Handle error response
         if (imagesData.error) {
-          console.error("API returned error:", imagesData.error);
           throw new Error(imagesData.error);
         }
 
-        // Try different possible response structures
-        const imagesArray = imagesData.images || (Array.isArray(imagesData) ? imagesData : []);
-        console.log("Setting images:", {
-          arrayLength: imagesArray.length,
-          firstImage: imagesArray[0],
-          isArray: Array.isArray(imagesArray)
-        });
-
         setTaxonomy(taxonomyData);
-        setAllImages(imagesArray);
+        setAllImages(imagesData.images || []);
       } catch (err) {
         console.error("Fetch error:", err);
         setError("Failed to load library data");
@@ -800,23 +765,8 @@ function LibraryContent() {
   const filteredImages = useMemo(() => {
     let result = allImages;
 
-    // Debug logging (temporary) - log even when empty to see what's happening
-    console.log('Filtering images:', {
-      totalImages: allImages.length,
-      selectedQuickTags: Array.from(selectedQuickTags),
-      taxonomyLoaded: !!taxonomy,
-      taxonomyKeys: taxonomy ? Object.keys(taxonomy) : null,
-      searchQuery,
-      selectedTypes: Array.from(selectedTypes),
-      selectedCategories: Array.from(selectedCategories),
-      selectedConcepts: Array.from(selectedConcepts),
-      selectedTags: Array.from(selectedTags),
-      isLoading
-    });
-
     // Early return if no images
     if (result.length === 0) {
-      console.log('No images to filter, returning empty array');
       return [];
     }
 

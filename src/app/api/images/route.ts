@@ -93,12 +93,6 @@ export async function GET(request: NextRequest) {
 
     const supabase = getSupabase();
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    
-    console.log('API: Supabase connection check:', {
-      hasUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
-      hasKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      urlPrefix: process.env.NEXT_PUBLIC_SUPABASE_URL?.substring(0, 20) + '...'
-    });
 
     // If specific IDs requested, fetch just those
     if (idsParam) {
