@@ -247,6 +247,91 @@ export default function ProjectsPage() {
         </div>
       </section>
 
+      {/* Evolutionary HUD Generator */}
+      <section className="px-8 py-8 max-w-4xl mx-auto">
+        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div className="p-8">
+            <div className="flex items-start justify-between mb-4">
+              <h2 className="text-2xl text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>Evolutionary HUD Generator</h2>
+              <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full font-medium">NEW</span>
+            </div>
+            <p className="text-xl text-gray-700 mb-6">
+              Upload any image. See what your ancient brain is actually computing—the survival dashboard you never knew you had.
+            </p>
+            
+            <div className="bg-gray-900 rounded-lg p-8 mb-6 text-center">
+              <div className="grid grid-cols-3 gap-4 text-green-400 text-xs font-mono mb-4">
+                <div className="text-left">
+                  <div className="text-gray-500 mb-1">DOPAMINE</div>
+                  <div className="bg-gray-800 h-2 rounded overflow-hidden">
+                    <div className="bg-green-500 h-full w-3/4"></div>
+                  </div>
+                </div>
+                <div className="text-left">
+                  <div className="text-gray-500 mb-1">CORTISOL</div>
+                  <div className="bg-gray-800 h-2 rounded overflow-hidden">
+                    <div className="bg-red-500 h-full w-1/2"></div>
+                  </div>
+                </div>
+                <div className="text-left">
+                  <div className="text-gray-500 mb-1">OXYTOCIN</div>
+                  <div className="bg-gray-800 h-2 rounded overflow-hidden">
+                    <div className="bg-yellow-500 h-full w-1/4"></div>
+                  </div>
+                </div>
+              </div>
+              <div className="text-amber-400 text-lg font-medium">🎯 TARGET: POTENTIAL RESOURCE</div>
+              <div className="text-gray-400 text-sm mt-2">ANALYSIS: HIGH-VALUE OPPORTUNITY</div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8 mb-8">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">What it shows:</h3>
+                <ul className="text-gray-700 space-y-2">
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#c75b3a] mt-1">•</span>
+                    <span>Neurochemical predictions (dopamine, cortisol, etc.)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#c75b3a] mt-1">•</span>
+                    <span>Threat/resource/mate detection</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#c75b3a] mt-1">•</span>
+                    <span>Social bond status indicators</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#c75b3a] mt-1">•</span>
+                    <span>Mismatch warnings for modern environments</span>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Color Coding:</h3>
+                <ul className="text-gray-700 space-y-2">
+                  <li className="flex items-start gap-2">
+                    <span className="text-red-500 mt-1">🔴</span>
+                    <span>Red = Mismatch (modern threats, strangers, screens)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-500 mt-1">🟢</span>
+                    <span>Green = Aligned (tribe, nature, real bonds)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-amber-500 mt-1">🎯</span>
+                    <span>Target reticle shows brain's focus</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <Link href="/projects/hud/app" className="bg-[#c75b3a] text-white px-6 py-3 rounded-lg hover:bg-[#b54d2e] transition inline-block">
+              Try the HUD Generator →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Coming Soon */}
       <section className="px-8 py-12 max-w-4xl mx-auto">
         <h2 className="text-2xl text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>Coming Soon</h2>

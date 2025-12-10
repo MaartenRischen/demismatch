@@ -119,29 +119,12 @@ export async function GET(request: NextRequest) {
     let offset = 0;
     let hasMore = true;
 
-    console.log('API: Starting Supabase query...', {
-      table: 'image_embeddings',
-      columns: SELECT_COLUMNS,
-      pageSize,
-      offset
-    });
-
     while (hasMore) {
-      const { data, error, count } = await supabase
+      const { data, error } = await supabase
         .from('image_embeddings')
-        .select(SELECT_COLUMNS, { count: 'exact' })
+        .select(SELECT_COLUMNS)
         .range(offset, offset + pageSize - 1)
         .order('id');
-
-      console.log('API: Supabase query result:', {
-        offset,
-        dataLength: data?.length || 0,
-        error: error?.message || null,
-        errorCode: error?.code || null,
-        errorDetails: error?.details || null,
-        errorHint: error?.hint || null,
-        count
-      });
 
       if (error) {
         console.error('Supabase error:', error);
@@ -157,32 +140,9 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    console.log('API: Query complete:', {
-      totalRowsFetched: allData.length,
-      totalPages: Math.ceil(offset / pageSize)
-    });
-
-    console.log('API: Raw data from Supabase:', {
-      totalRows: allData.length,
-      firstRow: allData[0],
-      sampleRows: allData.slice(0, 3).map(r => ({
-        id: r.id,
-        file_name: r.file_name,
-        image_url: r.image_url,
-        hasFileName: !!r.file_name,
-        hasImageUrl: !!r.image_url
-      }))
-    });
-
     const images: ImageData[] = allData
       .map(row => transformRow(row, supabaseUrl))
       .filter((img): img is ImageData => img !== null);
-
-    console.log('API: Transformed images:', {
-      totalImages: images.length,
-      firstImage: images[0],
-      filteredOut: allData.length - images.length
-    });
 
     return NextResponse.json({ images });
   } catch (error) {
