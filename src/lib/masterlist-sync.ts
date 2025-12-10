@@ -97,9 +97,8 @@ export async function syncImageToDatabase(image: MasterlistImage): Promise<void>
     categories: image.categories || [],
     framework_concepts: image.framework_concepts || [],
     tags_normalized: image.tags_normalized || image.analysis?.tags || [],
-    user_rating: image.user_rating,
-    user_notes: image.user_notes,
-    is_favorite: image.is_favorite || false,
+    // Note: user_rating, user_notes, is_favorite are stored in masterlist.json only
+    // They are not synced to the database table (which is just a cache for fast queries)
   };
   
   const { error } = await supabase
@@ -230,9 +229,7 @@ export async function fullResyncFromMasterlist(): Promise<{
       categories: image.categories || [],
       framework_concepts: image.framework_concepts || [],
       tags_normalized: image.tags_normalized || image.analysis?.tags || [],
-      user_rating: image.user_rating,
-      user_notes: image.user_notes,
-      is_favorite: image.is_favorite || false,
+      // user_rating, user_notes, is_favorite stored in masterlist.json only
     }));
     
     const { error } = await supabase
