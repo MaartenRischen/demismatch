@@ -466,7 +466,7 @@ function normalizeTag(tag: string): string {
   return tag.toLowerCase().replace(/[\s\-_]/g, '');
 }
 
-// Check if an image matches a quick tag (TAG-ONLY matching, no categories/concepts)
+// Check if an image matches a quick tag (checks tags, title, categories, and framework_concepts)
 function imageMatchesQuickTag(img: ImageData, tagName: string): boolean {
   const mapping = TAG_MAPPINGS[tagName];
   if (!mapping) return false;
@@ -475,41 +475,55 @@ function imageMatchesQuickTag(img: ImageData, tagName: string): boolean {
   const normalizedTagName = normalizeTag(tagName);
   
   // Get all image tags normalized
-  const imgTagsNormalized = img.tags.map(t => normalizeTag(t));
+  const imgTagsNormalized = (img.tags || []).map(t => normalizeTag(t));
   
-  // Check if image title contains the tag (strong signal)
+  // 1. Check if image title contains the tag (strong signal)
   const titleNormalized = normalizeTag(img.title || '');
   if (titleNormalized.includes(normalizedTagName)) {
     return true;
   }
   
-  // Check if any of the mapping's tags match any of the image's tags
+  // 2. Check if any of the mapping's tags match any of the image's tags
   for (const mappingTag of mapping.tags) {
     const normalizedMappingTag = normalizeTag(mappingTag);
     
+    // Check against image tags
     for (const imgTag of imgTagsNormalized) {
-      // Exact match or substring match
       if (imgTag === normalizedMappingTag || 
           imgTag.includes(normalizedMappingTag) || 
           normalizedMappingTag.includes(imgTag)) {
         return true;
       }
     }
+    
+    // Also check if mapping tag appears in title
+    if (titleNormalized.includes(normalizedMappingTag)) {
+      return true;
+    }
   }
   
-  // Also check themes if they exist (these are like tags)
-  if ('themes' in img && Array.isArray((img as any).themes)) {
-    const themesNormalized = (img as any).themes.map((t: string) => normalizeTag(t));
-    
-    for (const mappingTag of mapping.tags) {
-      const normalizedMappingTag = normalizeTag(mappingTag);
-      
-      for (const theme of themesNormalized) {
-        if (theme === normalizedMappingTag || 
-            theme.includes(normalizedMappingTag) || 
-            normalizedMappingTag.includes(theme)) {
-          return true;
-        }
+  // 3. Check categories (fallback)
+  for (const mappingCat of mapping.categories) {
+    const normalizedMappingCat = normalizeTag(mappingCat);
+    for (const imgCat of (img.categories || [])) {
+      const normalizedImgCat = normalizeTag(imgCat);
+      if (normalizedImgCat === normalizedMappingCat || 
+          normalizedImgCat.includes(normalizedMappingCat) ||
+          normalizedMappingCat.includes(normalizedImgCat)) {
+        return true;
+      }
+    }
+  }
+  
+  // 4. Check framework concepts (fallback)
+  for (const mappingConcept of mapping.concepts) {
+    const normalizedMappingConcept = normalizeTag(mappingConcept);
+    for (const imgConcept of (img.framework_concepts || [])) {
+      const normalizedImgConcept = normalizeTag(imgConcept);
+      if (normalizedImgConcept === normalizedMappingConcept ||
+          normalizedImgConcept.includes(normalizedMappingConcept) ||
+          normalizedMappingConcept.includes(normalizedImgConcept)) {
+        return true;
       }
     }
   }
