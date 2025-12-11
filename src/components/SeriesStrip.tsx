@@ -49,6 +49,11 @@ export default function SeriesStrip({ seriesName, images, onImageClick }: Series
         style={{ scrollBehavior: 'smooth' }}
       >
         {images.slice(0, 30).map((img) => (
+          <button
+            key={img.id}
+            type="button"
+            onClick={() => onImageClick?.(img)}
+            className="flex-shrink-0 group focus:outline-none"
           >
             <div className="w-36 h-36 rounded-lg overflow-hidden bg-[#F5F3EF] border border-[#E5E0D8] hover:border-[#C75B39] transition-all hover:shadow-md">
               <img
@@ -58,6 +63,7 @@ export default function SeriesStrip({ seriesName, images, onImageClick }: Series
                 loading="lazy"
               />
             </div>
+          </button>
         ))}
         {images.length > 30 && (
           <Link
@@ -71,4 +77,3 @@ export default function SeriesStrip({ seriesName, images, onImageClick }: Series
     </div>
   );
 }
-
