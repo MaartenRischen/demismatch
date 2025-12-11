@@ -1741,22 +1741,14 @@ function LibraryContent() {
                     <img
                       src={image.image_url}
                       alt=""
+                      title=""
                       className="w-full aspect-square object-cover group-hover:opacity-80 transition-opacity"
                       loading="lazy"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).alt = '';
+                        (e.target as HTMLImageElement).title = '';
+                      }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="absolute bottom-0 left-0 right-0 p-2">
-                        <p className="text-white text-xs line-clamp-2">{image.title}</p>
-                        <span className={`text-xs px-1.5 py-0.5 rounded mt-1 inline-block ${
-                          image.image_type === "problem" ? "bg-red-500/80" :
-                          image.image_type === "solution" ? "bg-green-500/80" :
-                          image.image_type === "comparison" ? "bg-blue-500/80" :
-                          "bg-gray-500/80"
-                        } text-white`}>
-                          {image.image_type}
-                        </span>
-                      </div>
-                    </div>
                     <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <button
                         className="p-1.5 bg-black/60 rounded hover:bg-black/80"
