@@ -683,10 +683,13 @@ function LibraryContent() {
     fetchData();
   }, []);
 
-  // Handle image click in series view
-  const handleImageClick = useCallback((image: ImageData) => {
-    setSelectedImage(image);
-  }, []);
+  // Handle image click from SeriesStrip (looks up full image data by id)
+  const handleImageClick = useCallback((image: { id: number }) => {
+    const fullImage = allImages.find(img => img.id === image.id);
+    if (fullImage) {
+      setSelectedImage(fullImage);
+    }
+  }, [allImages]);
 
   // Update URL when filters change
   const updateURL = useCallback(() => {

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 
-interface ImageData {
+// Minimal interface - accepts any object with at least these properties
+interface SeriesImage {
   id: number;
   title: string;
   image_url: string;
@@ -12,12 +13,11 @@ interface ImageData {
 
 interface SeriesStripProps {
   seriesName: string;
-  images: ImageData[];
-  onImageClick?: (image: ImageData) => void;
+  images: SeriesImage[];
+  onImageClick?: (image: SeriesImage) => void;
 }
 
 export default function SeriesStrip({ seriesName, images, onImageClick }: SeriesStripProps) {
-  const [isPaused, setIsPaused] = useState(true); // Start paused for manual scrolling
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   if (images.length === 0) return null;
@@ -58,7 +58,7 @@ export default function SeriesStrip({ seriesName, images, onImageClick }: Series
             <div className="w-36 h-36 rounded-lg overflow-hidden bg-[#F5F3EF] border border-[#E5E0D8] hover:border-[#C75B39] transition-all hover:shadow-md">
               <img
                 src={img.image_url}
-                alt={img.title}
+                alt=""
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 loading="lazy"
               />
