@@ -122,10 +122,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing OPENROUTER_API_KEY' }, { status: 500 });
     }
 
-    // Extract base64 data
-    const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
+    // Extract base64 data and detect format
+    const imageMatch = image.match(/^data:image\/(\w+);base64,(.+)$/);
+    if (!imageMatch) {
+      return NextResponse.json({ error: 'Invalid image format. Expected data URL.' }, { status: 400 });
+    }
     
-    console.log('[HUD Analyze] Starting Claude Vision analysis...');
+    const mimeType = imageMatch[1]; // png, jpeg, webp, etc.
+    const base64Data = imageMatch[2];
+    
+    // Use the original mime type from the image
+    const imageDataUrl = `data:image/${mimeType};base64,${base64Data}`;
+    
+    console.log('[HUD Analyze] Starting Claude Vision analysis...', { format: mimeType });
     
     // Use Claude Sonnet for vision analysis (proven to work in Evodash)
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -148,7 +157,7 @@ export async function POST(request: NextRequest) {
             content: [
               {
                 type: 'image_url',
-                image_url: { url: `data:image/jpeg;base64,${base64Data}` }
+                image_url: { url: imageDataUrl }
               },
               {
                 type: 'text',
