@@ -2,12 +2,50 @@
 
 import { useState, useCallback } from 'react';
 
+interface BiometricData {
+  level: string;
+  score: number;
+}
+
+interface StatusItem {
+  level: string;
+  detail: string;
+}
+
+interface DetectedItem {
+  id: string;
+  class: string;
+  position: string;
+  vertical: string;
+  size: string;
+  mechanisms: string[];
+  importance_score: number;
+  label: string;
+  color: string;
+}
+
+interface Person {
+  id: string;
+  description: string;
+  position: string;
+  bond_status: string;
+  label: string;
+  importance_score: number;
+}
+
+interface Connection {
+  from: string;
+  to: string;
+  type: string;
+  color: string;
+}
+
 interface AnalysisData {
   scene_type: string;
   overall_color_scheme: 'red' | 'green' | 'mixed';
   pov_context: string;
-  biometrics: Record<string, { level: string; score: number }>;
-  status_panel: Record<string, { level: string; detail: string }>;
+  biometrics: Record<string, BiometricData>;
+  status_panel: Record<string, StatusItem>;
   primary_target: {
     what: string;
     label: string;
@@ -15,20 +53,9 @@ interface AnalysisData {
     importance_score: number;
     mechanisms: string[];
   };
-  detected_items: Array<{
-    id: string;
-    class: string;
-    position: string;
-    label: string;
-    color: string;
-  }>;
-  people: Array<{
-    id: string;
-    description: string;
-    position: string;
-    bond_status: string;
-    label: string;
-  }>;
+  detected_items: DetectedItem[];
+  people: Person[];
+  connections: Connection[];
   action: {
     recommendation: string;
     urgency: string;
@@ -37,10 +64,68 @@ interface AnalysisData {
   is_mismatch: boolean;
   mismatch_details: string;
   aggregate: {
+    top_survival_items: string[];
+    top_reproduction_items: string[];
     global_summary: string;
     emotional_valence: number;
+    arousal_level: number;
+  };
+  metadata?: {
+    llm_model: string;
+    created_at: string;
   };
   error?: string;
+}
+
+// Map action to evopsych response
+function getEvoPsychAction(analysis: AnalysisData): { action: string; description: string; color: string } {
+  const { action, is_mismatch, status_panel, primary_target } = analysis;
+  const threatLevel = status_panel?.threat_level?.level;
+  const mateOpp = status_panel?.mate_opportunity?.level;
+  const resourceLevel = status_panel?.resource_value?.level;
+  const mechanisms = primary_target?.mechanisms || [];
+  
+  // Threat responses
+  if (threatLevel === 'CRITICAL' || threatLevel === 'HIGH') {
+    if (action?.recommendation === 'RUN' || action?.recommendation === 'FLEE') {
+      return { action: 'FLIGHT', description: 'Immediate escape recommended. Threat exceeds capacity to confront.', color: 'text-red-400' };
+    }
+    if (action?.recommendation === 'DEFEND' || action?.recommendation === 'FIGHT') {
+      return { action: 'FIGHT', description: 'Confront threat directly. Resources or kin at stake.', color: 'text-orange-400' };
+    }
+    return { action: 'FREEZE', description: 'Assess threat before committing to action. Avoid detection.', color: 'text-yellow-400' };
+  }
+  
+  // Reproduction responses
+  if (mateOpp === 'HIGH' || mechanisms.includes('mate_value')) {
+    return { action: 'COURT / DISPLAY', description: 'Mate opportunity detected. Signal fitness through display behaviors.', color: 'text-pink-400' };
+  }
+  
+  // Resource responses
+  if (resourceLevel === 'HIGH' && mechanisms.includes('resource_immediate')) {
+    return { action: 'GATHER', description: 'High-value resources available. Acquire and secure.', color: 'text-green-400' };
+  }
+  
+  // Social responses
+  if (mechanisms.includes('kinship') || mechanisms.includes('coalition')) {
+    return { action: 'RECIPROCATE', description: 'Strengthen alliance through reciprocal exchange.', color: 'text-cyan-400' };
+  }
+  
+  if (mechanisms.includes('social_support')) {
+    return { action: 'BOND', description: 'Invest in social connection. Build trust and alliance.', color: 'text-blue-400' };
+  }
+  
+  // Mismatch
+  if (is_mismatch) {
+    return { action: 'RECOGNIZE MISMATCH', description: 'Modern environment triggering ancestral responses. Conscious override recommended.', color: 'text-purple-400' };
+  }
+  
+  // Default
+  if (action?.recommendation === 'OBSERVE') {
+    return { action: 'OBSERVE', description: 'No immediate action required. Continue monitoring environment.', color: 'text-gray-400' };
+  }
+  
+  return { action: 'APPROACH', description: 'Environment appears safe. Explore and engage.', color: 'text-green-400' };
 }
 
 export default function HUDApp() {
@@ -94,19 +179,14 @@ export default function HUDApp() {
       
       if (!generateRes.ok) {
         const errData = await generateRes.json();
-        throw new Error(errData.error || errData.hint || 'Generation failed');
-      }
-      
-      const generateData = await generateRes.json();
-      
-      if (generateData.error) {
-        throw new Error(generateData.error);
-      }
-      
-      if (generateData.image) {
-        setGeneratedImage(generateData.image);
+        // Don't throw - we still have the analysis
+        console.error('Generation failed:', errData);
+        setError('Overlay generation failed, but analysis is complete');
       } else {
-        throw new Error('No image returned from generator');
+        const generateData = await generateRes.json();
+        if (generateData.image) {
+          setGeneratedImage(generateData.image);
+        }
       }
       
     } catch (err) {
@@ -145,28 +225,7 @@ export default function HUDApp() {
     reader.readAsDataURL(file);
   }, []);
 
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragActive(true);
-  };
-
-  const handleDragLeave = () => {
-    setIsDragActive(false);
-  };
-
-  const downloadHUD = () => {
-    if (!generatedImage) return;
-    const link = document.createElement('a');
-    link.download = 'evolutionary-hud.png';
-    link.href = generatedImage;
-    link.click();
-  };
-
-  const retry = () => {
-    if (uploadedImage) {
-      processImage(uploadedImage);
-    }
-  };
+  const evoPsychAction = analysis ? getEvoPsychAction(analysis) : null;
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white">
@@ -184,13 +243,12 @@ export default function HUDApp() {
         {!uploadedImage && (
           <div
             onDrop={handleDrop}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
+            onDragOver={(e) => { e.preventDefault(); setIsDragActive(true); }}
+            onDragLeave={() => setIsDragActive(false)}
             className={`
               border-2 border-dashed rounded-xl p-16 text-center cursor-pointer
               transition-all duration-200 max-w-2xl mx-auto
               ${isDragActive ? 'border-amber-500 bg-amber-500/10' : 'border-[#333] hover:border-[#555]'}
-              ${loading ? 'pointer-events-none opacity-50' : ''}
             `}
           >
             <input
@@ -199,27 +257,21 @@ export default function HUDApp() {
               onChange={handleFileSelect}
               className="hidden"
               id="file-input"
-              disabled={loading}
             />
             <label htmlFor="file-input" className="cursor-pointer block">
-              <div className="space-y-3">
-                <div className="text-6xl mb-4">🎯</div>
-                <p className="text-[#8B8B8B] text-xl">Drag & drop an image</p>
-                <p className="text-[#555]">or click to select</p>
-              </div>
+              <div className="text-6xl mb-4">🎯</div>
+              <p className="text-[#8B8B8B] text-xl">Drag & drop an image</p>
+              <p className="text-[#555]">or click to select</p>
             </label>
           </div>
         )}
 
-        {/* Loading State */}
+        {/* Loading */}
         {loading && (
           <div className="max-w-2xl mx-auto text-center py-12">
             <div className="animate-spin w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full mx-auto mb-6" />
             <p className="text-xl text-amber-400 mb-2">
-              {stage === 'analyzing' ? 'Analyzing through evolutionary lens...' : 'Generating HUD overlay...'}
-            </p>
-            <p className="text-[#555]">
-              {stage === 'analyzing' ? 'Claude is examining the scene' : 'Gemini is creating the visualization'}
+              {stage === 'analyzing' ? 'Analyzing through evolutionary lens...' : 'Generating visual overlay...'}
             </p>
           </div>
         )}
@@ -227,21 +279,13 @@ export default function HUDApp() {
         {/* Error */}
         {error && !loading && (
           <div className="mt-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 max-w-2xl mx-auto">
-            <strong>Error:</strong> {error}
-            <div className="mt-3">
-              <button
-                onClick={retry}
-                className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 rounded transition-colors"
-              >
-                Try Again
-              </button>
-            </div>
+            {error}
           </div>
         )}
 
         {/* Results */}
         {uploadedImage && !loading && (
-          <div className="space-y-6">
+          <div className="space-y-8">
             {/* Controls */}
             <div className="flex items-center justify-between">
               <button
@@ -255,133 +299,294 @@ export default function HUDApp() {
               >
                 ← Upload new image
               </button>
-              
-              <div className="flex gap-3">
-                {error && (
-                  <button
-                    onClick={retry}
-                    className="px-4 py-2 bg-amber-500/20 text-amber-400 rounded hover:bg-amber-500/30 transition-colors"
-                  >
-                    Retry
-                  </button>
-                )}
-                {generatedImage && (
-                  <button
-                    onClick={downloadHUD}
-                    className="px-4 py-2 bg-amber-500 text-black font-semibold rounded hover:bg-amber-400 transition-colors"
-                  >
-                    Download HUD
-                  </button>
-                )}
-              </div>
+              {generatedImage && (
+                <a
+                  href={generatedImage}
+                  download="evolutionary-hud.png"
+                  className="px-4 py-2 bg-amber-500 text-black font-semibold rounded hover:bg-amber-400 transition-colors"
+                >
+                  Download Overlay
+                </a>
+              )}
             </div>
 
             {/* Image Display */}
             <div className="grid md:grid-cols-2 gap-6">
-              {/* Original */}
               <div>
                 <h3 className="text-sm text-[#555] mb-2 uppercase tracking-wider">Original</h3>
-                <div className="bg-black rounded-xl overflow-hidden">
-                  <img src={uploadedImage} alt="Original" className="w-full" />
-                </div>
+                <img src={uploadedImage} alt="Original" className="w-full rounded-xl" />
               </div>
-
-              {/* Generated */}
               <div>
-                <h3 className="text-sm text-amber-400 mb-2 uppercase tracking-wider">
-                  {generatedImage ? 'HUD Overlay' : 'Processing...'}
-                </h3>
-                <div className="bg-black rounded-xl overflow-hidden min-h-[200px] flex items-center justify-center">
-                  {generatedImage ? (
-                    <img src={generatedImage} alt="With HUD" className="w-full" />
-                  ) : error ? (
-                    <div className="text-center p-8 text-[#555]">
-                      <p>Generation failed</p>
-                      <button
-                        onClick={retry}
-                        className="mt-4 px-4 py-2 bg-amber-500/20 text-amber-400 rounded hover:bg-amber-500/30 transition-colors"
-                      >
-                        Retry
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="text-[#333]">Waiting for analysis...</div>
-                  )}
-                </div>
+                <h3 className="text-sm text-amber-400 mb-2 uppercase tracking-wider">Fitness Overlay</h3>
+                {generatedImage ? (
+                  <img src={generatedImage} alt="Overlay" className="w-full rounded-xl" />
+                ) : (
+                  <div className="bg-[#111] rounded-xl aspect-video flex items-center justify-center text-[#333]">
+                    {analysis ? 'Overlay generation in progress...' : 'Processing...'}
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* Analysis Summary */}
+            {/* Comprehensive Analysis */}
             {analysis && (
-              <div className="grid md:grid-cols-2 gap-4">
-                {/* Left: Key Metrics */}
+              <div className="space-y-6">
+                
+                {/* NEXT ACTION - Prominent */}
+                {evoPsychAction && (
+                  <div className={`bg-[#111] border-2 ${analysis.is_mismatch ? 'border-red-500/50' : 'border-amber-500/50'} rounded-xl p-6`}>
+                    <div className="flex items-center gap-4">
+                      <div className={`text-4xl font-bold ${evoPsychAction.color}`}>
+                        {evoPsychAction.action}
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-gray-300">{evoPsychAction.description}</p>
+                        {analysis.action?.rationale && (
+                          <p className="text-gray-500 text-sm mt-1">{analysis.action.rationale}</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Scene Overview */}
                 <div className="bg-[#111] border border-[#222] rounded-xl p-6">
-                  <h3 className="text-lg font-semibold mb-4 text-amber-400">Scene Analysis</h3>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-500">Scene Type:</span>
-                      <span className={analysis.is_mismatch ? 'text-red-400' : 'text-green-400'}>
+                  <h3 className="text-lg font-semibold mb-4 text-amber-400">Scene Overview</h3>
+                  <div className="grid md:grid-cols-3 gap-6">
+                    <div>
+                      <p className="text-gray-500 text-sm">Scene Type</p>
+                      <p className={`text-xl font-semibold ${analysis.is_mismatch ? 'text-red-400' : 'text-green-400'}`}>
                         {analysis.scene_type?.toUpperCase()}
-                      </span>
+                      </p>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-500">Primary Target:</span>
-                      <span className="text-white">{analysis.primary_target?.label}</span>
+                    <div>
+                      <p className="text-gray-500 text-sm">Emotional Valence</p>
+                      <p className={`text-xl font-semibold ${(analysis.aggregate?.emotional_valence || 0) > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                        {(analysis.aggregate?.emotional_valence || 0) > 0 ? 'Positive' : 'Negative'} ({analysis.aggregate?.emotional_valence?.toFixed(2)})
+                      </p>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-500">Action:</span>
-                      <span className={
-                        analysis.action?.urgency === 'CRITICAL' ? 'text-red-400' :
-                        analysis.action?.urgency === 'HIGH' ? 'text-orange-400' : 'text-green-400'
-                      }>
-                        {analysis.action?.recommendation}
-                      </span>
+                    <div>
+                      <p className="text-gray-500 text-sm">Arousal Level</p>
+                      <p className="text-xl font-semibold text-white">
+                        {((analysis.aggregate?.arousal_level || 0) * 100).toFixed(0)}%
+                      </p>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-500">Emotional Valence:</span>
-                      <span className={analysis.aggregate?.emotional_valence > 0 ? 'text-green-400' : 'text-red-400'}>
-                        {analysis.aggregate?.emotional_valence?.toFixed(2)}
-                      </span>
+                  </div>
+                  <div className="mt-4">
+                    <p className="text-gray-500 text-sm">Context</p>
+                    <p className="text-gray-300">{analysis.pov_context}</p>
+                  </div>
+                </div>
+
+                {/* Biometrics */}
+                <div className="bg-[#111] border border-[#222] rounded-xl p-6">
+                  <h3 className="text-lg font-semibold mb-4 text-amber-400">Neurochemical State</h3>
+                  <div className="grid md:grid-cols-3 gap-4">
+                    {Object.entries(analysis.biometrics || {}).map(([key, val]) => (
+                      <div key={key} className="bg-[#0a0a0a] rounded-lg p-3">
+                        <div className="flex justify-between mb-1">
+                          <span className="text-gray-400 text-sm capitalize">{key}</span>
+                          <span className={`text-sm font-semibold ${
+                            val.level === 'MAX' || val.level === 'HIGH' ? 'text-green-400' :
+                            val.level === 'LOW' || val.level === 'ZERO' ? 'text-red-400' : 'text-yellow-400'
+                          }`}>{val.level}</span>
+                        </div>
+                        <div className="h-2 bg-[#222] rounded-full overflow-hidden">
+                          <div 
+                            className={`h-full rounded-full ${
+                              val.level === 'MAX' ? 'bg-green-500 w-full' :
+                              val.level === 'HIGH' ? 'bg-green-400 w-3/4' :
+                              val.level === 'MODERATE' || val.level === 'STABLE' ? 'bg-yellow-400 w-1/2' :
+                              val.level === 'LOW' ? 'bg-orange-400 w-1/4' : 'bg-red-400 w-[10%]'
+                            }`}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Status Panel */}
+                <div className="bg-[#111] border border-[#222] rounded-xl p-6">
+                  <h3 className="text-lg font-semibold mb-4 text-amber-400">Environmental Assessment</h3>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {Object.entries(analysis.status_panel || {}).map(([key, val]) => (
+                      <div key={key} className="flex justify-between items-start p-3 bg-[#0a0a0a] rounded-lg">
+                        <div>
+                          <p className="text-gray-400 text-sm capitalize">{key.replace(/_/g, ' ')}</p>
+                          <p className="text-gray-500 text-xs mt-1">{val.detail}</p>
+                        </div>
+                        <span className={`font-semibold ${
+                          val.level === 'HIGH' || val.level === 'CRITICAL' || val.level === 'COHESIVE' || val.level === 'SECURE' ? 'text-green-400' :
+                          val.level === 'ZERO' || val.level === 'NONE' || val.level === 'ISOLATED' ? 'text-gray-500' :
+                          val.level === 'LOW' || val.level === 'FRAGMENTED' ? 'text-yellow-400' : 'text-orange-400'
+                        }`}>{val.level}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Primary Target */}
+                <div className="bg-[#111] border border-[#222] rounded-xl p-6">
+                  <h3 className="text-lg font-semibold mb-4 text-amber-400">Primary Focus</h3>
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-xl">
+                      🎯
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xl font-semibold text-white">{analysis.primary_target?.label}</p>
+                      <p className="text-gray-400 mt-1">{analysis.primary_target?.what}</p>
+                      <p className="text-gray-300 mt-2">{analysis.primary_target?.analysis}</p>
+                      <div className="flex flex-wrap gap-2 mt-3">
+                        {(analysis.primary_target?.mechanisms || []).map((m, i) => (
+                          <span key={i} className="px-2 py-1 bg-amber-500/20 text-amber-400 text-xs rounded">
+                            {m.replace(/_/g, ' ')}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="text-gray-500 text-sm mt-2">
+                        Importance: {analysis.primary_target?.importance_score}/100
+                      </p>
                     </div>
                   </div>
                 </div>
 
-                {/* Right: Summary */}
-                <div className="bg-[#111] border border-[#222] rounded-xl p-6">
-                  <h3 className="text-lg font-semibold mb-4 text-amber-400">Evolutionary Summary</h3>
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    {analysis.aggregate?.global_summary}
-                  </p>
-                  {analysis.is_mismatch && (
-                    <div className="mt-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
-                      <p className="text-red-400 text-xs font-semibold mb-1">⚠ MISMATCH DETECTED</p>
-                      <p className="text-red-300 text-sm">{analysis.mismatch_details}</p>
+                {/* Detected Items */}
+                {analysis.detected_items?.length > 0 && (
+                  <div className="bg-[#111] border border-[#222] rounded-xl p-6">
+                    <h3 className="text-lg font-semibold mb-4 text-amber-400">Detected Elements</h3>
+                    <div className="space-y-3">
+                      {analysis.detected_items.map((item, i) => (
+                        <div key={i} className="flex items-center gap-3 p-3 bg-[#0a0a0a] rounded-lg">
+                          <div className={`w-3 h-3 rounded-full ${
+                            item.color === 'green' ? 'bg-green-500' :
+                            item.color === 'red' ? 'bg-red-500' :
+                            item.color === 'yellow' ? 'bg-yellow-500' : 'bg-cyan-500'
+                          }`} />
+                          <div className="flex-1">
+                            <span className="text-white">{item.class}</span>
+                            <span className="text-gray-500 text-sm ml-2">({item.position} {item.vertical})</span>
+                          </div>
+                          <div className="text-right">
+                            <span className="text-gray-400 text-sm">{item.importance_score}%</span>
+                            <div className="flex gap-1 mt-1">
+                              {item.mechanisms?.slice(0, 2).map((m, j) => (
+                                <span key={j} className="px-1.5 py-0.5 bg-[#222] text-gray-500 text-xs rounded">
+                                  {m}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* People */}
+                {analysis.people?.length > 0 && (
+                  <div className="bg-[#111] border border-[#222] rounded-xl p-6">
+                    <h3 className="text-lg font-semibold mb-4 text-amber-400">Social Entities</h3>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      {analysis.people.map((person, i) => (
+                        <div key={i} className="p-4 bg-[#0a0a0a] rounded-lg border-l-4" style={{
+                          borderColor: person.bond_status === 'KIN' || person.bond_status === 'ALLY' ? '#22c55e' :
+                                       person.bond_status === 'THREAT' ? '#ef4444' :
+                                       person.bond_status === 'POTENTIAL_MATE' ? '#ec4899' : '#eab308'
+                        }}>
+                          <p className="text-white font-medium">{person.description}</p>
+                          <p className="text-gray-400 text-sm mt-1">{person.label}</p>
+                          <div className="flex justify-between mt-2">
+                            <span className={`text-sm ${
+                              person.bond_status === 'KIN' || person.bond_status === 'ALLY' ? 'text-green-400' :
+                              person.bond_status === 'THREAT' ? 'text-red-400' :
+                              person.bond_status === 'POTENTIAL_MATE' ? 'text-pink-400' : 'text-yellow-400'
+                            }`}>{person.bond_status}</span>
+                            <span className="text-gray-500 text-sm">{person.importance_score}% important</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Connections */}
+                {analysis.connections?.length > 0 && (
+                  <div className="bg-[#111] border border-[#222] rounded-xl p-6">
+                    <h3 className="text-lg font-semibold mb-4 text-amber-400">Social Connections</h3>
+                    <div className="space-y-2">
+                      {analysis.connections.map((conn, i) => (
+                        <div key={i} className="flex items-center gap-3 p-2 bg-[#0a0a0a] rounded">
+                          <span className="text-gray-300">{conn.from}</span>
+                          <span className={`px-2 py-0.5 rounded text-xs ${
+                            conn.color === 'green' ? 'bg-green-500/20 text-green-400' :
+                            conn.color === 'red' ? 'bg-red-500/20 text-red-400' : 'bg-yellow-500/20 text-yellow-400'
+                          }`}>{conn.type}</span>
+                          <span className="text-gray-300">{conn.to}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Survival/Reproduction Items */}
+                <div className="grid md:grid-cols-2 gap-4">
+                  {analysis.aggregate?.top_survival_items?.length > 0 && (
+                    <div className="bg-[#111] border border-[#222] rounded-xl p-6">
+                      <h3 className="text-lg font-semibold mb-3 text-red-400">Survival Relevance</h3>
+                      <ul className="space-y-2">
+                        {analysis.aggregate.top_survival_items.map((item, i) => (
+                          <li key={i} className="text-gray-300 flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-red-500" />
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {analysis.aggregate?.top_reproduction_items?.length > 0 && (
+                    <div className="bg-[#111] border border-[#222] rounded-xl p-6">
+                      <h3 className="text-lg font-semibold mb-3 text-pink-400">Reproduction Relevance</h3>
+                      <ul className="space-y-2">
+                        {analysis.aggregate.top_reproduction_items.map((item, i) => (
+                          <li key={i} className="text-gray-300 flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-pink-500" />
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   )}
                 </div>
+
+                {/* Mismatch Warning */}
+                {analysis.is_mismatch && (
+                  <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-6">
+                    <h3 className="text-lg font-semibold mb-2 text-red-400">⚠ Environmental Mismatch Detected</h3>
+                    <p className="text-red-300">{analysis.mismatch_details}</p>
+                    <p className="text-red-400/70 text-sm mt-2">
+                      This modern environment is triggering ancestral responses that may not serve your fitness in the current context.
+                    </p>
+                  </div>
+                )}
+
+                {/* Global Summary */}
+                <div className="bg-[#111] border border-[#222] rounded-xl p-6">
+                  <h3 className="text-lg font-semibold mb-3 text-amber-400">Evolutionary Summary</h3>
+                  <p className="text-gray-300 leading-relaxed">{analysis.aggregate?.global_summary}</p>
+                </div>
+
               </div>
             )}
 
-            {/* Raw Analysis (collapsible) */}
-            {analysis && (
-              <details className="bg-[#111] border border-[#222] rounded-xl">
-                <summary className="cursor-pointer p-4 text-[#555] hover:text-[#888] transition-colors">
-                  View raw analysis data
-                </summary>
-                <pre className="p-4 overflow-auto text-xs text-[#666] border-t border-[#222]">
-                  {JSON.stringify(analysis, null, 2)}
-                </pre>
-              </details>
-            )}
+            {/* Back link */}
+            <div className="text-center pt-8">
+              <a href="/projects" className="text-[#555] hover:text-[#888] transition-colors">
+                ← Back to Projects
+              </a>
+            </div>
           </div>
         )}
-
-        {/* Back link */}
-        <div className="mt-12 text-center">
-          <a href="/projects" className="text-[#555] hover:text-[#888] transition-colors">
-            ← Back to Projects
-          </a>
-        </div>
       </div>
     </main>
   );

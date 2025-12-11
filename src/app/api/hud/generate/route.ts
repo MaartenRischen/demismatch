@@ -149,92 +149,80 @@ export async function POST(request: NextRequest) {
 function buildHUDPrompt(analysis: Record<string, unknown>): string {
   const isRed = analysis.overall_color_scheme === 'red' || analysis.is_mismatch;
   
-  // Build biometrics
-  const biometrics = analysis.biometrics as Record<string, { level: string; score: number }> | undefined;
-  const bioLines = Object.entries(biometrics || {})
-    .slice(0, 6) // Max 6 biometrics
-    .map(([key, val]) => `${key.toUpperCase()}: ${val.level}`)
-    .join('\n');
-
-  // Build status panel
-  const status = analysis.status_panel as Record<string, { level: string; detail: string }> | undefined;
-  const statusLines = Object.entries(status || {})
-    .map(([key, val]) => `${key.replace(/_/g, ' ').toUpperCase()}: ${val.level}`)
-    .join('\n');
-
   // Primary target
-  const target = analysis.primary_target as { label?: string; analysis?: string; what?: string } | undefined;
+  const target = analysis.primary_target as { what?: string; importance_score?: number } | undefined;
   
   // People/subjects
-  const people = analysis.people as Array<{ description: string; label: string; position: string }> | undefined;
-  const peopleLines = (people || [])
-    .map(p => `- ${p.description}: "${p.label}" at ${p.position}`)
-    .join('\n');
-
-  // Action
-  const action = analysis.action as { recommendation?: string; urgency?: string } | undefined;
+  const people = analysis.people as Array<{ description: string; position: string; bond_status: string }> | undefined;
   
-  // Mismatch
-  const mismatchDetails = analysis.mismatch_details as string | undefined;
+  // Detected items
+  const items = analysis.detected_items as Array<{ class: string; position: string; importance_score: number; color: string }> | undefined;
+  
+  // Sort items by importance
+  const sortedItems = [...(items || [])].sort((a, b) => (b.importance_score || 0) - (a.importance_score || 0));
+  const topItems = sortedItems.slice(0, 5);
 
   const colorScheme = isRed 
-    ? `Use a RED/AMBER color scheme indicating threat/mismatch:
-- Red tint overlay on the entire scene
-- Red/orange panels with glowing edges
-- Red targeting reticle
-- Warning indicators`
-    : `Use a GREEN/TEAL color scheme indicating positive fitness:
-- Subtle green tint on the scene  
-- Dark panels with green/cyan glowing edges
-- Golden/green targeting reticle
-- Positive indicators`;
+    ? `RED/AMBER color scheme (threat/mismatch detected):
+- Subtle red/amber tint on entire scene
+- Red glowing outlines on threats
+- Orange outlines on uncertain items
+- Dark vignette effect`
+    : `GREEN/TEAL color scheme (positive fitness environment):
+- Subtle green/teal tint on scene
+- Green glowing outlines on resources/allies
+- Golden outlines on opportunities
+- Warm, safe feeling`;
 
-  return `Edit this image to add a professional sci-fi "Evolutionary HUD" overlay. Make it look like a video game or fighter jet cockpit display showing evolutionary fitness computations.
+  return `Edit this image to add a VISUAL-ONLY evolutionary fitness overlay. NO TEXT AT ALL - only colors, outlines, and visual effects.
 
-STYLE: High-quality, polished HUD overlay. Semi-transparent dark panels with glowing edges. Clean sans-serif typography. Professional targeting graphics.
+CRITICAL: DO NOT ADD ANY TEXT, LABELS, WORDS, OR NUMBERS. Only visual elements.
 
 ${colorScheme}
 
-=== LEFT PANEL (top-left, semi-transparent dark background) ===
-BIOMETRICS with horizontal bar graphs:
-${bioLines || 'DOPAMINE: HIGH\nSEROTONIN: MODERATE\nOXYTOCIN: HIGH\nCORTISOL: LOW'}
+=== VISUAL OVERLAY STYLE ===
+This should look like thermal/predator vision mixed with a fitness detection system. Think: what would a hunter-gatherer's brain highlight as important?
 
-Each metric should have a label and a horizontal progress bar showing the level.
+=== PRIMARY FOCUS (most important for survival/reproduction) ===
+Draw a bright, glowing outline around: ${target?.what || 'the main subject'}
+- Use a thick (4-6px), pulsing/glowing ${isRed ? 'red/orange' : 'golden/green'} outline
+- Add a subtle spotlight/vignette effect drawing attention to this area
+- This is the most fitness-relevant element in the scene
 
-=== RIGHT PANEL (top-right, semi-transparent dark background) ===
-STATUS READOUTS:
-${statusLines || 'RESOURCE: HIGH\nTHREAT: ZERO\nTRIBE STATUS: COHESIVE'}
+=== SECONDARY ELEMENTS ===
+${topItems.map(item => `- ${item.class} at ${item.position}: ${item.color} outline (${item.importance_score}% important)`).join('\n') || 'Outline other relevant items with colored borders based on their fitness relevance'}
 
-=== PRIMARY TARGET (center of image) ===
-Place a ${isRed ? 'red/orange' : 'golden'} targeting reticle (circular crosshairs) on: ${target?.what || 'the main subject'}
-Label: "${target?.label || 'PRIMARY TARGET'}"
-Below: "ANALYSIS: ${target?.analysis || 'EVALUATING'}"
-
-=== SECONDARY TARGETS ===
-${peopleLines || 'Draw smaller targeting brackets on other people/animals with bond status labels'}
+=== PEOPLE/ANIMALS ===
+${(people || []).map(p => {
+  const color = p.bond_status === 'KIN' || p.bond_status === 'ALLY' ? 'green' :
+                p.bond_status === 'THREAT' ? 'red' :
+                p.bond_status === 'POTENTIAL_MATE' ? 'pink/magenta' : 'yellow';
+  return `- ${p.description} at ${p.position}: ${color} glow (${p.bond_status})`;
+}).join('\n') || 'Color-code any people/animals based on bond status'}
 
 === CONNECTION LINES ===
-Draw ${isRed ? 'red' : 'green'} glowing lines connecting bonded subjects. Add "KIN-LIKE BOND: SECURE" or similar labels.
+Draw subtle glowing lines between bonded individuals:
+- Green lines = allied/kin bonds
+- Red lines = threat/competition
+- Pink/magenta = attraction/mate potential
 
-${action?.urgency === 'HIGH' || action?.urgency === 'CRITICAL' ? `
-=== ACTION INDICATOR ===
-Large prominent text: "ACTION: ${action?.recommendation}" in ${isRed ? 'red' : 'green'}
-` : ''}
+=== EMOTIONAL ATMOSPHERE ===
+Apply a color grade to the entire image:
+${isRed ? '- Desaturate slightly, add red/amber tint to shadows\n- Increase contrast for alertness feeling\n- Darker vignette at edges' : '- Warm, slightly saturated\n- Green/teal tint in highlights\n- Soft, safe feeling\n- Gentle vignette'}
 
-${analysis.is_mismatch ? `
-=== MISMATCH WARNING ===
-Add subtle red vignette. Bottom warning bar: "⚠ ENVIRONMENTAL MISMATCH: ${mismatchDetails?.substring(0, 80) || 'Modern environment detected'}"
-` : ''}
+=== DEPTH/IMPORTANCE GRADIENT ===
+- More important = brighter outline, more saturated
+- Less important = dimmer, more transparent outline
+- Background elements = very subtle or no outline
 
 REQUIREMENTS:
-- Keep the original image fully visible
-- All panels should be semi-transparent (dark background ~75% opacity)
-- Use glowing edges on panels (subtle cyan/green or red glow)
-- Clean, readable sans-serif font
-- Horizontal bar graphs for biometrics (not circular)
-- Professional video game / cockpit HUD aesthetic
-- Add subtle scan lines or tech texture for authenticity
+- NO TEXT, NO LABELS, NO WORDS, NO NUMBERS
+- Keep original image clearly visible (overlay should be ~30-40% opacity)
+- Outlines should glow/pulse subtly
+- Use color psychology: green=safe, red=danger, yellow=caution, pink=attraction
+- Professional, cinematic look
+- Subtle scan lines or film grain for texture
 
-Generate the edited image with all HUD elements applied.`;
+Generate the edited image with visual-only overlay.`;
 }
 
