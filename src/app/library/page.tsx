@@ -1811,6 +1811,7 @@ function LibraryContent() {
                     key={seriesName}
                     seriesName={seriesName}
                     images={seriesImages}
+                    onImageClick={setSelectedImage}
                   />
                 ))
               )}
