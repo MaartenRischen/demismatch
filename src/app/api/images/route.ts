@@ -23,6 +23,7 @@ export interface ImageData {
   body_text: string;
   image_type: string;
   categories: string[];
+  series: string[];
   framework_concepts: string[];
   tags: string[];
   image_url: string;
@@ -37,13 +38,14 @@ interface DbImageRow {
   image_url: string | null;
   image_type: string | null;
   categories: string[] | null;
+  series: string[] | null;
   framework_concepts: string[] | null;
   tags_normalized: string[] | null;
   search_text: string | null;
 }
 
 // Select columns for database query
-const SELECT_COLUMNS = 'id, file_name, folder_name, title, image_url, image_type, categories, framework_concepts, tags_normalized, search_text';
+const SELECT_COLUMNS = 'id, file_name, folder_name, title, image_url, image_type, categories, series, framework_concepts, tags_normalized, search_text';
 
 // Transform database row to API response format
 function transformRow(row: DbImageRow, supabaseUrl: string): ImageData | null {
@@ -80,6 +82,7 @@ function transformRow(row: DbImageRow, supabaseUrl: string): ImageData | null {
     body_text,
     image_type: row.image_type || 'problem',
     categories: row.categories || [],
+    series: row.series || [],
     framework_concepts: row.framework_concepts || [],
     tags: row.tags_normalized || [],
     image_url: imageUrl

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useMemo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
+import SeriesStrip from "@/components/SeriesStrip";
 
 interface ImageData {
   id: number;
@@ -726,16 +727,36 @@ function LibraryContent() {
   // Group images by series for series view
   const imagesBySeries = useMemo(() => {
     const grouped: Record<string, ImageData[]> = {};
+    let imagesWithSeries = 0;
+    let totalSeriesCount = 0;
+    
     for (const img of allImages) {
-      if (img.series && Array.isArray(img.series)) {
+      if (img.series && Array.isArray(img.series) && img.series.length > 0) {
+        imagesWithSeries++;
+        totalSeriesCount += img.series.length;
         for (const series of img.series) {
-          if (!grouped[series]) {
-            grouped[series] = [];
+          if (series && series.trim()) { // Only add non-empty series names
+            if (!grouped[series]) {
+              grouped[series] = [];
+            }
+            grouped[series].push(img);
           }
-          grouped[series].push(img);
         }
       }
     }
+    
+    // Debug logging
+    if (allImages.length > 0) {
+      console.log(`[Series Debug] Total images: ${allImages.length}, Images with series: ${imagesWithSeries}, Total series entries: ${totalSeriesCount}`);
+      console.log(`[Series Debug] Series found:`, Object.keys(grouped));
+      if (imagesWithSeries > 0) {
+        const sampleImage = allImages.find(img => img.series && img.series.length > 0);
+        if (sampleImage) {
+          console.log(`[Series Debug] Sample image series:`, sampleImage.series);
+        }
+      }
+    }
+    
     // Sort series by image count (descending)
     const sortedEntries = Object.entries(grouped)
       .filter(([name]) => name !== 'Misc') // Put Misc last
@@ -1778,46 +1799,19 @@ function LibraryContent() {
 
           {/* Series View */}
           {viewMode === "series" ? (
-            <div className="space-y-2">
+            <div className="space-y-0">
               {imagesBySeries.length === 0 ? (
                 <div className="text-center py-12">
                   <p className="text-[#8B8B8B]">No series found</p>
+                  <p className="text-xs text-[#8B8B8B] mt-2">Check the browser console for debug information</p>
                 </div>
               ) : (
                 imagesBySeries.map(([seriesName, seriesImages]) => (
-                  <div key={seriesName} className="py-4 border-b border-[#E5E0D8]">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-lg font-semibold text-[#1A1A1A]">
-                        {seriesName}
-                        <span className="ml-2 text-sm font-normal text-[#8B8B8B]">
-                          ({seriesImages.length} images)
-                        </span>
-                      </h3>
-                    </div>
-                    <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-                      {seriesImages.slice(0, 20).map((img) => (
-                        <div
-                          key={img.id}
-                          className="flex-shrink-0 group cursor-pointer"
-                          onClick={() => setSelectedImage(img)}
-                        >
-                          <div className="w-32 h-32 rounded-lg overflow-hidden bg-[#F5F3EF] border border-[#E5E0D8] hover:border-[#C75B39] transition-all hover:shadow-md">
-                            <img
-                              src={img.image_url}
-                              alt=""
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                              loading="lazy"
-                            />
-                          </div>
-                        </div>
-                      ))}
-                      {seriesImages.length > 20 && (
-                        <div className="flex-shrink-0 w-32 h-32 rounded-lg bg-[#F5F3EF] border border-[#E5E0D8] flex items-center justify-center text-sm text-[#8B8B8B]">
-                          +{seriesImages.length - 20} more
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  <SeriesStrip
+                    key={seriesName}
+                    seriesName={seriesName}
+                    images={seriesImages}
+                  />
                 ))
               )}
             </div>
