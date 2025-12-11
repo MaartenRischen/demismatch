@@ -683,6 +683,11 @@ function LibraryContent() {
     fetchData();
   }, []);
 
+  // Handle image click in series view
+  const handleImageClick = useCallback((image: ImageData) => {
+    setSelectedImage(image);
+  }, []);
+
   // Update URL when filters change
   const updateURL = useCallback(() => {
     const params = new URLSearchParams();
@@ -1811,7 +1816,7 @@ function LibraryContent() {
                     key={seriesName}
                     seriesName={seriesName}
                     images={seriesImages}
-                    onImageClick={setSelectedImage}
+                    onImageClick={handleImageClick}
                   />
                 ))
               )}
