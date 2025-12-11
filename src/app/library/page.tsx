@@ -13,6 +13,7 @@ interface ImageData {
   body_text: string;
   image_type: string;
   categories: string[];
+  series: string[];
   framework_concepts: string[];
   tags: string[];
   image_url: string;
@@ -20,8 +21,11 @@ interface ImageData {
 
 interface TaxonomyIndex {
   by_category: Record<string, number[]>;
+  by_series: Record<string, number[]>;
   by_framework_concept: Record<string, number[]>;
 }
+
+type ViewMode = "grid" | "series";
 
 type SortOption = "relevant" | "alphabetical" | "type" | "category";
 
@@ -575,6 +579,9 @@ function LibraryContent() {
   // Search state
   const [searchQuery, setSearchQuery] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
+  
+  // View mode state
+  const [viewMode, setViewMode] = useState<ViewMode>("series");
 
   // UI state
   const [sortBy, setSortBy] = useState<SortOption>("relevant");
@@ -715,6 +722,32 @@ function LibraryContent() {
     }
     return counts;
   }, [taxonomy]);
+
+  // Group images by series for series view
+  const imagesBySeries = useMemo(() => {
+    const grouped: Record<string, ImageData[]> = {};
+    for (const img of allImages) {
+      if (img.series && Array.isArray(img.series)) {
+        for (const series of img.series) {
+          if (!grouped[series]) {
+            grouped[series] = [];
+          }
+          grouped[series].push(img);
+        }
+      }
+    }
+    // Sort series by image count (descending)
+    const sortedEntries = Object.entries(grouped)
+      .filter(([name]) => name !== 'Misc') // Put Misc last
+      .sort(([, a], [, b]) => b.length - a.length);
+    
+    // Add Misc at the end if it exists
+    if (grouped['Misc']) {
+      sortedEntries.push(['Misc', grouped['Misc']]);
+    }
+    
+    return sortedEntries;
+  }, [allImages]);
 
   // Compute tag frequency map (lookup object for scoring)
   const tagFrequencyMap = useMemo(() => {
@@ -1673,35 +1706,63 @@ function LibraryContent() {
               )}
             </p>
             <div className="flex items-center gap-3">
-              {/* Zoom Controls */}
+              {/* View Mode Toggle */}
               <div className="flex items-center gap-1 border border-[#E5E0D8] rounded-lg bg-white">
                 <button
-                  onClick={zoomOut}
-                  disabled={zoomLevel <= 1}
-                  className="p-2 text-[#4A4A4A] hover:text-[#C75B39] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                  title="Zoom out (more images per row)"
+                  onClick={() => setViewMode("series")}
+                  className={`p-2 transition-colors ${viewMode === "series" ? "text-[#C75B39] bg-[#C75B39]/10" : "text-[#4A4A4A] hover:text-[#C75B39]"}`}
+                  title="View by Series"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="8" y1="12" x2="16" y2="12" />
+                    <line x1="4" y1="6" x2="20" y2="6" />
+                    <line x1="4" y1="12" x2="20" y2="12" />
+                    <line x1="4" y1="18" x2="20" y2="18" />
                   </svg>
                 </button>
-                <span className="px-2 text-xs text-[#4A4A4A] min-w-[3rem] text-center">
-                  {zoomLevel}/5
-                </span>
                 <button
-                  onClick={zoomIn}
-                  disabled={zoomLevel >= 5}
-                  className="p-2 text-[#4A4A4A] hover:text-[#C75B39] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                  title="Zoom in (fewer images per row)"
+                  onClick={() => setViewMode("grid")}
+                  className={`p-2 transition-colors ${viewMode === "grid" ? "text-[#C75B39] bg-[#C75B39]/10" : "text-[#4A4A4A] hover:text-[#C75B39]"}`}
+                  title="View as Grid"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="16" />
-                    <line x1="8" y1="12" x2="16" y2="12" />
+                    <rect x="3" y="3" width="7" height="7" />
+                    <rect x="14" y="3" width="7" height="7" />
+                    <rect x="3" y="14" width="7" height="7" />
+                    <rect x="14" y="14" width="7" height="7" />
                   </svg>
                 </button>
               </div>
+              {/* Zoom Controls - only in grid mode */}
+              {viewMode === "grid" && (
+                <div className="flex items-center gap-1 border border-[#E5E0D8] rounded-lg bg-white">
+                  <button
+                    onClick={zoomOut}
+                    disabled={zoomLevel <= 1}
+                    className="p-2 text-[#4A4A4A] hover:text-[#C75B39] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    title="Zoom out (more images per row)"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="8" y1="12" x2="16" y2="12" />
+                    </svg>
+                  </button>
+                  <span className="px-2 text-xs text-[#4A4A4A] min-w-[3rem] text-center">
+                    {zoomLevel}/5
+                  </span>
+                  <button
+                    onClick={zoomIn}
+                    disabled={zoomLevel >= 5}
+                    className="p-2 text-[#4A4A4A] hover:text-[#C75B39] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    title="Zoom in (fewer images per row)"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="8" x2="12" y2="16" />
+                      <line x1="8" y1="12" x2="16" y2="12" />
+                    </svg>
+                  </button>
+                </div>
+              )}
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
@@ -1715,78 +1776,124 @@ function LibraryContent() {
             </div>
           </div>
 
-          {/* Image Grid */}
-          {filteredImages.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-[#8B8B8B]">No images match your filters</p>
-              <button onClick={clearAllFilters} className="mt-4 px-4 py-2 bg-white border border-[#E5E0D8] text-[#4A4A4A] hover:border-[#C75B39] transition-colors rounded">
-                Clear Filters
-              </button>
-            </div>
-          ) : (
-            <>
-              <div 
-                className="grid"
-                style={{
-                  gridTemplateColumns: `repeat(${getGridCols()}, minmax(0, 1fr))`,
-                  gap: getGap(),
-                } as React.CSSProperties}
-              >
-                {displayedImages.map((image) => (
-                  <div
-                    key={image.id}
-                    className="group relative overflow-hidden cursor-pointer bg-[#F5F3EF] rounded-lg"
-                    onClick={() => setSelectedImage(image)}
-                  >
-                    <img
-                      src={image.image_url}
-                      alt=""
-                      title=""
-                      className="w-full aspect-square object-cover group-hover:opacity-80 transition-opacity"
-                      loading="lazy"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).alt = '';
-                        (e.target as HTMLImageElement).title = '';
-                      }}
-                    />
-                    <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button
-                        className="p-1.5 bg-black/60 rounded hover:bg-black/80"
-                        onClick={(e) => { e.stopPropagation(); copyToClipboard(image.image_url); }}
-                      >
-                        <CopyIcon />
-                      </button>
-                      <button
-                        className="p-1.5 bg-black/60 rounded hover:bg-black/80"
-                        onClick={(e) => { e.stopPropagation(); downloadImage(image); }}
-                      >
-                        <DownloadIcon />
-                      </button>
-                      <button
-                        className="p-1.5 bg-amber-600/80 rounded hover:bg-amber-600"
-                        onClick={(e) => { e.stopPropagation(); openMetadataEditor(image); }}
-                        title="Edit metadata"
-                      >
-                        <MetadataIcon />
-                      </button>
-                      <button
-                        className="p-1.5 bg-blue-600/80 rounded hover:bg-blue-600"
-                        onClick={(e) => { e.stopPropagation(); setEditingImage(image); setEditPrompt(""); }}
-                        title="Edit image with AI"
-                      >
-                        <EditIcon />
-                      </button>
-                      <button
-                        className="p-1.5 bg-red-600/80 rounded hover:bg-red-600"
-                        onClick={(e) => { e.stopPropagation(); deleteImage(image); }}
-                        title="Delete image"
-                      >
-                        <TrashIcon />
-                      </button>
+          {/* Series View */}
+          {viewMode === "series" ? (
+            <div className="space-y-2">
+              {imagesBySeries.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-[#8B8B8B]">No series found</p>
+                </div>
+              ) : (
+                imagesBySeries.map(([seriesName, seriesImages]) => (
+                  <div key={seriesName} className="py-4 border-b border-[#E5E0D8]">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-lg font-semibold text-[#1A1A1A]">
+                        {seriesName}
+                        <span className="ml-2 text-sm font-normal text-[#8B8B8B]">
+                          ({seriesImages.length} images)
+                        </span>
+                      </h3>
+                    </div>
+                    <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                      {seriesImages.slice(0, 20).map((img) => (
+                        <div
+                          key={img.id}
+                          className="flex-shrink-0 group cursor-pointer"
+                          onClick={() => setSelectedImage(img)}
+                        >
+                          <div className="w-32 h-32 rounded-lg overflow-hidden bg-[#F5F3EF] border border-[#E5E0D8] hover:border-[#C75B39] transition-all hover:shadow-md">
+                            <img
+                              src={img.image_url}
+                              alt=""
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                              loading="lazy"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                      {seriesImages.length > 20 && (
+                        <div className="flex-shrink-0 w-32 h-32 rounded-lg bg-[#F5F3EF] border border-[#E5E0D8] flex items-center justify-center text-sm text-[#8B8B8B]">
+                          +{seriesImages.length - 20} more
+                        </div>
+                      )}
                     </div>
                   </div>
-                ))}
+                ))
+              )}
+            </div>
+          ) : (
+            /* Grid View */
+            filteredImages.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-[#8B8B8B]">No images match your filters</p>
+                <button onClick={clearAllFilters} className="mt-4 px-4 py-2 bg-white border border-[#E5E0D8] text-[#4A4A4A] hover:border-[#C75B39] transition-colors rounded">
+                  Clear Filters
+                </button>
               </div>
+            ) : (
+              <>
+                <div 
+                  className="grid"
+                  style={{
+                    gridTemplateColumns: `repeat(${getGridCols()}, minmax(0, 1fr))`,
+                    gap: getGap(),
+                  } as React.CSSProperties}
+                >
+                  {displayedImages.map((image) => (
+                    <div
+                      key={image.id}
+                      className="group relative overflow-hidden cursor-pointer bg-[#F5F3EF] rounded-lg"
+                      onClick={() => setSelectedImage(image)}
+                    >
+                      <img
+                        src={image.image_url}
+                        alt=""
+                        title=""
+                        className="w-full aspect-square object-cover group-hover:opacity-80 transition-opacity"
+                        loading="lazy"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).alt = '';
+                          (e.target as HTMLImageElement).title = '';
+                        }}
+                      />
+                      <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                          className="p-1.5 bg-black/60 rounded hover:bg-black/80"
+                          onClick={(e) => { e.stopPropagation(); copyToClipboard(image.image_url); }}
+                        >
+                          <CopyIcon />
+                        </button>
+                        <button
+                          className="p-1.5 bg-black/60 rounded hover:bg-black/80"
+                          onClick={(e) => { e.stopPropagation(); downloadImage(image); }}
+                        >
+                          <DownloadIcon />
+                        </button>
+                        <button
+                          className="p-1.5 bg-amber-600/80 rounded hover:bg-amber-600"
+                          onClick={(e) => { e.stopPropagation(); openMetadataEditor(image); }}
+                          title="Edit metadata"
+                        >
+                          <MetadataIcon />
+                        </button>
+                        <button
+                          className="p-1.5 bg-blue-600/80 rounded hover:bg-blue-600"
+                          onClick={(e) => { e.stopPropagation(); setEditingImage(image); setEditPrompt(""); }}
+                          title="Edit image with AI"
+                        >
+                          <EditIcon />
+                        </button>
+                        <button
+                          className="p-1.5 bg-red-600/80 rounded hover:bg-red-600"
+                          onClick={(e) => { e.stopPropagation(); deleteImage(image); }}
+                          title="Delete image"
+                        >
+                          <TrashIcon />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
 
               {/* Load More */}
               {displayCount < filteredImages.length && (
