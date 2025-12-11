@@ -1898,6 +1898,10 @@ function LibraryContent() {
                 </div>
               )}
             </>
+<<<<<<< HEAD
+=======
+          )}
+>>>>>>> e53b881 (Fix ternary operator closing syntax in library page)
           )}
         </div>
       </div>
