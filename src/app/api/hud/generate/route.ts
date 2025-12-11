@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
         'X-Title': 'Demismatch HUD'
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash-preview-05-20',
+        model: 'google/gemini-2.5-flash-image-preview',
         messages: [
           {
             role: 'user',
