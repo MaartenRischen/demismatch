@@ -128,10 +128,38 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid image format. Expected data URL.' }, { status: 400 });
     }
     
-    const mimeType = imageMatch[1]; // png, jpeg, webp, etc.
-    const base64Data = imageMatch[2];
+    let mimeType = imageMatch[1]; // png, jpeg, webp, avif, etc.
+    let base64Data = imageMatch[2];
     
-    // Use the original mime type from the image
+    // Claude only supports: jpeg, png, gif, webp
+    // Convert unsupported formats (like AVIF) to PNG
+    const supportedFormats = ['jpeg', 'jpg', 'png', 'gif', 'webp'];
+    if (!supportedFormats.includes(mimeType.toLowerCase())) {
+      console.log(`[HUD Analyze] Converting unsupported format ${mimeType} to PNG`);
+      
+      try {
+        // Use sharp to convert to PNG
+        const sharp = (await import('sharp')).default;
+        const imageBuffer = Buffer.from(base64Data, 'base64');
+        const pngBuffer = await sharp(imageBuffer)
+          .png()
+          .toBuffer();
+        base64Data = pngBuffer.toString('base64');
+        mimeType = 'png';
+      } catch (conversionError) {
+        console.error('[HUD Analyze] Conversion error:', conversionError);
+        return NextResponse.json({ 
+          error: 'Failed to convert image format. Please use PNG, JPEG, GIF, or WebP.',
+          details: String(conversionError)
+        }, { status: 400 });
+      }
+    }
+    
+    // Normalize jpeg -> jpg for consistency
+    if (mimeType === 'jpeg') {
+      mimeType = 'jpg';
+    }
+    
     const imageDataUrl = `data:image/${mimeType};base64,${base64Data}`;
     
     console.log('[HUD Analyze] Starting Claude Vision analysis...', { format: mimeType });
