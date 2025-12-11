@@ -13,9 +13,10 @@ interface ImageData {
 interface SeriesStripProps {
   seriesName: string;
   images: ImageData[];
+  onImageClick?: (image: ImageData) => void;
 }
 
-export default function SeriesStrip({ seriesName, images }: SeriesStripProps) {
+export default function SeriesStrip({ seriesName, images, onImageClick }: SeriesStripProps) {
   const [isPaused, setIsPaused] = useState(true); // Start paused for manual scrolling
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -48,10 +49,10 @@ export default function SeriesStrip({ seriesName, images }: SeriesStripProps) {
         style={{ scrollBehavior: 'smooth' }}
       >
         {images.slice(0, 30).map((img) => (
-          <Link
+          <div
             key={img.id}
-            href={`/library?q=${encodeURIComponent(img.title)}`}
-            className="flex-shrink-0 group"
+            onClick={() => onImageClick?.(img)}
+            className="flex-shrink-0 group cursor-pointer"
           >
             <div className="w-36 h-36 rounded-lg overflow-hidden bg-[#F5F3EF] border border-[#E5E0D8] hover:border-[#C75B39] transition-all hover:shadow-md">
               <img
@@ -61,7 +62,7 @@ export default function SeriesStrip({ seriesName, images }: SeriesStripProps) {
                 loading="lazy"
               />
             </div>
-          </Link>
+          </div>
         ))}
         {images.length > 30 && (
           <Link
