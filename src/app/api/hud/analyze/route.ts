@@ -1,5 +1,114 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// Evolutionary HUD Analysis - Based on Evodash Vision architecture
+// Uses Claude Vision for semantic understanding + evolutionary psychology framework
+
+const SYSTEM_PROMPT = `You are an evolutionary psychology analyst creating a "survival and reproduction HUD" overlay.
+
+FRAMEWORK: Fitness-First Interface Theory (Cosmides, Tooby, Hoffman)
+You analyze what an ancestral human brain computes when seeing a scene.
+
+MECHANISM TAGS:
+- Survival-Immediate: threat, pathogen, fire_smoke, traffic_height_drowning, navigation_escape, resource_immediate
+- Survival-Midterm: shelter_cover, territory_affordance, social_support
+- Reproduction: mate_value, parental_care, kinship, status_prestige, coalition, norms_reputation
+- Special: uncertain_mixed, mismatch_supernormal
+
+SCORING: Evolutionary importance 0-100 based on fitness relevance.
+
+CONSTRAINTS:
+- Species-average observer (no individual profiling)
+- No protected attributes, no medicalization
+- Ground rationales in evolutionary logic`;
+
+const USER_PROMPT = `Analyze this image through an evolutionary psychology lens.
+
+Return ONLY valid JSON with this exact structure:
+
+{
+  "scene_type": "threat" | "resource" | "mate" | "social" | "mixed" | "mismatch",
+  "overall_color_scheme": "red" | "green" | "mixed",
+  "pov_context": "brief description of whose POV and what's happening",
+  
+  "biometrics": {
+    "dopamine": { "level": "LOW" | "MODERATE" | "HIGH" | "MAX", "score": 0-100 },
+    "cortisol": { "level": "LOW" | "MODERATE" | "HIGH" | "MAX", "score": 0-100 },
+    "serotonin": { "level": "LOW" | "STABLE" | "HIGH", "score": 0-100 },
+    "oxytocin": { "level": "ZERO" | "LOW" | "MODERATE" | "HIGH" | "MAX", "score": 0-100 },
+    "testosterone": { "level": "LOW" | "MODERATE" | "HIGH", "score": 0-100 },
+    "adrenaline": { "level": "LOW" | "MODERATE" | "HIGH" | "MAX", "score": 0-100 }
+  },
+  
+  "status_panel": {
+    "resource_value": { "level": "NONE" | "LOW" | "MODERATE" | "HIGH", "detail": "what resources" },
+    "tribe_status": { "level": "ISOLATED" | "FRAGMENTED" | "COHESIVE" | "OPTIMAL", "detail": "why" },
+    "mate_opportunity": { "level": "ZERO" | "LOW" | "MODERATE" | "HIGH", "detail": "if applicable" },
+    "threat_level": { "level": "ZERO" | "LOW" | "MODERATE" | "HIGH" | "CRITICAL", "detail": "what threats" },
+    "social_bond": { "level": "ZERO" | "LOW" | "MODERATE" | "HIGH" | "SECURE", "detail": "bond quality" }
+  },
+  
+  "primary_target": {
+    "what": "main subject description",
+    "label": "short label like POTENTIAL MATE or APEX PREDATOR or FRESH WATER",
+    "analysis": "one-line evolutionary significance",
+    "importance_score": 0-100,
+    "mechanisms": ["array", "of", "mechanism_tags"]
+  },
+  
+  "detected_items": [
+    {
+      "id": "item_0",
+      "class": "object class",
+      "position": "left" | "center" | "right",
+      "vertical": "top" | "middle" | "bottom",
+      "size": "small" | "medium" | "large",
+      "mechanisms": ["mechanism_tags"],
+      "importance_score": 0-100,
+      "label": "HUD label text",
+      "color": "green" | "red" | "yellow" | "cyan"
+    }
+  ],
+  
+  "people": [
+    {
+      "id": "person_0",
+      "description": "brief description",
+      "position": "left" | "center" | "right",
+      "bond_status": "KIN" | "ALLY" | "STRANGER" | "THREAT" | "POTENTIAL_MATE",
+      "label": "e.g. KIN-LIKE BOND: SECURE or NO BOND",
+      "importance_score": 0-100
+    }
+  ],
+  
+  "connections": [
+    {
+      "from": "person_0",
+      "to": "person_1",
+      "type": "BOND" | "NO_BOND" | "COMPETITION" | "ATTRACTION",
+      "color": "green" | "red" | "yellow"
+    }
+  ],
+  
+  "action": {
+    "recommendation": "RUN" | "FREEZE" | "APPROACH" | "BOND" | "COURT" | "DEFEND" | "OBSERVE" | "NONE",
+    "urgency": "LOW" | "MODERATE" | "HIGH" | "CRITICAL",
+    "rationale": "brief evolutionary explanation"
+  },
+  
+  "is_mismatch": true | false,
+  "mismatch_details": "if modern environment, explain evolutionary mismatch",
+  
+  "aggregate": {
+    "top_survival_items": ["list of most fitness-relevant survival items"],
+    "top_reproduction_items": ["list of most fitness-relevant reproduction items"],
+    "global_summary": "2-3 sentence evolutionary summary of the scene",
+    "emotional_valence": -1.0 to 1.0,
+    "arousal_level": 0.0 to 1.0
+  }
+}
+
+Be specific to what you actually see. Modern offices, phones, screens = MISMATCH. Nature + real tribe = positive fitness environment.`;
+
 export async function POST(request: NextRequest) {
   try {
     const { image } = await request.json();
@@ -13,11 +122,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing OPENROUTER_API_KEY' }, { status: 500 });
     }
 
-    // Extract base64 data (remove data URL prefix if present)
+    // Extract base64 data
     const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
     
-    console.log('[HUD Analyze] Starting analysis...');
+    console.log('[HUD Analyze] Starting Claude Vision analysis...');
     
+    // Use Claude Sonnet for vision analysis (proven to work in Evodash)
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -27,8 +137,12 @@ export async function POST(request: NextRequest) {
         'X-Title': 'Demismatch HUD'
       },
       body: JSON.stringify({
-        model: 'google/gemini-1.5-flash',
+        model: 'anthropic/claude-sonnet-4',
         messages: [
+          {
+            role: 'system',
+            content: SYSTEM_PROMPT
+          },
           {
             role: 'user',
             content: [
@@ -38,94 +152,13 @@ export async function POST(request: NextRequest) {
               },
               {
                 type: 'text',
-                text: `You are an evolutionary psychology analyst creating a "survival and reproduction HUD" overlay for this image.
-
-Analyze what an ancestral human brain would compute when seeing this scene. Consider: threats, resources, mate opportunities, tribal bonds, status dynamics.
-
-Return JSON with this exact structure:
-
-{
-  "scene_type": "threat" | "resource" | "mate" | "social" | "mixed" | "mismatch",
-  "overall_color_scheme": "red" | "green" | "mixed",
-  "pov_context": "whose POV, what's happening",
-  
-  "biometrics": {
-    "dopamine": { "level": "LOW" | "MODERATE" | "HIGH" | "MAX", "reason": "why" },
-    "cortisol": { "level": "LOW" | "MODERATE" | "HIGH" | "MAX", "reason": "why" },
-    "serotonin": { "level": "LOW" | "STABLE" | "HIGH", "reason": "why" },
-    "oxytocin": { "level": "ZERO" | "LOW" | "MODERATE" | "HIGH" | "MAX" | "OPTIMAL", "reason": "why" },
-    "testosterone": { "level": "LOW" | "MODERATE" | "HIGH", "reason": "why" },
-    "adrenaline": { "level": "LOW" | "MODERATE" | "HIGH" | "MAX", "reason": "why" },
-    "endorphins": { "level": "LOW" | "MODERATE" | "HIGH" | "RISING", "reason": "why" },
-    "melatonin": { "level": "LOW" | "MODERATE" | "HIGH", "reason": "why" }
-  },
-  
-  "right_panel": {
-    "resource_value": "NONE" | "LOW" | "MODERATE" | "HIGH" | "description",
-    "tribe_status": "ISOLATED" | "SOLITARY" | "FRAGMENTED" | "COHESIVE" | "OPTIMAL",
-    "mate_opportunity": "ZERO" | "LOW" | "MODERATE" | "HIGH" | "N/A",
-    "threat_level": "ZERO" | "LOW" | "MODERATE" | "HIGH" | "CRITICAL" | "UNKNOWN",
-    "social_bond": "ZERO" | "LOW" | "MODERATE" | "HIGH" | "MAX" | "SECURE"
-  },
-  
-  "primary_target": {
-    "what": "main subject to put reticle on",
-    "label": "short label like 'POTENTIAL MATE' or 'APEX PREDATOR' or 'FRESH WATER'",
-    "analysis": "one line like 'CREATIVE SKILL DISPLAY' or 'HIGH-RISK FORAGE'"
-  },
-  
-  "cost_benefit": {
-    "show": true/false,
-    "payoff": "what's gained (e.g. 'STATUS ENHANCEMENT / SOCIAL BONDING')",
-    "cost": "what's risked (e.g. 'HIGH PHYSICAL RISK')"
-  },
-  
-  "action": {
-    "recommendation": "RUN!" | "FREEZE" | "APPROACH" | "SHARE RESOURCES" | "INITIATE COURTSHIP" | "DEFEND" | "OBSERVE" | "BOND" | "NONE REQUIRED" | other appropriate action,
-    "urgency": "LOW" | "MODERATE" | "HIGH" | "CRITICAL"
-  },
-  
-  "people_or_animals": [
-    {
-      "description": "who/what",
-      "bond_status": "KIN" | "ALLY" | "STRANGER" | "THREAT" | "POTENTIAL_MATE",
-      "label": "e.g. 'KIN-LIKE BOND: SECURE' or 'NO BOND' or 'COMPETITION (MODERATE)'"
-    }
-  ],
-  
-  "resources_to_label": [
-    {
-      "what": "object or feature",
-      "label": "e.g. 'RESOURCE: NONE' or 'VALUE: FRESH WATER' or 'RESOURCE: ABSTRACT (DATA)'"
-    }
-  ],
-  
-  "terrain_features": [
-    {
-      "what": "cliffs, water, shelter, etc",
-      "significance": "why it matters evolutionarily"
-    }
-  ],
-  
-  "is_mismatch": true/false,
-  "mismatch_details": "if modern environment, explain what's broken: strangers everywhere, abstract resources, no real bonds, artificial light, etc.",
-  
-  "connection_lines": [
-    {
-      "from": "person/animal A",
-      "to": "person/animal B", 
-      "type": "BOND" | "NO_BOND" | "TRIBE_SYNC",
-      "color": "green" | "red" | "yellow"
-    }
-  ]
-}
-
-Be specific to what you actually see. Modern offices, phones, screens = MISMATCH with red color scheme. Nature + real tribe = green scheme. Return ONLY valid JSON.`
+                text: USER_PROMPT
               }
             ]
           }
         ],
-        max_tokens: 2000
+        max_tokens: 4000,
+        temperature: 0.3
       })
     });
 
@@ -144,16 +177,46 @@ Be specific to what you actually see. Modern offices, phones, screens = MISMATCH
       if (!content) {
         throw new Error('No content in response');
       }
-      const jsonStr = content.replace(/```json\n?|\n?```/g, '').trim();
+      
+      // Extract JSON from response (handle code blocks)
+      let jsonStr = content;
+      const jsonMatch = content.match(/```(?:json)?\s*([\s\S]*?)```/);
+      if (jsonMatch) {
+        jsonStr = jsonMatch[1];
+      }
+      jsonStr = jsonStr.trim();
+      
+      // Parse and validate
       const analysis = JSON.parse(jsonStr);
+      
+      // Add metadata
+      analysis.metadata = {
+        llm_model: 'anthropic/claude-sonnet-4',
+        created_at: new Date().toISOString(),
+        processing_method: 'claude_vision'
+      };
+      
+      console.log('[HUD Analyze] Analysis complete:', {
+        scene_type: analysis.scene_type,
+        is_mismatch: analysis.is_mismatch,
+        items_count: analysis.detected_items?.length || 0,
+        people_count: analysis.people?.length || 0
+      });
+      
       return NextResponse.json(analysis);
-    } catch (e) {
-      console.error('[HUD Analyze] Parse error:', e, data);
-      return NextResponse.json({ error: 'Failed to parse analysis', raw: data }, { status: 500 });
+      
+    } catch (parseError) {
+      console.error('[HUD Analyze] Parse error:', parseError);
+      console.error('[HUD Analyze] Raw content:', data.choices?.[0]?.message?.content?.substring(0, 500));
+      return NextResponse.json({ 
+        error: 'Failed to parse analysis', 
+        details: String(parseError),
+        raw: data.choices?.[0]?.message?.content?.substring(0, 1000)
+      }, { status: 500 });
     }
+    
   } catch (error) {
     console.error('[HUD Analyze] Error:', error);
     return NextResponse.json({ error: 'Analysis failed', details: String(error) }, { status: 500 });
   }
 }
-
