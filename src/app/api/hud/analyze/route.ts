@@ -5,20 +5,29 @@ export async function POST(request: NextRequest) {
     const { image } = await request.json();
     
     if (!image) {
-      return NextResponse.json({ error: 'No image provided' }, { status: 400 });
+      return NextResponse.json({ error: 'Image is required' }, { status: 400 });
     }
-    
+
+    const openRouterKey = process.env.OPENROUTER_API_KEY;
+    if (!openRouterKey) {
+      return NextResponse.json({ error: 'Missing OPENROUTER_API_KEY' }, { status: 500 });
+    }
+
     // Extract base64 data (remove data URL prefix if present)
     const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
+    
+    console.log('[HUD Analyze] Starting analysis...');
     
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        'Authorization': `Bearer ${openRouterKey}`,
         'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://demismatch.com',
+        'X-Title': 'Demismatch HUD'
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.0-flash-001',
+        model: 'google/gemini-2.5-flash-preview-05-20',
         messages: [
           {
             role: 'user',
@@ -29,90 +38,122 @@ export async function POST(request: NextRequest) {
               },
               {
                 type: 'text',
-                text: `Analyze this image through an evolutionary psychology lens. Return a JSON object (no markdown, just raw JSON) with this structure:
+                text: `You are an evolutionary psychology analyst creating a "survival and reproduction HUD" overlay for this image.
+
+Analyze what an ancestral human brain would compute when seeing this scene. Consider: threats, resources, mate opportunities, tribal bonds, status dynamics.
+
+Return JSON with this exact structure:
 
 {
-  "scene_type": "threat|resource|mate|social|mixed|mismatch",
-  "overall_color_scheme": "red|green|mixed",
-  "pov_context": "brief description of whose POV and what's happening",
+  "scene_type": "threat" | "resource" | "mate" | "social" | "mixed" | "mismatch",
+  "overall_color_scheme": "red" | "green" | "mixed",
+  "pov_context": "whose POV, what's happening",
+  
   "biometrics": {
-    "dopamine": {"level": "LOW|MODERATE|HIGH|MAX", "reason": "brief"},
-    "cortisol": {"level": "LOW|MODERATE|HIGH|MAX", "reason": "brief"},
-    "serotonin": {"level": "LOW|STABLE|HIGH", "reason": "brief"},
-    "oxytocin": {"level": "ZERO|LOW|MODERATE|HIGH|MAX", "reason": "brief"},
-    "testosterone": {"level": "LOW|MODERATE|HIGH", "reason": "brief"},
-    "adrenaline": {"level": "LOW|MODERATE|HIGH|MAX", "reason": "brief"},
-    "endorphins": {"level": "LOW|MODERATE|HIGH", "reason": "brief"},
-    "melatonin": {"level": "LOW|MODERATE|HIGH", "reason": "brief"}
+    "dopamine": { "level": "LOW" | "MODERATE" | "HIGH" | "MAX", "reason": "why" },
+    "cortisol": { "level": "LOW" | "MODERATE" | "HIGH" | "MAX", "reason": "why" },
+    "serotonin": { "level": "LOW" | "STABLE" | "HIGH", "reason": "why" },
+    "oxytocin": { "level": "ZERO" | "LOW" | "MODERATE" | "HIGH" | "MAX" | "OPTIMAL", "reason": "why" },
+    "testosterone": { "level": "LOW" | "MODERATE" | "HIGH", "reason": "why" },
+    "adrenaline": { "level": "LOW" | "MODERATE" | "HIGH" | "MAX", "reason": "why" },
+    "endorphins": { "level": "LOW" | "MODERATE" | "HIGH" | "RISING", "reason": "why" },
+    "melatonin": { "level": "LOW" | "MODERATE" | "HIGH", "reason": "why" }
   },
+  
   "right_panel": {
-    "resource_value": "NONE|LOW|MODERATE|HIGH",
-    "tribe_status": "ISOLATED|SOLITARY|FRAGMENTED|COHESIVE|OPTIMAL",
-    "mate_opportunity": "ZERO|LOW|MODERATE|HIGH|N/A",
-    "threat_level": "ZERO|LOW|MODERATE|HIGH|CRITICAL",
-    "social_bond": "ZERO|LOW|MODERATE|HIGH|MAX"
+    "resource_value": "NONE" | "LOW" | "MODERATE" | "HIGH" | "description",
+    "tribe_status": "ISOLATED" | "SOLITARY" | "FRAGMENTED" | "COHESIVE" | "OPTIMAL",
+    "mate_opportunity": "ZERO" | "LOW" | "MODERATE" | "HIGH" | "N/A",
+    "threat_level": "ZERO" | "LOW" | "MODERATE" | "HIGH" | "CRITICAL" | "UNKNOWN",
+    "social_bond": "ZERO" | "LOW" | "MODERATE" | "HIGH" | "MAX" | "SECURE"
   },
+  
   "primary_target": {
-    "what": "main subject",
-    "label": "short label like POTENTIAL MATE or APEX PREDATOR",
-    "analysis": "one line analysis"
+    "what": "main subject to put reticle on",
+    "label": "short label like 'POTENTIAL MATE' or 'APEX PREDATOR' or 'FRESH WATER'",
+    "analysis": "one line like 'CREATIVE SKILL DISPLAY' or 'HIGH-RISK FORAGE'"
   },
+  
   "cost_benefit": {
-    "show": true or false,
-    "payoff": "what's gained",
-    "cost": "what's risked"
+    "show": true/false,
+    "payoff": "what's gained (e.g. 'STATUS ENHANCEMENT / SOCIAL BONDING')",
+    "cost": "what's risked (e.g. 'HIGH PHYSICAL RISK')"
   },
+  
   "action": {
-    "recommendation": "RUN|FREEZE|APPROACH|OBSERVE|BOND|NONE REQUIRED|etc",
-    "urgency": "LOW|MODERATE|HIGH|CRITICAL"
+    "recommendation": "RUN!" | "FREEZE" | "APPROACH" | "SHARE RESOURCES" | "INITIATE COURTSHIP" | "DEFEND" | "OBSERVE" | "BOND" | "NONE REQUIRED" | other appropriate action,
+    "urgency": "LOW" | "MODERATE" | "HIGH" | "CRITICAL"
   },
-  "is_mismatch": true or false,
-  "mismatch_details": "if mismatch, explain what's broken about this modern environment"
+  
+  "people_or_animals": [
+    {
+      "description": "who/what",
+      "bond_status": "KIN" | "ALLY" | "STRANGER" | "THREAT" | "POTENTIAL_MATE",
+      "label": "e.g. 'KIN-LIKE BOND: SECURE' or 'NO BOND' or 'COMPETITION (MODERATE)'"
+    }
+  ],
+  
+  "resources_to_label": [
+    {
+      "what": "object or feature",
+      "label": "e.g. 'RESOURCE: NONE' or 'VALUE: FRESH WATER' or 'RESOURCE: ABSTRACT (DATA)'"
+    }
+  ],
+  
+  "terrain_features": [
+    {
+      "what": "cliffs, water, shelter, etc",
+      "significance": "why it matters evolutionarily"
+    }
+  ],
+  
+  "is_mismatch": true/false,
+  "mismatch_details": "if modern environment, explain what's broken: strangers everywhere, abstract resources, no real bonds, artificial light, etc.",
+  
+  "connection_lines": [
+    {
+      "from": "person/animal A",
+      "to": "person/animal B", 
+      "type": "BOND" | "NO_BOND" | "TRIBE_SYNC",
+      "color": "green" | "red" | "yellow"
+    }
+  ]
 }
 
-Modern offices, phones, screens, strangers = MISMATCH with red scheme.
-Nature, real tribe, real bonds = ALIGNED with green scheme.
-Return ONLY valid JSON, no explanation.`
+Be specific to what you actually see. Modern offices, phones, screens = MISMATCH with red color scheme. Nature + real tribe = green scheme. Return ONLY valid JSON.`
               }
             ]
           }
         ],
-        max_tokens: 1500
+        max_tokens: 2000
       })
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('OpenRouter error:', errorText);
-      return NextResponse.json({ error: 'Analysis API failed' }, { status: 500 });
+      console.error('[HUD Analyze] OpenRouter error:', errorText);
+      return NextResponse.json({ error: 'Analysis failed', details: errorText }, { status: 500 });
     }
 
     const data = await response.json();
     
-    // Check if response was truncated
-    if (data.choices?.[0]?.finish_reason === 'length') {
-      console.error('Response truncated - max tokens reached');
-      return NextResponse.json({ error: 'Analysis was truncated, please try again' }, { status: 500 });
-    }
+    console.log('[HUD Analyze] Response received');
     
     try {
       const content = data.choices?.[0]?.message?.content;
       if (!content) {
-        console.error('No content in response:', data);
-        return NextResponse.json({ error: 'No content in response' }, { status: 500 });
+        throw new Error('No content in response');
       }
-      
-      // Clean up the response - remove markdown code blocks if present
       const jsonStr = content.replace(/```json\n?|\n?```/g, '').trim();
       const analysis = JSON.parse(jsonStr);
       return NextResponse.json(analysis);
     } catch (e) {
-      console.error('Parse error:', e, 'Content:', data.choices?.[0]?.message?.content?.substring(0, 500));
-      return NextResponse.json({ error: 'Failed to parse analysis' }, { status: 500 });
+      console.error('[HUD Analyze] Parse error:', e, data);
+      return NextResponse.json({ error: 'Failed to parse analysis', raw: data }, { status: 500 });
     }
   } catch (error) {
-    console.error('Analysis error:', error);
-    return NextResponse.json({ error: 'Analysis failed' }, { status: 500 });
+    console.error('[HUD Analyze] Error:', error);
+    return NextResponse.json({ error: 'Analysis failed', details: String(error) }, { status: 500 });
   }
 }
 

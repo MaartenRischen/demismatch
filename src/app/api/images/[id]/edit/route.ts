@@ -59,8 +59,8 @@ export async function POST(
     console.log(`[Edit] Processing edit for image ${imageId}: "${prompt.substring(0, 50)}..."`);
     console.log(`[Edit] Source image URL: ${publicImageUrl}`);
 
-    // Call OpenRouter with Gemini Nano Banana Pro for image editing
-    // IMPORTANT: Gemini 3 Pro Image requires a PUBLIC URL, not base64
+    // Call OpenRouter with Gemini for image editing
+    // IMPORTANT: Must include modalities: ["image", "text"] to get image output!
     const openRouterResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -70,7 +70,7 @@ export async function POST(
         'X-Title': 'Demismatch Image Editor'
       },
       body: JSON.stringify({
-        model: 'google/gemini-3-pro-image-preview',
+        model: 'google/gemini-2.5-flash-image-preview',
         messages: [
           {
             role: 'user',
@@ -78,7 +78,7 @@ export async function POST(
               {
                 type: 'image_url',
                 image_url: {
-                  url: publicImageUrl  // Public URL, not base64!
+                  url: publicImageUrl
                 }
               },
               {
@@ -87,7 +87,8 @@ export async function POST(
               }
             ]
           }
-        ]
+        ],
+        modalities: ['image', 'text']
       })
     });
 
@@ -103,49 +104,52 @@ export async function POST(
     const openRouterData = await openRouterResponse.json();
     console.log('[Edit] OpenRouter response:', JSON.stringify(openRouterData, null, 2));
 
-    // Check for inline_data format (Gemini's image output format)
+    // Check for image in response - OpenRouter returns images in message.images array
     const assistantMessage = openRouterData.choices?.[0]?.message;
     let newImageBase64: string | null = null;
 
-    // Try different response formats
-    if (assistantMessage?.content) {
-      // Check if content is an array with image parts
-      if (Array.isArray(assistantMessage.content)) {
-        for (const part of assistantMessage.content) {
-          console.log('[Edit] Checking part:', part.type, Object.keys(part));
-          if (part.type === 'image_url' && part.image_url?.url) {
-            newImageBase64 = part.image_url.url;
-            console.log('[Edit] Found image_url format');
-            break;
-          }
-          if (part.type === 'image' && part.source?.data) {
-            // Gemini native format
-            newImageBase64 = `data:${part.source.media_type || 'image/png'};base64,${part.source.data}`;
-            console.log('[Edit] Found image source format');
-            break;
-          }
-          if (part.inline_data?.data) {
-            newImageBase64 = `data:${part.inline_data.mime_type || 'image/png'};base64,${part.inline_data.data}`;
-            console.log('[Edit] Found inline_data format');
-            break;
-          }
+    // Primary format: OpenRouter's images array (documented format)
+    if (assistantMessage?.images && Array.isArray(assistantMessage.images) && assistantMessage.images.length > 0) {
+      const firstImage = assistantMessage.images[0];
+      // Could be { image_url: { url: "..." } } or { type: "image_url", image_url: { url: "..." } }
+      newImageBase64 = firstImage?.image_url?.url || firstImage?.url || firstImage;
+      console.log('[Edit] Found images array format');
+    }
+
+    // Fallback: Check if content is an array with image parts
+    if (!newImageBase64 && assistantMessage?.content && Array.isArray(assistantMessage.content)) {
+      for (const part of assistantMessage.content) {
+        console.log('[Edit] Checking content part:', part.type, Object.keys(part));
+        if (part.type === 'image_url' && part.image_url?.url) {
+          newImageBase64 = part.image_url.url;
+          console.log('[Edit] Found image_url format in content');
+          break;
+        }
+        if (part.type === 'image' && part.source?.data) {
+          newImageBase64 = `data:${part.source.media_type || 'image/png'};base64,${part.source.data}`;
+          console.log('[Edit] Found image source format in content');
+          break;
+        }
+        if (part.inline_data?.data) {
+          newImageBase64 = `data:${part.inline_data.mime_type || 'image/png'};base64,${part.inline_data.data}`;
+          console.log('[Edit] Found inline_data format in content');
+          break;
         }
       }
     }
 
-    // Also check the images array format
     if (!newImageBase64) {
-      const generatedImages = assistantMessage?.images;
-      if (generatedImages && generatedImages.length > 0) {
-        newImageBase64 = generatedImages[0]?.image_url?.url || generatedImages[0];
-        console.log('[Edit] Found images array format');
-      }
-    }
-
-    if (!newImageBase64) {
-      console.error('[Edit] No images in response');
+      console.error('[Edit] No images in response. Response structure:', JSON.stringify({
+        hasMessage: !!assistantMessage,
+        hasImages: !!assistantMessage?.images,
+        imagesLength: assistantMessage?.images?.length,
+        hasContent: !!assistantMessage?.content,
+        contentType: typeof assistantMessage?.content,
+        reasoning: assistantMessage?.reasoning ? 'present' : 'absent'
+      }));
       return NextResponse.json({
-        error: 'No image generated - model may not support image output',
+        error: 'No image generated - check server logs for response structure',
+        hint: 'The model returned reasoning but no image. Try a different prompt or model.',
         response: openRouterData
       }, { status: 500 });
     }
