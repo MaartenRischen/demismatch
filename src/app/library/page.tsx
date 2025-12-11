@@ -1815,17 +1815,18 @@ function LibraryContent() {
                 ))
               )}
             </div>
+          ) : filteredImages.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-[#8B8B8B]">No images match your filters</p>
+              <button
+                onClick={clearAllFilters}
+                className="mt-4 px-4 py-2 bg-white border border-[#E5E0D8] text-[#4A4A4A] hover:border-[#C75B39] transition-colors rounded"
+              >
+                Clear Filters
+              </button>
+            </div>
           ) : (
-            /* Grid View */
-            filteredImages.length === 0 ? (
-              <div className="text-center py-12">
-                <p className="text-[#8B8B8B]">No images match your filters</p>
-                <button onClick={clearAllFilters} className="mt-4 px-4 py-2 bg-white border border-[#E5E0D8] text-[#4A4A4A] hover:border-[#C75B39] transition-colors rounded">
-                  Clear Filters
-                </button>
-              </div>
-            ) : (
-              <>
+            <>
                 <div 
                   className="grid"
                   style={{
@@ -1898,7 +1899,6 @@ function LibraryContent() {
                 </div>
               )}
             </>
-          )}
           )}
         </div>
       </div>
