@@ -45,6 +45,10 @@ export default function SeriesStrip({ seriesName, images, onImageClick, onToggle
     });
   }, [images]);
 
+  const scrollBy = (dx: number) => {
+    scrollContainerRef.current?.scrollBy({ left: dx, behavior: 'smooth' });
+  };
+
   return (
     <div className="py-6 border-b border-[#E5E0D8] w-full min-w-0">
       <div className="flex items-center justify-between mb-3 px-4">
@@ -65,54 +69,80 @@ export default function SeriesStrip({ seriesName, images, onImageClick, onToggle
         </Link>
       </div>
 
-      <div
-        ref={scrollContainerRef}
-        className="flex gap-3 overflow-x-auto overflow-y-hidden pb-2 px-4 scrollbar-hide w-full min-w-0"
-        style={{ scrollBehavior: 'smooth', WebkitOverflowScrolling: 'touch' }}
-      >
-        {sortedImages.slice(0, 30).map((img) => (
-          <button
-            key={img.id}
-            type="button"
-            onClick={() => onImageClick?.(img.id)}
-            className="flex-shrink-0 group text-left"
-          >
-            <div className="relative w-36 h-36 rounded-lg overflow-hidden bg-[#F5F3EF] border border-[#E5E0D8] hover:border-[#C75B39] transition-all hover:shadow-md">
-              <button
-                type="button"
-                aria-label={img.is_favorite ? 'Unfavorite' : 'Favorite'}
-                className={`absolute top-2 left-2 z-10 p-1.5 rounded-full border transition-colors ${
-                  img.is_favorite
-                    ? 'bg-white text-rose-600 border-white'
-                    : 'bg-black/40 text-white border-white/30 hover:bg-black/60'
-                }`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  const next = !img.is_favorite;
-                  onToggleFavorite?.(img.id, next);
-                }}
-              >
-                <HeartIcon filled={!!img.is_favorite} />
-              </button>
-              <img
-                src={img.image_url}
-                alt=""
-                title=""
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                loading="lazy"
-              />
-            </div>
-          </button>
-        ))}
+      <div className="relative w-full min-w-0">
+        {/* Click chevrons so it is scrollable even with a mouse (no trackpad) */}
+        <button
+          type="button"
+          aria-label="Scroll left"
+          className="hidden md:flex items-center justify-center absolute left-1 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-white/90 border border-[#E5E0D8] text-[#4A4A4A] hover:border-[#C75B39] hover:text-[#C75B39] shadow-sm"
+          onClick={() => scrollBy(-360)}
+        >
+          ‹
+        </button>
+        <button
+          type="button"
+          aria-label="Scroll right"
+          className="hidden md:flex items-center justify-center absolute right-1 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-white/90 border border-[#E5E0D8] text-[#4A4A4A] hover:border-[#C75B39] hover:text-[#C75B39] shadow-sm"
+          onClick={() => scrollBy(360)}
+        >
+          ›
+        </button>
 
-        {sortedImages.length > 30 && (
-          <Link
-            href={`/library?series=${encodeURIComponent(seriesName)}`}
-            className="flex-shrink-0 w-36 h-36 rounded-lg bg-[#F5F3EF] border border-[#E5E0D8] hover:border-[#C75B39] transition-all flex items-center justify-center"
-          >
-            <span className="text-sm text-[#8B8B8B]">+{sortedImages.length - 30} more</span>
-          </Link>
-        )}
+        <div
+          ref={scrollContainerRef}
+          className="flex gap-3 overflow-x-auto overflow-y-hidden pb-2 px-4 scrollbar-hide w-full min-w-0"
+          style={{ scrollBehavior: 'smooth', WebkitOverflowScrolling: 'touch' }}
+          onWheel={(e) => {
+            // Make mouse-wheel usable for horizontal scrolling (since scrollbars are hidden)
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+              scrollContainerRef.current?.scrollBy({ left: e.deltaY, behavior: 'auto' });
+            }
+          }}
+        >
+          {sortedImages.slice(0, 30).map((img) => (
+            <button
+              key={img.id}
+              type="button"
+              onClick={() => onImageClick?.(img.id)}
+              className="flex-shrink-0 group text-left"
+            >
+              <div className="relative w-36 h-36 rounded-lg overflow-hidden bg-[#F5F3EF] border border-[#E5E0D8] hover:border-[#C75B39] transition-all hover:shadow-md">
+                <button
+                  type="button"
+                  aria-label={img.is_favorite ? 'Unfavorite' : 'Favorite'}
+                  className={`absolute top-2 left-2 z-10 p-1.5 rounded-full border transition-colors ${
+                    img.is_favorite
+                      ? 'bg-white text-rose-600 border-white'
+                      : 'bg-black/40 text-white border-white/30 hover:bg-black/60'
+                  }`}
+                  onClick={(ev) => {
+                    ev.stopPropagation();
+                    const next = !img.is_favorite;
+                    onToggleFavorite?.(img.id, next);
+                  }}
+                >
+                  <HeartIcon filled={!!img.is_favorite} />
+                </button>
+                <img
+                  src={img.image_url}
+                  alt=""
+                  title=""
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
+            </button>
+          ))}
+
+          {sortedImages.length > 30 && (
+            <Link
+              href={`/library?series=${encodeURIComponent(seriesName)}`}
+              className="flex-shrink-0 w-36 h-36 rounded-lg bg-[#F5F3EF] border border-[#E5E0D8] hover:border-[#C75B39] transition-all flex items-center justify-center"
+            >
+              <span className="text-sm text-[#8B8B8B]">+{sortedImages.length - 30} more</span>
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );
