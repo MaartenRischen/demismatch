@@ -210,17 +210,53 @@ export async function POST(request: NextRequest) {
     console.log('[HUD Analyze] Response received');
     
     try {
-      const content = data.choices?.[0]?.message?.content;
-      if (!content) {
-        throw new Error('No content in response');
+      const assistantMessage = data?.choices?.[0]?.message;
+      if (!assistantMessage) {
+        throw new Error('No message in response');
       }
-      
+
+      // OpenRouter normalizes many providers, but "content" shape differs:
+      // - string (common)
+      // - array of parts: [{ type: "text", text: "..." }, ...] (Anthropic-style)
+      const extractText = (msg: any): string => {
+        const c = msg?.content;
+        if (typeof c === 'string') return c;
+        if (Array.isArray(c)) {
+          const textParts = c
+            .filter((p: any) => p && (p.type === 'text' || typeof p.text === 'string'))
+            .map((p: any) => (typeof p.text === 'string' ? p.text : ''));
+          return textParts.join('\n').trim();
+        }
+        // Some providers may put useful text in reasoning fields
+        if (typeof msg?.reasoning === 'string' && msg.reasoning.trim()) return msg.reasoning;
+        return '';
+      };
+
+      const contentText = extractText(assistantMessage);
+      if (!contentText) {
+        console.error('[HUD Analyze] Missing content. Debug:', JSON.stringify({
+          hasChoices: !!data?.choices,
+          choiceCount: data?.choices?.length,
+          hasMessage: !!assistantMessage,
+          contentType: typeof assistantMessage?.content,
+          contentIsArray: Array.isArray(assistantMessage?.content),
+          hasReasoning: !!assistantMessage?.reasoning,
+          finishReason: data?.choices?.[0]?.finish_reason,
+          provider: data?.provider,
+          model: data?.model,
+        }, null, 2));
+        // Include truncated raw response for debugging (careful: can be large)
+        return NextResponse.json({
+          error: 'Failed to parse analysis',
+          details: 'No content in response (content was empty or non-text)',
+          response: data,
+        }, { status: 500 });
+      }
+
       // Extract JSON from response (handle code blocks)
-      let jsonStr = content;
-      const jsonMatch = content.match(/```(?:json)?\s*([\s\S]*?)```/);
-      if (jsonMatch) {
-        jsonStr = jsonMatch[1];
-      }
+      let jsonStr = contentText;
+      const jsonMatch = contentText.match(/```(?:json)?\s*([\s\S]*?)```/);
+      if (jsonMatch) jsonStr = jsonMatch[1];
       jsonStr = jsonStr.trim();
       
       // Parse and validate
@@ -244,11 +280,18 @@ export async function POST(request: NextRequest) {
       
     } catch (parseError) {
       console.error('[HUD Analyze] Parse error:', parseError);
-      console.error('[HUD Analyze] Raw content:', data.choices?.[0]?.message?.content?.substring(0, 500));
+      const rawMsg = data?.choices?.[0]?.message;
+      const rawContent = typeof rawMsg?.content === 'string'
+        ? rawMsg.content
+        : Array.isArray(rawMsg?.content)
+          ? rawMsg.content.map((p: any) => (p?.text ? String(p.text) : '')).join('\n')
+          : '';
+      console.error('[HUD Analyze] Raw content (truncated):', rawContent?.substring?.(0, 800));
       return NextResponse.json({ 
         error: 'Failed to parse analysis', 
         details: String(parseError),
-        raw: data.choices?.[0]?.message?.content?.substring(0, 1000)
+        raw: rawContent?.substring?.(0, 2000) || null,
+        response: data,
       }, { status: 500 });
     }
     
