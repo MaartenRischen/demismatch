@@ -162,16 +162,15 @@ export default function SeriesStrip({
         )}
       </div>
 
-      {/* Single-row showcase (no horizontal scroll) */}
-      <div ref={containerRef} className="px-4 w-full min-w-0">
-        <div className="flex flex-nowrap gap-3 overflow-hidden">
-          {sortedImages.slice(0, initialCount).map(renderTile)}
+      {/* Collapsed: single-row showcase. Expanded: replace row with grid (avoid duplicates). */}
+      {!expanded ? (
+        <div ref={containerRef} className="px-4 w-full min-w-0">
+          <div className="flex flex-nowrap gap-3 overflow-hidden">
+            {sortedImages.slice(0, initialCount).map(renderTile)}
+          </div>
         </div>
-      </div>
-
-      {/* Expanded grid */}
-      {expanded && (
-        <div className="px-4 pt-4">
+      ) : (
+        <div className="px-4 pt-1">
           <div
             className="grid gap-3"
             style={{
