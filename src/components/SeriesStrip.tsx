@@ -23,11 +23,7 @@ function HeartIcon({ filled }: { filled: boolean }) {
     <svg viewBox="0 0 24 24" className="w-4 h-4" aria-hidden="true">
       <path
         d="M12 21s-7.1-4.4-9.5-8.3C.2 8.9 2 5.5 5.6 4.6c1.9-.5 3.9.2 5.1 1.6 1.2-1.4 3.2-2.1 5.1-1.6 3.6.9 5.4 4.3 3.1 8.1C19.1 16.6 12 21 12 21z"
-<<<<<<< HEAD
         fill={filled ? 'currentColor' : 'none'}
-=======
-        fill={filled ? "currentColor" : "none"}
->>>>>>> ad9aa72 (Fix SeriesStrip horizontal scrolling: add min-w-0 and overflow constraints)
         stroke="currentColor"
         strokeWidth="1.8"
         strokeLinejoin="round"
@@ -50,7 +46,7 @@ export default function SeriesStrip({ seriesName, images, onImageClick, onToggle
   }, [images]);
 
   return (
-    <div className="py-6 border-b border-[#E5E0D8]">
+    <div className="py-6 border-b border-[#E5E0D8] w-full min-w-0">
       <div className="flex items-center justify-between mb-3 px-4">
         <Link
           href={`/library?series=${encodeURIComponent(seriesName)}`}
@@ -71,8 +67,8 @@ export default function SeriesStrip({ seriesName, images, onImageClick, onToggle
 
       <div
         ref={scrollContainerRef}
-        className="flex gap-3 overflow-x-auto pb-2 px-4 scrollbar-hide"
-        style={{ scrollBehavior: 'smooth' }}
+        className="flex gap-3 overflow-x-auto overflow-y-hidden pb-2 px-4 scrollbar-hide w-full min-w-0"
+        style={{ scrollBehavior: 'smooth', WebkitOverflowScrolling: 'touch' }}
       >
         {sortedImages.slice(0, 30).map((img) => (
           <button
@@ -84,19 +80,11 @@ export default function SeriesStrip({ seriesName, images, onImageClick, onToggle
             <div className="relative w-36 h-36 rounded-lg overflow-hidden bg-[#F5F3EF] border border-[#E5E0D8] hover:border-[#C75B39] transition-all hover:shadow-md">
               <button
                 type="button"
-<<<<<<< HEAD
                 aria-label={img.is_favorite ? 'Unfavorite' : 'Favorite'}
                 className={`absolute top-2 left-2 z-10 p-1.5 rounded-full border transition-colors ${
                   img.is_favorite
                     ? 'bg-white text-rose-600 border-white'
                     : 'bg-black/40 text-white border-white/30 hover:bg-black/60'
-=======
-                aria-label={img.is_favorite ? "Unfavorite" : "Favorite"}
-                className={`absolute top-2 left-2 z-10 p-1.5 rounded-full border transition-colors ${
-                  img.is_favorite
-                    ? "bg-white text-rose-600 border-white"
-                    : "bg-black/40 text-white border-white/30 hover:bg-black/60"
->>>>>>> ad9aa72 (Fix SeriesStrip horizontal scrolling: add min-w-0 and overflow constraints)
                 }`}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -116,10 +104,7 @@ export default function SeriesStrip({ seriesName, images, onImageClick, onToggle
             </div>
           </button>
         ))}
-<<<<<<< HEAD
 
-=======
->>>>>>> ad9aa72 (Fix SeriesStrip horizontal scrolling: add min-w-0 and overflow constraints)
         {sortedImages.length > 30 && (
           <Link
             href={`/library?series=${encodeURIComponent(seriesName)}`}

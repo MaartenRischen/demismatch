@@ -31,7 +31,6 @@ export interface ImageData {
   is_favorite: boolean;
 }
 
-// Database row type matching new Supabase columns
 interface DbImageRow {
   id: number;
   file_name: string;
@@ -46,11 +45,13 @@ interface DbImageRow {
   search_text: string | null;
 }
 
-// Select columns for database query
 const SELECT_COLUMNS = 'id, file_name, folder_name, title, image_url, image_type, categories, series, framework_concepts, tags_normalized, search_text';
 
-// Transform database row to API response format
-  // Skip rows with no file_name or image_url
+function transformRow(
+  row: DbImageRow,
+  supabaseUrl: string,
+  favoriteById: Map<number, boolean>
+): ImageData | null {
   if (!row.file_name && !row.image_url) {
     return null;
   }
@@ -58,15 +59,12 @@ const SELECT_COLUMNS = 'id, file_name, folder_name, title, image_url, image_type
   const fileName = row.file_name || '';
   const folderName = row.folder_name || '';
 
-  // Use image_url from database if available, otherwise construct from folder/file
   const imageUrl = row.image_url ||
     `${supabaseUrl}/storage/v1/object/public/mismatch-images/${folderName}/${fileName}`;
 
-  // Generate fallback title from filename if not set
   const title = row.title ||
     (fileName ? fileName.replace(/^\d+_/, '').replace(/\.png$/, '').replace(/_/g, ' ') : 'Untitled');
 
-  // Extract body_text from search_text (first 500 chars before any JSON)
   let body_text = '';
   if (row.search_text) {
     const jsonStart = row.search_text.indexOf('{"');
@@ -87,7 +85,7 @@ const SELECT_COLUMNS = 'id, file_name, folder_name, title, image_url, image_type
     framework_concepts: row.framework_concepts || [],
     tags: row.tags_normalized || [],
     image_url: imageUrl,
-    is_favorite: favoriteById.get(row.id) ?? false
+    is_favorite: favoriteById.get(row.id) ?? false,
   };
 }
 
@@ -110,13 +108,6 @@ export async function GET(request: NextRequest) {
       console.warn('[api/images] Failed to fetch masterlist for favorites; defaulting to false', e);
     }
 
-        favoriteById.set(img.id, !!img.is_favorite);
-      }
-    } catch (e) {
-      console.warn('[api/images] Failed to fetch masterlist for favorites; defaulting to false', e);
-    }
-
-    // If specific IDs requested, fetch just those
     if (idsParam) {
       const ids = idsParam.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id));
       if (ids.length > 0) {
@@ -135,7 +126,6 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Fetch all images with pagination (Supabase limits to 1000 per query)
     const allData: DbImageRow[] = [];
     const pageSize = 1000;
     let offset = 0;
