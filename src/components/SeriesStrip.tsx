@@ -16,24 +16,11 @@ interface SeriesStripProps {
   seriesName: string;
   images: SeriesImage[];
   onImageClick?: (imageId: number) => void;
-  onToggleFavorite?: (imageId: number, nextValue: boolean) => void;
   zoomLevel?: number; // 1..5 (smaller->more tiles)
   isMobile?: boolean;
 }
 
-function HeartIcon({ filled }: { filled: boolean }) {
-  return (
-    <svg viewBox="0 0 24 24" className="w-4 h-4" aria-hidden="true">
-      <path
-        d="M12 21s-7.1-4.4-9.5-8.3C.2 8.9 2 5.5 5.6 4.6c1.9-.5 3.9.2 5.1 1.6 1.2-1.4 3.2-2.1 5.1-1.6 3.6.9 5.4 4.3 3.1 8.1C19.1 16.6 12 21 12 21z"
-        fill={filled ? 'currentColor' : 'none'}
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
+// Favorites UI intentionally hidden for now.
 
 const TILE_BY_ZOOM = [112, 128, 144, 168, 196]; // px
 const GAP_PX = 12; // gap-3
@@ -42,7 +29,6 @@ export default function SeriesStrip({
   seriesName,
   images,
   onImageClick,
-  onToggleFavorite,
   zoomLevel = 3,
   isMobile = false,
 }: SeriesStripProps) {
@@ -112,22 +98,6 @@ export default function SeriesStrip({
         className="relative rounded-lg overflow-hidden bg-[#F5F3EF] border border-[#E5E0D8] hover:border-[#C75B39] transition-all hover:shadow-md"
         style={{ width: tile, height: tile }}
       >
-        <button
-          type="button"
-          aria-label={img.is_favorite ? 'Unfavorite' : 'Favorite'}
-          className={`absolute top-2 left-2 z-10 p-1.5 rounded-full border transition-colors ${
-            img.is_favorite
-              ? 'bg-white text-rose-600 border-white'
-              : 'bg-black/40 text-white border-white/30 hover:bg-black/60'
-          }`}
-          onClick={(ev) => {
-            ev.stopPropagation();
-            const next = !img.is_favorite;
-            onToggleFavorite?.(img.id, next);
-          }}
-        >
-          <HeartIcon filled={!!img.is_favorite} />
-        </button>
         <img
           src={img.image_url}
           alt=""
@@ -142,25 +112,27 @@ export default function SeriesStrip({
   return (
     <div className="py-6 border-b border-[#E5E0D8] w-full min-w-0">
       <div className="flex items-center justify-between mb-3 px-4">
-        <Link
-          href={`/library?series=${encodeURIComponent(seriesName)}`}
-          className="group flex items-center gap-2"
-        >
-          <h3 className="text-lg font-semibold text-[#1A1A1A] group-hover:text-[#C75B39] transition-colors">
-            {seriesName}
-          </h3>
-          <span className="text-sm text-[#8B8B8B]">({images.length})</span>
-        </Link>
-
-        {remaining > 0 && (
-          <button
-            type="button"
-            onClick={() => setExpanded(v => !v)}
-            className="text-xs text-[#8B8B8B] hover:text-[#C75B39] transition-colors"
+        <div className="flex items-center gap-3">
+          <Link
+            href={`/library?series=${encodeURIComponent(seriesName)}`}
+            className="group flex items-center gap-2"
           >
-            {expanded ? 'Show less' : `Show more (+${remaining})`}
-          </button>
-        )}
+            <h3 className="text-lg font-semibold text-[#1A1A1A] group-hover:text-[#C75B39] transition-colors">
+              {seriesName}
+            </h3>
+            <span className="text-sm text-[#8B8B8B]">({images.length})</span>
+          </Link>
+
+          {remaining > 0 && (
+            <button
+              type="button"
+              onClick={() => setExpanded(v => !v)}
+              className="text-xs text-[#8B8B8B] hover:text-[#C75B39] transition-colors"
+            >
+              {expanded ? 'Show less' : `Show more (+${remaining})`}
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Collapsed: single-row showcase. Expanded: replace row with grid (avoid duplicates). */}

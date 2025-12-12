@@ -580,11 +580,9 @@ function LibraryContent() {
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(["categories"]));
-  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [toast, setToast] = useState("");
   const [displayCount, setDisplayCount] = useState(30);
   const [showAllTags, setShowAllTags] = useState(false);
-  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   
   // Zoom state (1 = smallest/most columns, 5 = largest/fewest columns)
   const [zoomLevel, setZoomLevel] = useState(() => {
@@ -597,7 +595,6 @@ function LibraryContent() {
 
   // Track window size for responsive grid
   const [isMobile, setIsMobile] = useState(false);
-  const [devMode, setDevMode] = useState(false);
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
@@ -629,18 +626,12 @@ function LibraryContent() {
     const quickTagsParam = searchParams.get("quicktags");
     const sortParam = searchParams.get("sort") as SortOption;
     const queryParam = searchParams.get("q");
-    const favsParam = searchParams.get("favs");
 
     if (categoryParam) setSelectedCategories(new Set(categoryParam.split(",")));
     if (tagsParam) setSelectedTags(new Set(tagsParam.split(",")));
     if (quickTagsParam) setSelectedQuickTags(new Set(quickTagsParam.split(",")));
     if (sortParam) setSortBy(sortParam);
     if (queryParam) setSearchQuery(queryParam);
-    if (favsParam === "1") setShowFavoritesOnly(true);
-  }, [searchParams]);
-
-  useEffect(() => {
-    setDevMode(searchParams.get("dev") === "1");
   }, [searchParams]);
 
   // Fetch data
@@ -694,17 +685,16 @@ function LibraryContent() {
     if (selectedQuickTags.size > 0) params.set("quicktags", Array.from(selectedQuickTags).join(","));
     if (sortBy !== "relevant") params.set("sort", sortBy);
     if (searchQuery) params.set("q", searchQuery);
-    if (showFavoritesOnly) params.set("favs", "1");
 
     const queryString = params.toString();
     router.replace(`/library${queryString ? `?${queryString}` : ""}`, { scroll: false });
-  }, [selectedCategories, selectedTags, selectedQuickTags, sortBy, searchQuery, showFavoritesOnly, router]);
+  }, [selectedCategories, selectedTags, selectedQuickTags, sortBy, searchQuery, router]);
 
   useEffect(() => {
     if (!isLoading) {
       updateURL();
     }
-  }, [selectedCategories, selectedTags, selectedQuickTags, sortBy, searchQuery, showFavoritesOnly, isLoading, updateURL]);
+  }, [selectedCategories, selectedTags, selectedQuickTags, sortBy, searchQuery, isLoading, updateURL]);
 
   // Compute category counts
   const categoryCounts = useMemo(() => {
@@ -775,11 +765,6 @@ function LibraryContent() {
     // Early return if no images
     if (result.length === 0) {
       return [];
-    }
-
-    // Filter by favorites
-    if (showFavoritesOnly) {
-      result = result.filter(img => !!img.is_favorite);
     }
 
     // Filter by search query
@@ -899,7 +884,7 @@ function LibraryContent() {
     }
 
     return result;
-  }, [allImages, searchQuery, selectedCategories, selectedTags, selectedQuickTags, sortBy, taxonomy, tagFrequencyMap, showFavoritesOnly]);
+  }, [allImages, searchQuery, selectedCategories, selectedTags, selectedQuickTags, sortBy, taxonomy, tagFrequencyMap]);
 
   // Group images by series for series view (respects current filters)
   const imagesBySeries = useMemo(() => {
@@ -974,15 +959,13 @@ function LibraryContent() {
     setSelectedTags(new Set());
     setSelectedQuickTags(new Set());
     setSearchQuery("");
-    setShowFavoritesOnly(false);
   };
 
   const hasActiveFilters =
     selectedCategories.size > 0 ||
     selectedTags.size > 0 ||
     selectedQuickTags.size > 0 ||
-    searchQuery.length > 0 ||
-    showFavoritesOnly;
+    searchQuery.length > 0;
 
   // Watermark and download functions
   const showToast = (message: string) => {
@@ -1079,20 +1062,8 @@ function LibraryContent() {
   };
 
   const toggleShowFirstDefault = async (imageId: number, nextValue?: boolean) => {
-    // dev-only: requires admin token header (prompt once)
-    let token = '';
-    if (typeof window !== 'undefined') {
-      token = localStorage.getItem('dev_admin_token') || '';
-      if (!token) {
-        const entered = window.prompt('Enter DEV admin token to set default-first images:');
-        if (entered) {
-          token = entered;
-          localStorage.setItem('dev_admin_token', token);
-        }
-      }
-    }
-
     let desired: boolean | undefined = nextValue;
+
     setAllImages(prev => prev.map(img => {
       if (img.id !== imageId) return img;
       const next = desired ?? !img.show_first_default;
@@ -1100,15 +1071,13 @@ function LibraryContent() {
       return { ...img, show_first_default: next };
     }));
     setSelectedImage(prev => (prev && prev.id === imageId && desired !== undefined) ? { ...prev, show_first_default: desired } : prev);
+
     if (desired === undefined) return;
 
     try {
-      const res = await fetch(`/api/default-first/${imageId}`, {
+      const res = await fetch(`/api/images/${imageId}`, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token ? { 'x-admin-token': token } : {}),
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ show_first_default: desired }),
       });
       if (!res.ok) {
@@ -1120,34 +1089,6 @@ function LibraryContent() {
       setAllImages(prev => prev.map(img => img.id === imageId ? { ...img, show_first_default: !desired } : img));
       setSelectedImage(prev => (prev && prev.id === imageId) ? { ...prev, show_first_default: !desired } : prev);
       showToast(`Failed to update default-first: ${err instanceof Error ? err.message : 'Unknown error'}`);
-    }
-  };
-
-  const toggleFavorite = async (imageId: number, nextValue?: boolean) => {
-    let desired: boolean | undefined = nextValue;
-    setAllImages(prev => prev.map(img => {
-      if (img.id !== imageId) return img;
-      const next = desired ?? !img.is_favorite;
-      desired = next;
-      return { ...img, is_favorite: next };
-    }));
-    setSelectedImage(prev => (prev && prev.id === imageId && desired !== undefined) ? { ...prev, is_favorite: desired } : prev);
-    if (desired === undefined) return;
-    try {
-      const res = await fetch(`/api/favorites/${imageId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ is_favorite: desired })
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || "Failed to update favorite");
-      }
-    } catch (err) {
-      // rollback
-      setAllImages(prev => prev.map(img => img.id === imageId ? { ...img, is_favorite: !desired } : img));
-      setSelectedImage(prev => (prev && prev.id === imageId) ? { ...prev, is_favorite: !desired } : prev);
-      showToast(`Failed to update favorite: ${err instanceof Error ? err.message : "Unknown error"}`);
     }
   };
 
@@ -1298,7 +1239,7 @@ function LibraryContent() {
   // Reset display count when filters change
   useEffect(() => {
     setDisplayCount(30);
-  }, [selectedCategories, selectedTags, selectedQuickTags, searchQuery, showFavoritesOnly]);
+  }, [selectedCategories, selectedTags, selectedQuickTags, searchQuery]);
 
   // Save zoom level to localStorage
   useEffect(() => {
@@ -1334,79 +1275,65 @@ function LibraryContent() {
   // Sidebar content (shared between desktop and mobile)
   const FilterContent = () => (
     <div className="space-y-4">
-      {/* Advanced Filters (collapsed by default) */}
-      <div className="pb-4">
+      {/* Categories */}
+      <div className="border-b border-[#E5E0D8] pb-4">
         <button
-          className="w-full flex items-center justify-between py-2 text-xs font-medium tracking-wide text-[#8B8B8B] hover:text-[#4A4A4A]"
-          onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+          className="w-full flex items-center justify-between py-2 text-sm font-bold tracking-wide text-[#1A1A1A]"
+          onClick={() => toggleSection("categories")}
         >
-          <span>ADVANCED FILTERS</span>
-          <span>{showAdvancedFilters ? "−" : "+"}</span>
+          <span>Categories</span>
+          <span className="text-[#8B8B8B]">{expandedSections.has("categories") ? "−" : "+"}</span>
         </button>
+        {expandedSections.has("categories") && taxonomy && (
+          <div className="space-y-1 mt-2 max-h-60 overflow-y-auto">
+            {Object.keys(taxonomy.by_category).sort().map(cat => (
+              <label key={cat} className="flex items-center gap-2 cursor-pointer py-1">
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.has(cat)}
+                  onChange={() => toggleCategory(cat)}
+                  className="accent-[#C75B39]"
+                />
+                <span className="text-sm flex-1 text-[#4A4A4A]">{formatLabel(cat)}</span>
+                <span className="text-xs text-[#8B8B8B]">{categoryCounts[cat]}</span>
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
 
-        {showAdvancedFilters && (
-          <div className="mt-3 space-y-4 pl-2 border-l-2 border-[#E5E0D8]">
-            {/* Categories */}
-            <div>
-              <button
-                className="w-full flex items-center justify-between py-1 text-sm font-bold tracking-wide text-[#1A1A1A]"
-                onClick={() => toggleSection("categories")}
-              >
-                <span>Categories</span>
-                <span className="text-[#8B8B8B]">{expandedSections.has("categories") ? "−" : "+"}</span>
-              </button>
-              {expandedSections.has("categories") && taxonomy && (
-                <div className="space-y-1 mt-2 max-h-48 overflow-y-auto">
-                  {Object.keys(taxonomy.by_category).sort().map(cat => (
-                    <label key={cat} className="flex items-center gap-2 cursor-pointer py-1">
-                      <input
-                        type="checkbox"
-                        checked={selectedCategories.has(cat)}
-                        onChange={() => toggleCategory(cat)}
-                        className="accent-[#C75B39]"
-                      />
-                      <span className="text-sm flex-1 text-[#4A4A4A]">{formatLabel(cat)}</span>
-                      <span className="text-xs text-[#8B8B8B]">{categoryCounts[cat]}</span>
-                    </label>
-                  ))}
-                </div>
-              )}
-            </div>
-            {/* Tags */}
-            <div>
-              <button
-                className="w-full flex items-center justify-between py-1 text-sm font-bold tracking-wide text-[#1A1A1A]"
-                onClick={() => toggleSection("tags")}
-              >
-                <span>Tags</span>
-                <span className="text-[#8B8B8B]">{expandedSections.has("tags") ? "−" : "+"}</span>
-              </button>
-              {expandedSections.has("tags") && (
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    placeholder="Search tags..."
-                    value={tagSearch}
-                    onChange={(e) => setTagSearch(e.target.value)}
-                    className="w-full px-3 py-2 bg-white border border-[#E5E0D8] text-sm text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none mb-2 rounded"
-                  />
-                  <div className="flex flex-wrap gap-1 max-h-32 overflow-y-auto">
-                    {filteredTags.map(([tag, count]) => (
-                      <button
-                        key={tag}
-                        onClick={() => toggleTag(tag)}
-                        className={`px-2 py-1 text-xs rounded transition-colors ${
-                          selectedTags.has(tag)
-                            ? "bg-[#C75B39] text-white"
-                            : "bg-[#F5F3EF] text-[#4A4A4A] hover:bg-[#E5E0D8]"
-                        }`}
-                      >
-                        {tag} ({count})
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+      {/* Tags */}
+      <div>
+        <button
+          className="w-full flex items-center justify-between py-2 text-sm font-bold tracking-wide text-[#1A1A1A]"
+          onClick={() => toggleSection("tags")}
+        >
+          <span>Tags</span>
+          <span className="text-[#8B8B8B]">{expandedSections.has("tags") ? "−" : "+"}</span>
+        </button>
+        {expandedSections.has("tags") && (
+          <div className="mt-2">
+            <input
+              type="text"
+              placeholder="Search tags..."
+              value={tagSearch}
+              onChange={(e) => setTagSearch(e.target.value)}
+              className="w-full px-3 py-2 bg-white border border-[#E5E0D8] text-sm text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none mb-2 rounded"
+            />
+            <div className="flex flex-wrap gap-1 max-h-40 overflow-y-auto">
+              {filteredTags.map(([tag, count]) => (
+                <button
+                  key={tag}
+                  onClick={() => toggleTag(tag)}
+                  className={`px-2 py-1 text-xs rounded transition-colors ${
+                    selectedTags.has(tag)
+                      ? "bg-[#C75B39] text-white"
+                      : "bg-[#F5F3EF] text-[#4A4A4A] hover:bg-[#E5E0D8]"
+                  }`}
+                >
+                  {tag} ({count})
+                </button>
+              ))}
             </div>
           </div>
         )}
@@ -1720,14 +1647,6 @@ function LibraryContent() {
                   </button>
                 </div>
               )}
-              <button
-                type="button"
-                onClick={() => setShowFavoritesOnly(v => !v)}
-                className={`px-3 py-2 border border-[#E5E0D8] text-sm rounded bg-white transition-colors ${showFavoritesOnly ? "text-rose-700 bg-rose-50 border-rose-200" : "text-[#4A4A4A] hover:border-[#C75B39] hover:text-[#C75B39]"}`}
-                title="Show only favorited images"
-              >
-                {showFavoritesOnly ? "Showing favorites" : "Show favorites"}
-              </button>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
@@ -1755,7 +1674,6 @@ function LibraryContent() {
                     seriesName={seriesName}
                     images={seriesImages}
                     onImageClick={handleSeriesImageClick}
-                    onToggleFavorite={toggleFavorite}
                     zoomLevel={zoomLevel}
                     isMobile={isMobile}
                   />
@@ -1798,14 +1716,6 @@ function LibraryContent() {
                           (e.target as HTMLImageElement).title = '';
                         }}
                       />
-                      <button
-                        type="button"
-                        aria-label={image.is_favorite ? "Unfavorite" : "Favorite"}
-                        className={`absolute top-2 left-2 z-10 p-1.5 rounded-full border transition-colors ${image.is_favorite ? "bg-white text-rose-600 border-white" : "bg-black/40 text-white border-white/30 hover:bg-black/60"}`}
-                        onClick={(e) => { e.stopPropagation(); toggleFavorite(image.id, !image.is_favorite); }}
-                      >
-                        <HeartIcon filled={!!image.is_favorite} />
-                      </button>
                       <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button
                           className="p-1.5 bg-black/60 rounded hover:bg-black/80"
@@ -1882,19 +1792,6 @@ function LibraryContent() {
             <div className="p-4">
               <h3 className="text-lg font-bold mb-2 text-[#1A1A1A]">{selectedImage.title}</h3>
 
-              {selectedImage.categories.length > 0 && (
-                <div className="mb-3">
-                  <p className="text-xs text-[#8B8B8B] uppercase mb-1">Categories</p>
-                  <div className="flex flex-wrap gap-1">
-                    {selectedImage.categories.map(cat => (
-                      <span key={cat} className="text-xs bg-[#F5F3EF] text-[#4A4A4A] px-2 py-1 rounded">
-                        {formatLabel(cat)}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               {selectedImage.tags.length > 0 && (
                 <div className="mb-4">
                   <p className="text-xs text-[#8B8B8B] uppercase mb-1">Tags</p>
@@ -1936,6 +1833,14 @@ function LibraryContent() {
                 onClick={() => { openMetadataEditor(selectedImage); setSelectedImage(null); }}
               >
                 <MetadataIcon /> Edit Metadata (Admin)
+              </button>
+
+              {/* DEV ONLY: Default-first toggle */}
+              <button
+                className="w-full mt-2 py-2 px-4 bg-emerald-50 border border-emerald-200 text-emerald-700 hover:bg-emerald-100 text-sm font-medium flex items-center justify-center gap-2 rounded-lg"
+                onClick={() => toggleShowFirstDefault(selectedImage.id, !selectedImage.show_first_default)}
+              >
+                ⇧ {selectedImage.show_first_default ? 'Showing first by default' : 'Show first by default'} (Dev Only)
               </button>
 
               {/* DEV ONLY: Edit button */}
@@ -2240,16 +2145,6 @@ function LibraryContent() {
 }
 
 // Icons
-function HeartIcon({ filled }: { filled: boolean }) {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path
-        d="M12 21s-7.1-4.4-9.5-8.3C.2 8.9 2 5.5 5.6 4.6c1.9-.5 3.9.2 5.1 1.6 1.2-1.4 3.2-2.1 5.1-1.6 3.6.9 5.4 4.3 3.1 8.1C19.1 16.6 12 21 12 21z"
-        fill={filled ? 'currentColor' : 'none'}
-      />
-    </svg>
-  );
-}
 
 function FilterIcon() {
   return (
