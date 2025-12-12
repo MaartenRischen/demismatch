@@ -122,6 +122,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing OPENROUTER_API_KEY' }, { status: 500 });
     }
 
+    const MAX_ANTHROPIC_IMAGE_BYTES = 5 * 1024 * 1024; // 5MB hard limit (Anthropic)
+
     // Extract base64 data and detect format
     const imageMatch = image.match(/^data:image\/(\w+);base64,(.+)$/);
     if (!imageMatch) {
@@ -158,8 +160,56 @@ export async function POST(request: NextRequest) {
     // IMPORTANT: Anthropic expects image media_type to be one of:
     // image/jpeg, image/png, image/gif, image/webp
     // So we must normalize *to* jpeg (never to jpg) when building data URLs.
-    if (mimeType === 'jpg') {
-      mimeType = 'jpeg';
+    if (mimeType === 'jpg') mimeType = 'jpeg';
+    if (mimeType === 'jpg'.toUpperCase()) mimeType = 'jpeg';
+
+    // If the image is larger than Anthropic's 5MB limit, downscale + recompress.
+    // (Even if the client image is JPG/PNG/WebP, the *binary* must be <= 5MB.)
+    try {
+      const inputBytes = Buffer.from(base64Data, 'base64');
+      if (inputBytes.length > MAX_ANTHROPIC_IMAGE_BYTES) {
+        console.log('[HUD Analyze] Image exceeds 5MB; downscaling/recompressing', {
+          input_bytes: inputBytes.length,
+          format: mimeType
+        });
+
+        const sharp = (await import('sharp')).default;
+
+        let quality = 80;
+        let maxDim = 1600;
+        let out = inputBytes;
+
+        // Always produce jpeg for size control.
+        // We iterate to ensure we get under the 5MB cap.
+        for (let i = 0; i < 6; i++) {
+          out = await sharp(out)
+            .rotate()
+            .resize({ width: maxDim, height: maxDim, fit: 'inside', withoutEnlargement: true })
+            .jpeg({ quality, mozjpeg: true })
+            .toBuffer();
+
+          if (out.length <= MAX_ANTHROPIC_IMAGE_BYTES) break;
+
+          quality = Math.max(35, quality - 10);
+          maxDim = Math.max(900, maxDim - 150);
+        }
+
+        if (out.length > MAX_ANTHROPIC_IMAGE_BYTES) {
+          return NextResponse.json(
+            {
+              error: 'Image too large',
+              details: `Image exceeds 5MB maximum and could not be compressed below the limit (final ${out.length} bytes). Try a smaller image.`
+            },
+            { status: 413 }
+          );
+        }
+
+        base64Data = out.toString('base64');
+        mimeType = 'jpeg';
+      }
+    } catch (resizeErr) {
+      console.error('[HUD Analyze] Resize/recompress error:', resizeErr);
+      // Don't fail hard — try the original; provider will enforce limits.
     }
     
     const imageDataUrl = `data:image/${mimeType};base64,${base64Data}`;
@@ -201,18 +251,13 @@ export async function POST(request: NextRequest) {
       })
     });
 
-    const requestId =
-      response.headers.get('x-openrouter-request-id') ||
-      response.headers.get('x-request-id') ||
-      response.headers.get('cf-ray') ||
-      undefined;
-
     if (!response.ok) {
       const errorText = await response.text();
       console.error('[HUD Analyze] OpenRouter error:', errorText);
       return NextResponse.json(
         { error: 'Analysis failed', details: errorText, request_id: requestId },
-        { status: 502 }
+        // Avoid 5xx so Cloudflare doesn't replace JSON with its HTML error page.
+        { status: 424 }
       );
     }
 
@@ -229,7 +274,8 @@ export async function POST(request: NextRequest) {
           details: typeof data.error === 'string' ? data.error : JSON.stringify(data.error),
           request_id: requestId
         },
-        { status: 502 }
+        // Avoid 5xx so Cloudflare doesn't replace JSON with its HTML error page.
+        { status: 424 }
       );
     }
     
@@ -251,7 +297,8 @@ export async function POST(request: NextRequest) {
             shape_hint: shapeHint,
             raw_response_snippet: JSON.stringify(data)?.slice(0, 1500)
           },
-          { status: 502 }
+          // Avoid 5xx so Cloudflare doesn't replace JSON with its HTML error page.
+          { status: 424 }
         );
       }
 
@@ -293,7 +340,8 @@ export async function POST(request: NextRequest) {
             shape_hint: debug,
             raw_response_snippet: JSON.stringify(data)?.slice(0, 1500)
           },
-          { status: 502 }
+          // Avoid 5xx so Cloudflare doesn't replace JSON with its HTML error page.
+          { status: 424 }
         );
       }
 
@@ -340,7 +388,8 @@ export async function POST(request: NextRequest) {
           request_id: requestId,
           raw: rawContent?.substring?.(0, 2000) || null
         },
-        { status: 500 }
+        // Treat as upstream/model failure (not a server crash) and avoid 5xx HTML pages.
+        { status: 424 }
       );
     }
     
