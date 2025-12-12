@@ -896,6 +896,29 @@ function LibraryContent() {
     return result;
   }, [allImages, searchQuery, selectedCategories, selectedTags, selectedQuickTags, sortBy, taxonomy, tagFrequencyMap, showFavoritesOnly]);
 
+  // Group images by series for series view (respects current filters)
+  const imagesBySeries = useMemo(() => {
+    const grouped: Record<string, ImageData[]> = {};
+
+    for (const img of filteredImages) {
+      if (img.series && Array.isArray(img.series) && img.series.length > 0) {
+        for (const series of img.series) {
+          if (!series || !series.trim()) continue;
+          if (!grouped[series]) grouped[series] = [];
+          grouped[series].push(img);
+        }
+      }
+    }
+
+    const sortedEntries = Object.entries(grouped)
+      .filter(([name]) => name !== 'Misc')
+      .sort(([, a], [, b]) => b.length - a.length);
+
+    if (grouped['Misc']) sortedEntries.push(['Misc', grouped['Misc']]);
+
+    return sortedEntries;
+  }, [filteredImages]);
+
   // Filter tags by search
   const filteredTags = useMemo(() => {
     if (!tagSearch) return tagFrequencies;
@@ -904,29 +927,11 @@ function LibraryContent() {
   }, [tagFrequencies, tagSearch]);
 
   // Toggle functions
-  const toggleType = (type: string) => {
-    setSelectedTypes(prev => {
-      const next = new Set(prev);
-      if (next.has(type)) next.delete(type);
-      else next.add(type);
-      return next;
-    });
-  };
-
   const toggleCategory = (cat: string) => {
     setSelectedCategories(prev => {
       const next = new Set(prev);
       if (next.has(cat)) next.delete(cat);
       else next.add(cat);
-      return next;
-    });
-  };
-
-  const toggleConcept = (concept: string) => {
-    setSelectedConcepts(prev => {
-      const next = new Set(prev);
-      if (next.has(concept)) next.delete(concept);
-      else next.add(concept);
       return next;
     });
   };
@@ -959,16 +964,20 @@ function LibraryContent() {
   };
 
   const clearAllFilters = () => {
-    setSelectedTypes(new Set());
     setSelectedCategories(new Set());
-    setSelectedConcepts(new Set());
+
     setSelectedTags(new Set());
     setSelectedQuickTags(new Set());
     setSearchQuery("");
+    setShowFavoritesOnly(false);
   };
 
-  const hasActiveFilters = selectedTypes.size > 0 || selectedCategories.size > 0 ||
-    selectedConcepts.size > 0 || selectedTags.size > 0 || selectedQuickTags.size > 0 || searchQuery.length > 0;
+  const hasActiveFilters =
+    selectedCategories.size > 0 ||
+    selectedTags.size > 0 ||
+    selectedQuickTags.size > 0 ||
+    searchQuery.length > 0 ||
+    showFavoritesOnly;
 
   // Watermark and download functions
   const showToast = (message: string) => {
@@ -1242,7 +1251,7 @@ function LibraryContent() {
   // Reset display count when filters change
   useEffect(() => {
     setDisplayCount(30);
-  }, [selectedTypes, selectedCategories, selectedConcepts, selectedTags, selectedQuickTags, searchQuery]);
+  }, [selectedCategories, selectedTags, selectedQuickTags, searchQuery, showFavoritesOnly]);
 
   // Save zoom level to localStorage
   useEffect(() => {
@@ -1568,24 +1577,12 @@ function LibraryContent() {
               )}
               
               {/* Other Filters */}
-              {(selectedTypes.size > 0 || selectedCategories.size > 0 || selectedConcepts.size > 0 || selectedTags.size > 0) && (
+              {(selectedCategories.size > 0 || selectedTags.size > 0) && (
                 <div className="flex flex-wrap items-center gap-2">
-                  {Array.from(selectedTypes).map(type => (
-                    <span key={type} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
-                      {type}
-                      <button onClick={() => toggleType(type)} className="hover:opacity-70">✕</button>
-                    </span>
-                  ))}
                   {Array.from(selectedCategories).map(cat => (
                     <span key={cat} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
                       {formatLabel(cat)}
                       <button onClick={() => toggleCategory(cat)} className="hover:opacity-70">✕</button>
-                    </span>
-                  ))}
-                  {Array.from(selectedConcepts).map(concept => (
-                    <span key={concept} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-[#C75B39] text-white rounded-full">
-                      {formatLabel(concept)}
-                      <button onClick={() => toggleConcept(concept)} className="hover:opacity-70">✕</button>
                     </span>
                   ))}
                   {Array.from(selectedTags).map(tag => (
@@ -1596,9 +1593,7 @@ function LibraryContent() {
                   ))}
                   <button
                     onClick={() => {
-                      setSelectedTypes(new Set());
                       setSelectedCategories(new Set());
-                      setSelectedConcepts(new Set());
                       setSelectedTags(new Set());
                     }}
                     className="text-xs text-red-500 hover:underline"
