@@ -31,7 +31,6 @@ type ViewMode = "grid" | "series";
 
 type SortOption = "relevant" | "alphabetical" | "category";
 
-
 // High-value framework concepts with bonus weights
 const CONCEPT_WEIGHTS: Record<string, number> = {
   proxy_consumption: 3,
@@ -563,9 +562,7 @@ function LibraryContent() {
   const [error, setError] = useState("");
 
   // Filter state
-  const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set());
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set());
-  const [selectedConcepts, setSelectedConcepts] = useState<Set<string>>(new Set());
   const [tagSearch, setTagSearch] = useState("");
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
   const [selectedQuickTags, setSelectedQuickTags] = useState<Set<string>>(new Set());
@@ -581,7 +578,7 @@ function LibraryContent() {
   const [sortBy, setSortBy] = useState<SortOption>("relevant");
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(["types"]));
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(["categories"]));
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [toast, setToast] = useState("");
   const [displayCount, setDisplayCount] = useState(30);
@@ -626,21 +623,19 @@ function LibraryContent() {
 
   // Initialize filters from URL
   useEffect(() => {
-    const typeParam = searchParams.get("type");
     const categoryParam = searchParams.get("category");
-    const conceptParam = searchParams.get("concept");
     const tagsParam = searchParams.get("tags");
     const quickTagsParam = searchParams.get("quicktags");
     const sortParam = searchParams.get("sort") as SortOption;
     const queryParam = searchParams.get("q");
+    const favsParam = searchParams.get("favs");
 
-    if (typeParam) setSelectedTypes(new Set(typeParam.split(",")));
     if (categoryParam) setSelectedCategories(new Set(categoryParam.split(",")));
-    if (conceptParam) setSelectedConcepts(new Set(conceptParam.split(",")));
     if (tagsParam) setSelectedTags(new Set(tagsParam.split(",")));
     if (quickTagsParam) setSelectedQuickTags(new Set(quickTagsParam.split(",")));
     if (sortParam) setSortBy(sortParam);
     if (queryParam) setSearchQuery(queryParam);
+    if (favsParam === "1") setShowFavoritesOnly(true);
   }, [searchParams]);
 
   // Fetch data
@@ -689,25 +684,24 @@ function LibraryContent() {
   const updateURL = useCallback(() => {
     const params = new URLSearchParams();
 
-    if (selectedTypes.size > 0) params.set("type", Array.from(selectedTypes).join(","));
     if (selectedCategories.size > 0) params.set("category", Array.from(selectedCategories).join(","));
-    if (selectedConcepts.size > 0) params.set("concept", Array.from(selectedConcepts).join(","));
     if (selectedTags.size > 0) params.set("tags", Array.from(selectedTags).join(","));
     if (selectedQuickTags.size > 0) params.set("quicktags", Array.from(selectedQuickTags).join(","));
     if (sortBy !== "relevant") params.set("sort", sortBy);
     if (searchQuery) params.set("q", searchQuery);
+    if (showFavoritesOnly) params.set("favs", "1");
 
     const queryString = params.toString();
     router.replace(`/library${queryString ? `?${queryString}` : ""}`, { scroll: false });
-  }, [selectedTypes, selectedCategories, selectedConcepts, selectedTags, selectedQuickTags, sortBy, searchQuery, router]);
+  }, [selectedCategories, selectedTags, selectedQuickTags, sortBy, searchQuery, showFavoritesOnly, router]);
 
   useEffect(() => {
     if (!isLoading) {
       updateURL();
     }
-  }, [selectedTypes, selectedCategories, selectedConcepts, selectedTags, selectedQuickTags, sortBy, searchQuery, isLoading, updateURL]);
+  }, [selectedCategories, selectedTags, selectedQuickTags, sortBy, searchQuery, showFavoritesOnly, isLoading, updateURL]);
 
-  // Compute category and concept counts
+  // Compute category counts
   const categoryCounts = useMemo(() => {
     if (!taxonomy) return {};
     const counts: Record<string, number> = {};
@@ -717,60 +711,7 @@ function LibraryContent() {
     return counts;
   }, [taxonomy]);
 
-  const conceptCounts = useMemo(() => {
-    if (!taxonomy) return {};
-    const counts: Record<string, number> = {};
-    for (const [concept, ids] of Object.entries(taxonomy.by_framework_concept)) {
-      counts[concept] = ids.length;
-    }
-    return counts;
-  }, [taxonomy]);
-
-  // Group images by series for series view
-  const imagesBySeries = useMemo(() => {
-    const grouped: Record<string, ImageData[]> = {};
-    let imagesWithSeries = 0;
-    let totalSeriesCount = 0;
-    
-    for (const img of allImages) {
-      if (img.series && Array.isArray(img.series) && img.series.length > 0) {
-        imagesWithSeries++;
-        totalSeriesCount += img.series.length;
-        for (const series of img.series) {
-          if (series && series.trim()) { // Only add non-empty series names
-            if (!grouped[series]) {
-              grouped[series] = [];
-            }
-            grouped[series].push(img);
-          }
-        }
-      }
-    }
-    
-    // Debug logging
-    if (allImages.length > 0) {
-      console.log(`[Series Debug] Total images: ${allImages.length}, Images with series: ${imagesWithSeries}, Total series entries: ${totalSeriesCount}`);
-      console.log(`[Series Debug] Series found:`, Object.keys(grouped));
-      if (imagesWithSeries > 0) {
-        const sampleImage = allImages.find(img => img.series && img.series.length > 0);
-        if (sampleImage) {
-          console.log(`[Series Debug] Sample image series:`, sampleImage.series);
-        }
-      }
-    }
-    
-    // Sort series by image count (descending)
-    const sortedEntries = Object.entries(grouped)
-      .filter(([name]) => name !== 'Misc') // Put Misc last
-      .sort(([, a], [, b]) => b.length - a.length);
-    
-    // Add Misc at the end if it exists
-    if (grouped['Misc']) {
-      sortedEntries.push(['Misc', grouped['Misc']]);
-    }
-    
-    return sortedEntries;
-  }, [allImages]);
+  // Note: imagesBySeries is computed later from filteredImages so it respects filters.
 
   // Compute tag frequency map (lookup object for scoring)
   const tagFrequencyMap = useMemo(() => {
@@ -801,7 +742,7 @@ function LibraryContent() {
   const searchSuggestions = useMemo(() => {
     if (!searchQuery || searchQuery.length < 2) return [];
     const query = searchQuery.toLowerCase();
-    const suggestions: Array<{ text: string; type: "tag" | "category" | "concept" }> = [];
+    const suggestions: Array<{ text: string; type: "tag" | "category" }> = [];
 
     // Search in tags
     for (const [tag] of tagFrequencies) {
@@ -815,13 +756,6 @@ function LibraryContent() {
       for (const cat of Object.keys(taxonomy.by_category)) {
         if (cat.toLowerCase().includes(query) || formatLabel(cat).toLowerCase().includes(query)) {
           suggestions.push({ text: formatLabel(cat), type: "category" });
-        }
-      }
-
-      // Search in concepts
-      for (const concept of Object.keys(taxonomy.by_framework_concept)) {
-        if (concept.toLowerCase().includes(query) || formatLabel(concept).toLowerCase().includes(query)) {
-          suggestions.push({ text: formatLabel(concept), type: "concept" });
         }
       }
     }
@@ -853,8 +787,6 @@ function LibraryContent() {
         if (img.tags.some(tag => tag.toLowerCase().includes(query))) return true;
         // Search in categories
         if (img.categories.some(cat => cat.toLowerCase().includes(query) || formatLabel(cat).toLowerCase().includes(query))) return true;
-        // Search in framework concepts
-        if (img.framework_concepts.some(c => c.toLowerCase().includes(query) || formatLabel(c).toLowerCase().includes(query))) return true;
         return false;
       });
     }
@@ -1768,7 +1700,7 @@ function LibraryContent() {
 
           {/* Series View */}
           {viewMode === "series" ? (
-            <div className="space-y-0">
+            <div className="space-y-0 w-full min-w-0 overflow-x-hidden">
               {imagesBySeries.length === 0 ? (
                 <div className="text-center py-12">
                   <p className="text-[#8B8B8B]">No series found</p>

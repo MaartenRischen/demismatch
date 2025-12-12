@@ -50,7 +50,6 @@ interface DbImageRow {
 const SELECT_COLUMNS = 'id, file_name, folder_name, title, image_url, image_type, categories, series, framework_concepts, tags_normalized, search_text';
 
 // Transform database row to API response format
-function transformRow(row: DbImageRow, supabaseUrl: string, favoriteById: Map<number, boolean>): ImageData | null {
   // Skip rows with no file_name or image_url
   if (!row.file_name && !row.image_url) {
     return null;
@@ -105,6 +104,12 @@ export async function GET(request: NextRequest) {
     try {
       const masterlist = await fetchMasterlist();
       for (const img of (masterlist as any).images || []) {
+        favoriteById.set(img.id, !!img.is_favorite);
+      }
+    } catch (e) {
+      console.warn('[api/images] Failed to fetch masterlist for favorites; defaulting to false', e);
+    }
+
         favoriteById.set(img.id, !!img.is_favorite);
       }
     } catch (e) {
