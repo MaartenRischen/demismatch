@@ -1642,8 +1642,8 @@ function LibraryContent() {
                   </svg>
                 </button>
               </div>
-              {/* Zoom Controls - only in grid mode */}
-              {viewMode === "grid" && (
+              {/* Zoom Controls (affects grid density + series tile size) */}
+              {(
                 <div className="flex items-center gap-1 border border-[#E5E0D8] rounded-lg bg-white">
                   <button
                     onClick={zoomOut}
@@ -1709,6 +1709,8 @@ function LibraryContent() {
                     images={seriesImages}
                     onImageClick={handleSeriesImageClick}
                     onToggleFavorite={toggleFavorite}
+                    zoomLevel={zoomLevel}
+                    isMobile={isMobile}
                   />
                 ))
               )}
