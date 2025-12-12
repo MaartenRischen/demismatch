@@ -77,6 +77,20 @@ interface AnalysisData {
   error?: string;
 }
 
+type ViewerSex = 'male' | 'female' | 'unspecified';
+type ViewerAgeBand = 'teen' | 'young_adult' | 'adult' | 'elder';
+type ViewerTribeRelation = 'in_group' | 'out_group' | 'unknown';
+type ViewerObserverMode = 'in_scene' | 'observing';
+type ViewerRelationToPrimary = 'self' | 'kin' | 'ally' | 'stranger' | 'rival' | 'potential_mate' | 'unknown';
+
+interface ViewerProfile {
+  sex: ViewerSex;
+  age_band: ViewerAgeBand;
+  tribe_relation_to_scene: ViewerTribeRelation;
+  observer_mode: ViewerObserverMode;
+  relation_to_primary_target: ViewerRelationToPrimary;
+}
+
 // Map action to evopsych response
 function getEvoPsychAction(analysis: AnalysisData): { action: string; description: string; color: string } {
   const { action, is_mismatch, status_panel, primary_target } = analysis;
@@ -136,6 +150,13 @@ export default function HUDApp() {
   const [stage, setStage] = useState<'idle' | 'analyzing' | 'generating'>('idle');
   const [error, setError] = useState<string | null>(null);
   const [isDragActive, setIsDragActive] = useState(false);
+  const [viewerProfile, setViewerProfile] = useState<ViewerProfile>({
+    sex: 'unspecified',
+    age_band: 'adult',
+    tribe_relation_to_scene: 'unknown',
+    observer_mode: 'observing',
+    relation_to_primary_target: 'unknown'
+  });
 
   const processImage = async (base64: string) => {
     setUploadedImage(base64);
@@ -150,7 +171,7 @@ export default function HUDApp() {
       const analyzeRes = await fetch('/api/hud/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: base64 })
+        body: JSON.stringify({ image: base64, viewer_profile: viewerProfile })
       });
       
       if (!analyzeRes.ok) {
@@ -180,7 +201,8 @@ export default function HUDApp() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           image: base64,
-          analysis: analysisData 
+          analysis: analysisData,
+          viewer_profile: viewerProfile
         })
       });
       
@@ -246,30 +268,149 @@ export default function HUDApp() {
           </p>
         </div>
 
-        {/* Drop Zone */}
+        {/* POV Settings + Drop Zone */}
         {!uploadedImage && (
-          <div
-            onDrop={handleDrop}
-            onDragOver={(e) => { e.preventDefault(); setIsDragActive(true); }}
-            onDragLeave={() => setIsDragActive(false)}
-            className={`
-              border-2 border-dashed rounded-xl p-16 text-center cursor-pointer
-              transition-all duration-200 max-w-2xl mx-auto
-              ${isDragActive ? 'border-amber-500 bg-amber-500/10' : 'border-[#333] hover:border-[#555]'}
-            `}
-          >
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileSelect}
-              className="hidden"
-              id="file-input"
-            />
-            <label htmlFor="file-input" className="cursor-pointer block">
-              <div className="text-6xl mb-4">🎯</div>
-              <p className="text-[#8B8B8B] text-xl">Drag & drop an image</p>
-              <p className="text-[#555]">or click to select</p>
-            </label>
+          <div className="max-w-2xl mx-auto space-y-4">
+            <div className="bg-[#111] border border-[#222] rounded-xl p-5">
+              <div className="flex items-center justify-between gap-3 mb-4">
+                <h3 className="text-sm uppercase tracking-wider text-amber-400">Viewer POV settings</h3>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setViewerProfile({
+                      sex: 'male',
+                      age_band: 'young_adult',
+                      tribe_relation_to_scene: 'in_group',
+                      observer_mode: 'in_scene',
+                      relation_to_primary_target: 'unknown'
+                    })}
+                    className="px-2 py-1 text-xs rounded bg-[#0a0a0a] border border-[#222] text-gray-300 hover:border-amber-500/50"
+                  >
+                    In-group young male
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setViewerProfile({
+                      sex: 'female',
+                      age_band: 'young_adult',
+                      tribe_relation_to_scene: 'in_group',
+                      observer_mode: 'in_scene',
+                      relation_to_primary_target: 'unknown'
+                    })}
+                    className="px-2 py-1 text-xs rounded bg-[#0a0a0a] border border-[#222] text-gray-300 hover:border-amber-500/50"
+                  >
+                    In-group young female
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setViewerProfile({
+                      sex: 'unspecified',
+                      age_band: 'adult',
+                      tribe_relation_to_scene: 'out_group',
+                      observer_mode: 'observing',
+                      relation_to_primary_target: 'unknown'
+                    })}
+                    className="px-2 py-1 text-xs rounded bg-[#0a0a0a] border border-[#222] text-gray-300 hover:border-amber-500/50"
+                  >
+                    Outsider observer
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-5 gap-3">
+                <div className="md:col-span-1">
+                  <label className="block text-xs text-gray-500 mb-1">Sex</label>
+                  <select
+                    value={viewerProfile.sex}
+                    onChange={(e) => setViewerProfile(v => ({ ...v, sex: e.target.value as ViewerSex }))}
+                    className="w-full bg-[#0a0a0a] border border-[#222] rounded px-2 py-2 text-sm"
+                  >
+                    <option value="unspecified">Unspecified</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                </div>
+                <div className="md:col-span-1">
+                  <label className="block text-xs text-gray-500 mb-1">Age</label>
+                  <select
+                    value={viewerProfile.age_band}
+                    onChange={(e) => setViewerProfile(v => ({ ...v, age_band: e.target.value as ViewerAgeBand }))}
+                    className="w-full bg-[#0a0a0a] border border-[#222] rounded px-2 py-2 text-sm"
+                  >
+                    <option value="teen">Teen</option>
+                    <option value="young_adult">Young adult</option>
+                    <option value="adult">Adult</option>
+                    <option value="elder">Elder</option>
+                  </select>
+                </div>
+                <div className="md:col-span-1">
+                  <label className="block text-xs text-gray-500 mb-1">Tribe</label>
+                  <select
+                    value={viewerProfile.tribe_relation_to_scene}
+                    onChange={(e) => setViewerProfile(v => ({ ...v, tribe_relation_to_scene: e.target.value as ViewerTribeRelation }))}
+                    className="w-full bg-[#0a0a0a] border border-[#222] rounded px-2 py-2 text-sm"
+                  >
+                    <option value="unknown">Unknown</option>
+                    <option value="in_group">In-group</option>
+                    <option value="out_group">Out-group</option>
+                  </select>
+                </div>
+                <div className="md:col-span-1">
+                  <label className="block text-xs text-gray-500 mb-1">Mode</label>
+                  <select
+                    value={viewerProfile.observer_mode}
+                    onChange={(e) => setViewerProfile(v => ({ ...v, observer_mode: e.target.value as ViewerObserverMode }))}
+                    className="w-full bg-[#0a0a0a] border border-[#222] rounded px-2 py-2 text-sm"
+                  >
+                    <option value="observing">Observing</option>
+                    <option value="in_scene">In scene</option>
+                  </select>
+                </div>
+                <div className="md:col-span-1">
+                  <label className="block text-xs text-gray-500 mb-1">Relation to primary</label>
+                  <select
+                    value={viewerProfile.relation_to_primary_target}
+                    onChange={(e) => setViewerProfile(v => ({ ...v, relation_to_primary_target: e.target.value as ViewerRelationToPrimary }))}
+                    className="w-full bg-[#0a0a0a] border border-[#222] rounded px-2 py-2 text-sm"
+                  >
+                    <option value="unknown">Unknown</option>
+                    <option value="self">Self</option>
+                    <option value="kin">Kin</option>
+                    <option value="ally">Ally</option>
+                    <option value="stranger">Stranger</option>
+                    <option value="rival">Rival</option>
+                    <option value="potential_mate">Potential mate</option>
+                  </select>
+                </div>
+              </div>
+              <p className="text-xs text-gray-500 mt-3">
+                These settings control how the system interprets threat/mate/kin/out-group salience and the recommended Next Action.
+              </p>
+            </div>
+
+            <div
+              onDrop={handleDrop}
+              onDragOver={(e) => { e.preventDefault(); setIsDragActive(true); }}
+              onDragLeave={() => setIsDragActive(false)}
+              className={`
+                border-2 border-dashed rounded-xl p-16 text-center cursor-pointer
+                transition-all duration-200
+                ${isDragActive ? 'border-amber-500 bg-amber-500/10' : 'border-[#333] hover:border-[#555]'}
+              `}
+            >
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileSelect}
+                className="hidden"
+                id="file-input"
+              />
+              <label htmlFor="file-input" className="cursor-pointer block">
+                <div className="text-6xl mb-4">🎯</div>
+                <p className="text-[#8B8B8B] text-xl">Drag & drop an image</p>
+                <p className="text-[#555]">or click to select</p>
+              </label>
+            </div>
           </div>
         )}
 

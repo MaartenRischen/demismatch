@@ -111,7 +111,7 @@ Be specific to what you actually see. Modern offices, phones, screens = MISMATCH
 
 export async function POST(request: NextRequest) {
   try {
-    const { image } = await request.json();
+    const { image, viewer_profile } = await request.json();
     
     if (!image) {
       return NextResponse.json({ error: 'Image is required' }, { status: 400 });
@@ -121,6 +121,10 @@ export async function POST(request: NextRequest) {
     if (!openRouterKey) {
       return NextResponse.json({ error: 'Missing OPENROUTER_API_KEY' }, { status: 500 });
     }
+
+    const viewerProfilePrompt = viewer_profile
+      ? `\n\nVIEWER POV SETTINGS (user-provided; do NOT infer these from the image):\n${JSON.stringify(viewer_profile, null, 2)}\n\nInterpret all social labels (KIN/ALLY/STRANGER/THREAT/POTENTIAL_MATE), mate opportunity, threat urgency, and \"Next Action\" relative to THIS viewer. Your pov_context should explicitly describe who the viewer is (age/sex/tribe relation) and whether they are in the scene or observing it.`
+      : `\n\nVIEWER POV SETTINGS:\nNo viewer settings provided. Assume a species-average adult observer with neutral stake.`;
 
     // Anthropic enforces a 5MB limit. In practice, the error message references the base64 payload size,
     // so we enforce BOTH:
@@ -254,7 +258,7 @@ export async function POST(request: NextRequest) {
               },
               {
                 type: 'text',
-                text: USER_PROMPT
+                text: USER_PROMPT + viewerProfilePrompt
               }
             ]
           }

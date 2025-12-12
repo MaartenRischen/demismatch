@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const { image, analysis } = await request.json();
+    const { image, analysis, viewer_profile } = await request.json();
 
     if (!image || !analysis) {
       return NextResponse.json({ error: 'Image and analysis are required' }, { status: 400 });
@@ -39,8 +39,8 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Build the visual prompt based on analysis
-    const visualPrompt = buildHUDPrompt(analysis);
+    // Build the visual prompt based on analysis + viewer POV
+    const visualPrompt = buildHUDPrompt(analysis, viewer_profile);
     
     console.log('[HUD Generate] Calling Gemini...', { 
       analysisType: analysis.scene_type,
@@ -146,7 +146,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function buildHUDPrompt(analysis: Record<string, unknown>): string {
+function buildHUDPrompt(analysis: Record<string, unknown>, viewer_profile?: Record<string, unknown>): string {
   const isRed = analysis.overall_color_scheme === 'red' || analysis.is_mismatch;
   
   // Primary target
@@ -174,11 +174,16 @@ function buildHUDPrompt(analysis: Record<string, unknown>): string {
 - Golden outlines on opportunities
 - Warm, safe feeling`;
 
+  const viewerPOV = viewer_profile
+    ? `\n\nVIEWER POV (user-provided): ${JSON.stringify(viewer_profile)}\nMake the overlay consistent with THIS viewer's incentives (threat vs mate vs kin vs coalition vs resource).`
+    : `\n\nVIEWER POV: No settings provided. Use a species-average adult observer POV.`;
+
   return `Edit this image to add a VISUAL-ONLY evolutionary fitness overlay. NO TEXT AT ALL - only colors, outlines, and visual effects.
 
 CRITICAL: DO NOT ADD ANY TEXT, LABELS, WORDS, OR NUMBERS. Only visual elements.
 
 ${colorScheme}
+${viewerPOV}
 
 === VISUAL OVERLAY STYLE ===
 This should look like thermal/predator vision mixed with a fitness detection system. Think: what would a hunter-gatherer's brain highlight as important?
