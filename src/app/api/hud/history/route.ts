@@ -18,7 +18,6 @@ async function ensureBucketExists(): Promise<void> {
   const svc = getSupabaseServiceClient();
   // Try to create; ignore "already exists" style errors.
   try {
-    // @ts-expect-error supabase-js typing differs by version; method exists at runtime
     const { error } = await svc.storage.createBucket(BUCKET, { public: false });
     if (error) {
       const msg = (error as any)?.message || '';
