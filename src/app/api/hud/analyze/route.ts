@@ -160,8 +160,7 @@ export async function POST(request: NextRequest) {
     // IMPORTANT: Anthropic expects image media_type to be one of:
     // image/jpeg, image/png, image/gif, image/webp
     // So we must normalize *to* jpeg (never to jpg) when building data URLs.
-    if (mimeType === 'jpg') mimeType = 'jpeg';
-    if (mimeType === 'jpg'.toUpperCase()) mimeType = 'jpeg';
+    if (mimeType.toLowerCase() === 'jpg') mimeType = 'jpeg';
 
     // If the image is larger than Anthropic's 5MB limit, downscale + recompress.
     // (Even if the client image is JPG/PNG/WebP, the *binary* must be <= 5MB.)
@@ -177,16 +176,18 @@ export async function POST(request: NextRequest) {
 
         let quality = 80;
         let maxDim = 1600;
-        let out = inputBytes;
+        // Use Uint8Array to avoid Node 22 Buffer generic type incompatibilities with sharp's TS overloads.
+        let out: Uint8Array = inputBytes;
 
         // Always produce jpeg for size control.
         // We iterate to ensure we get under the 5MB cap.
         for (let i = 0; i < 6; i++) {
-          out = await sharp(out)
+          const next = await sharp(out)
             .rotate()
             .resize({ width: maxDim, height: maxDim, fit: 'inside', withoutEnlargement: true })
             .jpeg({ quality, mozjpeg: true })
             .toBuffer();
+          out = next;
 
           if (out.length <= MAX_ANTHROPIC_IMAGE_BYTES) break;
 
@@ -204,7 +205,7 @@ export async function POST(request: NextRequest) {
           );
         }
 
-        base64Data = out.toString('base64');
+        base64Data = Buffer.from(out).toString('base64');
         mimeType = 'jpeg';
       }
     } catch (resizeErr) {
