@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { fetchMasterlist } from '@/lib/masterlist-sync';
 
 let supabase: SupabaseClient | null = null;
 
@@ -27,6 +28,7 @@ export interface ImageData {
   framework_concepts: string[];
   tags: string[];
   image_url: string;
+  is_favorite: boolean;
 }
 
 // Database row type matching new Supabase columns
@@ -48,7 +50,7 @@ interface DbImageRow {
 const SELECT_COLUMNS = 'id, file_name, folder_name, title, image_url, image_type, categories, series, framework_concepts, tags_normalized, search_text';
 
 // Transform database row to API response format
-function transformRow(row: DbImageRow, supabaseUrl: string): ImageData | null {
+function transformRow(row: DbImageRow, supabaseUrl: string, favoriteById: Map<number, boolean>): ImageData | null {
   // Skip rows with no file_name or image_url
   if (!row.file_name && !row.image_url) {
     return null;
@@ -85,7 +87,8 @@ function transformRow(row: DbImageRow, supabaseUrl: string): ImageData | null {
     series: row.series || [],
     framework_concepts: row.framework_concepts || [],
     tags: row.tags_normalized || [],
-    image_url: imageUrl
+    image_url: imageUrl,
+    is_favorite: favoriteById.get(row.id) ?? false
   };
 }
 
@@ -96,6 +99,17 @@ export async function GET(request: NextRequest) {
 
     const supabase = getSupabase();
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+
+    // Favorites live in masterlist.json (global defaults for now)
+    const favoriteById = new Map<number, boolean>();
+    try {
+      const masterlist = await fetchMasterlist();
+      for (const img of (masterlist as any).images || []) {
+        favoriteById.set(img.id, !!img.is_favorite);
+      }
+    } catch (e) {
+      console.warn('[api/images] Failed to fetch masterlist for favorites; defaulting to false', e);
+    }
 
     // If specific IDs requested, fetch just those
     if (idsParam) {
@@ -109,7 +123,7 @@ export async function GET(request: NextRequest) {
         if (error) throw error;
 
         const images: ImageData[] = (data as DbImageRow[] || [])
-          .map(row => transformRow(row, supabaseUrl))
+          .map(row => transformRow(row, supabaseUrl, favoriteById))
           .filter((img): img is ImageData => img !== null);
 
         return NextResponse.json({ images });
@@ -144,7 +158,7 @@ export async function GET(request: NextRequest) {
     }
 
     const images: ImageData[] = allData
-      .map(row => transformRow(row, supabaseUrl))
+      .map(row => transformRow(row, supabaseUrl, favoriteById))
       .filter((img): img is ImageData => img !== null);
 
     return NextResponse.json({ images });

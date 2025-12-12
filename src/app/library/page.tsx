@@ -18,6 +18,7 @@ interface ImageData {
   framework_concepts: string[];
   tags: string[];
   image_url: string;
+  is_favorite: boolean;
 }
 
 interface TaxonomyIndex {
@@ -28,16 +29,8 @@ interface TaxonomyIndex {
 
 type ViewMode = "grid" | "series";
 
-type SortOption = "relevant" | "alphabetical" | "type" | "category";
+type SortOption = "relevant" | "alphabetical" | "category";
 
-const IMAGE_TYPES = ["problem", "solution", "comparison"];
-
-// Type priority for relevance sorting (lower = higher priority)
-const TYPE_PRIORITY: Record<string, number> = {
-  problem: 0,
-  comparison: 1,
-  solution: 2,
-};
 
 // High-value framework concepts with bonus weights
 const CONCEPT_WEIGHTS: Record<string, number> = {
@@ -593,6 +586,7 @@ function LibraryContent() {
   const [toast, setToast] = useState("");
   const [displayCount, setDisplayCount] = useState(30);
   const [showAllTags, setShowAllTags] = useState(false);
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   
   // Zoom state (1 = smallest/most columns, 5 = largest/fewest columns)
   const [zoomLevel, setZoomLevel] = useState(() => {
@@ -844,6 +838,11 @@ function LibraryContent() {
       return [];
     }
 
+    // Filter by favorites
+    if (showFavoritesOnly) {
+      result = result.filter(img => !!img.is_favorite);
+    }
+
     // Filter by search query
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -860,27 +859,11 @@ function LibraryContent() {
       });
     }
 
-    // Filter by type
-    if (selectedTypes.size > 0) {
-      result = result.filter(img => selectedTypes.has(img.image_type));
-    }
-
     // Filter by category
     if (selectedCategories.size > 0 && taxonomy) {
       const validIds = new Set<number>();
       for (const cat of selectedCategories) {
         for (const id of taxonomy.by_category[cat] || []) {
-          validIds.add(id);
-        }
-      }
-      result = result.filter(img => validIds.has(img.id));
-    }
-
-    // Filter by concept
-    if (selectedConcepts.size > 0 && taxonomy) {
-      const validIds = new Set<number>();
-      for (const concept of selectedConcepts) {
-        for (const id of taxonomy.by_framework_concept[concept] || []) {
           validIds.add(id);
         }
       }
@@ -958,27 +941,18 @@ function LibraryContent() {
             const tagScoreB = calculateTagRelevance(b, selectedQuickTags, TAG_MAPPINGS, tagFrequencyMap, taxonomy);
             if (tagScoreB !== tagScoreA) return tagScoreB - tagScoreA;
 
-            // Secondary: image type priority (problem > comparison > explanation > solution)
-            const typeDiff = (TYPE_PRIORITY[a.image_type] ?? 4) - (TYPE_PRIORITY[b.image_type] ?? 4);
-            if (typeDiff !== 0) return typeDiff;
-
-            // Tertiary: framework concept score as tiebreaker
+            // Secondary: framework concept score as tiebreaker
             return calculateRelevanceScore(b) - calculateRelevanceScore(a);
           });
         } else {
           // Original relevance scoring when no quick tags selected
           result = [...result].sort((a, b) => {
-            const typeDiff = (TYPE_PRIORITY[a.image_type] ?? 4) - (TYPE_PRIORITY[b.image_type] ?? 4);
-            if (typeDiff !== 0) return typeDiff;
             return calculateRelevanceScore(b) - calculateRelevanceScore(a);
           });
         }
         break;
       case "alphabetical":
         result = [...result].sort((a, b) => a.title.localeCompare(b.title));
-        break;
-      case "type":
-        result = [...result].sort((a, b) => a.image_type.localeCompare(b.image_type));
         break;
       case "category":
         result = [...result].sort((a, b) =>
@@ -988,7 +962,7 @@ function LibraryContent() {
     }
 
     return result;
-  }, [allImages, searchQuery, selectedTypes, selectedCategories, selectedConcepts, selectedTags, selectedQuickTags, sortBy, taxonomy, tagFrequencyMap]);
+  }, [allImages, searchQuery, selectedCategories, selectedTags, selectedQuickTags, sortBy, taxonomy, tagFrequencyMap, showFavoritesOnly]);
 
   // Filter tags by search
   const filteredTags = useMemo(() => {
@@ -1158,6 +1132,39 @@ function LibraryContent() {
     }
   };
 
+  const toggleFavorite = async (imageId: number, nextValue?: boolean) => {
+    let desired: boolean | undefined = nextValue;
+    setAllImages(prev => prev.map(img => {
+      if (img.id !== imageId) return img;
+      const next = desired ?? !img.is_favorite;
+      desired = next;
+      return { ...img, is_favorite: next };
+    }));
+    setSelectedImage(prev => (prev && prev.id === imageId && desired !== undefined) ? { ...prev, is_favorite: desired } : prev);
+    if (desired === undefined) return;
+    try {
+      const res = await fetch(`/api/images/${imageId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ is_favorite: desired })
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to update favorite");
+      }
+    } catch (err) {
+      // rollback
+      setAllImages(prev => prev.map(img => img.id === imageId ? { ...img, is_favorite: !desired } : img));
+      setSelectedImage(prev => (prev && prev.id === imageId) ? { ...prev, is_favorite: !desired } : prev);
+      showToast(`Failed to update favorite: ${err instanceof Error ? err.message : "Unknown error"}`);
+    }
+  };
+
+  const handleSeriesImageClick = useCallback((imageId: number) => {
+    const full = allImages.find(img => img.id === imageId);
+    if (full) setSelectedImage(full);
+  }, [allImages]);
+
   // ADMIN: Open metadata editor
   const openMetadataEditor = (image: ImageData) => {
     setMetadataImage(image);
@@ -1168,7 +1175,7 @@ function LibraryContent() {
       tags: image.tags?.join(", ") || "",
       user_rating: "", // Would need to fetch from masterlist
       user_notes: "",
-      is_favorite: false
+      is_favorite: !!image.is_favorite
     });
   };
 
@@ -1216,7 +1223,8 @@ function LibraryContent() {
                 image_type: responseData.image.image_type,
                 categories: responseData.image.categories || [],
                 framework_concepts: responseData.image.framework_concepts || [],
-                tags: responseData.image.tags_normalized || []
+                tags: responseData.image.tags_normalized || [],
+                is_favorite: !!responseData.image.is_favorite
               }
             : img
         ));
@@ -1338,32 +1346,6 @@ function LibraryContent() {
   // Sidebar content (shared between desktop and mobile)
   const FilterContent = () => (
     <div className="space-y-4">
-      {/* Image Types */}
-      <div className="border-b border-[#E5E0D8] pb-4">
-        <button
-          className="w-full flex items-center justify-between py-2 text-sm font-bold tracking-wide text-[#1A1A1A]"
-          onClick={() => toggleSection("types")}
-        >
-          <span>Image Type</span>
-          <span className="text-[#8B8B8B]">{expandedSections.has("types") ? "−" : "+"}</span>
-        </button>
-        {expandedSections.has("types") && (
-          <div className="space-y-2 mt-2">
-            {IMAGE_TYPES.map(type => (
-              <label key={type} className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={selectedTypes.has(type)}
-                  onChange={() => toggleType(type)}
-                  className="accent-[#C75B39]"
-                />
-                <span className="text-sm capitalize text-[#4A4A4A]">{type}</span>
-              </label>
-            ))}
-          </div>
-        )}
-      </div>
-
       {/* Advanced Filters (collapsed by default) */}
       <div className="pb-4">
         <button
@@ -1402,34 +1384,6 @@ function LibraryContent() {
                 </div>
               )}
             </div>
-
-            {/* Framework Concepts */}
-            <div>
-              <button
-                className="w-full flex items-center justify-between py-1 text-sm font-bold tracking-wide text-[#1A1A1A]"
-                onClick={() => toggleSection("concepts")}
-              >
-                <span>Framework Concepts</span>
-                <span className="text-[#8B8B8B]">{expandedSections.has("concepts") ? "−" : "+"}</span>
-              </button>
-              {expandedSections.has("concepts") && taxonomy && (
-                <div className="space-y-1 mt-2 max-h-48 overflow-y-auto">
-                  {Object.keys(taxonomy.by_framework_concept).sort().map(concept => (
-                    <label key={concept} className="flex items-center gap-2 cursor-pointer py-1">
-                      <input
-                        type="checkbox"
-                        checked={selectedConcepts.has(concept)}
-                        onChange={() => toggleConcept(concept)}
-                        className="accent-[#C75B39]"
-                      />
-                      <span className="text-sm flex-1 text-[#4A4A4A]">{formatLabel(concept)}</span>
-                      <span className="text-xs text-[#8B8B8B]">{conceptCounts[concept]}</span>
-                    </label>
-                  ))}
-                </div>
-              )}
-            </div>
-
             {/* Tags */}
             <div>
               <button
@@ -1792,6 +1746,14 @@ function LibraryContent() {
                   </button>
                 </div>
               )}
+              <button
+                type="button"
+                onClick={() => setShowFavoritesOnly(v => !v)}
+                className={`px-3 py-2 border border-[#E5E0D8] text-sm rounded bg-white transition-colors ${showFavoritesOnly ? "text-rose-700 bg-rose-50 border-rose-200" : "text-[#4A4A4A] hover:border-[#C75B39] hover:text-[#C75B39]"}`}
+                title="Show only favorited images"
+              >
+                {showFavoritesOnly ? "Showing favorites" : "Show favorites"}
+              </button>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
@@ -1799,7 +1761,6 @@ function LibraryContent() {
               >
                 <option value="relevant">Sort: Most Relevant</option>
                 <option value="alphabetical">Sort: A-Z</option>
-                <option value="type">Sort: Type</option>
                 <option value="category">Sort: Category</option>
               </select>
             </div>
@@ -1819,7 +1780,8 @@ function LibraryContent() {
                     key={seriesName}
                     seriesName={seriesName}
                     images={seriesImages}
-                    onImageClick={handleImageClick}
+                    onImageClick={handleSeriesImageClick}
+                    onToggleFavorite={toggleFavorite}
                   />
                 ))
               )}
@@ -1860,6 +1822,14 @@ function LibraryContent() {
                           (e.target as HTMLImageElement).title = '';
                         }}
                       />
+                      <button
+                        type="button"
+                        aria-label={image.is_favorite ? "Unfavorite" : "Favorite"}
+                        className={`absolute top-2 left-2 z-10 p-1.5 rounded-full border transition-colors ${image.is_favorite ? "bg-white text-rose-600 border-white" : "bg-black/40 text-white border-white/30 hover:bg-black/60"}`}
+                        onClick={(e) => { e.stopPropagation(); toggleFavorite(image.id, !image.is_favorite); }}
+                      >
+                        <HeartIcon filled={!!image.is_favorite} />
+                      </button>
                       <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button
                           className="p-1.5 bg-black/60 rounded hover:bg-black/80"
@@ -1936,21 +1906,6 @@ function LibraryContent() {
             <div className="p-4">
               <h3 className="text-lg font-bold mb-2 text-[#1A1A1A]">{selectedImage.title}</h3>
 
-              <span className={`text-xs px-2 py-1 rounded inline-block mb-3 ${
-                selectedImage.image_type === "problem" ? "bg-red-100 text-red-700" :
-                selectedImage.image_type === "solution" ? "bg-green-100 text-green-700" :
-                selectedImage.image_type === "comparison" ? "bg-blue-100 text-blue-700" :
-                "bg-gray-100 text-gray-700"
-              }`}>
-                {selectedImage.image_type}
-              </span>
-
-              {selectedImage.body_text && (
-                <p className="text-sm text-[#4A4A4A] mb-4">
-                  {selectedImage.body_text}
-                </p>
-              )}
-
               {selectedImage.categories.length > 0 && (
                 <div className="mb-3">
                   <p className="text-xs text-[#8B8B8B] uppercase mb-1">Categories</p>
@@ -1958,19 +1913,6 @@ function LibraryContent() {
                     {selectedImage.categories.map(cat => (
                       <span key={cat} className="text-xs bg-[#F5F3EF] text-[#4A4A4A] px-2 py-1 rounded">
                         {formatLabel(cat)}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {selectedImage.framework_concepts.length > 0 && (
-                <div className="mb-3">
-                  <p className="text-xs text-[#8B8B8B] uppercase mb-1">Framework Concepts</p>
-                  <div className="flex flex-wrap gap-1">
-                    {selectedImage.framework_concepts.map(concept => (
-                      <span key={concept} className="text-xs bg-[#C75B39]/20 text-[#C75B39] px-2 py-1 rounded">
-                        {formatLabel(concept)}
                       </span>
                     ))}
                   </div>
@@ -2338,6 +2280,17 @@ function LibraryContent() {
 }
 
 // Icons
+function HeartIcon({ filled }: { filled: boolean }) {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path
+        d="M12 21s-7.1-4.4-9.5-8.3C.2 8.9 2 5.5 5.6 4.6c1.9-.5 3.9.2 5.1 1.6 1.2-1.4 3.2-2.1 5.1-1.6 3.6.9 5.4 4.3 3.1 8.1C19.1 16.6 12 21 12 21z"
+        fill={filled ? 'currentColor' : 'none'}
+      />
+    </svg>
+  );
+}
+
 function FilterIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
