@@ -199,20 +199,58 @@ export async function POST(request: NextRequest) {
       })
     });
 
+    const requestId =
+      response.headers.get('x-openrouter-request-id') ||
+      response.headers.get('x-request-id') ||
+      response.headers.get('cf-ray') ||
+      undefined;
+
     if (!response.ok) {
       const errorText = await response.text();
       console.error('[HUD Analyze] OpenRouter error:', errorText);
-      return NextResponse.json({ error: 'Analysis failed', details: errorText }, { status: 500 });
+      return NextResponse.json(
+        { error: 'Analysis failed', details: errorText, request_id: requestId },
+        { status: 502 }
+      );
     }
 
     const data = await response.json();
     
     console.log('[HUD Analyze] Response received');
+
+    // OpenRouter can sometimes return HTTP 200 with an error payload.
+    if (data?.error) {
+      console.error('[HUD Analyze] OpenRouter returned error payload:', data.error);
+      return NextResponse.json(
+        {
+          error: 'Analysis failed',
+          details: typeof data.error === 'string' ? data.error : JSON.stringify(data.error),
+          request_id: requestId
+        },
+        { status: 502 }
+      );
+    }
     
     try {
-      const assistantMessage = data?.choices?.[0]?.message;
+      const choice0 = data?.choices?.[0];
+      const assistantMessage = choice0?.message;
       if (!assistantMessage) {
-        throw new Error('No message in response');
+        const shapeHint = {
+          has_choices: Array.isArray(data?.choices),
+          choices_len: Array.isArray(data?.choices) ? data.choices.length : 0,
+          choice0_keys: choice0 ? Object.keys(choice0) : undefined
+        };
+        console.error('[HUD Analyze] No message in response. Shape hint:', shapeHint);
+        return NextResponse.json(
+          {
+            error: 'Analysis failed',
+            details: 'OpenRouter returned no assistant message',
+            request_id: requestId,
+            shape_hint: shapeHint,
+            raw_response_snippet: JSON.stringify(data)?.slice(0, 1500)
+          },
+          { status: 502 }
+        );
       }
 
       // OpenRouter normalizes many providers, but "content" shape differs:
@@ -234,23 +272,27 @@ export async function POST(request: NextRequest) {
 
       const contentText = extractText(assistantMessage);
       if (!contentText) {
-        console.error('[HUD Analyze] Missing content. Debug:', JSON.stringify({
+        const debug = {
           hasChoices: !!data?.choices,
           choiceCount: data?.choices?.length,
-          hasMessage: !!assistantMessage,
           contentType: typeof assistantMessage?.content,
           contentIsArray: Array.isArray(assistantMessage?.content),
           hasReasoning: !!assistantMessage?.reasoning,
           finishReason: data?.choices?.[0]?.finish_reason,
           provider: data?.provider,
-          model: data?.model,
-        }, null, 2));
-        // Include truncated raw response for debugging (careful: can be large)
-        return NextResponse.json({
-          error: 'Failed to parse analysis',
-          details: 'No content in response (content was empty or non-text)',
-          response: data,
-        }, { status: 500 });
+          model: data?.model
+        };
+        console.error('[HUD Analyze] Missing content. Debug:', JSON.stringify(debug, null, 2));
+        return NextResponse.json(
+          {
+            error: 'Analysis failed',
+            details: 'OpenRouter returned empty/non-text content',
+            request_id: requestId,
+            shape_hint: debug,
+            raw_response_snippet: JSON.stringify(data)?.slice(0, 1500)
+          },
+          { status: 502 }
+        );
       }
 
       // Extract JSON from response (handle code blocks)
@@ -281,18 +323,23 @@ export async function POST(request: NextRequest) {
     } catch (parseError) {
       console.error('[HUD Analyze] Parse error:', parseError);
       const rawMsg = data?.choices?.[0]?.message;
-      const rawContent = typeof rawMsg?.content === 'string'
-        ? rawMsg.content
-        : Array.isArray(rawMsg?.content)
-          ? rawMsg.content.map((p: any) => (p?.text ? String(p.text) : '')).join('\n')
-          : '';
+      const rawContent =
+        typeof rawMsg?.content === 'string'
+          ? rawMsg.content
+          : Array.isArray(rawMsg?.content)
+            ? rawMsg.content.map((p: any) => (p?.text ? String(p.text) : '')).join('\n')
+            : '';
+
       console.error('[HUD Analyze] Raw content (truncated):', rawContent?.substring?.(0, 800));
-      return NextResponse.json({ 
-        error: 'Failed to parse analysis', 
-        details: String(parseError),
-        raw: rawContent?.substring?.(0, 2000) || null,
-        response: data,
-      }, { status: 500 });
+      return NextResponse.json(
+        {
+          error: 'Failed to parse analysis',
+          details: String(parseError),
+          request_id: requestId,
+          raw: rawContent?.substring?.(0, 2000) || null
+        },
+        { status: 500 }
+      );
     }
     
   } catch (error) {
