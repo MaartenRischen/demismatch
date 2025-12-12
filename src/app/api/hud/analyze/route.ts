@@ -252,6 +252,12 @@ export async function POST(request: NextRequest) {
       })
     });
 
+    const requestId =
+      response.headers.get('x-openrouter-request-id') ||
+      response.headers.get('x-request-id') ||
+      response.headers.get('cf-ray') ||
+      undefined;
+
     if (!response.ok) {
       const errorText = await response.text();
       console.error('[HUD Analyze] OpenRouter error:', errorText);
