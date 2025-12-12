@@ -122,7 +122,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing OPENROUTER_API_KEY' }, { status: 500 });
     }
 
-    const MAX_ANTHROPIC_IMAGE_BYTES = 5 * 1024 * 1024; // 5MB hard limit (Anthropic)
+    // Anthropic enforces a 5MB limit. In practice, the error message references the base64 payload size,
+    // so we enforce BOTH:
+    // - decoded binary bytes (sanity)
+    // - base64 string bytes (the actual provider constraint we see in the wild)
+    const MAX_ANTHROPIC_IMAGE_BYTES = 5 * 1024 * 1024; // 5MB
+    const MAX_ANTHROPIC_BASE64_BYTES = 5 * 1024 * 1024; // 5MB
 
     // Extract base64 data and detect format
     const imageMatch = image.match(/^data:image\/(\w+);base64,(.+)$/);
@@ -163,12 +168,15 @@ export async function POST(request: NextRequest) {
     if (mimeType.toLowerCase() === 'jpg') mimeType = 'jpeg';
 
     // If the image is larger than Anthropic's 5MB limit, downscale + recompress.
-    // (Even if the client image is JPG/PNG/WebP, the *binary* must be <= 5MB.)
+    // Note: Anthropic appears to validate the *base64 payload size* (not just decoded bytes),
+    // so we compress when either decoded bytes OR base64 bytes exceed the cap.
     try {
       const inputBytes = Buffer.from(base64Data, 'base64');
-      if (inputBytes.length > MAX_ANTHROPIC_IMAGE_BYTES) {
-        console.log('[HUD Analyze] Image exceeds 5MB; downscaling/recompressing', {
+      const inputBase64Bytes = Buffer.byteLength(base64Data, 'utf8');
+      if (inputBytes.length > MAX_ANTHROPIC_IMAGE_BYTES || inputBase64Bytes > MAX_ANTHROPIC_BASE64_BYTES) {
+        console.log('[HUD Analyze] Image exceeds Anthropic 5MB cap; downscaling/recompressing', {
           input_bytes: inputBytes.length,
+          input_base64_bytes: inputBase64Bytes,
           format: mimeType
         });
 
@@ -178,6 +186,7 @@ export async function POST(request: NextRequest) {
         let maxDim = 1600;
         // Use Uint8Array to avoid Node 22 Buffer generic type incompatibilities with sharp's TS overloads.
         let out: Uint8Array = inputBytes;
+        let outBase64 = Buffer.from(out).toString('base64');
 
         // Always produce jpeg for size control.
         // We iterate to ensure we get under the 5MB cap.
@@ -188,24 +197,27 @@ export async function POST(request: NextRequest) {
             .jpeg({ quality, mozjpeg: true })
             .toBuffer();
           out = next;
+          outBase64 = Buffer.from(out).toString('base64');
 
-          if (out.length <= MAX_ANTHROPIC_IMAGE_BYTES) break;
+          const outBase64Bytes = Buffer.byteLength(outBase64, 'utf8');
+          if (out.length <= MAX_ANTHROPIC_IMAGE_BYTES && outBase64Bytes <= MAX_ANTHROPIC_BASE64_BYTES) break;
 
           quality = Math.max(35, quality - 10);
           maxDim = Math.max(900, maxDim - 150);
         }
 
-        if (out.length > MAX_ANTHROPIC_IMAGE_BYTES) {
+        const finalBase64Bytes = Buffer.byteLength(outBase64, 'utf8');
+        if (out.length > MAX_ANTHROPIC_IMAGE_BYTES || finalBase64Bytes > MAX_ANTHROPIC_BASE64_BYTES) {
           return NextResponse.json(
             {
               error: 'Image too large',
-              details: `Image exceeds 5MB maximum and could not be compressed below the limit (final ${out.length} bytes). Try a smaller image.`
+              details: `Image exceeds Anthropic 5MB maximum and could not be compressed below the limit (final binary ${out.length} bytes, base64 ${finalBase64Bytes} bytes). Try a smaller image.`
             },
             { status: 413 }
           );
         }
 
-        base64Data = Buffer.from(out).toString('base64');
+        base64Data = outBase64;
         mimeType = 'jpeg';
       }
     } catch (resizeErr) {
