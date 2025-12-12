@@ -154,8 +154,15 @@ export default function HUDApp() {
       });
       
       if (!analyzeRes.ok) {
-        const errData = await analyzeRes.json();
-        throw new Error(errData.error || errData.details || 'Analysis failed');
+        const errText = await analyzeRes.text();
+        let errData: any = null;
+        try {
+          errData = JSON.parse(errText);
+        } catch {
+          // Non-JSON error payload (e.g. proxy HTML for 502)
+        }
+        const reqId = errData?.request_id ? ` (request_id: ${errData.request_id})` : '';
+        throw new Error((errData?.error || errData?.details || errText || 'Analysis failed') + reqId);
       }
       
       const analysisData = await analyzeRes.json();

@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid image format. Expected data URL.' }, { status: 400 });
     }
     
-    let mimeType = imageMatch[1]; // png, jpeg, webp, avif, etc.
+    let mimeType = imageMatch[1]; // png, jpeg, jpg, webp, avif, etc.
     let base64Data = imageMatch[2];
     
     // Claude only supports: jpeg, png, gif, webp
@@ -155,9 +155,11 @@ export async function POST(request: NextRequest) {
       }
     }
     
-    // Normalize jpeg -> jpg for consistency
-    if (mimeType === 'jpeg') {
-      mimeType = 'jpg';
+    // IMPORTANT: Anthropic expects image media_type to be one of:
+    // image/jpeg, image/png, image/gif, image/webp
+    // So we must normalize *to* jpeg (never to jpg) when building data URLs.
+    if (mimeType === 'jpg') {
+      mimeType = 'jpeg';
     }
     
     const imageDataUrl = `data:image/${mimeType};base64,${base64Data}`;
