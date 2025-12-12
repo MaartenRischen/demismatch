@@ -316,6 +316,86 @@ export default function HUDApp() {
 
   const evoPsychAction = analysis ? getEvoPsychAction(analysis) : null;
 
+  const HistoryPanel = (
+    <div className="bg-[#111] border border-[#222] rounded-xl p-6">
+      <div className="flex items-center justify-between gap-3 mb-4">
+        <h3 className="text-lg font-semibold text-amber-400">Personal HUD History</h3>
+        <div className="flex items-center gap-3">
+          {historySaving && <span className="text-xs text-gray-500">Saving…</span>}
+          <button
+            type="button"
+            onClick={refreshHistory}
+            className="px-3 py-1.5 text-sm rounded bg-[#0a0a0a] border border-[#222] text-gray-300 hover:border-amber-500/50"
+          >
+            Refresh
+          </button>
+        </div>
+      </div>
+      {historyError && (
+        <div className="mb-3 text-sm text-red-400">{historyError}</div>
+      )}
+      {historyLoading ? (
+        <div className="text-sm text-gray-500">Loading…</div>
+      ) : historyEntries.length === 0 ? (
+        <div className="text-sm text-gray-500">No history yet. Process an image to save it here.</div>
+      ) : (
+        <div className="grid md:grid-cols-3 gap-4">
+          {historyEntries.map((h) => (
+            <div key={h.id} className="bg-[#0a0a0a] border border-[#222] rounded-lg overflow-hidden">
+              <div className="aspect-video bg-black">
+                {h.overlay_url ? (
+                  <img src={h.overlay_url} alt="Overlay" className="w-full h-full object-cover" />
+                ) : h.original_url ? (
+                  <img src={h.original_url} alt="Original" className="w-full h-full object-cover opacity-80" />
+                ) : null}
+              </div>
+              <div className="p-3 space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="text-xs text-gray-500">
+                    {h.created_at ? new Date(h.created_at).toLocaleString() : '—'}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {h.analysis?.scene_type ? h.analysis.scene_type.toUpperCase() : ''}
+                  </div>
+                </div>
+                <div className="text-sm text-gray-300 line-clamp-2">
+                  {h.analysis?.primary_target?.label || 'HUD Run'}
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (h.original_url) setUploadedImage(h.original_url);
+                      setGeneratedImage(h.overlay_url || null);
+                      setAnalysis(h.analysis || null);
+                      setError(null);
+                    }}
+                    className="flex-1 px-3 py-1.5 text-sm rounded bg-amber-500 text-black font-semibold hover:bg-amber-400 transition-colors"
+                  >
+                    Open
+                  </button>
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      await fetch(`/api/hud/history?id=${encodeURIComponent(h.id)}`, { method: 'DELETE' });
+                      await refreshHistory();
+                    }}
+                    className="px-3 py-1.5 text-sm rounded bg-[#0a0a0a] border border-red-500/30 text-red-400 hover:border-red-500/60"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      <p className="text-xs text-gray-500 mt-3">
+        History is saved per visitor (IP-hash) on the server and retrieved via signed URLs.
+      </p>
+    </div>
+  );
+
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white">
       <div className="max-w-7xl mx-auto px-4 py-12">
@@ -471,6 +551,8 @@ export default function HUDApp() {
                 <p className="text-[#555]">or click to select</p>
               </label>
             </div>
+
+            {HistoryPanel}
           </div>
         )}
 
@@ -788,83 +870,7 @@ export default function HUDApp() {
             )}
 
             {/* History */}
-            <div className="bg-[#111] border border-[#222] rounded-xl p-6">
-              <div className="flex items-center justify-between gap-3 mb-4">
-                <h3 className="text-lg font-semibold text-amber-400">Personal HUD History</h3>
-                <div className="flex items-center gap-3">
-                  {historySaving && <span className="text-xs text-gray-500">Saving…</span>}
-                  <button
-                    type="button"
-                    onClick={refreshHistory}
-                    className="px-3 py-1.5 text-sm rounded bg-[#0a0a0a] border border-[#222] text-gray-300 hover:border-amber-500/50"
-                  >
-                    Refresh
-                  </button>
-                </div>
-              </div>
-              {historyError && (
-                <div className="mb-3 text-sm text-red-400">{historyError}</div>
-              )}
-              {historyLoading ? (
-                <div className="text-sm text-gray-500">Loading…</div>
-              ) : historyEntries.length === 0 ? (
-                <div className="text-sm text-gray-500">No history yet. Process an image to save it here.</div>
-              ) : (
-                <div className="grid md:grid-cols-3 gap-4">
-                  {historyEntries.map((h) => (
-                    <div key={h.id} className="bg-[#0a0a0a] border border-[#222] rounded-lg overflow-hidden">
-                      <div className="aspect-video bg-black">
-                        {h.overlay_url ? (
-                          <img src={h.overlay_url} alt="Overlay" className="w-full h-full object-cover" />
-                        ) : h.original_url ? (
-                          <img src={h.original_url} alt="Original" className="w-full h-full object-cover opacity-80" />
-                        ) : null}
-                      </div>
-                      <div className="p-3 space-y-2">
-                        <div className="flex items-center justify-between">
-                          <div className="text-xs text-gray-500">
-                            {h.created_at ? new Date(h.created_at).toLocaleString() : '—'}
-                          </div>
-                          <div className="text-xs text-gray-500">
-                            {h.analysis?.scene_type ? h.analysis.scene_type.toUpperCase() : ''}
-                          </div>
-                        </div>
-                        <div className="text-sm text-gray-300 line-clamp-2">
-                          {h.analysis?.primary_target?.label || 'HUD Run'}
-                        </div>
-                        <div className="flex gap-2">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (h.original_url) setUploadedImage(h.original_url);
-                              setGeneratedImage(h.overlay_url || null);
-                              setAnalysis(h.analysis || null);
-                              setError(null);
-                            }}
-                            className="flex-1 px-3 py-1.5 text-sm rounded bg-amber-500 text-black font-semibold hover:bg-amber-400 transition-colors"
-                          >
-                            Open
-                          </button>
-                          <button
-                            type="button"
-                            onClick={async () => {
-                              await fetch(`/api/hud/history?id=${encodeURIComponent(h.id)}`, { method: 'DELETE' });
-                              await refreshHistory();
-                            }}
-                            className="px-3 py-1.5 text-sm rounded bg-[#0a0a0a] border border-red-500/30 text-red-400 hover:border-red-500/60"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-              <p className="text-xs text-gray-500 mt-3">
-                History is saved per visitor (IP-hash) on the server and retrieved via signed URLs.
-              </p>
-            </div>
+            {HistoryPanel}
 
             {/* Back link */}
             <div className="text-center pt-8">
