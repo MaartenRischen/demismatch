@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 interface BiometricData {
   level: string;
@@ -91,6 +91,15 @@ interface ViewerProfile {
   relation_to_primary_target: ViewerRelationToPrimary;
 }
 
+interface HistoryEntry {
+  id: string;
+  created_at: string | null;
+  viewer_profile: ViewerProfile | null;
+  analysis: AnalysisData | null;
+  original_url: string | null;
+  overlay_url: string | null;
+}
+
 // Map action to evopsych response
 function getEvoPsychAction(analysis: AnalysisData): { action: string; description: string; color: string } {
   const { action, is_mismatch, status_panel, primary_target } = analysis;
@@ -157,6 +166,35 @@ export default function HUDApp() {
     observer_mode: 'observing',
     relation_to_primary_target: 'unknown'
   });
+  const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState<string | null>(null);
+  const [historySaving, setHistorySaving] = useState(false);
+
+  const refreshHistory = useCallback(async () => {
+    setHistoryLoading(true);
+    setHistoryError(null);
+    try {
+      const res = await fetch('/api/hud/history', { method: 'GET' });
+      const text = await res.text();
+      let data: any = null;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error(text || 'Failed to load history');
+      }
+      if (!res.ok) throw new Error(data?.error || data?.details || 'Failed to load history');
+      setHistoryEntries((data?.entries || []) as HistoryEntry[]);
+    } catch (e) {
+      setHistoryError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setHistoryLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshHistory();
+  }, [refreshHistory]);
 
   const processImage = async (base64: string) => {
     setUploadedImage(base64);
@@ -196,6 +234,7 @@ export default function HUDApp() {
 
       // Stage 2: Generate HUD overlay with Gemini
       setStage('generating');
+      let overlayImage: string | null = null;
       const generateRes = await fetch('/api/hud/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -214,8 +253,29 @@ export default function HUDApp() {
       } else {
         const generateData = await generateRes.json();
         if (generateData.image) {
+          overlayImage = generateData.image;
           setGeneratedImage(generateData.image);
         }
+      }
+
+      // Save to personal history (per-IP on server)
+      try {
+        setHistorySaving(true);
+        await fetch('/api/hud/history', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            original_image: base64,
+            overlay_image: overlayImage,
+            analysis: analysisData,
+            viewer_profile: viewerProfile
+          })
+        });
+        await refreshHistory();
+      } catch (e) {
+        console.warn('Failed to save history:', e);
+      } finally {
+        setHistorySaving(false);
       }
       
     } catch (err) {
@@ -726,6 +786,85 @@ export default function HUDApp() {
 
               </div>
             )}
+
+            {/* History */}
+            <div className="bg-[#111] border border-[#222] rounded-xl p-6">
+              <div className="flex items-center justify-between gap-3 mb-4">
+                <h3 className="text-lg font-semibold text-amber-400">Personal HUD History</h3>
+                <div className="flex items-center gap-3">
+                  {historySaving && <span className="text-xs text-gray-500">Saving…</span>}
+                  <button
+                    type="button"
+                    onClick={refreshHistory}
+                    className="px-3 py-1.5 text-sm rounded bg-[#0a0a0a] border border-[#222] text-gray-300 hover:border-amber-500/50"
+                  >
+                    Refresh
+                  </button>
+                </div>
+              </div>
+              {historyError && (
+                <div className="mb-3 text-sm text-red-400">{historyError}</div>
+              )}
+              {historyLoading ? (
+                <div className="text-sm text-gray-500">Loading…</div>
+              ) : historyEntries.length === 0 ? (
+                <div className="text-sm text-gray-500">No history yet. Process an image to save it here.</div>
+              ) : (
+                <div className="grid md:grid-cols-3 gap-4">
+                  {historyEntries.map((h) => (
+                    <div key={h.id} className="bg-[#0a0a0a] border border-[#222] rounded-lg overflow-hidden">
+                      <div className="aspect-video bg-black">
+                        {h.overlay_url ? (
+                          <img src={h.overlay_url} alt="Overlay" className="w-full h-full object-cover" />
+                        ) : h.original_url ? (
+                          <img src={h.original_url} alt="Original" className="w-full h-full object-cover opacity-80" />
+                        ) : null}
+                      </div>
+                      <div className="p-3 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <div className="text-xs text-gray-500">
+                            {h.created_at ? new Date(h.created_at).toLocaleString() : '—'}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {h.analysis?.scene_type ? h.analysis.scene_type.toUpperCase() : ''}
+                          </div>
+                        </div>
+                        <div className="text-sm text-gray-300 line-clamp-2">
+                          {h.analysis?.primary_target?.label || 'HUD Run'}
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (h.original_url) setUploadedImage(h.original_url);
+                              setGeneratedImage(h.overlay_url || null);
+                              setAnalysis(h.analysis || null);
+                              setError(null);
+                            }}
+                            className="flex-1 px-3 py-1.5 text-sm rounded bg-amber-500 text-black font-semibold hover:bg-amber-400 transition-colors"
+                          >
+                            Open
+                          </button>
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              await fetch(`/api/hud/history?id=${encodeURIComponent(h.id)}`, { method: 'DELETE' });
+                              await refreshHistory();
+                            }}
+                            className="px-3 py-1.5 text-sm rounded bg-[#0a0a0a] border border-red-500/30 text-red-400 hover:border-red-500/60"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <p className="text-xs text-gray-500 mt-3">
+                History is saved per visitor (IP-hash) on the server and retrieved via signed URLs.
+              </p>
+            </div>
 
             {/* Back link */}
             <div className="text-center pt-8">
