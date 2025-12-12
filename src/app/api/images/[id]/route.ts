@@ -65,7 +65,8 @@ export async function PATCH(
     const body = await request.json();
     
     // Validate allowed fields
-    const allowedFields = ['image_type', 'user_rating', 'user_notes', 'is_favorite', 'categories', 'framework_concepts', 'tags_normalized'];
+    // NOTE: is_favorite is per-IP now; it is updated via /api/favorites/[id]
+    const allowedFields = ['image_type', 'user_rating', 'user_notes', 'categories', 'framework_concepts', 'tags_normalized', 'show_first_default'];
     const updates: Record<string, unknown> = {};
     
     for (const field of allowedFields) {
@@ -91,7 +92,7 @@ export async function PATCH(
         tags_normalized: updatedImage.tags_normalized,
         user_rating: updatedImage.user_rating,
         user_notes: updatedImage.user_notes,
-        is_favorite: updatedImage.is_favorite
+        show_first_default: (updatedImage as any).show_first_default === true
       }
     });
   } catch (error) {

@@ -9,6 +9,7 @@ interface SeriesImage {
   image_url: string;
   series?: string[];
   is_favorite?: boolean;
+  show_first_default?: boolean;
 }
 
 interface SeriesStripProps {

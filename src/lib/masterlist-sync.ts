@@ -15,7 +15,10 @@ export interface MasterlistImage {
   tags_normalized?: string[];
   user_rating?: number | null;
   user_notes?: string | null;
+  // NOTE: favorites are per-IP now; keep is_favorite only for backward compat (unused)
   is_favorite?: boolean;
+  // Dev-curated ordering for new users
+  show_first_default?: boolean;
   analysis?: {
     text_title?: string;
     visual_description?: string;
@@ -170,7 +173,7 @@ export async function removeImageFromAll(imageId: number): Promise<{
 // Update an image's metadata in both masterlist and database
 export async function updateImageMetadata(
   imageId: number, 
-  updates: Partial<Pick<MasterlistImage, 'image_type' | 'user_rating' | 'user_notes' | 'is_favorite' | 'categories' | 'framework_concepts' | 'tags_normalized'>>
+  updates: Partial<Pick<MasterlistImage, 'image_type' | 'user_rating' | 'user_notes' | 'categories' | 'framework_concepts' | 'tags_normalized' | 'show_first_default'>>
 ): Promise<MasterlistImage> {
   // 1. Fetch current masterlist
   const masterlist = await fetchMasterlist();
@@ -187,10 +190,10 @@ export async function updateImageMetadata(
   if (updates.image_type !== undefined) image.image_type = updates.image_type;
   if (updates.user_rating !== undefined) image.user_rating = updates.user_rating;
   if (updates.user_notes !== undefined) image.user_notes = updates.user_notes;
-  if (updates.is_favorite !== undefined) image.is_favorite = updates.is_favorite;
   if (updates.categories !== undefined) image.categories = updates.categories;
   if (updates.framework_concepts !== undefined) image.framework_concepts = updates.framework_concepts;
   if (updates.tags_normalized !== undefined) image.tags_normalized = updates.tags_normalized;
+  if (updates.show_first_default !== undefined) (image as any).show_first_default = updates.show_first_default;
   
   // 3. Save masterlist
   await saveMasterlist(masterlist);

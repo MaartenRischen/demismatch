@@ -19,6 +19,7 @@ interface ImageData {
   tags: string[];
   image_url: string;
   is_favorite: boolean;
+  show_first_default: boolean;
 }
 
 interface TaxonomyIndex {
@@ -596,6 +597,7 @@ function LibraryContent() {
 
   // Track window size for responsive grid
   const [isMobile, setIsMobile] = useState(false);
+  const [devMode, setDevMode] = useState(false);
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
@@ -617,7 +619,6 @@ function LibraryContent() {
     tags: "",
     user_rating: "",
     user_notes: "",
-    is_favorite: false
   });
   const [isSavingMetadata, setIsSavingMetadata] = useState(false);
 
@@ -636,6 +637,10 @@ function LibraryContent() {
     if (sortParam) setSortBy(sortParam);
     if (queryParam) setSearchQuery(queryParam);
     if (favsParam === "1") setShowFavoritesOnly(true);
+  }, [searchParams]);
+
+  useEffect(() => {
+    setDevMode(searchParams.get("dev") === "1");
   }, [searchParams]);
 
   // Fetch data
@@ -1073,6 +1078,51 @@ function LibraryContent() {
     }
   };
 
+  const toggleShowFirstDefault = async (imageId: number, nextValue?: boolean) => {
+    // dev-only: requires admin token header (prompt once)
+    let token = '';
+    if (typeof window !== 'undefined') {
+      token = localStorage.getItem('dev_admin_token') || '';
+      if (!token) {
+        const entered = window.prompt('Enter DEV admin token to set default-first images:');
+        if (entered) {
+          token = entered;
+          localStorage.setItem('dev_admin_token', token);
+        }
+      }
+    }
+
+    let desired: boolean | undefined = nextValue;
+    setAllImages(prev => prev.map(img => {
+      if (img.id !== imageId) return img;
+      const next = desired ?? !img.show_first_default;
+      desired = next;
+      return { ...img, show_first_default: next };
+    }));
+    setSelectedImage(prev => (prev && prev.id === imageId && desired !== undefined) ? { ...prev, show_first_default: desired } : prev);
+    if (desired === undefined) return;
+
+    try {
+      const res = await fetch(`/api/default-first/${imageId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'x-admin-token': token } : {}),
+        },
+        body: JSON.stringify({ show_first_default: desired }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || 'Failed to update default-first');
+      }
+    } catch (err) {
+      // rollback
+      setAllImages(prev => prev.map(img => img.id === imageId ? { ...img, show_first_default: !desired } : img));
+      setSelectedImage(prev => (prev && prev.id === imageId) ? { ...prev, show_first_default: !desired } : prev);
+      showToast(`Failed to update default-first: ${err instanceof Error ? err.message : 'Unknown error'}`);
+    }
+  };
+
   const toggleFavorite = async (imageId: number, nextValue?: boolean) => {
     let desired: boolean | undefined = nextValue;
     setAllImages(prev => prev.map(img => {
@@ -1084,7 +1134,7 @@ function LibraryContent() {
     setSelectedImage(prev => (prev && prev.id === imageId && desired !== undefined) ? { ...prev, is_favorite: desired } : prev);
     if (desired === undefined) return;
     try {
-      const res = await fetch(`/api/images/${imageId}`, {
+      const res = await fetch(`/api/favorites/${imageId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ is_favorite: desired })
@@ -1116,7 +1166,6 @@ function LibraryContent() {
       tags: image.tags?.join(", ") || "",
       user_rating: "", // Would need to fetch from masterlist
       user_notes: "",
-      is_favorite: !!image.is_favorite
     });
   };
 
@@ -1139,7 +1188,6 @@ function LibraryContent() {
       if (metadataForm.user_notes) {
         updates.user_notes = metadataForm.user_notes;
       }
-      updates.is_favorite = metadataForm.is_favorite;
 
       const res = await fetch(`/api/images/${metadataImage.id}`, {
         method: "PATCH",
@@ -1165,7 +1213,6 @@ function LibraryContent() {
                 categories: responseData.image.categories || [],
                 framework_concepts: responseData.image.framework_concepts || [],
                 tags: responseData.image.tags_normalized || [],
-                is_favorite: !!responseData.image.is_favorite
               }
             : img
         ));
@@ -2139,23 +2186,7 @@ function LibraryContent() {
                     className="w-full px-4 py-2 bg-[#FAF9F6] border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none rounded-lg"
                   />
                 </div>
-                <div className="flex-1">
-                  <label className="block text-sm font-medium mb-2 text-[#1A1A1A]">
-                    Favorite
-                  </label>
-                  <button
-                    onClick={() => setMetadataForm(f => ({ ...f, is_favorite: !f.is_favorite }))}
-                    className={`w-full px-4 py-2 rounded-lg border transition-colors ${
-                      metadataForm.is_favorite
-                        ? "bg-yellow-400 text-white border-yellow-400"
-                        : "bg-white text-[#4A4A4A] border-[#E5E0D8] hover:border-yellow-400"
-                    }`}
-                  >
-                    {metadataForm.is_favorite ? "★ Favorited" : "☆ Not Favorite"}
-                  </button>
-                </div>
               </div>
-
               {/* Notes */}
               <div>
                 <label className="block text-sm font-medium mb-2 text-[#1A1A1A]">
