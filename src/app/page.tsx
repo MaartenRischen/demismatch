@@ -22,80 +22,113 @@ export default function Home() {
         </p>
       </section>
 
-      {/* GOALS Section - Full Width Dark */}
-      <section className="relative py-24 overflow-hidden">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900" />
-        {/* Accent glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#c75b3a] opacity-20 blur-[120px]" />
-        
-        <div className="relative z-10 max-w-5xl mx-auto px-8">
-          <h2 className="text-5xl md:text-6xl text-white mb-4 text-center tracking-tight" style={{ fontFamily: 'Georgia, serif' }}>
+      {/* GOALS Section - Light with Graphics */}
+      <section className="relative py-20 bg-gradient-to-r from-[#faf9f6] via-white to-[#faf9f6] border-y border-gray-200">
+        <div className="max-w-6xl mx-auto px-8">
+          <h2 className="text-4xl md:text-5xl text-gray-900 mb-4 text-center tracking-tight" style={{ fontFamily: 'Georgia, serif' }}>
             The Mission
           </h2>
-          <p className="text-xl text-gray-400 text-center mb-16 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-500 text-center mb-14 max-w-2xl mx-auto">
             Six objectives. One framework. A different future.
           </p>
           
-          <div className="grid md:grid-cols-2 gap-6">
+          {/* Horizontal flow goals */}
+          <div className="space-y-0">
             {/* Goal 1 */}
-            <div className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-[#c75b3a]/50 transition-all duration-300">
-              <span className="absolute -top-4 -left-2 text-8xl font-black text-[#c75b3a]/20 group-hover:text-[#c75b3a]/40 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>1</span>
-              <div className="relative z-10 pt-4">
-                <p className="text-lg text-white leading-relaxed">
-                  Establish evolutionary mismatch as the <span className="text-[#e8a090] font-semibold">primary lens</span> for understanding human suffering
+            <div className="flex items-start gap-6 py-6 border-b border-gray-100 group hover:bg-white/80 px-4 -mx-4 rounded-lg transition-colors">
+              <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-[#c75b3a] to-[#a34829] flex items-center justify-center shadow-lg shadow-[#c75b3a]/20">
+                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              </div>
+              <div className="flex-1 pt-1">
+                <span className="text-sm font-bold text-[#c75b3a] uppercase tracking-wider">01 — The Lens</span>
+                <p className="text-lg text-gray-800 mt-1 leading-relaxed">
+                  Establish evolutionary mismatch as the primary lens for understanding human suffering
                 </p>
               </div>
+              <div className="hidden md:block flex-shrink-0 text-6xl font-black text-gray-100 group-hover:text-[#c75b3a]/10 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>01</div>
             </div>
 
             {/* Goal 2 */}
-            <div className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-[#c75b3a]/50 transition-all duration-300">
-              <span className="absolute -top-4 -left-2 text-8xl font-black text-[#c75b3a]/20 group-hover:text-[#c75b3a]/40 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>2</span>
-              <div className="relative z-10 pt-4">
-                <p className="text-lg text-white leading-relaxed">
-                  Expose how <span className="text-[#e8a090] font-semibold">economic and political systems</span> exploit these mismatches
+            <div className="flex items-start gap-6 py-6 border-b border-gray-100 group hover:bg-white/80 px-4 -mx-4 rounded-lg transition-colors">
+              <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-[#c75b3a] to-[#a34829] flex items-center justify-center shadow-lg shadow-[#c75b3a]/20">
+                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <div className="flex-1 pt-1">
+                <span className="text-sm font-bold text-[#c75b3a] uppercase tracking-wider">02 — The Exposure</span>
+                <p className="text-lg text-gray-800 mt-1 leading-relaxed">
+                  Expose how economic and political systems exploit these mismatches
                 </p>
               </div>
+              <div className="hidden md:block flex-shrink-0 text-6xl font-black text-gray-100 group-hover:text-[#c75b3a]/10 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>02</div>
             </div>
 
             {/* Goal 3 */}
-            <div className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-[#c75b3a]/50 transition-all duration-300">
-              <span className="absolute -top-4 -left-2 text-8xl font-black text-[#c75b3a]/20 group-hover:text-[#c75b3a]/40 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>3</span>
-              <div className="relative z-10 pt-4">
-                <p className="text-lg text-white leading-relaxed">
-                  Inform <span className="text-[#e8a090] font-semibold">AI/AGI/ASI development</span> with deep understanding of human nature
+            <div className="flex items-start gap-6 py-6 border-b border-gray-100 group hover:bg-white/80 px-4 -mx-4 rounded-lg transition-colors">
+              <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-[#c75b3a] to-[#a34829] flex items-center justify-center shadow-lg shadow-[#c75b3a]/20">
+                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div className="flex-1 pt-1">
+                <span className="text-sm font-bold text-[#c75b3a] uppercase tracking-wider">03 — The Future</span>
+                <p className="text-lg text-gray-800 mt-1 leading-relaxed">
+                  Inform AI/AGI/ASI development with deep understanding of human nature
                 </p>
               </div>
+              <div className="hidden md:block flex-shrink-0 text-6xl font-black text-gray-100 group-hover:text-[#c75b3a]/10 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>03</div>
             </div>
 
             {/* Goal 4 */}
-            <div className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-[#c75b3a]/50 transition-all duration-300">
-              <span className="absolute -top-4 -left-2 text-8xl font-black text-[#c75b3a]/20 group-hover:text-[#c75b3a]/40 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>4</span>
-              <div className="relative z-10 pt-4">
-                <p className="text-lg text-white leading-relaxed">
-                  Guide all technology toward <span className="text-[#e8a090] font-semibold">human cognitive limits</span> and authentic needs — not extraction
+            <div className="flex items-start gap-6 py-6 border-b border-gray-100 group hover:bg-white/80 px-4 -mx-4 rounded-lg transition-colors">
+              <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-[#c75b3a] to-[#a34829] flex items-center justify-center shadow-lg shadow-[#c75b3a]/20">
+                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <div className="flex-1 pt-1">
+                <span className="text-sm font-bold text-[#c75b3a] uppercase tracking-wider">04 — The Guardrails</span>
+                <p className="text-lg text-gray-800 mt-1 leading-relaxed">
+                  Guide all technology toward human cognitive limits and authentic needs — not extraction
                 </p>
               </div>
+              <div className="hidden md:block flex-shrink-0 text-6xl font-black text-gray-100 group-hover:text-[#c75b3a]/10 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>04</div>
             </div>
 
             {/* Goal 5 */}
-            <div className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-[#c75b3a]/50 transition-all duration-300">
-              <span className="absolute -top-4 -left-2 text-8xl font-black text-[#c75b3a]/20 group-hover:text-[#c75b3a]/40 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>5</span>
-              <div className="relative z-10 pt-4">
-                <p className="text-lg text-white leading-relaxed">
-                  Present the "<span className="text-[#e8a090] font-semibold">de-mismatch first, then augment</span>" pathway with concrete solutions
+            <div className="flex items-start gap-6 py-6 border-b border-gray-100 group hover:bg-white/80 px-4 -mx-4 rounded-lg transition-colors">
+              <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-[#c75b3a] to-[#a34829] flex items-center justify-center shadow-lg shadow-[#c75b3a]/20">
+                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                </svg>
+              </div>
+              <div className="flex-1 pt-1">
+                <span className="text-sm font-bold text-[#c75b3a] uppercase tracking-wider">05 — The Pathway</span>
+                <p className="text-lg text-gray-800 mt-1 leading-relaxed">
+                  Present the "de-mismatch first, then augment" pathway with concrete solutions
                 </p>
               </div>
+              <div className="hidden md:block flex-shrink-0 text-6xl font-black text-gray-100 group-hover:text-[#c75b3a]/10 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>05</div>
             </div>
 
             {/* Goal 6 */}
-            <div className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-[#c75b3a]/50 transition-all duration-300">
-              <span className="absolute -top-4 -left-2 text-8xl font-black text-[#c75b3a]/20 group-hover:text-[#c75b3a]/40 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>6</span>
-              <div className="relative z-10 pt-4">
-                <p className="text-lg text-white leading-relaxed">
-                  Showcase <span className="text-[#e8a090] font-semibold">tech projects</span> that de-mismatch first and augment responsibly — proof of concept for others
+            <div className="flex items-start gap-6 py-6 group hover:bg-white/80 px-4 -mx-4 rounded-lg transition-colors">
+              <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-[#c75b3a] to-[#a34829] flex items-center justify-center shadow-lg shadow-[#c75b3a]/20">
+                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+              </div>
+              <div className="flex-1 pt-1">
+                <span className="text-sm font-bold text-[#c75b3a] uppercase tracking-wider">06 — The Proof</span>
+                <p className="text-lg text-gray-800 mt-1 leading-relaxed">
+                  Showcase tech projects that de-mismatch first and augment responsibly — proof of concept and inspiration for others
                 </p>
               </div>
+              <div className="hidden md:block flex-shrink-0 text-6xl font-black text-gray-100 group-hover:text-[#c75b3a]/10 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>06</div>
             </div>
           </div>
         </div>
