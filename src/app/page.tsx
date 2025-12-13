@@ -20,19 +20,43 @@ export default function Home() {
         <p className="text-xl text-gray-600 mb-10 font-bold">
           This framework explains the what, the why, and the 'now what?'
         </p>
-        <div className="flex gap-4 justify-center">
-          <Link href="/framework" className="bg-[#c75b3a] text-white px-6 py-3 rounded-lg hover:bg-[#b54d2e] transition">
-            Enter the Framework
-          </Link>
-          <a 
-            href="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/framework/mothership-full.md"
-            download
-            className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition"
-          >
-            Download
-          </a>
+      </section>
+
+      {/* GOALS Section */}
+      <section className="px-8 py-20 max-w-4xl mx-auto">
+        <h2 className="text-4xl text-gray-900 mb-8 text-center" style={{ fontFamily: 'Georgia, serif' }}>Goals</h2>
+        <div className="space-y-6">
+          <div className="bg-white rounded-lg border-l-4 border-[#c75b3a] p-6 shadow-sm hover:shadow-md transition-shadow">
+            <p className="text-lg text-gray-800 leading-relaxed">
+              <span className="font-semibold text-gray-900">1.</span> Establish evolutionary mismatch as the primary lens for understanding human suffering
+            </p>
+          </div>
+          <div className="bg-white rounded-lg border-l-4 border-[#c75b3a] p-6 shadow-sm hover:shadow-md transition-shadow">
+            <p className="text-lg text-gray-800 leading-relaxed">
+              <span className="font-semibold text-gray-900">2.</span> Expose how economic and political systems exploit these mismatches
+            </p>
+          </div>
+          <div className="bg-white rounded-lg border-l-4 border-[#c75b3a] p-6 shadow-sm hover:shadow-md transition-shadow">
+            <p className="text-lg text-gray-800 leading-relaxed">
+              <span className="font-semibold text-gray-900">3.</span> Inform AI/AGI/ASI development with deep understanding of human nature
+            </p>
+          </div>
+          <div className="bg-white rounded-lg border-l-4 border-[#c75b3a] p-6 shadow-sm hover:shadow-md transition-shadow">
+            <p className="text-lg text-gray-800 leading-relaxed">
+              <span className="font-semibold text-gray-900">4.</span> Guide all technology toward human cognitive limits and authentic needs — not extraction
+            </p>
+          </div>
+          <div className="bg-white rounded-lg border-l-4 border-[#c75b3a] p-6 shadow-sm hover:shadow-md transition-shadow">
+            <p className="text-lg text-gray-800 leading-relaxed">
+              <span className="font-semibold text-gray-900">5.</span> Present the "de-mismatch first, then augment" pathway with concrete solutions
+            </p>
+          </div>
+          <div className="bg-white rounded-lg border-l-4 border-[#c75b3a] p-6 shadow-sm hover:shadow-md transition-shadow">
+            <p className="text-lg text-gray-800 leading-relaxed">
+              <span className="font-semibold text-gray-900">6.</span> Showcase tech projects that de-mismatch first and augment responsibly — as proof of concept and inspiration for others
+            </p>
+          </div>
         </div>
-        
       </section>
 
       {/* THE TOOLS - Framework in Action */}
