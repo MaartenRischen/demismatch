@@ -578,8 +578,6 @@ function LibraryContent() {
   // UI state
   const [sortBy, setSortBy] = useState<SortOption>("relevant");
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
-  const [showMobileFilters, setShowMobileFilters] = useState(false);
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(["categories"]));
   const [toast, setToast] = useState("");
   const [displayCount, setDisplayCount] = useState(30);
   const [showAllTags, setShowAllTags] = useState(false);
@@ -953,14 +951,6 @@ function LibraryContent() {
     });
   };
 
-  const toggleSection = (section: string) => {
-    setExpandedSections(prev => {
-      const next = new Set(prev);
-      if (next.has(section)) next.delete(section);
-      else next.add(section);
-      return next;
-    });
-  };
 
   const clearAllFilters = () => {
     setSelectedCategories(new Set());
@@ -1281,75 +1271,6 @@ function LibraryContent() {
 
   const displayedImages = filteredImages.slice(0, displayCount);
 
-  // Sidebar content (shared between desktop and mobile)
-  const FilterContent = () => (
-    <div className="space-y-4">
-      {/* Categories */}
-      <div className="border-b border-[#E5E0D8] pb-4">
-        <button
-          className="w-full flex items-center justify-between py-2 text-sm font-bold tracking-wide text-[#1A1A1A]"
-          onClick={() => toggleSection("categories")}
-        >
-          <span>Categories</span>
-          <span className="text-[#8B8B8B]">{expandedSections.has("categories") ? "−" : "+"}</span>
-        </button>
-        {expandedSections.has("categories") && taxonomy && (
-          <div className="space-y-1 mt-2 max-h-60 overflow-y-auto">
-            {Object.keys(taxonomy.by_category).sort().map(cat => (
-              <label key={cat} className="flex items-center gap-2 cursor-pointer py-1">
-                <input
-                  type="checkbox"
-                  checked={selectedCategories.has(cat)}
-                  onChange={() => toggleCategory(cat)}
-                  className="accent-[#C75B39]"
-                />
-                <span className="text-sm flex-1 text-[#4A4A4A]">{formatLabel(cat)}</span>
-                <span className="text-xs text-[#8B8B8B]">{categoryCounts[cat]}</span>
-              </label>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Tags */}
-      <div>
-        <button
-          className="w-full flex items-center justify-between py-2 text-sm font-bold tracking-wide text-[#1A1A1A]"
-          onClick={() => toggleSection("tags")}
-        >
-          <span>Tags</span>
-          <span className="text-[#8B8B8B]">{expandedSections.has("tags") ? "−" : "+"}</span>
-        </button>
-        {expandedSections.has("tags") && (
-          <div className="mt-2">
-            <input
-              type="text"
-              placeholder="Search tags..."
-              value={tagSearch}
-              onChange={(e) => setTagSearch(e.target.value)}
-              className="w-full px-3 py-2 bg-white border border-[#E5E0D8] text-sm text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none mb-2 rounded"
-            />
-            <div className="flex flex-wrap gap-1 max-h-40 overflow-y-auto">
-              {filteredTags.map(([tag, count]) => (
-                <button
-                  key={tag}
-                  onClick={() => toggleTag(tag)}
-                  className={`px-2 py-1 text-xs rounded transition-colors ${
-                    selectedTags.has(tag)
-                      ? "bg-[#C75B39] text-white"
-                      : "bg-[#F5F3EF] text-[#4A4A4A] hover:bg-[#E5E0D8]"
-                  }`}
-                >
-                  {tag} ({count})
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-
   if (isLoading) {
     return (
       <main className="min-h-screen bg-[#FAF9F6] flex items-center justify-center">
@@ -1385,13 +1306,6 @@ function LibraryContent() {
             <h1 className="text-2xl font-bold" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Image Library</h1>
             <p className="text-sm text-[#4A4A4A]">Visual explanations of mismatch concepts</p>
           </div>
-          <button
-            className="md:hidden py-2 px-3 flex items-center gap-2 text-sm text-[#4A4A4A] border border-[#E5E0D8] hover:border-[#C75B39] transition-colors rounded"
-            onClick={() => setShowMobileFilters(true)}
-          >
-            <FilterIcon />
-            <span>Filters</span>
-          </button>
         </div>
 
         {/* Search Bar */}
@@ -1495,31 +1409,8 @@ function LibraryContent() {
       </header>
 
       <div className="flex flex-1">
-        {/* Desktop Sidebar */}
-        <aside className="hidden md:block w-72 border-r border-[#E5E0D8] p-4 overflow-y-auto bg-[#FAF9F6]">
-          <FilterContent />
-        </aside>
-
-        {/* Mobile Filter Drawer */}
-        {showMobileFilters && (
-          <div className="fixed inset-0 z-50 bg-black/50" onClick={() => setShowMobileFilters(false)}>
-            <div
-              className="absolute left-0 top-0 bottom-0 w-full max-w-sm bg-white overflow-y-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="p-4 border-b border-[#E5E0D8] flex items-center justify-between">
-                <h2 className="font-bold text-[#1A1A1A]">Filters</h2>
-                <button onClick={() => setShowMobileFilters(false)} className="text-[#8B8B8B] hover:text-[#1A1A1A]">✕</button>
-              </div>
-              <div className="p-4">
-                <FilterContent />
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Main Content */}
-        <div className="flex-1 p-4 md:p-6">
+        <div className="flex-1 p-4 md:p-6 w-full">
           {/* Active Filters Bar */}
           {hasActiveFilters && (
             <div className="mb-4 space-y-3">
@@ -2154,14 +2045,6 @@ function LibraryContent() {
 }
 
 // Icons
-
-function FilterIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-    </svg>
-  );
-}
 
 function CopyIcon() {
   return (
