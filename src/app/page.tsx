@@ -22,39 +22,81 @@ export default function Home() {
         </p>
       </section>
 
-      {/* GOALS Section */}
-      <section className="px-8 py-20 max-w-4xl mx-auto">
-        <h2 className="text-4xl text-gray-900 mb-8 text-center" style={{ fontFamily: 'Georgia, serif' }}>Goals</h2>
-        <div className="space-y-6">
-          <div className="bg-white rounded-lg border-l-4 border-[#c75b3a] p-6 shadow-sm hover:shadow-md transition-shadow">
-            <p className="text-lg text-gray-800 leading-relaxed">
-              <span className="font-semibold text-gray-900">1.</span> Establish evolutionary mismatch as the primary lens for understanding human suffering
-            </p>
-          </div>
-          <div className="bg-white rounded-lg border-l-4 border-[#c75b3a] p-6 shadow-sm hover:shadow-md transition-shadow">
-            <p className="text-lg text-gray-800 leading-relaxed">
-              <span className="font-semibold text-gray-900">2.</span> Expose how economic and political systems exploit these mismatches
-            </p>
-          </div>
-          <div className="bg-white rounded-lg border-l-4 border-[#c75b3a] p-6 shadow-sm hover:shadow-md transition-shadow">
-            <p className="text-lg text-gray-800 leading-relaxed">
-              <span className="font-semibold text-gray-900">3.</span> Inform AI/AGI/ASI development with deep understanding of human nature
-            </p>
-          </div>
-          <div className="bg-white rounded-lg border-l-4 border-[#c75b3a] p-6 shadow-sm hover:shadow-md transition-shadow">
-            <p className="text-lg text-gray-800 leading-relaxed">
-              <span className="font-semibold text-gray-900">4.</span> Guide all technology toward human cognitive limits and authentic needs — not extraction
-            </p>
-          </div>
-          <div className="bg-white rounded-lg border-l-4 border-[#c75b3a] p-6 shadow-sm hover:shadow-md transition-shadow">
-            <p className="text-lg text-gray-800 leading-relaxed">
-              <span className="font-semibold text-gray-900">5.</span> Present the "de-mismatch first, then augment" pathway with concrete solutions
-            </p>
-          </div>
-          <div className="bg-white rounded-lg border-l-4 border-[#c75b3a] p-6 shadow-sm hover:shadow-md transition-shadow">
-            <p className="text-lg text-gray-800 leading-relaxed">
-              <span className="font-semibold text-gray-900">6.</span> Showcase tech projects that de-mismatch first and augment responsibly — as proof of concept and inspiration for others
-            </p>
+      {/* GOALS Section - Full Width Dark */}
+      <section className="relative py-24 overflow-hidden">
+        {/* Background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900" />
+        {/* Accent glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#c75b3a] opacity-20 blur-[120px]" />
+        
+        <div className="relative z-10 max-w-5xl mx-auto px-8">
+          <h2 className="text-5xl md:text-6xl text-white mb-4 text-center tracking-tight" style={{ fontFamily: 'Georgia, serif' }}>
+            The Mission
+          </h2>
+          <p className="text-xl text-gray-400 text-center mb-16 max-w-2xl mx-auto">
+            Six objectives. One framework. A different future.
+          </p>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Goal 1 */}
+            <div className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-[#c75b3a]/50 transition-all duration-300">
+              <span className="absolute -top-4 -left-2 text-8xl font-black text-[#c75b3a]/20 group-hover:text-[#c75b3a]/40 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>1</span>
+              <div className="relative z-10 pt-4">
+                <p className="text-lg text-white leading-relaxed">
+                  Establish evolutionary mismatch as the <span className="text-[#e8a090] font-semibold">primary lens</span> for understanding human suffering
+                </p>
+              </div>
+            </div>
+
+            {/* Goal 2 */}
+            <div className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-[#c75b3a]/50 transition-all duration-300">
+              <span className="absolute -top-4 -left-2 text-8xl font-black text-[#c75b3a]/20 group-hover:text-[#c75b3a]/40 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>2</span>
+              <div className="relative z-10 pt-4">
+                <p className="text-lg text-white leading-relaxed">
+                  Expose how <span className="text-[#e8a090] font-semibold">economic and political systems</span> exploit these mismatches
+                </p>
+              </div>
+            </div>
+
+            {/* Goal 3 */}
+            <div className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-[#c75b3a]/50 transition-all duration-300">
+              <span className="absolute -top-4 -left-2 text-8xl font-black text-[#c75b3a]/20 group-hover:text-[#c75b3a]/40 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>3</span>
+              <div className="relative z-10 pt-4">
+                <p className="text-lg text-white leading-relaxed">
+                  Inform <span className="text-[#e8a090] font-semibold">AI/AGI/ASI development</span> with deep understanding of human nature
+                </p>
+              </div>
+            </div>
+
+            {/* Goal 4 */}
+            <div className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-[#c75b3a]/50 transition-all duration-300">
+              <span className="absolute -top-4 -left-2 text-8xl font-black text-[#c75b3a]/20 group-hover:text-[#c75b3a]/40 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>4</span>
+              <div className="relative z-10 pt-4">
+                <p className="text-lg text-white leading-relaxed">
+                  Guide all technology toward <span className="text-[#e8a090] font-semibold">human cognitive limits</span> and authentic needs — not extraction
+                </p>
+              </div>
+            </div>
+
+            {/* Goal 5 */}
+            <div className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-[#c75b3a]/50 transition-all duration-300">
+              <span className="absolute -top-4 -left-2 text-8xl font-black text-[#c75b3a]/20 group-hover:text-[#c75b3a]/40 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>5</span>
+              <div className="relative z-10 pt-4">
+                <p className="text-lg text-white leading-relaxed">
+                  Present the "<span className="text-[#e8a090] font-semibold">de-mismatch first, then augment</span>" pathway with concrete solutions
+                </p>
+              </div>
+            </div>
+
+            {/* Goal 6 */}
+            <div className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-[#c75b3a]/50 transition-all duration-300">
+              <span className="absolute -top-4 -left-2 text-8xl font-black text-[#c75b3a]/20 group-hover:text-[#c75b3a]/40 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>6</span>
+              <div className="relative z-10 pt-4">
+                <p className="text-lg text-white leading-relaxed">
+                  Showcase <span className="text-[#e8a090] font-semibold">tech projects</span> that de-mismatch first and augment responsibly — proof of concept for others
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
