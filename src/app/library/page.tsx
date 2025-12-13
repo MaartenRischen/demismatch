@@ -900,6 +900,15 @@ function LibraryContent() {
       }
     }
 
+    // Ensure default-first images are shown first within each series.
+    for (const series of Object.keys(grouped)) {
+      grouped[series] = [...grouped[series]].sort((a, b) => {
+        const defaultDiff = Number(!!b.show_first_default) - Number(!!a.show_first_default);
+        if (defaultDiff != 0) return defaultDiff;
+        return a.id - b.id;
+      });
+    }
+
     const sortedEntries = Object.entries(grouped)
       .filter(([name]) => name !== 'Misc')
       .sort(([, a], [, b]) => b.length - a.length);
