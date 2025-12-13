@@ -36,11 +36,13 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Goal 1 */}
             <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group">
-              <img
-                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/74_THE_BELONGING_SIGNALS.png"
-                alt="THE BELONGING SIGNALS"
-                className="w-full h-48 object-cover rounded-lg mb-4"
-              />
+              <div className="w-full h-96 flex items-center justify-center mb-4 bg-gray-50 rounded-lg overflow-hidden">
+                <img
+                  src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/74_THE_BELONGING_SIGNALS.png"
+                  alt="THE BELONGING SIGNALS"
+                  className="w-full h-full object-contain"
+                />
+              </div>
               <p className="text-base text-gray-800 leading-relaxed">
                 Establish evolutionary mismatch as the primary lens for understanding human suffering. Expose how economic and political systems exploit these mismatches.
               </p>
@@ -48,11 +50,13 @@ export default function Home() {
 
             {/* Goal 2 */}
             <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group">
-              <img
-                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/1_THE_AI_COMPANION.png"
-                alt="THE AI COMPANION"
-                className="w-full h-48 object-cover rounded-lg mb-4"
-              />
+              <div className="w-full h-96 flex items-center justify-center mb-4 bg-gray-50 rounded-lg overflow-hidden">
+                <img
+                  src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/1_THE_AI_COMPANION.png"
+                  alt="THE AI COMPANION"
+                  className="w-full h-full object-contain"
+                />
+              </div>
               <p className="text-base text-gray-800 leading-relaxed">
                 Inform AI/AGI/ASI development with deep understanding of human nature. Guide all technology to serve human nature — not manipulate it.
               </p>
@@ -60,11 +64,13 @@ export default function Home() {
 
             {/* Goal 3 */}
             <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group">
-              <img
-                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/16_THE_VIRTUAL_REALITY_IMMERSION.png"
-                alt="THE VIRTUAL REALITY IMMERSION"
-                className="w-full h-48 object-cover rounded-lg mb-4"
-              />
+              <div className="w-full h-96 flex items-center justify-center mb-4 bg-gray-50 rounded-lg overflow-hidden">
+                <img
+                  src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/16_THE_VIRTUAL_REALITY_IMMERSION.png"
+                  alt="THE VIRTUAL REALITY IMMERSION"
+                  className="w-full h-full object-contain"
+                />
+              </div>
               <p className="text-base text-gray-800 leading-relaxed">
                 Present the "de-mismatch first, then augment" pathway: heal the mismatch, then merge with technology — we're pro-tech, just in the right order. Showcase early tech projects as proof of concept and inspiration for others.
               </p>
