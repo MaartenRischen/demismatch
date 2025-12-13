@@ -1,7 +1,107 @@
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
+import GoalCarousel from "@/components/GoalCarousel";
 
 export default function Home() {
+  const GOAL_1_IMAGES = [
+    { alt: "THE OUTRAGE HOOK", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/4_THE_OUTRAGE_HOOK.png" },
+    { alt: "THE INFINITE SCROLL", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/5_THE_INFINITE_SCROLL.png" },
+    { alt: "THE SCROLL HOLE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png" },
+    { alt: "THE OUTRAGE MERCHANT", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/50_THE_OUTRAGE_MERCHANT.png" },
+    { alt: "THE DSM", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_psychiatry_vol10/4_THE_DSM.png" },
+    { alt: "THE NORMAL RANGE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_psychiatry_vol10/30_THE_NORMAL_RANGE.png" },
+    { alt: "THE BRAIN DISEASE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_psychiatry_vol10/9_THE_BRAIN_DISEASE.png" },
+    { alt: "THE OUTRAGE MACHINE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/52_THE_OUTRAGE_MACHINE.png" },
+    { alt: "THE SUBSCRIPTION TRAP", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/56_THE_SUBSCRIPTION_TRAP.png" },
+    { alt: "IT'S DIFFERENT FOR YOU", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/20__IT_S_DIFFERENT_FOR_YOU_.png" },
+    { alt: "GRIND NOW, LIVE LATER", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/11__GRIND_NOW__LIVE_LATER_.png" },
+    { alt: "THE DEBT TRAP", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/90_THE_DEBT_TRAP.png" },
+    { alt: "THE COMPARE SPIRAL", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/8_THE_COMPARE_SPIRAL.png" },
+    { alt: "THE EXISTENTIAL DREAD", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/63_THE_EXISTENTIAL_DREAD.png" },
+    { alt: "THE FEEDBACK LOOP", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/61_THE_FEEDBACK_LOOP.png" },
+    { alt: "THE SUBSTANCE USE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/59_THE_SUBSTANCE_USE.png" },
+    { alt: "THE ALGORITHM REPEAT", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/2_THE_ALGORITHM_REPEAT.png" },
+    { alt: "THE STARTUP GRIND", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/82_THE_STARTUP_GRIND.png" },
+    { alt: "THE DISEASE AWARENESS", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_psychiatry_vol10/65_THE_DISEASE_AWARENESS.png" },
+    { alt: "THE COMPARISON FEED", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/25_THE_COMPARISON_FEED.png" },
+    { alt: "STAY CONNECTED", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/23__STAY_CONNECTED_.png" },
+    { alt: "THE CHEMICAL IMBALANCE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_psychiatry_vol10/1_THE_CHEMICAL_IMBALANCE.png" },
+    { alt: "THE PHANTOM VIBRATION", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/9_THE_PHANTOM_VIBRATION.png" },
+    { alt: "THE OUTRAGE FATIGUE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/99_THE_OUTRAGE_FATIGUE.png" },
+    { alt: "THE GRIND IDENTITY", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/86_THE_GRIND_IDENTITY.png" },
+    { alt: "THE HUSTLE PORN", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/71_THE_HUSTLE_PORN.png" },
+    { alt: "THE CHEMICAL CRUTCH", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_psychiatry_vol10/50_THE_CHEMICAL_CRUTCH.png" },
+    { alt: "THE CLICKBAIT REGRET", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/26_THE_CLICKBAIT_REGRET.png" },
+    { alt: "THE MIDNIGHT SCROLL", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/1_THE_MIDNIGHT_SCROLL.png" },
+    { alt: "THE GRIND", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_everyone_wrong_vol11%20%281%29/1_THE_GRIND.png" },
+  ];
+
+  const GOAL_2_IMAGES = [
+    { alt: "THE GOSSIP", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_gossip.jpeg" },
+    { alt: "THE STATUS OBSESSION", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_status_obsession.jpeg" },
+    { alt: "THE REPUTATION DEFENSE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_reputation_defense.jpeg" },
+    { alt: "THE JEALOUSY", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_jealousy.jpeg" },
+    { alt: "THE LOSS AVERSION", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_loss_aversion.jpeg" },
+    { alt: "THE RESOURCE HOARDING", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_resource_hoarding.jpeg" },
+    { alt: "THE OUTGROUP HATE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_outgroup_hate.jpeg" },
+    { alt: "THE SIBLING RIVALRY", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_sibling_rivalry.jpeg" },
+    { alt: "THE SUSPICION OF STRANGERS", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_suspicion_of_strangers.jpeg" },
+    { alt: "THE HIERARCHY", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png" },
+    { alt: "THE DOMINANCE DISPLAY", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/59_THE_DOMINANCE_DISPLAY.png" },
+    { alt: "THE COALITION", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png" },
+    { alt: "THE IN-GROUP PREFERENCE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/83_THE_IN-GROUP_PREFERENCE.png" },
+    { alt: "THE RISK TAKING", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_risk_taking.jpeg" },
+    { alt: "THE BAR FIGHT", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_bar_fight.jpeg" },
+    { alt: "THE MALE VIOLENCE PEAK", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_male_violence_peak.jpeg" },
+    { alt: "THE REVENGE FANTASY", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_revenge_fantasy.jpeg" },
+    { alt: "THE PROTECTIVE INSTINCT", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_protective_instinct.jpeg" },
+    { alt: "THE BABY FEVER", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_baby_fever.jpeg" },
+    { alt: "THE DUAL MATING STRATEGY", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_dual_mating_strategy.jpeg" },
+    { alt: "THE SEXUAL JEALOUSY", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dating_mating_100_prompts_final2/41_THE_SEXUAL_JEALOUSY.png" },
+    { alt: "THE HEIGHT PREFERENCE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_height_preference.jpeg" },
+    { alt: "THE PATERNITY DOUBT", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_paternity_doubt.jpeg" },
+    { alt: "THE SUGAR CRAVING", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_sugar_craving.jpeg" },
+    { alt: "THE FEAR OF THE DARK", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_fear_of_the_dark.jpeg" },
+    { alt: "THE SNAKE IN THE GRASS", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_snake_in_the_grass.jpeg" },
+    { alt: "THE PUBLIC SPEAKING TERROR", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_public_speaking_terror.jpeg" },
+    { alt: "THE SUNK COST", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_sunk_cost.jpeg" },
+    { alt: "THE IMPOSTER SYNDROME", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_imposter_syndrome.jpeg" },
+    { alt: "THE CELEBRITY WORSHIP", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_celebrity_worship.jpeg" },
+  ];
+
+  const GOAL_3_IMAGES = [
+    { alt: "THE COMPASSION EXPANSION", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/89_THE_COMPASSION_EXPANSION.png" },
+    { alt: "THE PARENTING SUPPORT NETWORK", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/61_THE_PARENTING_SUPPORT_NETWORK.png" },
+    { alt: "THE METABOLISM CONTROL", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/32_THE_METABOLISM_CONTROL.png" },
+    { alt: "THE LOVE CAPACITY", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/93_THE_LOVE_CAPACITY.png" },
+    { alt: "THE AWE CAPACITY", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/92_THE_AWE_CAPACITY.png" },
+    { alt: "THE GRATITUDE AMPLIFICATION", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/87_THE_GRATITUDE_AMPLIFICATION.png" },
+    { alt: "THE ACCEPTANCE DEEPENING", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/86_THE_ACCEPTANCE_DEEPENING.png" },
+    { alt: "THE EMOTIONAL RANGE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/84_THE_EMOTIONAL_RANGE.png" },
+    { alt: "THE PATTERN RECOGNITION", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/83_THE_PATTERN_RECOGNITION.png" },
+    { alt: "THE COLLECTIVE MEMORY", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/75_THE_COLLECTIVE_MEMORY.png" },
+    { alt: "THE BELONGING SIGNALS", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/74_THE_BELONGING_SIGNALS.png" },
+    { alt: "THE SKILL SHARING PLATFORM", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/66_THE_SKILL_SHARING_PLATFORM.png" },
+    { alt: "THE ATTENTION ENHANCEMENT", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/5_THE_ATTENTION_ENHANCEMENT.png" },
+    { alt: "THE CIRCADIAN OPTIMIZATION", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/40_THE_CIRCADIAN_OPTIMIZATION.png" },
+    { alt: "THE FERTILITY CONTROL", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/36_THE_FERTILITY_CONTROL.png" },
+    { alt: "THE SLEEP REDUCTION", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/31_THE_SLEEP_REDUCTION.png" },
+    { alt: "THE SENSORY UPGRADE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/27_THE_SENSORY_UPGRADE.png" },
+    { alt: "THE LIFESPAN EXTENSION", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/7_THE_LIFESPAN_EXTENSION.png" },
+    { alt: "THE REPUTATION SYSTEM", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/53_THE_REPUTATION_SYSTEM.png" },
+    { alt: "THE PRESENCE ENHANCEMENT", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/85_THE_PRESENCE_ENHANCEMENT.png" },
+    { alt: "THE GENETIC OPTIMIZATION", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/20_THE_GENETIC_OPTIMIZATION.png" },
+    { alt: "THE LANGUAGE TRANSLATOR", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/9_THE_LANGUAGE_TRANSLATOR.png" },
+    { alt: "THE COSMIC PERSPECTIVE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/99_THE_COSMIC_PERSPECTIVE.png" },
+    { alt: "THE PEAK EXPERIENCE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/98_THE_PEAK_EXPERIENCE.png" },
+    { alt: "THE SELF TRANSCENDENCE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/97_THE_SELF_TRANSCENDENCE.png" },
+    { alt: "THE CONTENTMENT BASELINE", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/94_THE_CONTENTMENT_BASELINE.png" },
+    { alt: "THE DEATH AWARENESS", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/91_THE_DEATH_AWARENESS.png" },
+    { alt: "THE PURPOSE CLARIFICATION", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/90_THE_PURPOSE_CLARIFICATION.png" },
+    { alt: "THE CREATIVITY AUGMENTATION", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/8_THE_CREATIVITY_AUGMENTATION.png" },
+    { alt: "THE FORGIVENESS ENHANCEMENT", src: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/88_THE_FORGIVENESS_ENHANCEMENT.png" },
+  ];
+
   return (
     <main className="min-h-screen bg-[#faf9f6] pt-20">
       <Navigation />
@@ -36,13 +136,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Goal 1 */}
             <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group">
-              <div className="w-full h-96 flex items-center justify-center mb-4 bg-gray-50 rounded-lg overflow-hidden">
-                <img
-                  src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/74_THE_BELONGING_SIGNALS.png"
-                  alt="THE BELONGING SIGNALS"
-                  className="w-full h-full object-contain"
-                />
-              </div>
+              <GoalCarousel images={GOAL_1_IMAGES} durationSec={110} heightClassName="h-96" />
               <p className="text-base text-gray-800 leading-relaxed">
                 Establish evolutionary mismatch as the primary lens for understanding human suffering. Expose how economic and political systems exploit these mismatches.
               </p>
@@ -50,13 +144,7 @@ export default function Home() {
 
             {/* Goal 2 */}
             <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group">
-              <div className="w-full h-96 flex items-center justify-center mb-4 bg-gray-50 rounded-lg overflow-hidden">
-                <img
-                  src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/1_THE_AI_COMPANION.png"
-                  alt="THE AI COMPANION"
-                  className="w-full h-full object-contain"
-                />
-              </div>
+              <GoalCarousel images={GOAL_2_IMAGES} durationSec={110} heightClassName="h-96" />
               <p className="text-base text-gray-800 leading-relaxed">
                 Inform AI/AGI/ASI development with deep understanding of human nature. Guide all technology to serve human nature — not manipulate it.
               </p>
@@ -64,13 +152,7 @@ export default function Home() {
 
             {/* Goal 3 */}
             <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group">
-              <div className="w-full h-96 flex items-center justify-center mb-4 bg-gray-50 rounded-lg overflow-hidden">
-                <img
-                  src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/16_THE_VIRTUAL_REALITY_IMMERSION.png"
-                  alt="THE VIRTUAL REALITY IMMERSION"
-                  className="w-full h-full object-contain"
-                />
-              </div>
+              <GoalCarousel images={GOAL_3_IMAGES} durationSec={110} heightClassName="h-96" />
               <p className="text-base text-gray-800 leading-relaxed">
                 Present the "de-mismatch first, then augment" pathway: heal the mismatch, then merge with technology — we're pro-tech, just in the right order. Showcase early tech projects as proof of concept and inspiration for others.
               </p>
