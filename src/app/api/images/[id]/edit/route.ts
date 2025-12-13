@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { createHash } from 'crypto';
 
 // DEV ONLY: Edit image using Gemini via OpenRouter
 // This endpoint will be removed before going live
@@ -108,34 +109,75 @@ export async function POST(
     const assistantMessage = openRouterData.choices?.[0]?.message;
     let newImageBase64: string | null = null;
 
+    const normalizeUrl = (url: string) => {
+      try {
+        const u = new URL(url);
+        u.search = '';
+        u.hash = '';
+        return u.toString();
+      } catch {
+        return url;
+      }
+    };
+
+    const sourceUrlNormalized = normalizeUrl(publicImageUrl);
+    const candidates: string[] = [];
+
+    const pushCandidate = (value: unknown) => {
+      if (!value) return;
+      if (typeof value === 'string') {
+        candidates.push(value);
+        return;
+      }
+      if (typeof value === 'object') {
+        const anyVal = value as any;
+        if (typeof anyVal?.image_url?.url === 'string') candidates.push(anyVal.image_url.url);
+        else if (typeof anyVal?.url === 'string') candidates.push(anyVal.url);
+      }
+    };
+
     // Primary format: OpenRouter's images array (documented format)
     if (assistantMessage?.images && Array.isArray(assistantMessage.images) && assistantMessage.images.length > 0) {
-      const firstImage = assistantMessage.images[0];
-      // Could be { image_url: { url: "..." } } or { type: "image_url", image_url: { url: "..." } }
-      newImageBase64 = firstImage?.image_url?.url || firstImage?.url || firstImage;
       console.log('[Edit] Found images array format');
+      for (const img of assistantMessage.images) {
+        pushCandidate(img);
+      }
     }
 
     // Fallback: Check if content is an array with image parts
-    if (!newImageBase64 && assistantMessage?.content && Array.isArray(assistantMessage.content)) {
+    if (assistantMessage?.content && Array.isArray(assistantMessage.content)) {
       for (const part of assistantMessage.content) {
         console.log('[Edit] Checking content part:', part.type, Object.keys(part));
         if (part.type === 'image_url' && part.image_url?.url) {
-          newImageBase64 = part.image_url.url;
           console.log('[Edit] Found image_url format in content');
-          break;
+          pushCandidate(part.image_url.url);
+          continue;
         }
         if (part.type === 'image' && part.source?.data) {
-          newImageBase64 = `data:${part.source.media_type || 'image/png'};base64,${part.source.data}`;
           console.log('[Edit] Found image source format in content');
-          break;
+          pushCandidate(`data:${part.source.media_type || 'image/png'};base64,${part.source.data}`);
+          continue;
         }
         if (part.inline_data?.data) {
-          newImageBase64 = `data:${part.inline_data.mime_type || 'image/png'};base64,${part.inline_data.data}`;
           console.log('[Edit] Found inline_data format in content');
-          break;
+          pushCandidate(`data:${part.inline_data.mime_type || 'image/png'};base64,${part.inline_data.data}`);
+          continue;
         }
       }
+    }
+
+    // Choose the first candidate that isn't just the input image URL echoed back.
+    const deduped = Array.from(new Set(candidates)).filter(Boolean);
+    const usable = deduped.find((c) => {
+      if (c.startsWith('data:')) return true;
+      if (c.startsWith('http://') || c.startsWith('https://')) {
+        return normalizeUrl(c) !== sourceUrlNormalized;
+      }
+      return true;
+    });
+
+    if (usable) {
+      newImageBase64 = usable;
     }
 
     if (!newImageBase64) {
@@ -157,6 +199,12 @@ export async function POST(
     // Handle both URL and base64 formats
     let imageBuffer: Buffer;
     if (newImageBase64.startsWith('http://') || newImageBase64.startsWith('https://')) {
+      if (normalizeUrl(newImageBase64) === sourceUrlNormalized) {
+        return NextResponse.json({
+          error: 'Model returned the original image (no edit applied). Try a more specific prompt.',
+          hint: 'Example: “Replace the bottom text with TEST” or “Make the whole image grayscale”.'
+        }, { status: 422 });
+      }
       // Fetch image from URL
       console.log('[Edit] Fetching image from URL:', newImageBase64.substring(0, 100));
       const imageResponse = await fetch(newImageBase64);
@@ -174,6 +222,26 @@ export async function POST(
       imageBuffer = Buffer.from(base64Data, 'base64');
     }
 
+    // Verify edit actually changed bytes (prevents re-uploading the original)
+    try {
+      const originalRes = await fetch(`${publicImageUrl}?t=${Date.now()}`);
+      if (originalRes.ok) {
+        const origBuf = Buffer.from(await originalRes.arrayBuffer());
+        const h1 = createHash('sha256').update(origBuf).digest('hex');
+        const h2 = createHash('sha256').update(imageBuffer).digest('hex');
+        console.log(`[Edit] Original sha256: ${h1}`);
+        console.log(`[Edit] Edited   sha256: ${h2}`);
+        if (h1 === h2) {
+          return NextResponse.json({
+            error: 'The edited image is identical to the original (no visible change). Try a more aggressive prompt.',
+            hint: 'Example: “Replace the bottom text with TEST” or “Invert all colors”.'
+          }, { status: 422 });
+        }
+      }
+    } catch (e) {
+      console.warn('[Edit] Failed to compare against original; continuing upload.', e);
+    }
+
     console.log(`[Edit] Image buffer size: ${imageBuffer.length} bytes`);
     console.log(`[Edit] Uploading edited image to: ${filePath}`);
 
@@ -182,6 +250,7 @@ export async function POST(
       .from('mismatch-images')
       .upload(filePath, imageBuffer, {
         contentType: 'image/png',
+        cacheControl: '0',
         upsert: true
       });
 
