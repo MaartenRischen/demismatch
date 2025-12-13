@@ -895,6 +895,11 @@ function LibraryContent() {
           if (!grouped[series]) grouped[series] = [];
           grouped[series].push(img);
         }
+      } else {
+        // If an image has no series, it must still appear in series view (e.g. for search results).
+        const bucket = 'Other';
+        if (!grouped[bucket]) grouped[bucket] = [];
+        grouped[bucket].push(img);
       }
     }
 
@@ -908,9 +913,10 @@ function LibraryContent() {
     }
 
     const sortedEntries = Object.entries(grouped)
-      .filter(([name]) => name !== 'Misc')
+      .filter(([name]) => name !== 'Misc' && name !== 'Other')
       .sort(([, a], [, b]) => b.length - a.length);
 
+    if (grouped['Other']) sortedEntries.push(['Other', grouped['Other']]);
     if (grouped['Misc']) sortedEntries.push(['Misc', grouped['Misc']]);
 
     return sortedEntries;
