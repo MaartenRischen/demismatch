@@ -136,7 +136,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Goal 1 */}
             <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group">
-              <GoalCarousel images={GOAL_1_IMAGES} durationSec={110} heightClassName="h-96" />
+              <GoalCarousel images={GOAL_1_IMAGES} durationSec={4} heightClassName="h-96" carouselId={0} />
               <p className="text-base text-gray-800 leading-relaxed">
                 Establish evolutionary mismatch as the primary lens for understanding human suffering. Expose how economic and political systems exploit these mismatches.
               </p>
@@ -144,7 +144,7 @@ export default function Home() {
 
             {/* Goal 2 */}
             <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group">
-              <GoalCarousel images={GOAL_2_IMAGES} durationSec={110} heightClassName="h-96" />
+              <GoalCarousel images={GOAL_2_IMAGES} durationSec={4} heightClassName="h-96" carouselId={1} />
               <p className="text-base text-gray-800 leading-relaxed">
                 Inform AI/AGI/ASI development with deep understanding of human nature. Guide all technology to serve human nature — not manipulate it.
               </p>
@@ -152,7 +152,7 @@ export default function Home() {
 
             {/* Goal 3 */}
             <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group">
-              <GoalCarousel images={GOAL_3_IMAGES} durationSec={110} heightClassName="h-96" />
+              <GoalCarousel images={GOAL_3_IMAGES} durationSec={4} heightClassName="h-96" carouselId={2} />
               <p className="text-base text-gray-800 leading-relaxed">
                 Present the "de-mismatch first, then augment" pathway: heal the mismatch, then merge with technology — we're pro-tech, just in the right order. Showcase early tech projects as proof of concept and inspiration for others.
               </p>
