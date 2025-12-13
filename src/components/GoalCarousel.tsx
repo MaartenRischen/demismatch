@@ -1,3 +1,5 @@
+"use client";
+
 type GoalCarouselProps = {
   images: Array<{ src: string; alt?: string }>;
   /** Seconds for one full loop */
