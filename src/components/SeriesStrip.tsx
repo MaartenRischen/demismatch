@@ -63,6 +63,8 @@ export default function SeriesStrip({
 
   const sortedImages = useMemo(() => {
     return [...images].sort((a, b) => {
+      const defaultDiff = Number(!!b.show_first_default) - Number(!!a.show_first_default);
+      if (defaultDiff !== 0) return defaultDiff;
       const favDiff = Number(!!b.is_favorite) - Number(!!a.is_favorite);
       if (favDiff !== 0) return favDiff;
       return a.id - b.id;
