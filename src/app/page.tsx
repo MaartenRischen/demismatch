@@ -36,12 +36,11 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Goal 1 */}
             <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group">
-              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#c75b3a] to-[#a34829] flex items-center justify-center shadow-lg shadow-[#c75b3a]/20 mb-4">
-                <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-              </div>
+              <img
+                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/74_THE_BELONGING_SIGNALS.png"
+                alt="THE BELONGING SIGNALS"
+                className="w-full h-48 object-cover rounded-lg mb-4"
+              />
               <p className="text-base text-gray-800 leading-relaxed">
                 Establish evolutionary mismatch as the primary lens for understanding human suffering. Expose how economic and political systems exploit these mismatches.
               </p>
@@ -49,11 +48,11 @@ export default function Home() {
 
             {/* Goal 2 */}
             <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group">
-              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#c75b3a] to-[#a34829] flex items-center justify-center shadow-lg shadow-[#c75b3a]/20 mb-4">
-                <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
+              <img
+                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/1_THE_AI_COMPANION.png"
+                alt="THE AI COMPANION"
+                className="w-full h-48 object-cover rounded-lg mb-4"
+              />
               <p className="text-base text-gray-800 leading-relaxed">
                 Inform AI/AGI/ASI development with deep understanding of human nature. Guide all technology to serve human nature — not manipulate it.
               </p>
@@ -61,11 +60,11 @@ export default function Home() {
 
             {/* Goal 3 */}
             <div className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all group">
-              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#c75b3a] to-[#a34829] flex items-center justify-center shadow-lg shadow-[#c75b3a]/20 mb-4">
-                <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                </svg>
-              </div>
+              <img
+                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/16_THE_VIRTUAL_REALITY_IMMERSION.png"
+                alt="THE VIRTUAL REALITY IMMERSION"
+                className="w-full h-48 object-cover rounded-lg mb-4"
+              />
               <p className="text-base text-gray-800 leading-relaxed">
                 Present the "de-mismatch first, then augment" pathway: heal the mismatch, then merge with technology — we're pro-tech, just in the right order. Showcase early tech projects as proof of concept and inspiration for others.
               </p>
