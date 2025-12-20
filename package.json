@@ -12,7 +12,7 @@
     "@ducanh2912/next-pwa": "^10.2.9",
     "@supabase/supabase-js": "^2.86.0",
     "cheerio": "^1.1.2",
-    "next": "16.0.6",
+    "next": "^16.1.0",
     "puppeteer": "^24.32.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
