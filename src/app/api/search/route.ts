@@ -121,16 +121,22 @@ ${imageMenu}
 === END IMAGES ===
 
 Select images that illustrate:
-- problem_images: Images showing the mismatch dynamic at play, including the meta-dynamics of consuming this content (up to 10)
+- problem_images: Images showing the mismatch dynamic at play, including meta-dynamics of content consumption (up to 10)
 - solution_images: Images showing what actually meets the need - real actions, not consuming content (up to 10)
+
+CRITICAL INSTRUCTIONS:
+- Be observational, not prescriptive. Describe what's happening from the framework/evolutionary psychology lens, not what should be done.
+- Do NOT address "the reader" or give advice. Focus on analyzing the content itself and the people/parties involved.
+- Technology is not inherently bad - the framework recognizes technology can serve de-mismatching when properly designed. Only identify mismatch when technology substitutes for biological needs, not when it enhances them.
+- Avoid preachy or moralizing tone. Simply observe and explain through the mismatch lens.
 
 Return ONLY valid JSON:
 {
   "whats_happening": "Brief 2-3 sentence summary of the surface event/content.",
-  "the_players": "Analyze EACH party through the mismatch lens. Format as: **[Person/Group 1]:** analysis. **[Person/Group 2]:** analysis. **[The Source/Publisher]:** analysis. **[The Reader/Consumer]:** analysis.",
-  "whats_missing": "What environmental conditions are absent - for the people in the story AND for the reader consuming it.",
-  "what_actually_helps": "What would address the root mismatch - for the people involved AND for the reader.",
-  "example_comment": "A sharp, witty 1-2 sentence comment the reader could post under the original content to share this analysis. Should be provocative but not mean - designed to make people think.",
+  "the_players": "Analyze EACH party through the mismatch lens. Format as: **[Person/Group 1]:** analysis. **[Person/Group 2]:** analysis. **[The Source/Publisher]:** analysis. Focus on what drives are being activated, what needs are present, and how the environment matches or mismatches evolved expectations.",
+  "whats_missing": "What environmental conditions from the EEA are absent for the people in the story/content. Describe what's missing from an evolutionary psychology perspective - what conditions would have been present in the ancestral environment that aren't here.",
+  "what_actually_helps": "What environmental conditions or dynamics would address the root mismatch for the people involved. Describe what would meet the underlying biological needs, not as advice but as observation of what the framework predicts would resolve the mismatch.",
+  "example_comment": "A sharp, witty 1-2 sentence comment that could be posted to share this analysis. Should be provocative but not mean - designed to make people think.",
   "problem_images": [{"file_name": "example.png", "reason": "why"}],
   "solution_images": [{"file_name": "example.png", "reason": "why"}]
 }`;

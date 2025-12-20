@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
 import GoalCarousel from "@/components/GoalCarousel";
+import DemismatchCarousel from "@/components/DemismatchCarousel";
 
 export default function Home() {
   // Goal 1: Establish evolutionary mismatch as the primary lens
@@ -101,6 +102,9 @@ export default function Home() {
           This framework explains the what, the why, and the 'now what?'
         </p>
       </section>
+
+      {/* Demismatch First, Then Augment Carousel */}
+      <DemismatchCarousel />
 
       {/* GOALS Section - Five Sequential Steps */}
       <section className="relative py-20 bg-gradient-to-r from-[#faf9f6] via-white to-[#faf9f6] border-y border-gray-200">
