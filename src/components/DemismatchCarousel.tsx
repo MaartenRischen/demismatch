@@ -2,17 +2,12 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 
-const SUPABASE_BASE_URL = "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatchfirstthenaugment/";
-
-// All concept series
-const CONCEPT_SERIES = ["A", "B", "E", "F", "I", "J", "K", "O", "R", "S", "T", "W", "X", "Y", "Z"];
-
-// Generate image URLs for a concept
-const getConceptImages = (concept: string) => [
-  `${SUPABASE_BASE_URL}${concept}1_Mismatched.png?t=${Date.now()}`,
-  `${SUPABASE_BASE_URL}${concept}2_Baseline.png?t=${Date.now()}`,
-  `${SUPABASE_BASE_URL}${concept}3_Augmented.png?t=${Date.now()}`,
-];
+interface ConceptSeries {
+  letter: string;
+  mismatched: string;
+  baseline: string;
+  augmented: string;
+}
 
 // Shuffle array utility
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -25,27 +20,56 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 };
 
 export default function DemismatchCarousel() {
-  const [shuffledConcepts, setShuffledConcepts] = useState<string[]>([]);
+  const [concepts, setConcepts] = useState<ConceptSeries[]>([]);
   const [currentConceptIndex, setCurrentConceptIndex] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [brokenImages, setBrokenImages] = useState<Set<string>>(new Set());
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const preloadedImages = useRef<Set<string>>(new Set());
 
-  // Initialize with shuffled concepts on mount
+  // Fetch available concepts from API route
   useEffect(() => {
-    setShuffledConcepts(shuffleArray(CONCEPT_SERIES));
-    setIsLoaded(true);
+    async function fetchConcepts() {
+      try {
+        const response = await fetch('/api/demismatch-concepts');
+        const data = await response.json();
+
+        if (!response.ok) {
+          console.error('Error fetching concepts:', data.error);
+          setError('Failed to load images');
+          setIsLoading(false);
+          return;
+        }
+
+        if (!data.concepts || data.concepts.length === 0) {
+          setError('No complete image sets found');
+          setIsLoading(false);
+          return;
+        }
+
+        // Shuffle and set concepts
+        setConcepts(shuffleArray(data.concepts));
+        setIsLoading(false);
+      } catch (err) {
+        console.error('Error fetching concepts:', err);
+        setError('Failed to load images');
+        setIsLoading(false);
+      }
+    }
+
+    fetchConcepts();
   }, []);
 
-  const currentConcept = shuffledConcepts[currentConceptIndex] || "A";
-  const currentImages = getConceptImages(currentConcept);
+  const currentConcept = concepts[currentConceptIndex];
+  const currentImages = currentConcept
+    ? [currentConcept.mismatched, currentConcept.baseline, currentConcept.augmented]
+    : [];
 
   // Preload images for smooth transitions
-  const preloadImages = useCallback((concept: string) => {
-    const images = getConceptImages(concept);
+  const preloadImages = useCallback((concept: ConceptSeries) => {
+    const images = [concept.mismatched, concept.baseline, concept.augmented];
     images.forEach((src) => {
       if (!preloadedImages.current.has(src)) {
         const img = new Image();
@@ -57,19 +81,21 @@ export default function DemismatchCarousel() {
 
   // Preload current and next concept images
   useEffect(() => {
-    if (shuffledConcepts.length === 0) return;
+    if (concepts.length === 0) return;
 
     // Preload current concept
-    preloadImages(currentConcept);
+    if (currentConcept) {
+      preloadImages(currentConcept);
+    }
 
     // Preload next concept
-    const nextConceptIndex = (currentConceptIndex + 1) % shuffledConcepts.length;
-    preloadImages(shuffledConcepts[nextConceptIndex]);
-  }, [currentConcept, currentConceptIndex, shuffledConcepts, preloadImages]);
+    const nextConceptIndex = (currentConceptIndex + 1) % concepts.length;
+    preloadImages(concepts[nextConceptIndex]);
+  }, [currentConcept, currentConceptIndex, concepts, preloadImages]);
 
   // Auto-advance logic
   useEffect(() => {
-    if (isPaused || shuffledConcepts.length === 0) return;
+    if (isPaused || concepts.length === 0) return;
 
     // State 0,1,2 = lighting up each image, State 3 = all lit, pause before next concept
     const delay = currentImageIndex === 3 ? 2000 : 1500;
@@ -83,7 +109,7 @@ export default function DemismatchCarousel() {
       } else {
         // Move to next concept series
         setCurrentImageIndex(0);
-        setCurrentConceptIndex((prev) => (prev + 1) % shuffledConcepts.length);
+        setCurrentConceptIndex((prev) => (prev + 1) % concepts.length);
       }
     }, delay);
 
@@ -92,7 +118,7 @@ export default function DemismatchCarousel() {
         clearTimeout(timerRef.current);
       }
     };
-  }, [currentImageIndex, currentConceptIndex, isPaused, shuffledConcepts.length]);
+  }, [currentImageIndex, currentConceptIndex, isPaused, concepts.length]);
 
   // Handle click to advance within series
   const handleClick = () => {
@@ -102,7 +128,7 @@ export default function DemismatchCarousel() {
       setCurrentImageIndex(3);
     } else {
       setCurrentImageIndex(0);
-      setCurrentConceptIndex((prev) => (prev + 1) % shuffledConcepts.length);
+      setCurrentConceptIndex((prev) => (prev + 1) % concepts.length);
     }
   };
 
@@ -114,7 +140,7 @@ export default function DemismatchCarousel() {
     }
     setCurrentImageIndex(0);
     setCurrentConceptIndex((prev) =>
-      prev === 0 ? shuffledConcepts.length - 1 : prev - 1
+      prev === 0 ? concepts.length - 1 : prev - 1
     );
   };
 
@@ -125,7 +151,7 @@ export default function DemismatchCarousel() {
       clearTimeout(timerRef.current);
     }
     setCurrentImageIndex(0);
-    setCurrentConceptIndex((prev) => (prev + 1) % shuffledConcepts.length);
+    setCurrentConceptIndex((prev) => (prev + 1) % concepts.length);
   };
 
   // Toggle pause
@@ -134,12 +160,24 @@ export default function DemismatchCarousel() {
     setIsPaused((prev) => !prev);
   };
 
-  if (!isLoaded || shuffledConcepts.length === 0) {
+  if (isLoading) {
     return (
       <section className="bg-gray-900 py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="h-[500px] flex items-center justify-center">
+          <div className="h-[400px] flex items-center justify-center">
             <div className="text-white/50">Loading...</div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error || concepts.length === 0) {
+    return (
+      <section className="bg-gray-900 py-16">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="h-[400px] flex items-center justify-center">
+            <div className="text-white/50">{error || 'No images available'}</div>
           </div>
         </div>
       </section>
@@ -173,10 +211,6 @@ export default function DemismatchCarousel() {
                   alt="Mismatched state"
                   className="w-full h-full object-cover"
                   loading="eager"
-                  onError={(e) => {
-                    const src = (e.target as HTMLImageElement).src;
-                    setBrokenImages(prev => new Set(prev).add(src));
-                  }}
                 />
               </div>
             </div>
@@ -250,10 +284,6 @@ export default function DemismatchCarousel() {
                   alt="Baseline state"
                   className="w-full h-full object-cover"
                   loading="eager"
-                  onError={(e) => {
-                    const src = (e.target as HTMLImageElement).src;
-                    setBrokenImages(prev => new Set(prev).add(src));
-                  }}
                 />
               </div>
             </div>
@@ -327,10 +357,6 @@ export default function DemismatchCarousel() {
                   alt="Augmented state"
                   className="w-full h-full object-cover"
                   loading="eager"
-                  onError={(e) => {
-                    const src = (e.target as HTMLImageElement).src;
-                    setBrokenImages(prev => new Set(prev).add(src));
-                  }}
                 />
               </div>
             </div>
@@ -381,11 +407,14 @@ export default function DemismatchCarousel() {
 
           {/* Concept indicator dots */}
           <div className="flex items-center justify-center gap-2 mt-6">
-            {shuffledConcepts.map((_, index) => (
+            {concepts.map((_, index) => (
               <button
                 key={index}
                 onClick={(e) => {
                   e.stopPropagation();
+                  if (timerRef.current) {
+                    clearTimeout(timerRef.current);
+                  }
                   setCurrentConceptIndex(index);
                   setCurrentImageIndex(0);
                 }}
