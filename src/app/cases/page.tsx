@@ -20,6 +20,7 @@ interface Case {
   year: string;
   location: string;
   category: string;
+  headline: string; // What exactly happened - the factual event
   oneLiner: string;
   summary: string;
   sources: string[];
@@ -38,6 +39,7 @@ const CASES: Case[] = [
     year: "2017",
     location: "Harrow, London, UK",
     category: "attention-hijacking",
+    headline: "14-year-old dies by suicide after Instagram serves 2,100 depression and self-harm posts",
     oneLiner: "Instagram's algorithms fed her 2,100 posts about depression and suicide in her final six months",
     summary: "14-year-old who died by suicide after viewing thousands of images promoting self-harm and suicide on Instagram and Pinterest. A coroner ruled that social media algorithms that created 'binge periods' of harmful content contributed to her death. Pinterest sent her emails with headings like '10 depression pins you might like.'",
     sources: ["UK Coroner's Court 2022", "CBS News"],
@@ -51,6 +53,7 @@ const CASES: Case[] = [
     year: "2006",
     location: "Missouri, USA",
     category: "attention-hijacking",
+    headline: "13-year-old hangs herself after adult neighbor catfishes her with fake MySpace boyfriend",
     oneLiner: "A neighbor's mom created a fake boy to befriend her, then told her the world would be better without her",
     summary: "13-year-old who hanged herself after being cyberbullied through a fake MySpace account created by her neighbor's mother. 'Josh Evans' befriended Megan for six weeks before sending messages saying the world would be a better place without her.",
     sources: ["Megan Meier Foundation"],
@@ -64,6 +67,7 @@ const CASES: Case[] = [
     year: "2012",
     location: "British Columbia, Canada",
     category: "attention-hijacking",
+    headline: "15-year-old dies by suicide after years of sextortion and cyberbullying across multiple schools",
     oneLiner: "She held up flashcards on YouTube telling her story of blackmail before hanging herself a month later",
     summary: "15-year-old who died by suicide after years of cyberbullying and sextortion. A predator convinced her to flash her chest on webcam, then blackmailed her for years. Her YouTube video using flashcards to tell her story went viral after her death.",
     sources: ["Canadian Encyclopedia", "Wikipedia"],
@@ -77,6 +81,7 @@ const CASES: Case[] = [
     year: "2003",
     location: "Vermont, USA",
     category: "attention-hijacking",
+    headline: "13-year-old hangs himself after classmates spread rumors and share private messages publicly",
     oneLiner: "A popular girl pretended to like him online, then copy-pasted their private chats to humiliate him",
     summary: "13-year-old who hanged himself after being cyberbullied through instant messages. A bully spread rumors he was gay, and a girl he liked pretended to be interested only to share their private conversations to embarrass him.",
     sources: ["Ryan's Story Foundation", "Vermont Bully Prevention Law"],
@@ -90,6 +95,7 @@ const CASES: Case[] = [
     year: "2013",
     location: "Scotland, UK",
     category: "attention-hijacking",
+    headline: "17-year-old jumps from bridge one hour after international sextortion gang tells him to kill himself",
     oneLiner: "A Philippines sextortion gang told him to 'commit suicide now' and he jumped from a bridge an hour later",
     summary: "17-year-old apprentice mechanic who jumped from the Forth Bridge after being blackmailed by a criminal gang. They recorded him on Skype, demanded money, and when he couldn't pay, told him 'Commit suicide now' and 'Are you dead yet?'",
     sources: ["CNN", "Deadline News"],
@@ -103,6 +109,7 @@ const CASES: Case[] = [
     year: "2008",
     location: "Ohio, USA",
     category: "attention-hijacking",
+    headline: "18-year-old hangs herself after ex-boyfriend distributes nude photo to entire school",
     oneLiner: "She went on TV to warn about sexting dangers, then hanged herself two months later",
     summary: "18-year-old high school senior who hanged herself after her ex-boyfriend distributed a nude photo she had sent him. Despite seeking help from counselors and police, she couldn't stop the harassment. She bravely appeared on local TV to share her story in May 2008, then died by suicide in July.",
     sources: ["Cyberbullying Research Center"],
@@ -118,6 +125,7 @@ const CASES: Case[] = [
     year: "2010",
     location: "New Jersey, USA",
     category: "social-disconnection",
+    headline: "18-year-old Rutgers freshman jumps from George Washington Bridge after roommate broadcasts intimate moment",
     oneLiner: "His roommate livestreamed him kissing another man, then tweeted about it to his followers",
     summary: "18-year-old Rutgers freshman and talented violinist who jumped from the George Washington Bridge after his roommate used a webcam to spy on him kissing another man, then posted about it on Twitter. He had just come out to his parents days before.",
     sources: ["Tyler Clementi Foundation"],
@@ -131,6 +139,7 @@ const CASES: Case[] = [
     year: "2010",
     location: "Massachusetts, USA",
     category: "social-disconnection",
+    headline: "15-year-old Irish immigrant hangs herself after three months of relentless school bullying",
     oneLiner: "The Irish immigrant was bullied for three months straight, even attacked with a drink can",
     summary: "15-year-old Irish immigrant who hanged herself after nearly three months of relentless bullying at South Hadley High School. She was verbally assaulted, physically attacked, and harassed via text and Facebook. Six students were criminally charged.",
     sources: ["Boston Magazine", "Wikipedia"],
@@ -144,6 +153,7 @@ const CASES: Case[] = [
     year: "2013",
     location: "Oregon, USA",
     category: "social-disconnection",
+    headline: "15-year-old gay cheerleader hangs himself from playground after anti-gay bullying",
     oneLiner: "The gay cheerleader hanged himself from an elementary school playground after being called slurs",
     summary: "15-year-old gay sophomore and cheerleader who hanged himself from a playground structure after intense bullying. His father began walking across America to raise awareness but was killed by a truck halfway through. Mark Wahlberg portrayed his father in the 2020 film 'Joe Bell.'",
     sources: ["Wikipedia", "Salon"],
@@ -157,6 +167,7 @@ const CASES: Case[] = [
     year: "2012",
     location: "Staten Island, USA",
     category: "social-disconnection",
+    headline: "15-year-old orphan jumps in front of train while football players taunt her on platform",
     oneLiner: "Football players taunted her on the train platform moments before she jumped to her death",
     summary: "15-year-old who jumped in front of a train at Staten Island Railway station as football players from her school taunted her with sexually explicit jeers. An orphan who lived with her aunt, she had been bullied about her sexual history. Her last words to a friend were 'Finally, it's here.'",
     sources: ["The World", "HuffPost"],
@@ -170,6 +181,7 @@ const CASES: Case[] = [
     year: "2013",
     location: "Nova Scotia, Canada",
     category: "social-disconnection",
+    headline: "17-year-old dies after photo of her alleged gang rape is distributed, leading to years of harassment",
     oneLiner: "After her alleged gang rape was photographed and shared, classmates called her a slut for years",
     summary: "17-year-old who died after being taken off life support following a suicide attempt. She was allegedly gang-raped at 15, photographed during the assault, and the image was widely distributed. She switched schools four times trying to escape harassment.",
     sources: ["CBC News", "Wikipedia"],
@@ -185,6 +197,7 @@ const CASES: Case[] = [
     year: "2015",
     location: "Tokyo, Japan",
     category: "purpose-deprivation",
+    headline: "24-year-old ad agency employee jumps from dormitory on Christmas Day after 130 hours overtime",
     oneLiner: "She worked 130 hours of overtime the month before she jumped from her dormitory on Christmas Day",
     summary: "24-year-old Dentsu advertising agency employee who died by suicide after being forced to work extreme overtime hours. Despite company policies capping overtime at 70 hours, electronic gate records showed she worked 130 hours of overtime in a single month. Her death sparked nationwide outrage.",
     sources: ["Unseen Japan", "RM Magazine"],
@@ -198,6 +211,7 @@ const CASES: Case[] = [
     year: "2013",
     location: "Tokyo, Japan",
     category: "purpose-deprivation",
+    headline: "31-year-old NHK journalist dies of heart failure after 159 hours of overtime in one month",
     oneLiner: "Found dead in bed holding her cell phone after 159 hours of overtime covering elections",
     summary: "31-year-old NHK journalist who died of congestive heart failure after logging 159 hours of overtime in one month while covering political elections. She was found dead in her bed by a friend, still holding her cell phone. NHK didn't publicly acknowledge her karoshi death until 2017.",
     sources: ["NBC News", "CNN Money"],
@@ -211,6 +225,7 @@ const CASES: Case[] = [
     year: "2002",
     location: "Japan",
     category: "purpose-deprivation",
+    headline: "30-year-old father of two dies of heart attack at 4am while working overtime",
     oneLiner: "A father of two who collapsed at 4am during his fourth hour of overtime and never woke up",
     summary: "30-year-old father-of-two who died of a heart attack at 4am while working overtime. He had been working more than 80 hours of overtime each month for the previous six months. His death was officially ruled as karoshi (death from overwork).",
     sources: ["World Economic Forum", "Wikipedia Karoshi"],
@@ -226,6 +241,7 @@ const CASES: Case[] = [
     year: "2015",
     location: "New York, USA",
     category: "autonomy-erosion",
+    headline: "22-year-old hangs himself after 3 years at Rikers without trial for allegedly stealing a backpack",
     oneLiner: "Accused of stealing a backpack at 16, he spent 3 years at Rikers without trial, 2 years in solitary",
     summary: "22-year-old who hanged himself after spending three years detained at Rikers Island without trial for allegedly stealing a backpack. Nearly two years were spent in solitary confinement. Though charges were eventually dropped, he struggled with paranoia and depression.",
     sources: ["Innocence Project", "Wikipedia"],
@@ -239,6 +255,7 @@ const CASES: Case[] = [
     year: "2013",
     location: "Louisiana, USA",
     category: "autonomy-erosion",
+    headline: "Man dies 3 days after release from 41 years in solitary confinement for disputed murder",
     oneLiner: "He spent 41 years in solitary for a murder he denied, dying 3 days after his release",
     summary: "One of the 'Angola Three' who spent 41 years in solitary confinement at Louisiana State Penitentiary for a prison guard's murder he maintained he didn't commit. His conviction was overturned in 2013. He died of liver cancer three days after release, saying 'I am free' in his final moments.",
     sources: ["CBS News", "Wikipedia Angola Three"],
@@ -252,6 +269,7 @@ const CASES: Case[] = [
     year: "2022",
     location: "Louisiana, USA",
     category: "autonomy-erosion",
+    headline: "Man survives 43 years in solitary confinement—longest documented in US history",
     oneLiner: "He survived 43 years in solitary at Angola Prison—the longest in US history",
     summary: "Spent 43 years and 10 months in solitary confinement at Louisiana's Angola Prison, the longest period of solitary confinement in American history. Released in 2016, he died from COVID-19 complications in 2022 at age 75.",
     sources: ["NPR", "Wikipedia Angola Three"],
@@ -265,6 +283,7 @@ const CASES: Case[] = [
     year: "2019",
     location: "Colorado, USA",
     category: "autonomy-erosion",
+    headline: "Prisoner dies at 67 after spending final 36 years of life in total solitary confinement",
     oneLiner: "He spent the last 36 years of his life in complete isolation until his heart gave out",
     summary: "Died at age 67 after spending the final 36 years of his life in solitary confinement, making him the longest-held prisoner in solitary within the Bureau of Prisons at the time of his death.",
     sources: ["Wikipedia", "Solitary Watch"],
@@ -280,6 +299,7 @@ const CASES: Case[] = [
     year: "1987-1990",
     location: "Cighid, Romania",
     category: "community-collapse",
+    headline: "138 disabled children die in Romanian orphanage over 2.5 years from starvation and cold",
     oneLiner: "138 disabled children died in 2.5 years—most were only 3 years old when buried",
     summary: "Between October 1987 and March 1990, 138 children died at Cighid orphanage out of 183 admitted, a mortality rate of 75%. Children were given one piece of bread and thin gruel daily. Many froze to death. 137 graves with children's names and ages remain.",
     sources: ["RFE/RL", "Wikipedia Romanian Orphans"],
@@ -293,6 +313,7 @@ const CASES: Case[] = [
     year: "2010",
     location: "Shenzhen, China",
     category: "purpose-deprivation",
+    headline: "24-year-old migrant worker jumps from Foxconn factory—one of 18 suicide attempts that year",
     oneLiner: "A 24-year-old migrant worker who jumped from a Foxconn building making iPhones",
     summary: "24-year-old rural migrant worker who died by suicide at Foxconn's Shenzhen factory on May 6, 2010. He was one of 18 Foxconn employees who attempted suicide in 2010. Foxconn responded by installing nets on buildings and requiring workers to sign no-suicide pledges.",
     sources: ["Wikipedia Foxconn Suicides", "Cambridge"],
@@ -329,15 +350,20 @@ function CaseCard({
       </div>
 
       {/* Name */}
-      <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-[#c75b3a] transition-colors">
+      <h3 className="text-lg font-bold text-gray-900 mb-0.5 group-hover:text-[#c75b3a] transition-colors">
         {caseData.name}
       </h3>
-      <p className="text-gray-500 text-xs mb-4">{caseData.location}</p>
+      <p className="text-gray-500 text-xs mb-3">{caseData.location}</p>
 
-      {/* One-liner - THE HOOK */}
-      <blockquote className="text-gray-700 text-base leading-relaxed font-medium border-l-3 border-[#c75b3a] pl-4">
-        "{caseData.oneLiner}"
-      </blockquote>
+      {/* Headline - THE EXACT THING THAT HAPPENED */}
+      <p className="text-gray-800 text-sm font-semibold leading-snug mb-3">
+        {caseData.headline}
+      </p>
+
+      {/* One-liner - additional context */}
+      <p className="text-gray-500 text-xs leading-relaxed italic">
+        {caseData.oneLiner}
+      </p>
     </article>
   );
 }
@@ -385,10 +411,10 @@ function CaseModal({
 
         {/* Content */}
         <div className="p-6">
-          {/* THE HOOK - One-liner prominent */}
-          <blockquote className="mb-6 p-5 bg-gray-900 text-white rounded-xl">
-            <p className="text-xl italic leading-relaxed">"{caseData.oneLiner}"</p>
-          </blockquote>
+          {/* THE HEADLINE - What exactly happened */}
+          <div className="mb-6 p-5 bg-gray-900 text-white rounded-xl">
+            <p className="text-xl font-semibold leading-snug">{caseData.headline}</p>
+          </div>
 
           {/* Summary */}
           <div className="mb-6">
