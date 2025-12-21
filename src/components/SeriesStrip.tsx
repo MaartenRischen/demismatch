@@ -14,6 +14,7 @@ interface SeriesImage {
 
 interface SeriesStripProps {
   seriesName: string;
+  originalSeriesName?: string; // For URL filtering (uses original name from masterlist)
   images: SeriesImage[];
   onImageClick?: (imageId: number) => void;
   zoomLevel?: number; // 1..5 (smaller->more tiles)
@@ -27,11 +28,14 @@ const GAP_PX = 12; // gap-3
 
 export default function SeriesStrip({
   seriesName,
+  originalSeriesName,
   images,
   onImageClick,
   zoomLevel = 3,
   isMobile = false,
 }: SeriesStripProps) {
+  // Use original name for URL filtering, display name for showing
+  const urlSeriesName = originalSeriesName || seriesName;
   const [expanded, setExpanded] = useState(false);
   const [containerWidth, setContainerWidth] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -116,7 +120,7 @@ export default function SeriesStrip({
       <div className="flex items-center justify-between mb-3 px-4">
         <div className="flex items-center gap-3">
           <Link
-            href={`/library?series=${encodeURIComponent(seriesName)}`}
+            href={`/library?series=${encodeURIComponent(urlSeriesName)}`}
             className="group flex items-center gap-2"
           >
             <h3 className="text-lg font-semibold text-[#1A1A1A] group-hover:text-[#C75B39] transition-colors">

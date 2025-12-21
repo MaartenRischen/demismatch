@@ -32,6 +32,131 @@ type ViewMode = "grid" | "series";
 
 type SortOption = "relevant" | "alphabetical" | "category";
 
+// Series name mappings: original name → display name
+// These make series names clearer and more descriptive
+const SERIES_DISPLAY_NAMES: Record<string, string> = {
+  // Core Framework Series
+  "EEA": "What We Evolved For",
+  "The Mismatch Actually": "What's Actually Happening",
+  "The Mismatch Actually 100 VOL2": "What's Actually Happening Vol 2",
+  "The Mismatch Actually 100 MATCHED VOL5": "When Needs Are Met",
+  "The Mismatch Actually 100 PSYCHIATRY VOL10": "The Psychiatry Problem",
+  "The Mismatch Actually 100 EVERYONE WRONG VOL11": "What Everyone Gets Wrong",
+
+  // Solutions Series
+  "The Mismatch Answer": "The Demismatch Solution",
+  "The Mismatch Answer 100 VOL3": "Solutions Vol 2",
+  "The Mismatch Answer 100 POSITIVE VOL4": "Moments That Feel Right",
+  "The Mismatch Answer 100 REAL THING VOL7": "The Real Thing vs The Proxy",
+  "The Mismatch Answer 100 DEMISMATCH TECH VOL6": "Technology: Help or Harm?",
+  "The Mismatch Answer 100 ESTEEM DYNAMICS VOL8": "Status, Esteem & Hierarchy",
+  "The Mismatch Answer 50 STATUS GAME VOL9": "The Status Game",
+
+  // Signals & Emotions
+  "The Sequencing": "How Signals Work",
+  "Fear & Anxiety": "Fear & Anxiety Signals",
+  "Emotions": "The Emotional Dashboard",
+  "Dashboard Overload": "When the Dashboard Breaks",
+  "Dashboard Calibrated": "When the Dashboard Works",
+
+  // Life Domains
+  "Dating & Mating": "Dating, Mating & Pair Bonding",
+  "Money & Status": "Money, Status & Resources",
+  "Food & Body": "Food, Body & Physical Needs",
+  "Social Dynamics": "Social Dynamics & Hierarchy",
+  "Survive & Reproduce": "Survival & Reproduction Drives",
+  "Meaning & Purpose": "Meaning & Purpose",
+  "Meaning & Purpose 100": "Meaning & Purpose (Extended)",
+
+  // Perspective Series
+  "The Trap Recognized": "Recognizing the Trap",
+  "The Bridge": "Building the Bridge",
+  "The Same Scene Two Eyes": "Same Scene, Different Lens",
+  "The Real Thing": "The Real Thing",
+  "The Real Thing PART2": "The Real Thing Part 2",
+  "Hoffman Interface Theory": "Perception as Interface",
+  "The Scale Matters": "Scale Matters: 150 vs Millions",
+
+  // Destination Series
+  "Utopia": "The Destination: Aligned Living",
+  "Dystopia": "The Warning: Misaligned Living",
+
+  // Other
+  "Misc": "More Insights",
+  "Technology": "Technology",
+  "Work Rest & Productivity": "Work, Rest & Productivity",
+};
+
+// Series ordering: defines the logical flow through the framework
+// Series not in this list will appear at the end, sorted by count
+const SERIES_ORDER: string[] = [
+  // 1. Start with the baseline - what humans evolved for
+  "EEA",
+
+  // 2. The mismatch - what's going wrong
+  "The Mismatch Actually",
+  "The Mismatch Actually 100 VOL2",
+  "Dashboard Overload",
+  "The Mismatch Actually 100 PSYCHIATRY VOL10",
+  "The Mismatch Actually 100 EVERYONE WRONG VOL11",
+
+  // 3. Understanding the signals
+  "The Sequencing",
+  "Fear & Anxiety",
+  "Emotions",
+  "Hoffman Interface Theory",
+
+  // 4. Life domains affected
+  "Dating & Mating",
+  "Social Dynamics",
+  "Money & Status",
+  "Food & Body",
+  "Survive & Reproduce",
+  "Meaning & Purpose",
+  "Meaning & Purpose 100",
+  "The Scale Matters",
+
+  // 5. Recognizing the problem
+  "The Trap Recognized",
+  "The Same Scene Two Eyes",
+  "Dystopia",
+
+  // 6. The solution - demismatch
+  "The Mismatch Answer",
+  "The Mismatch Answer 100 VOL3",
+  "The Mismatch Answer 100 POSITIVE VOL4",
+  "The Mismatch Answer 100 REAL THING VOL7",
+  "The Mismatch Answer 100 DEMISMATCH TECH VOL6",
+  "The Mismatch Answer 100 ESTEEM DYNAMICS VOL8",
+  "The Mismatch Answer 50 STATUS GAME VOL9",
+
+  // 7. When it works - matched state
+  "The Mismatch Actually 100 MATCHED VOL5",
+  "Dashboard Calibrated",
+  "The Real Thing",
+  "The Real Thing PART2",
+  "The Bridge",
+
+  // 8. The destination
+  "Utopia",
+
+  // 9. Misc at the end
+  "Technology",
+  "Work Rest & Productivity",
+  "Misc",
+];
+
+// Helper to get display name for a series
+function getSeriesDisplayName(originalName: string): string {
+  return SERIES_DISPLAY_NAMES[originalName] || originalName;
+}
+
+// Helper to get sort order for a series (lower = earlier)
+function getSeriesOrder(seriesName: string): number {
+  const index = SERIES_ORDER.indexOf(seriesName);
+  return index >= 0 ? index : SERIES_ORDER.length + 1000; // Unlisted series go to end
+}
+
 // High-value framework concepts with bonus weights
 const CONCEPT_WEIGHTS: Record<string, number> = {
   proxy_consumption: 3,
@@ -912,10 +1037,19 @@ function LibraryContent() {
       });
     }
 
+    // Sort series using the defined order, falling back to count for unlisted series
     const sortedEntries = Object.entries(grouped)
       .filter(([name]) => name !== 'Misc' && name !== 'Other')
-      .sort(([, a], [, b]) => b.length - a.length);
+      .sort(([nameA, a], [nameB, b]) => {
+        const orderA = getSeriesOrder(nameA);
+        const orderB = getSeriesOrder(nameB);
+        // If both have defined order, use that
+        if (orderA !== orderB) return orderA - orderB;
+        // Otherwise sort by count (descending)
+        return b.length - a.length;
+      });
 
+    // Other and Misc always go at the end
     if (grouped['Other']) sortedEntries.push(['Other', grouped['Other']]);
     if (grouped['Misc']) sortedEntries.push(['Misc', grouped['Misc']]);
 
@@ -1577,7 +1711,8 @@ function LibraryContent() {
                 imagesBySeries.map(([seriesName, seriesImages]) => (
                   <SeriesStrip
                     key={seriesName}
-                    seriesName={seriesName}
+                    seriesName={getSeriesDisplayName(seriesName)}
+                    originalSeriesName={seriesName}
                     images={seriesImages}
                     onImageClick={handleSeriesImageClick}
                     zoomLevel={zoomLevel}
