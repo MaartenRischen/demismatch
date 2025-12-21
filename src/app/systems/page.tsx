@@ -9,21 +9,57 @@ export default function SystemsPage() {
     <main className="min-h-screen bg-[#FAF9F6] pt-20">
       <Navigation />
 
-      {/* Hero Section */}
-      <section className="px-8 py-16 md:py-24 max-w-4xl mx-auto">
-        <p className="text-sm uppercase tracking-widest text-[#C75B39] mb-4">For Systems Changers</p>
-        <h1 className="text-4xl md:text-5xl text-[#1A1A1A] leading-tight mb-6" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-          The Environment Is the Disease
-        </h1>
-        <p className="text-xl text-[#4A4A4A] leading-relaxed mb-4">
-          Modern systems—technology, cities, institutions, economies—were built without reference to human biology. The result is a civilization-scale mismatch.
-        </p>
-        <p className="text-xl text-[#1A1A1A] font-medium mb-8">
-          This isn't philosophy. It's measurable. And it's fixable.
-        </p>
-        <a href="#spec-sheet" className="text-[#C75B39] hover:underline text-lg">
-          Read the Spec Sheet ↓
-        </a>
+      {/* Hero Section - Bold and impactful */}
+      <section className="px-8 py-16 md:py-24 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <p className="text-sm uppercase tracking-widest text-[#C75B39] mb-4">For Builders & Policy Makers</p>
+            <h1 className="text-4xl md:text-6xl text-[#1A1A1A] leading-tight mb-6" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+              Build for Biology
+            </h1>
+            <p className="text-xl text-[#4A4A4A] leading-relaxed mb-6">
+              Technology, cities, and institutions were built without human specs. This is why they fail. Here are the specs.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link href="/app" className="bg-[#C75B39] text-white px-6 py-3 rounded-lg hover:bg-[#b54d2e] transition inline-flex items-center gap-2">
+                Test Your Design
+                <span>→</span>
+              </Link>
+              <a href="#spec-sheet" className="border border-[#C75B39] text-[#C75B39] px-6 py-3 rounded-lg hover:bg-[#C75B39] hover:text-white transition">
+                Read the Specs
+              </a>
+            </div>
+          </div>
+          <div className="hidden md:block">
+            <img
+              src={`${IMAGE_BASE}33_EEA_Spec_Sheet.png`}
+              alt="Human spec sheet"
+              className="w-full rounded-xl shadow-lg"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Stats - Visual impact */}
+      <section className="px-8 py-12 max-w-5xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="bg-white rounded-xl border border-[#E5E0D8] p-6 text-center">
+            <p className="text-3xl md:text-4xl font-bold text-[#C75B39]">10x</p>
+            <p className="text-sm text-[#6b6b6b] mt-2">Depression rates vs traditional societies</p>
+          </div>
+          <div className="bg-white rounded-xl border border-[#E5E0D8] p-6 text-center">
+            <p className="text-3xl md:text-4xl font-bold text-[#C75B39]">7hrs</p>
+            <p className="text-sm text-[#6b6b6b] mt-2">Daily screen time (replacing real contact)</p>
+          </div>
+          <div className="bg-white rounded-xl border border-[#E5E0D8] p-6 text-center">
+            <p className="text-3xl md:text-4xl font-bold text-[#C75B39]">150</p>
+            <p className="text-sm text-[#6b6b6b] mt-2">Max meaningful relationships (Dunbar)</p>
+          </div>
+          <div className="bg-white rounded-xl border border-[#E5E0D8] p-6 text-center">
+            <p className="text-3xl md:text-4xl font-bold text-[#C75B39]">0</p>
+            <p className="text-sm text-[#6b6b6b] mt-2">Systems designed for human specs</p>
+          </div>
+        </div>
       </section>
 
       {/* The Scale of the Problem */}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import Navigation from "@/components/Navigation";
 
 interface BiometricData {
   level: string;
@@ -397,8 +398,9 @@ export default function HUDApp() {
   );
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white">
-      <div className="max-w-7xl mx-auto px-4 py-12">
+    <main className="min-h-screen bg-[#0a0a0a] text-white pt-20">
+      <Navigation />
+      <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="text-center mb-10">
           <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
             Evolutionary HUD Generator

@@ -557,12 +557,22 @@ function CaseModal({
 export default function CasesPage() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedCase, setSelectedCase] = useState<Case | null>(null);
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(true); // Now a collapsible banner, not blocking
+  const [showAll, setShowAll] = useState(false); // For pagination
+  const INITIAL_SHOW_COUNT = 9; // Show 9 cards initially
 
   const filteredCases = useMemo(() => {
     if (selectedCategory === "all") return CASES;
     return CASES.filter(c => c.category === selectedCategory);
   }, [selectedCategory]);
+
+  // Paginated display
+  const displayedCases = useMemo(() => {
+    if (showAll || filteredCases.length <= INITIAL_SHOW_COUNT) return filteredCases;
+    return filteredCases.slice(0, INITIAL_SHOW_COUNT);
+  }, [filteredCases, showAll]);
+
+  const remainingCount = filteredCases.length - INITIAL_SHOW_COUNT;
 
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = { all: CASES.length };
@@ -573,44 +583,11 @@ export default function CasesPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#FAF9F6]">
+    <main className="min-h-screen bg-[#FAF9F6] pt-20">
       <Navigation />
 
-      {/* Introduction Modal */}
-      {showIntro && (
-        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-xl w-full p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
-              Understanding These Cases
-            </h2>
-            <p className="text-gray-600 mb-4">
-              These cases illustrate <strong>environmental mismatch</strong>—the gap between what humans evolved for and the conditions we actually live in.
-            </p>
-            <p className="text-gray-600 mb-4">
-              The framework identifies five core needs from our evolutionary past that modern environments systematically violate:
-            </p>
-            <ul className="text-sm text-gray-600 mb-6 space-y-2">
-              <li><strong className="text-[#dc2626]">Social Structure</strong> — Tribe of ~150 → strangers everywhere</li>
-              <li><strong className="text-[#7c3aed]">Visible Purpose</strong> — Tangible work → abstract labor</li>
-              <li><strong className="text-[#ea580c]">Closed Loops</strong> — Resolvable problems → endless anxiety</li>
-              <li><strong className="text-[#0891b2]">Real Feedback</strong> — Known reputation → judgment by millions</li>
-              <li><strong className="text-[#be185d]">Distributed Care</strong> — Many caregivers → isolated parents</li>
-            </ul>
-            <p className="text-gray-600 mb-6 text-sm">
-              None of these are stories of broken individuals. They are stories of environments that violate fundamental human needs.
-            </p>
-            <button
-              onClick={() => setShowIntro(false)}
-              className="w-full bg-gray-900 text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition font-medium"
-            >
-              Explore the Cases
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* Hero */}
-      <header className="pt-32 pb-12 px-6 bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+      <header className="py-12 px-6 bg-gradient-to-b from-gray-900 to-gray-800 text-white">
         <div className="max-w-5xl mx-auto">
           <p className="text-[#c75b3a] font-medium mb-4 tracking-wide uppercase text-sm">Case Studies</p>
           <h1 className="text-4xl md:text-5xl font-bold mb-6" style={{ fontFamily: 'Georgia, serif' }}>
@@ -622,6 +599,38 @@ export default function CasesPage() {
           </p>
         </div>
       </header>
+
+      {/* Introduction Banner (collapsible, not blocking) */}
+      {showIntro && (
+        <div className="bg-[#FAF9F6] border-b border-[#E5E0D8]">
+          <div className="max-w-5xl mx-auto px-6 py-6">
+            <div className="bg-white rounded-xl border border-[#E5E0D8] p-6 relative">
+              <button
+                onClick={() => setShowIntro(false)}
+                className="absolute top-4 right-4 p-1 text-gray-400 hover:text-gray-600 transition"
+                aria-label="Dismiss introduction"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <h2 className="text-lg font-bold text-gray-900 mb-3" style={{ fontFamily: 'Georgia, serif' }}>
+                Understanding These Cases
+              </h2>
+              <p className="text-gray-600 text-sm mb-3">
+                These cases illustrate <strong>environmental mismatch</strong>—the gap between what humans evolved for and the conditions we actually live in. Each case is categorized by the core need being violated:
+              </p>
+              <div className="flex flex-wrap gap-2 text-xs">
+                <span className="px-2 py-1 rounded-full bg-[#dc2626]/10 text-[#dc2626]">Social Structure</span>
+                <span className="px-2 py-1 rounded-full bg-[#7c3aed]/10 text-[#7c3aed]">Visible Purpose</span>
+                <span className="px-2 py-1 rounded-full bg-[#ea580c]/10 text-[#ea580c]">Closed Loops</span>
+                <span className="px-2 py-1 rounded-full bg-[#0891b2]/10 text-[#0891b2]">Real Feedback</span>
+                <span className="px-2 py-1 rounded-full bg-[#be185d]/10 text-[#be185d]">Distributed Care</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Category Filter */}
       <div className="sticky top-20 z-40 bg-[#FAF9F6]/95 backdrop-blur-sm border-b border-gray-200">
@@ -653,7 +662,7 @@ export default function CasesPage() {
       <section className="px-6 py-12">
         <div className="max-w-5xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filteredCases.map(c => (
+            {displayedCases.map(c => (
               <CaseCard
                 key={c.id}
                 caseData={c}
@@ -661,6 +670,18 @@ export default function CasesPage() {
               />
             ))}
           </div>
+
+          {/* Show More Button */}
+          {!showAll && remainingCount > 0 && (
+            <div className="text-center mt-10">
+              <button
+                onClick={() => setShowAll(true)}
+                className="px-8 py-3 bg-white border border-gray-300 rounded-xl text-gray-700 font-medium hover:border-[#c75b3a] hover:text-[#c75b3a] transition-all"
+              >
+                Show {remainingCount} More Cases
+              </button>
+            </div>
+          )}
         </div>
       </section>
 

@@ -260,6 +260,9 @@ function ProgressBar({ progress }: { progress: number }) {
 
 function NavigationSidebar({ activeSection, onRequestCustom }: { activeSection: string; onRequestCustom: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showMapModal, setShowMapModal] = useState(false);
+
+  const mapImageUrl = "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/10_Framework_Map__10_Parts_.png";
 
   return (
     <>
@@ -331,22 +334,56 @@ function NavigationSidebar({ activeSection, onRequestCustom }: { activeSection: 
           </button>
         </div>
 
-        {/* Framework Map - Small version */}
+        {/* Framework Map - Clickable to expand */}
         <div className="mt-6 pt-6 border-t border-gray-200">
-          <img
-            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/10_Framework_Map__10_Parts_.png"
-            alt="Framework Map - 10 Parts"
-            className="rounded-lg w-full shadow-sm"
-          />
+          <button
+            onClick={() => setShowMapModal(true)}
+            className="w-full group relative"
+            title="Click to expand"
+          >
+            <img
+              src={mapImageUrl}
+              alt="Framework Map - 10 Parts"
+              className="rounded-lg w-full shadow-sm group-hover:shadow-md transition-shadow"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors rounded-lg flex items-center justify-center">
+              <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 px-2 py-1 rounded text-xs text-gray-700">
+                Click to expand
+              </span>
+            </div>
+          </button>
         </div>
       </aside>
 
       {/* Overlay for mobile */}
       {isOpen && (
-        <div 
+        <div
           className="lg:hidden fixed inset-0 bg-black/50 z-20"
           onClick={() => setIsOpen(false)}
         />
+      )}
+
+      {/* Framework Map Modal */}
+      {showMapModal && (
+        <div
+          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+          onClick={() => setShowMapModal(false)}
+        >
+          <div className="relative max-w-4xl max-h-[90vh] overflow-auto">
+            <button
+              onClick={() => setShowMapModal(false)}
+              className="absolute top-2 right-2 w-10 h-10 bg-white rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100 shadow-lg z-10"
+            >
+              ✕
+            </button>
+            <img
+              src={mapImageUrl}
+              alt="Framework Map - 10 Parts (Full Size)"
+              className="w-full h-auto rounded-lg"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        </div>
       )}
     </>
   );
@@ -529,15 +566,15 @@ export default function FrameworkPage() {
         </footer>
       </div>
 
-      {/* Floating Analyzer Button */}
+      {/* Floating Analyzer Button - hidden on mobile to avoid overlap with menu toggle */}
       <Link
         href="/app"
-        className="fixed bottom-6 left-6 lg:left-72 bg-[#c75b3a] text-white px-4 py-3 rounded-full shadow-lg hover:bg-[#b54d2e] transition z-40 flex items-center gap-2"
+        className="hidden lg:flex fixed bottom-6 left-72 bg-[#c75b3a] text-white px-4 py-3 rounded-full shadow-lg hover:bg-[#b54d2e] transition z-40 items-center gap-2"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
         </svg>
-        <span className="hidden sm:inline">Analyze anything</span>
+        <span>Analyze anything</span>
       </Link>
 
       {/* Custom Version Modal */}

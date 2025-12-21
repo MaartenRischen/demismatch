@@ -64,6 +64,59 @@ export default function Home() {
         </div>
       </section>
 
+      {/* START HERE - Clear user journey */}
+      <section className="px-8 py-16 max-w-5xl mx-auto">
+        <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 md:p-12">
+          <div className="text-center mb-10">
+            <p className="text-[#c75b3a] text-sm uppercase tracking-widest mb-2">New here?</p>
+            <h2 className="text-3xl md:text-4xl text-white mb-3" style={{ fontFamily: 'Georgia, serif' }}>
+              Start Here
+            </h2>
+            <p className="text-gray-400 max-w-xl mx-auto">
+              Three paths to understanding. Pick the one that fits how you learn.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Path 1: Quick Understanding */}
+            <Link href="/faq" className="group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-6 transition-all">
+              <div className="text-3xl mb-4">⚡</div>
+              <h3 className="text-xl text-white font-semibold mb-2 group-hover:text-[#c75b3a] transition-colors">
+                5-Minute Overview
+              </h3>
+              <p className="text-gray-400 text-sm mb-4">
+                Quick answers to key questions. Perfect if you're short on time.
+              </p>
+              <span className="text-[#c75b3a] text-sm font-medium">Read the FAQ →</span>
+            </Link>
+
+            {/* Path 2: Interactive */}
+            <Link href="/app" className="group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-6 transition-all">
+              <div className="text-3xl mb-4">🔍</div>
+              <h3 className="text-xl text-white font-semibold mb-2 group-hover:text-[#c75b3a] transition-colors">
+                Try It Yourself
+              </h3>
+              <p className="text-gray-400 text-sm mb-4">
+                Paste any situation into the Analyzer. See the framework in action immediately.
+              </p>
+              <span className="text-[#c75b3a] text-sm font-medium">Open the Analyzer →</span>
+            </Link>
+
+            {/* Path 3: Deep Dive */}
+            <Link href="/framework" className="group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-6 transition-all">
+              <div className="text-3xl mb-4">📖</div>
+              <h3 className="text-xl text-white font-semibold mb-2 group-hover:text-[#c75b3a] transition-colors">
+                The Full Framework
+              </h3>
+              <p className="text-gray-400 text-sm mb-4">
+                50,000+ words. 10 parts. The complete theory from first principles.
+              </p>
+              <span className="text-[#c75b3a] text-sm font-medium">Start reading →</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Demismatch First, Then Augment Carousel */}
       <DemismatchCarousel />
 
@@ -256,6 +309,33 @@ export default function Home() {
               </span>
             </div>
           </Link>
+        </div>
+
+        {/* Example Analyzer Output */}
+        <div className="mt-12 p-6 bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-xl">
+          <p className="text-sm text-gray-500 uppercase tracking-wide mb-4 text-center">Example Analysis</p>
+          <div className="mb-4 p-3 bg-white border border-gray-200 rounded-lg text-center">
+            <p className="text-gray-600 italic">&quot;A friend who can&apos;t stop checking their phone during dinner&quot;</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-4 text-sm">
+            <div className="p-4 bg-white border border-gray-200 rounded-lg">
+              <p className="font-medium text-[#c75b3a] mb-2">What&apos;s Happening</p>
+              <p className="text-gray-700">Variable-ratio reinforcement hijacking attention. The phone delivers unpredictable social rewards, triggering dopamine responses calibrated for survival-critical information.</p>
+            </div>
+            <div className="p-4 bg-white border border-gray-200 rounded-lg">
+              <p className="font-medium text-[#c75b3a] mb-2">What&apos;s Missing</p>
+              <p className="text-gray-700">Undivided presence with known tribe members. In ancestral environments, shared meals were sacred bonding rituals with complete attention.</p>
+            </div>
+            <div className="p-4 bg-white border border-gray-200 rounded-lg">
+              <p className="font-medium text-[#c75b3a] mb-2">What Actually Helps</p>
+              <p className="text-gray-700">Phone-free zones and rituals. Visible phone stacking. Scheduled check-in times. Environment design over willpower.</p>
+            </div>
+          </div>
+          <div className="mt-4 text-center">
+            <Link href="/app" className="inline-flex items-center text-[#c75b3a] font-medium hover:underline">
+              Try it with your own situation →
+            </Link>
+          </div>
         </div>
       </section>
 

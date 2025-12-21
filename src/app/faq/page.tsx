@@ -283,7 +283,7 @@ No fluff. Real answers. Links to learn more.
 
 ## THIS PROJECT
 
-**0. Is this made by AI?**
+**First, about AI: Is this made by AI?**
 
 Yes. Good thing too.
 

@@ -4,12 +4,33 @@ import { useState } from "react";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
 
-// Chart data from JSON
+// Chart data from JSON - with clickable source URLs and context
 const CHART_DATA = {
   heroStats: [
-    { id: "hero-obesity", displayValue: "1B+", label: "People with Obesity", source: "WHO/NCD-RisC 2024" },
-    { id: "hero-lonely", displayValue: "52M", label: "Lonely Americans Daily", source: "Gallup 2024" },
-    { id: "hero-screentime", displayValue: "7hrs", label: "Avg Daily Screen Time", source: "DataReportal 2024" },
+    {
+      id: "hero-obesity",
+      displayValue: "1B+",
+      label: "People with Obesity",
+      source: "WHO/NCD-RisC 2024",
+      sourceUrl: "https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight",
+      context: "Up from 105M in 1975—a 10x increase in one generation"
+    },
+    {
+      id: "hero-lonely",
+      displayValue: "52M",
+      label: "Lonely Americans Daily",
+      source: "Gallup 2024",
+      sourceUrl: "https://news.gallup.com/poll/505745/loneliness-rates-highest-among-young-adults.aspx",
+      context: "That's 1 in 5 adults experiencing loneliness every single day"
+    },
+    {
+      id: "hero-screentime",
+      displayValue: "7hrs",
+      label: "Avg Daily Screen Time",
+      source: "DataReportal 2024",
+      sourceUrl: "https://datareportal.com/reports/digital-2024-global-overview-report",
+      context: "More time than we spend sleeping, eating, or with family combined"
+    },
   ],
   loneliness: {
     byAge: [
@@ -170,6 +191,7 @@ function HorizontalBarChart({
   title,
   subtitle,
   source,
+  sourceUrl,
   unit = "%",
   maxValue
 }: {
@@ -177,6 +199,7 @@ function HorizontalBarChart({
   title: string;
   subtitle?: string;
   source: string;
+  sourceUrl?: string;
   unit?: string;
   maxValue?: number;
 }) {
@@ -202,7 +225,13 @@ function HorizontalBarChart({
           </div>
         ))}
       </div>
-      <p className="text-gray-500 text-xs mt-4">Source: {source}</p>
+      {sourceUrl ? (
+        <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="text-gray-500 text-xs mt-4 block hover:text-[#ff6b35] transition-colors">
+          Source: {source} →
+        </a>
+      ) : (
+        <p className="text-gray-500 text-xs mt-4">Source: {source}</p>
+      )}
     </div>
   );
 }
@@ -235,11 +264,13 @@ function StatCards({
 function ComparisonChart({
   data,
   title,
-  source
+  source,
+  sourceUrl
 }: {
   data: { metric: string; year1990: number; year2024: number; change: string }[];
   title: string;
   source: string;
+  sourceUrl?: string;
 }) {
   return (
     <div className="bg-[#111] rounded-xl p-6">
@@ -274,7 +305,13 @@ function ComparisonChart({
           </div>
         ))}
       </div>
-      <p className="text-gray-500 text-xs mt-4">Source: {source}</p>
+      {sourceUrl ? (
+        <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="text-gray-500 text-xs mt-4 block hover:text-[#ff6b35] transition-colors">
+          Source: {source} →
+        </a>
+      ) : (
+        <p className="text-gray-500 text-xs mt-4">Source: {source}</p>
+      )}
     </div>
   );
 }
@@ -317,14 +354,20 @@ function FrameworkAnalysis({
 }
 
 // Big number stat
-function BigNumber({ value, label, source }: { value: string; label: string; source?: string }) {
+function BigNumber({ value, label, source, sourceUrl }: { value: string; label: string; source?: string; sourceUrl?: string }) {
   return (
     <div className="bg-[#111] rounded-xl p-6 text-center">
       <p className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-[#ff3333] via-[#ff6b35] to-[#ffc107] bg-clip-text text-transparent">
         {value}
       </p>
       <p className="text-gray-300 mt-2">{label}</p>
-      {source && <p className="text-gray-500 text-xs mt-2">Source: {source}</p>}
+      {source && (sourceUrl ? (
+        <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="text-gray-500 text-xs mt-2 inline-block hover:text-[#ff6b35] transition-colors">
+          Source: {source} →
+        </a>
+      ) : (
+        <p className="text-gray-500 text-xs mt-2">Source: {source}</p>
+      ))}
     </div>
   );
 }
@@ -351,11 +394,11 @@ function AncestralModernTable({ data }: { data: { category: string; ancestral: s
 
 export default function StatsPage() {
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white">
+    <main className="min-h-screen bg-[#0a0a0a] text-white pt-20">
       <Navigation />
 
       {/* Hero */}
-      <header className="pt-32 pb-16 px-6">
+      <header className="pt-12 pb-16 px-6">
         <div className="max-w-5xl mx-auto text-center">
           <p className="text-[#ff6b35] font-medium mb-4 tracking-wide uppercase text-sm">The Evidence</p>
           <h1 className="text-5xl md:text-7xl font-bold mb-4" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
@@ -373,7 +416,15 @@ export default function StatsPage() {
                   {stat.displayValue}
                 </p>
                 <p className="text-gray-300 mt-2">{stat.label}</p>
-                <p className="text-gray-500 text-xs mt-1">{stat.source}</p>
+                <p className="text-gray-400 text-sm mt-2 italic">{stat.context}</p>
+                <a
+                  href={stat.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-500 text-xs mt-2 inline-block hover:text-[#ff6b35] transition-colors"
+                >
+                  Source: {stat.source} →
+                </a>
               </div>
             ))}
           </div>
@@ -392,12 +443,14 @@ export default function StatsPage() {
               title="Loneliness by Age Group"
               subtitle="% reporting frequent loneliness"
               source="APA/Harvard MCC 2024"
+              sourceUrl="https://www.apa.org/news/podcasts/speaking-of-psychology/loneliness-epidemic"
             />
             <HorizontalBarChart
               data={CHART_DATA.loneliness.causes}
               title="What Americans Blame"
               subtitle="% selecting each factor"
               source="Harvard MCC 2024"
+              sourceUrl="https://mcc.gse.harvard.edu/reports/loneliness-in-america"
             />
           </div>
 
@@ -411,7 +464,14 @@ export default function StatsPage() {
             <div>
               <p className="text-xl font-bold text-[#ff6b35]">Health Impact of Chronic Loneliness</p>
               <p className="text-gray-300">Equivalent to smoking 15 cigarettes per day</p>
-              <p className="text-gray-500 text-xs mt-1">Source: Julianne Holt-Lunstad research</p>
+              <a
+                href="https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1000316"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 text-xs mt-1 inline-block hover:text-[#ff6b35] transition-colors"
+              >
+                Source: Holt-Lunstad et al. 2010, PLOS Medicine →
+              </a>
             </div>
           </div>
 
@@ -429,6 +489,7 @@ export default function StatsPage() {
             data={CHART_DATA.friendship.collapse}
             title="1990 vs 2024"
             source="American Perspectives Survey / AEI"
+            sourceUrl="https://www.americansurveycenter.org/research/the-state-of-american-friendship-change-challenges-and-loss/"
           />
 
           <div className="grid md:grid-cols-2 gap-6 mt-6">
@@ -436,11 +497,13 @@ export default function StatsPage() {
               value="70%"
               label="Reduction in youth social interaction over 20 years"
               source="U.S. Surgeon General"
+              sourceUrl="https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf"
             />
             <BigNumber
               value="28%"
               label="of men under 30 have NO close social connections"
               source="Survey Center on American Life 2022"
+              sourceUrl="https://www.americansurveycenter.org/research/the-state-of-american-friendship-change-challenges-and-loss/"
             />
           </div>
 
@@ -483,7 +546,14 @@ export default function StatsPage() {
                   </div>
                 </div>
               ))}
-              <p className="text-gray-500 text-xs mt-4">Source: CDC/NCHS 2024</p>
+              <a
+                href="https://www.cdc.gov/nchs/data/nhis/earlyrelease/earlyrelease202408.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 text-xs mt-4 inline-block hover:text-[#ff6b35] transition-colors"
+              >
+                Source: CDC/NCHS 2024 →
+              </a>
             </div>
 
             <HorizontalBarChart
@@ -491,12 +561,13 @@ export default function StatsPage() {
               title="Anxiety by Age Group"
               subtitle="% with symptoms in past 2 weeks"
               source="CDC/NCHS 2022"
+              sourceUrl="https://www.cdc.gov/nchs/data/nhis/earlyrelease/earlyrelease202408.pdf"
               maxValue={30}
             />
           </div>
 
           <div className="mt-6 bg-[#111] rounded-xl p-6">
-            <h3 className="text-xl font-bold text-white mb-4">"More Anxious Than Last Year"</h3>
+            <h3 className="text-xl font-bold text-white mb-4">&quot;More Anxious Than Last Year&quot;</h3>
             <div className="flex items-end gap-4 h-48">
               {CHART_DATA.mentalHealth.risingAnxiety.map((item, idx) => (
                 <div key={idx} className="flex-1 flex flex-col items-center">
@@ -509,7 +580,14 @@ export default function StatsPage() {
                 </div>
               ))}
             </div>
-            <p className="text-gray-500 text-xs mt-4">Source: APA Annual Poll</p>
+            <a
+              href="https://www.apa.org/news/press/releases/stress"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 text-xs mt-4 inline-block hover:text-[#ff6b35] transition-colors"
+            >
+              Source: APA Stress in America →
+            </a>
           </div>
 
           <div className="mt-6">
@@ -544,7 +622,14 @@ export default function StatsPage() {
                 );
               })}
             </div>
-            <p className="text-gray-500 text-xs mt-4">Source: WHO / NCD-RisC / World Obesity Federation</p>
+            <a
+              href="https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 text-xs mt-4 inline-block hover:text-[#ff6b35] transition-colors"
+            >
+              Source: WHO / NCD-RisC / World Obesity Federation →
+            </a>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 mt-6">
@@ -552,11 +637,13 @@ export default function StatsPage() {
               value="10x"
               label="Increase in child/adolescent obesity (1975-2022)"
               source="WHO"
+              sourceUrl="https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight"
             />
             <BigNumber
               value="$4T+"
               label="Projected global cost of obesity by 2035"
               source="World Obesity Federation"
+              sourceUrl="https://www.worldobesity.org/resources/resource-library/world-obesity-atlas-2023"
             />
           </div>
 
@@ -575,6 +662,7 @@ export default function StatsPage() {
               data={CHART_DATA.screenTime.byGeneration}
               title="Daily Screen Time by Generation"
               source="DemandSage / Various 2024-2025"
+              sourceUrl="https://www.demandsage.com/screen-time-statistics/"
               unit=" hrs"
               maxValue={10}
             />
@@ -583,7 +671,14 @@ export default function StatsPage() {
               <div className="mt-4 bg-[#111] rounded-xl p-4 border border-[#ff6b35]/30">
                 <p className="text-4xl font-bold text-[#ff6b35]">49%</p>
                 <p className="text-gray-300 text-sm">of people feel addicted to their phones</p>
-                <p className="text-gray-500 text-xs mt-1">Source: Harmony Healthcare IT 2025</p>
+                <a
+                  href="https://www.harmonyhit.com/smartphone-addiction-statistics/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-500 text-xs mt-1 inline-block hover:text-[#ff6b35] transition-colors"
+                >
+                  Source: Harmony Healthcare IT 2025 →
+                </a>
               </div>
             </div>
           </div>
@@ -617,7 +712,14 @@ export default function StatsPage() {
                   </div>
                 ))}
               </div>
-              <p className="text-gray-500 text-xs mt-4">Source: Nature of Americans Report</p>
+              <a
+                href="https://natureofamericans.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 text-xs mt-4 inline-block hover:text-[#ff6b35] transition-colors"
+              >
+                Source: Nature of Americans Report →
+              </a>
             </div>
 
             <div className="bg-[#111] rounded-xl p-6">

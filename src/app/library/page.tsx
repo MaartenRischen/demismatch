@@ -705,7 +705,7 @@ function LibraryContent() {
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
   const [toast, setToast] = useState("");
   const [displayCount, setDisplayCount] = useState(30);
-  const [showAllTags, setShowAllTags] = useState(false);
+  const [showAllTags, setShowAllTags] = useState(true);
   
   // Zoom state (1 = smallest/most columns, 5 = largest/fewest columns)
   const [zoomLevel, setZoomLevel] = useState(() => {
@@ -1670,8 +1670,8 @@ function LibraryContent() {
                       <line x1="8" y1="12" x2="16" y2="12" />
                     </svg>
                   </button>
-                  <span className="px-2 text-xs text-[#4A4A4A] min-w-[3rem] text-center">
-                    {zoomLevel}/5
+                  <span className="px-2 text-xs text-[#4A4A4A] min-w-[3rem] text-center" title="Zoom level: smaller = more images per row">
+                    Zoom {zoomLevel}
                   </span>
                   <button
                     onClick={zoomIn}

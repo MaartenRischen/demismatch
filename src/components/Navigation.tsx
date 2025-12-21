@@ -4,24 +4,23 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 
-// Simplified nav structure
+// Main navigation links - Cases→Case Studies, Stats→Evidence per critique
 const MAIN_LINKS = [
   { href: "/framework", label: "Framework" },
-  { href: "/cases", label: "Cases" },
-  { href: "/stats", label: "Stats" },
+  { href: "/cases", label: "Case Studies" },
+  { href: "/stats", label: "Evidence" },
   { href: "/library", label: "Library" },
   { href: "/projects", label: "Projects" },
+  { href: "/faq", label: "FAQ" }, // Moved from dropdown per critique
+  { href: "/sources", label: "Sources" }, // Moved from dropdown per critique
+  { href: "/about", label: "About" }, // New page per critique
 ];
 
+// Audience-specific pages (dropdown)
 const AUDIENCE_LINKS = [
   { href: "/systems", label: "Systems Changers" },
   { href: "/practitioners", label: "Practitioners" },
   { href: "/foryou", label: "You" },
-];
-
-const SECONDARY_LINKS = [
-  { href: "/faq", label: "FAQ" },
-  { href: "/sources", label: "Sources" },
 ];
 
 export default function Navigation() {
@@ -96,21 +95,6 @@ export default function Navigation() {
             {dropdownOpen && (
               <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
                 {AUDIENCE_LINKS.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setDropdownOpen(false)}
-                    className={`block px-4 py-2 text-sm transition-colors ${
-                      pathname === link.href
-                        ? "text-[#C75B39] bg-gray-50"
-                        : "text-[#4A4A4A] hover:text-[#1A1A1A] hover:bg-gray-50"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-                <div className="border-t border-gray-100 my-2" />
-                {SECONDARY_LINKS.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
@@ -228,21 +212,6 @@ export default function Navigation() {
                 </div>
               </div>
 
-              {/* Secondary links */}
-              {SECONDARY_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className={`block py-4 text-base font-medium transition-colors border-b border-[#E5E0D8] last:border-b-0 ${
-                    pathname === link.href
-                      ? "text-[#C75B39]"
-                      : "text-[#4A4A4A] hover:text-[#1A1A1A]"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
             </div>
           </div>
         </>

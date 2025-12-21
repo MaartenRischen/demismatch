@@ -6,76 +6,84 @@ const IMAGE_BASE = "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/p
 
 export default function PractitionersPage() {
   return (
-    <main className="min-h-screen bg-[#FAF9F6] pt-20">
+    <main className="min-h-screen bg-gradient-to-b from-[#1a2f1a] to-[#FAF9F6] pt-20">
       <Navigation />
 
-      {/* Hero Section */}
-      <section className="px-8 py-16 md:py-24 max-w-4xl mx-auto">
-        <p className="text-sm uppercase tracking-widest text-[#C75B39] mb-4">For Practitioners</p>
-        <h1 className="text-4xl md:text-5xl text-[#1A1A1A] leading-tight mb-8" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-          You See What's Happening
+      {/* Hero Section - Dark, intimate, different from Systems */}
+      <section className="px-8 py-16 md:py-24 max-w-4xl mx-auto text-center">
+        <p className="text-sm uppercase tracking-widest text-emerald-400 mb-4">For Therapists, Parents & Educators</p>
+        <h1 className="text-4xl md:text-6xl text-white leading-tight mb-8" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+          You Already Know
         </h1>
-        
-        <div className="text-lg text-[#4A4A4A] space-y-4 mb-8">
-          <p>The child labeled "ADHD" who can focus for hours on what interests them.</p>
-          <p>The depressed client whose life actually lacks meaning.</p>
-          <p>The anxious patient surrounded by strangers, screens, open loops.</p>
+
+        <div className="text-xl text-gray-300 space-y-4 mb-8 max-w-2xl mx-auto">
+          <p className="italic">"The child labeled 'ADHD' who can focus for hours on what interests them."</p>
+          <p className="italic">"The depressed client whose life actually lacks meaning."</p>
+          <p className="italic">"The anxious patient surrounded by strangers, not tribe."</p>
         </div>
-        
-        <p className="text-xl text-[#1A1A1A] font-medium mb-8">
+
+        <p className="text-2xl text-white font-medium mb-4">
           You sense the standard approaches are missing something.
         </p>
-        <p className="text-xl text-[#C75B39] font-medium mb-8">
+        <p className="text-2xl text-emerald-400 font-bold mb-8">
           You're right.
         </p>
-        
-        <a href="#reframe" className="text-[#C75B39] hover:underline text-lg">
-          See the Reframe ↓
+
+        <a href="#reframe" className="inline-flex items-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-lg hover:bg-emerald-700 transition">
+          See the Reframe
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
         </a>
       </section>
 
       {/* The Signals Reframe */}
       <section id="reframe" className="px-8 py-16 md:py-24 max-w-4xl mx-auto">
-        <h2 className="text-3xl md:text-4xl text-[#1A1A1A] mb-4" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-          Accurate Signals, Not Broken Brains
-        </h2>
-        <p className="text-lg text-[#6b6b6b] mb-12 italic">
-          The signal is working correctly. The environment is wrong.
-        </p>
-
-        {/* Anxiety */}
-        <div className="bg-white rounded-xl border border-[#E5E0D8] p-6 md:p-8 mb-6">
-          <h3 className="text-xl font-semibold text-[#1A1A1A] mb-4">Anxiety</h3>
-          <p className="text-[#6b6b6b] mb-2"><span className="line-through">Not: Disorder requiring management</span></p>
-          <p className="text-[#4A4A4A]"><strong>Actually:</strong> Accurate threat detection in environment full of strangers, unpredictability, uncontrollable stressors</p>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl text-[#1A1A1A] mb-4" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+            Accurate Signals, Not Broken Brains
+          </h2>
+          <p className="text-lg text-[#6b6b6b] italic">
+            The signal is working correctly. The environment is wrong.
+          </p>
         </div>
 
-        {/* Depression */}
-        <div className="bg-white rounded-xl border border-[#E5E0D8] p-6 md:p-8 mb-6">
-          <h3 className="text-xl font-semibold text-[#1A1A1A] mb-4">Depression</h3>
-          <p className="text-[#6b6b6b] mb-2"><span className="line-through">Not: Chemical imbalance</span></p>
-          <p className="text-[#4A4A4A]"><strong>Actually:</strong> Accurate meaning assessment in life lacking visible contribution, tribe, closure</p>
+        {/* Signal Cards - with green accent */}
+        <div className="grid md:grid-cols-2 gap-4 mb-8">
+          {/* Anxiety */}
+          <div className="bg-white rounded-xl border-l-4 border-l-emerald-500 border border-[#E5E0D8] p-6">
+            <h3 className="text-xl font-semibold text-[#1A1A1A] mb-3">Anxiety</h3>
+            <p className="text-[#6b6b6b] mb-2 text-sm"><span className="line-through">Disorder requiring management</span></p>
+            <p className="text-[#4A4A4A]"><span className="text-emerald-600 font-medium">Actually:</span> Accurate threat detection in an environment full of strangers and unpredictability</p>
+          </div>
+
+          {/* Depression */}
+          <div className="bg-white rounded-xl border-l-4 border-l-emerald-500 border border-[#E5E0D8] p-6">
+            <h3 className="text-xl font-semibold text-[#1A1A1A] mb-3">Depression</h3>
+            <p className="text-[#6b6b6b] mb-2 text-sm"><span className="line-through">Chemical imbalance</span></p>
+            <p className="text-[#4A4A4A]"><span className="text-emerald-600 font-medium">Actually:</span> Accurate meaning assessment in life lacking visible contribution and tribe</p>
+          </div>
+
+          {/* Loneliness */}
+          <div className="bg-white rounded-xl border-l-4 border-l-emerald-500 border border-[#E5E0D8] p-6">
+            <h3 className="text-xl font-semibold text-[#1A1A1A] mb-3">Loneliness</h3>
+            <p className="text-[#6b6b6b] mb-2 text-sm"><span className="line-through">Social skills deficit</span></p>
+            <p className="text-[#4A4A4A]"><span className="text-emerald-600 font-medium">Actually:</span> Accurate isolation alarm—surrounded by acquaintances, but no actual tribe</p>
+          </div>
+
+          {/* Addiction */}
+          <div className="bg-white rounded-xl border-l-4 border-l-emerald-500 border border-[#E5E0D8] p-6">
+            <h3 className="text-xl font-semibold text-[#1A1A1A] mb-3">Addiction</h3>
+            <p className="text-[#6b6b6b] mb-2 text-sm"><span className="line-through">Moral failing or brain disease</span></p>
+            <p className="text-[#4A4A4A]"><span className="text-emerald-600 font-medium">Actually:</span> Drive-seeking redirected to proxies when real satisfaction is blocked</p>
+          </div>
         </div>
 
-        {/* Loneliness */}
-        <div className="bg-white rounded-xl border border-[#E5E0D8] p-6 md:p-8 mb-6">
-          <h3 className="text-xl font-semibold text-[#1A1A1A] mb-4">Loneliness</h3>
-          <p className="text-[#6b6b6b] mb-2"><span className="line-through">Not: Social skills deficit</span></p>
-          <p className="text-[#4A4A4A]"><strong>Actually:</strong> Accurate isolation alarm when surrounded by acquaintances and screens—but no actual tribe</p>
-        </div>
-
-        {/* Addiction */}
-        <div className="bg-white rounded-xl border border-[#E5E0D8] p-6 md:p-8 mb-6">
-          <h3 className="text-xl font-semibold text-[#1A1A1A] mb-4">Addiction</h3>
-          <p className="text-[#6b6b6b] mb-2"><span className="line-through">Not: Moral failing or brain disease</span></p>
-          <p className="text-[#4A4A4A]"><strong>Actually:</strong> Drive-seeking accurately redirected to proxies when real satisfaction is blocked</p>
-        </div>
-
-        {/* ADHD */}
-        <div className="bg-white rounded-xl border border-[#E5E0D8] p-6 md:p-8 mb-8">
-          <h3 className="text-xl font-semibold text-[#1A1A1A] mb-4">"ADHD"</h3>
-          <p className="text-[#6b6b6b] mb-2"><span className="line-through">Not: Attention disorder</span></p>
-          <p className="text-[#4A4A4A]"><strong>Actually:</strong> Hunter cognition—varied attention, movement-seeking, novelty-responsive—trapped in farmer environments</p>
+        {/* ADHD - Full width */}
+        <div className="bg-white rounded-xl border-l-4 border-l-emerald-500 border border-[#E5E0D8] p-6 mb-8">
+          <h3 className="text-xl font-semibold text-[#1A1A1A] mb-3">"ADHD"</h3>
+          <p className="text-[#6b6b6b] mb-2 text-sm"><span className="line-through">Attention disorder</span></p>
+          <p className="text-[#4A4A4A]"><span className="text-emerald-600 font-medium">Actually:</span> Hunter cognition—varied attention, movement-seeking, novelty-responsive—trapped in farmer environments</p>
         </div>
 
         <figure className="my-12">
@@ -254,23 +262,23 @@ export default function PractitionersPage() {
           <h3 className="text-xl font-semibold text-[#1A1A1A] mb-4">For Therapists & Clinicians</h3>
           <ul className="space-y-3 text-[#4A4A4A]">
             <li className="flex items-start gap-3">
-              <span className="text-[#C75B39] mt-1">•</span>
+              <span className="text-emerald-500 mt-1">•</span>
               <span>Ask about environment before reaching for DSM</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-[#C75B39] mt-1">•</span>
+              <span className="text-emerald-500 mt-1">•</span>
               <span>Assess tribe, closure, contribution before diagnosis</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-[#C75B39] mt-1">•</span>
+              <span className="text-emerald-500 mt-1">•</span>
               <span>Prescribe environmental interventions before medication</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-[#C75B39] mt-1">•</span>
+              <span className="text-emerald-500 mt-1">•</span>
               <span>Time-box treatment with explicit bridge framing</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-[#C75B39] mt-1">•</span>
+              <span className="text-emerald-500 mt-1">•</span>
               <span>Become a voice from inside—you know the system is failing</span>
             </li>
           </ul>
@@ -281,23 +289,23 @@ export default function PractitionersPage() {
           <h3 className="text-xl font-semibold text-[#1A1A1A] mb-4">For Parents</h3>
           <ul className="space-y-3 text-[#4A4A4A]">
             <li className="flex items-start gap-3">
-              <span className="text-[#C75B39] mt-1">•</span>
+              <span className="text-emerald-500 mt-1">•</span>
               <span>Understand what your child actually needs: alloparenting, mixed-age play, real contribution, physical contact, embodied risk</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-[#C75B39] mt-1">•</span>
+              <span className="text-emerald-500 mt-1">•</span>
               <span>Stop pathologizing hunter cognition as "ADHD"</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-[#C75B39] mt-1">•</span>
+              <span className="text-emerald-500 mt-1">•</span>
               <span>Build village structures—not just your nuclear family</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-[#C75B39] mt-1">•</span>
+              <span className="text-emerald-500 mt-1">•</span>
               <span>Resist pressure to medicate signals into silence</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-[#C75B39] mt-1">•</span>
+              <span className="text-emerald-500 mt-1">•</span>
               <span>Limit screens not as moralism but as biology</span>
             </li>
           </ul>
@@ -308,23 +316,23 @@ export default function PractitionersPage() {
           <h3 className="text-xl font-semibold text-[#1A1A1A] mb-4">For Educators</h3>
           <ul className="space-y-3 text-[#4A4A4A]">
             <li className="flex items-start gap-3">
-              <span className="text-[#C75B39] mt-1">•</span>
+              <span className="text-emerald-500 mt-1">•</span>
               <span>Recognize that movement, novelty, varied focus are features not bugs</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-[#C75B39] mt-1">•</span>
+              <span className="text-emerald-500 mt-1">•</span>
               <span>Design for contribution (students do real things for real people)</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-[#C75B39] mt-1">•</span>
+              <span className="text-emerald-500 mt-1">•</span>
               <span>Enable mixed-age interaction where possible</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-[#C75B39] mt-1">•</span>
+              <span className="text-emerald-500 mt-1">•</span>
               <span>Get kids outside, moving, using their bodies</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-[#C75B39] mt-1">•</span>
+              <span className="text-emerald-500 mt-1">•</span>
               <span>Advocate for systemic change—you see the mismatch every day</span>
             </li>
           </ul>
@@ -370,19 +378,19 @@ export default function PractitionersPage() {
         
         <ul className="space-y-3 text-[#4A4A4A] text-lg mb-8">
           <li className="flex items-start gap-3">
-            <span className="text-[#C75B39] mt-1">•</span>
+            <span className="text-emerald-500 mt-1">•</span>
             <span>Most conditions labeled "mental illness" are accurate biological responses</span>
           </li>
           <li className="flex items-start gap-3">
-            <span className="text-[#C75B39] mt-1">•</span>
+            <span className="text-emerald-500 mt-1">•</span>
             <span>Environmental interventions often outperform medication</span>
           </li>
           <li className="flex items-start gap-3">
-            <span className="text-[#C75B39] mt-1">•</span>
+            <span className="text-emerald-500 mt-1">•</span>
             <span>Long-term outcomes of standard treatment are poor</span>
           </li>
           <li className="flex items-start gap-3">
-            <span className="text-[#C75B39] mt-1">•</span>
+            <span className="text-emerald-500 mt-1">•</span>
             <span>The "helping" industry is often part of the problem</span>
           </li>
         </ul>
@@ -402,7 +410,7 @@ export default function PractitionersPage() {
           </figcaption>
         </figure>
 
-        <Link href="/sources" className="text-[#C75B39] hover:underline text-lg">
+        <Link href="/sources" className="text-emerald-500 hover:underline text-lg">
           See the full evidence base →
         </Link>
       </section>
@@ -414,18 +422,18 @@ export default function PractitionersPage() {
         </h2>
         
         <div className="grid md:grid-cols-3 gap-6">
-          <Link href="/framework" className="bg-white rounded-xl border border-[#E5E0D8] p-6 hover:shadow-lg transition-shadow group">
-            <h3 className="text-xl font-semibold text-[#1A1A1A] mb-2 group-hover:text-[#C75B39]">The Framework</h3>
+          <Link href="/framework" className="bg-white rounded-xl border border-[#E5E0D8] p-6 hover:shadow-lg hover:border-emerald-300 transition-all group">
+            <h3 className="text-xl font-semibold text-[#1A1A1A] mb-2 group-hover:text-emerald-600">The Framework</h3>
             <p className="text-[#6b6b6b]">The complete theoretical foundation. Share with colleagues.</p>
           </Link>
-          
-          <Link href="/app" className="bg-white rounded-xl border border-[#E5E0D8] p-6 hover:shadow-lg transition-shadow group">
-            <h3 className="text-xl font-semibold text-[#1A1A1A] mb-2 group-hover:text-[#C75B39]">The Mismatch Analyzer</h3>
+
+          <Link href="/app" className="bg-white rounded-xl border border-[#E5E0D8] p-6 hover:shadow-lg hover:border-emerald-300 transition-all group">
+            <h3 className="text-xl font-semibold text-[#1A1A1A] mb-2 group-hover:text-emerald-600">The Mismatch Analyzer</h3>
             <p className="text-[#6b6b6b]">Analyze client situations, generate environmental assessments.</p>
           </Link>
-          
-          <Link href="/library" className="bg-white rounded-xl border border-[#E5E0D8] p-6 hover:shadow-lg transition-shadow group">
-            <h3 className="text-xl font-semibold text-[#1A1A1A] mb-2 group-hover:text-[#C75B39]">The Image Library</h3>
+
+          <Link href="/library" className="bg-white rounded-xl border border-[#E5E0D8] p-6 hover:shadow-lg hover:border-emerald-300 transition-all group">
+            <h3 className="text-xl font-semibold text-[#1A1A1A] mb-2 group-hover:text-emerald-600">The Image Library</h3>
             <p className="text-[#6b6b6b]">2,500+ images for client education and workshops.</p>
           </Link>
         </div>
@@ -433,7 +441,7 @@ export default function PractitionersPage() {
 
       {/* The Call */}
       <section className="px-8 py-16 md:py-24 max-w-4xl mx-auto">
-        <div className="bg-[#1A1A1A] text-white rounded-xl p-8 md:p-12">
+        <div className="bg-gradient-to-br from-[#1a2f1a] to-[#0d1a0d] text-white rounded-xl p-8 md:p-12">
           <h2 className="text-3xl mb-6" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
             Be the Bridge
           </h2>
@@ -443,9 +451,14 @@ export default function PractitionersPage() {
           <p className="text-xl text-white font-medium mb-8">
             That's the work.
           </p>
-          <Link href="/framework" className="bg-[#C75B39] text-white px-6 py-3 rounded-lg hover:bg-[#b54d2e] transition inline-block">
-            Enter the Full Framework →
-          </Link>
+          <div className="flex flex-wrap gap-4">
+            <Link href="/app" className="bg-emerald-600 text-white px-6 py-3 rounded-lg hover:bg-emerald-700 transition inline-block">
+              Try the Analyzer →
+            </Link>
+            <Link href="/framework" className="border border-white/30 text-white px-6 py-3 rounded-lg hover:bg-white/10 transition inline-block">
+              Read the Framework
+            </Link>
+          </div>
         </div>
       </section>
 

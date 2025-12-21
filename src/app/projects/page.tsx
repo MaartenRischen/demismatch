@@ -27,7 +27,7 @@ export default function ProjectsPage() {
           </h1>
           <div className="hidden md:flex items-center gap-2 text-sm text-gray-400 pb-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>2 Live • 1 Beta • 4 Coming Soon</span>
+            <span>2 Live • 1 Beta • 4 In Development</span>
           </div>
         </div>
         <p className="text-lg text-gray-400 max-w-xl">
@@ -85,8 +85,8 @@ export default function ProjectsPage() {
           </Link>
 
           {/* Image Library */}
-          <Link 
-            href="/library" 
+          <Link
+            href="/library"
             className="group relative col-span-1 row-span-2 rounded-2xl overflow-hidden bg-[#1a1a1a] border border-gray-800 hover:border-[#c75b3a]/50 transition-all"
           >
             <div className="absolute inset-0">
@@ -100,24 +100,32 @@ export default function ProjectsPage() {
                   />
                 ))}
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-[#1a1a1a]/90 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-[#1a1a1a]/80 to-[#1a1a1a]/40"></div>
             </div>
-            <div className="relative z-10 h-full flex flex-col justify-end p-6">
-              <div className="flex items-center gap-2 mb-3">
+            <div className="relative z-10 h-full flex flex-col p-6">
+              {/* Top section */}
+              <div className="flex items-center gap-2 mb-4">
                 <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs font-bold rounded-full uppercase tracking-wider">
                   Live
                 </span>
-                <span className="text-gray-500 text-sm">2,500+ Images</span>
+                <span className="text-gray-400 text-sm">2,500+ Images</span>
               </div>
-              <h3 className="text-2xl text-white mb-2" style={{ fontFamily: 'Georgia, serif' }}>
-                Image Library
-              </h3>
-              <p className="text-gray-400 text-sm mb-4">
-                Evolutionary psychology visualized. Searchable, tagged, free to use.
-              </p>
-              <span className="text-[#c75b3a] text-sm font-medium group-hover:translate-x-1 inline-block transition-transform">
-                Browse Library →
-              </span>
+
+              {/* Spacer to push content apart */}
+              <div className="flex-1" />
+
+              {/* Bottom section */}
+              <div>
+                <h3 className="text-2xl text-white mb-3" style={{ fontFamily: 'Georgia, serif' }}>
+                  Image Library
+                </h3>
+                <p className="text-gray-400 text-sm mb-4 leading-relaxed">
+                  Evolutionary psychology visualized. Searchable, tagged, free to use.
+                </p>
+                <span className="text-[#c75b3a] text-sm font-medium group-hover:translate-x-1 inline-block transition-transform">
+                  Browse Library →
+                </span>
+              </div>
             </div>
           </Link>
 
@@ -158,7 +166,7 @@ export default function ProjectsPage() {
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <span className="px-2 py-0.5 bg-gray-700 text-gray-400 text-xs font-bold rounded-full uppercase tracking-wider">
-                    Soon
+                    In Development
                   </span>
                 </div>
                 <h3 className="text-xl text-white mb-2" style={{ fontFamily: 'Georgia, serif' }}>
@@ -177,7 +185,7 @@ export default function ProjectsPage() {
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <span className="px-2 py-0.5 bg-gray-700 text-gray-400 text-xs font-bold rounded-full uppercase tracking-wider">
-                    Soon
+                    In Development
                   </span>
                 </div>
                 <h3 className="text-xl text-white mb-2" style={{ fontFamily: 'Georgia, serif' }}>
@@ -204,7 +212,7 @@ export default function ProjectsPage() {
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <span className="px-2 py-0.5 bg-gray-700 text-gray-400 text-xs font-bold rounded-full uppercase tracking-wider">
-                    Soon
+                    In Development
                   </span>
                 </div>
                 <h3 className="text-xl text-white mb-2" style={{ fontFamily: 'Georgia, serif' }}>
@@ -228,7 +236,7 @@ export default function ProjectsPage() {
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <span className="px-2 py-0.5 bg-gray-700 text-gray-400 text-xs font-bold rounded-full uppercase tracking-wider">
-                    Soon
+                    In Development
                   </span>
                 </div>
                 <h3 className="text-xl text-white mb-2" style={{ fontFamily: 'Georgia, serif' }}>

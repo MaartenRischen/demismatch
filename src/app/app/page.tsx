@@ -527,9 +527,10 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
         <button
           className="mt-4 py-2 px-4 flex items-center gap-2 text-sm text-[#4A4A4A] hover:text-[#C75B39] border border-[#E5E0D8] hover:border-[#C75B39] transition-colors mx-auto rounded"
           onClick={() => setShowHistory(!showHistory)}
+          title="Your saved searches on this device"
         >
           <HistoryIcon />
-          History
+          My Searches
           {history.length > 0 && (
             <span className="text-xs bg-[#C75B39] text-white rounded-full px-1.5">
               {history.length}
@@ -841,6 +842,33 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
         {error && (
           <div className="p-4 mb-6 bg-red-50 border border-red-200 text-red-600 text-sm animate-fadeIn max-w-2xl mx-auto rounded-lg">
             {error}
+          </div>
+        )}
+
+        {/* Example Output for First-Time Users */}
+        {!hasResults && !isLoading && !error && (
+          <div className="mb-8 max-w-2xl mx-auto">
+            <div className="p-6 bg-gradient-to-br from-[#F5F3EF] to-white border border-[#E5E0D8] rounded-lg">
+              <p className="text-xs text-[#8B8B8B] uppercase tracking-wide mb-3">Example Analysis</p>
+              <div className="mb-4 p-3 bg-white border border-[#E5E0D8] rounded">
+                <p className="text-sm text-[#4A4A4A] italic">&quot;Someone bragging about working 80 hours a week&quot;</p>
+              </div>
+              <div className="space-y-3 text-sm text-[#4A4A4A]">
+                <div>
+                  <p className="font-medium text-[#C75B39] mb-1">What&apos;s Happening:</p>
+                  <p>Hustle culture performative display seeking status through overwork signaling. The person is broadcasting sleep deprivation as virtue, mistaking exhaustion for productivity.</p>
+                </div>
+                <div>
+                  <p className="font-medium text-[#C75B39] mb-1">What&apos;s Missing:</p>
+                  <p>Rest as biological necessity. The EEA included daily downtime, seasonal variation, and social rest periods. Modern hustle culture treats rest as laziness rather than recovery.</p>
+                </div>
+                <div>
+                  <p className="font-medium text-[#C75B39] mb-1">What Actually Helps:</p>
+                  <p>Work-life boundaries, protected rest, visible output over visible hours. Recognize that presence ≠ productivity.</p>
+                </div>
+              </div>
+              <p className="text-xs text-[#8B8B8B] mt-4 text-center">Try describing any situation above to see the mismatch analysis</p>
+            </div>
           </div>
         )}
 
