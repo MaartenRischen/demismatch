@@ -8,6 +8,7 @@ import { useState, useRef, useEffect } from "react";
 const MAIN_LINKS = [
   { href: "/framework", label: "Framework" },
   { href: "/cases", label: "Cases" },
+  { href: "/stats", label: "Stats" },
   { href: "/library", label: "Library" },
   { href: "/projects", label: "Projects" },
 ];
