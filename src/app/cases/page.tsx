@@ -395,6 +395,544 @@ const CASES: Case[] = [
     eeaBaseline: "Healers spent all their time healing. Their purpose was visible and immediate. The community's health reflected their work directly.",
     modernViolation: "Physicians spend 2 hours on documentation for each hour of patient care. Visible healing work buried under bureaucratic requirements. Purpose obscured by paperwork.",
     systemicCause: "Insurance-based healthcare creates documentation burden. Electronic records designed for billing. Administrators proliferate while bedside care suffers."
+  },
+
+  // =====================
+  // NEW CASES FROM RESEARCH
+  // =====================
+
+  // PSYCHIATRIC SYSTEM CASES
+  {
+    id: "zoraya-ter-beek",
+    name: "Zoraya ter Beek",
+    year: "2024",
+    location: "Netherlands",
+    category: "visible-purpose",
+    headline: "29-year-old Dutch woman euthanized after years of psychiatric treatment—no one ever tried environmental interventions",
+    summary: "Zoraya ter Beek, 29, was euthanized under Dutch law after being told 'there's nothing more we can do' for her depression and autism. She spent years in the psychiatric system receiving medications and therapy, but no one addressed her isolated living situation, lack of community, or absence of meaningful purpose. The system declared her unfixable rather than questioning whether her environment was the problem.",
+    sources: [
+      { name: "NY Post - Dutch Euthanasia Case", url: "https://nypost.com/2024/04/03/world-news/woman-29-to-be-euthanized-due-to-depression-autism/" },
+      { name: "The Guardian - Netherlands Euthanasia", url: "https://www.theguardian.com/world/2024/apr/04/dutch-woman-depression-autism-euthanasia" }
+    ],
+    eeaBaseline: "Humans experiencing distress were supported by their tribe, given roles that fit their capabilities, and embedded in caring community regardless of 'productivity.'",
+    modernViolation: "Isolated in an apartment, labeled with disorders, medicated, and told she was unfixable. No tribe. No role. No one thought to build what she actually needed.",
+    systemicCause: "Psychiatric system focused on individual pathology, not environmental causes. Death becomes 'treatment' because building actual community is considered outside medical scope."
+  },
+  {
+    id: "rebecca-riley",
+    name: "Rebecca Riley",
+    year: "2006",
+    location: "Massachusetts, USA",
+    category: "distributed-care",
+    headline: "4-year-old diagnosed with bipolar disorder at age 2, dies from psychiatric medication overdose",
+    summary: "Rebecca Riley was diagnosed with bipolar disorder at 28 months old and prescribed a cocktail of psychiatric drugs including clonidine, Depakote, and Seroquel. She died at age 4 from an overdose of her prescribed medications. Her psychiatrist diagnosed her after a 20-minute evaluation. A toddler was given adult psychiatric labels and medications because no one questioned whether her environment—chaotic home, overwhelmed parents—was the actual problem.",
+    sources: [
+      { name: "CBS News - Rebecca Riley Case", url: "https://www.cbsnews.com/news/what-killed-rebecca-riley/" },
+      { name: "NYT - Bipolar Children", url: "https://www.nytimes.com/2007/02/15/us/15girl.html" }
+    ],
+    eeaBaseline: "Children developed within a supportive tribe of multiple caregivers. Behavioral variation was normal and managed through community, not medication.",
+    modernViolation: "A 2-year-old's difficult behavior was pathologized as 'bipolar disorder' and treated with powerful psychiatric drugs rather than addressing family chaos and isolation.",
+    systemicCause: "Pharma-influenced psychiatry that pathologizes childhood behavior. Insurance that pays for pills but not family support. Parents left alone to cope with difficult children."
+  },
+  {
+    id: "li-ao-bootcamp",
+    name: "Li Ao",
+    year: "2017",
+    location: "China",
+    category: "closed-loops",
+    headline: "18-year-old sent to Chinese internet addiction boot camp, beaten to death within 48 hours",
+    summary: "Li Ao, 18, was sent to a 'treatment center' for internet addiction in Anhui province. Within 48 hours of arrival, he was dead from injuries sustained during 'training.' These camps, which operate across China with government sanction, use physical punishment, electric shocks, and military-style discipline to 'cure' internet addiction. His parents paid to have him tortured to death for a 'problem' that was actually an escape from a purposeless environment.",
+    sources: [
+      { name: "BBC - China Boot Camp Death", url: "https://www.bbc.com/news/world-asia-china-40857523" },
+      { name: "The Guardian - Internet Addiction Camps", url: "https://www.theguardian.com/world/2017/aug/14/death-of-chinese-teen-sparks-outrage-at-internet-addiction-camps" }
+    ],
+    eeaBaseline: "Young people found meaning through roles in their tribe—hunting, crafting, caring for younger children. Natural activities provided engagement without need for 'treatment.'",
+    modernViolation: "A teenager escaping into virtual worlds because the real world offered no purpose, community, or meaning—then punished with violence for this rational escape.",
+    systemicCause: "Society that offers no meaningful roles for youth, then criminalizes their escape into virtual alternatives. Profit-driven 'treatment' industry with no accountability."
+  },
+
+  // SOCIAL STRUCTURE / ISOLATION CASES
+  {
+    id: "spitz-hospitalism",
+    name: "René Spitz Hospitalism Studies",
+    year: "1945",
+    location: "United States/Europe",
+    category: "social-structure",
+    headline: "30-37% infant mortality in clean, fed, staffed orphanages—only variable was lack of physical affection",
+    summary: "Psychiatrist René Spitz documented that infants in well-maintained orphanages—clean, fed, medically attended—died at rates of 30-37% by age 2. The only difference from thriving children was human contact. Nurses were forbidden from holding babies except for essential care. These infants literally died from lack of touch, proving that human connection is as essential as food.",
+    sources: [
+      { name: "APA - Spitz Studies", url: "https://psycnet.apa.org/record/1946-04349-001" },
+      { name: "Attachment Theory Origins", url: "https://www.simplypsychology.org/bowlby.html" }
+    ],
+    eeaBaseline: "Infants spent their entire early life in near-constant physical contact with mother and multiple caregivers. Touch was continuous, not scheduled.",
+    modernViolation: "Efficient institutional care that met all measurable needs (food, hygiene, temperature) but eliminated the unmeasurable need for human touch.",
+    systemicCause: "Institutions optimized for efficiency, not humanity. The assumption that meeting physical needs is sufficient. Touch seen as luxury, not necessity."
+  },
+  {
+    id: "roseto-effect",
+    name: "The Roseto Effect",
+    year: "1955-1985",
+    location: "Pennsylvania, USA",
+    category: "social-structure",
+    headline: "Italian-American town had 50% less heart disease—not from diet, but from tight community that dissolved with 'progress'",
+    summary: "Roseto, Pennsylvania had half the heart disease mortality of neighboring towns despite same diet, same smoking rates, same healthcare access. The difference: three-generation households, strong community bonds, collective rituals, and no visible wealth hierarchy. As younger generations adopted American individualism—separate homes, status competition, weakened ties—the health advantage vanished completely by 1985.",
+    sources: [
+      { name: "Malcolm Gladwell - Outliers", url: "https://www.gladwellbooks.com/titles/malcolm-gladwell/outliers/9780316017923/" },
+      { name: "Original Study - Stewart Wolf", url: "https://pubmed.ncbi.nlm.nih.gov/14245755/" }
+    ],
+    eeaBaseline: "Humans lived in tight-knit, multigenerational communities where everyone knew everyone, wealth was shared, and social bonds were lifelong.",
+    modernViolation: "American individualism dissolved the community. Separate households, private wealth accumulation, weakened social bonds—all markers of 'success' that killed the protective effect.",
+    systemicCause: "Economic systems that reward mobility and individualism. Cultural narrative that 'progress' means independence. Community seen as backward, isolation as advancement."
+  },
+  {
+    id: "widowhood-effect",
+    name: "The Widowhood Effect",
+    year: "Meta-analysis",
+    location: "Global",
+    category: "social-structure",
+    headline: "66% increased mortality risk in first 3 months after spouse dies—grief doesn't just hurt, it kills",
+    summary: "Meta-analyses confirm that losing a spouse increases mortality risk by 66% in the first 3 months, with elevated risk persisting for years. This isn't metaphor—social connection is a physiological need. The immune system weakens, cardiovascular stress increases, and the body begins to fail when a primary social bond is severed. Humans are not designed to be alone.",
+    sources: [
+      { name: "JAMA - Widowhood Mortality", url: "https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2521396" },
+      { name: "Harvard Study - Social Connection", url: "https://www.hsph.harvard.edu/news/hsph-in-the-news/social-bonds-health/" }
+    ],
+    eeaBaseline: "Loss was experienced within a supportive community. Grieving individuals were surrounded by tribe members who shared the loss and prevented isolation.",
+    modernViolation: "Widows/widowers often left alone in separate housing. No automatic community support. Expected to 'move on' quickly. Grief treated as individual problem.",
+    systemicCause: "Nuclear family isolation means loss of one person can mean loss of primary social contact entirely. No community infrastructure to catch people after loss."
+  },
+  {
+    id: "solitary-confinement",
+    name: "Solitary Confinement",
+    year: "Ongoing",
+    location: "United States",
+    category: "social-structure",
+    headline: "Psychosis documented within 24-48 hours of solitary—we use isolation as punishment because it destroys the mind",
+    summary: "Research documents that solitary confinement causes psychosis, hallucinations, and severe psychological damage within 24-48 hours in some cases. The UN considers >15 days to be torture. Yet 80,000+ Americans are in solitary on any given day, some for years or decades. We deliberately weaponize humans' need for social contact, proving that isolation is not merely uncomfortable—it is incompatible with mental function.",
+    sources: [
+      { name: "UN - Solitary as Torture", url: "https://www.un.org/press/en/2011/gashc4014.doc.htm" },
+      { name: "Psychology Today - Solitary Effects", url: "https://www.psychologytoday.com/us/blog/shadow-boxing/201905/what-does-solitary-confinement-do-the-brain" }
+    ],
+    eeaBaseline: "Humans never experienced complete social isolation. Even exile meant joining another group. The brain simply has no program for total isolation.",
+    modernViolation: "Deliberate, prolonged isolation used as punishment and control. Humans kept in conditions that inevitably produce insanity, then punished for going insane.",
+    systemicCause: "Prison-industrial complex profits from bodies, not outcomes. Isolation is cheap and convenient. Long-term psychological damage externalized to society."
+  },
+
+  // VISIBLE PURPOSE CASES
+  {
+    id: "whitehall-studies",
+    name: "Whitehall Studies",
+    year: "1967-present",
+    location: "United Kingdom",
+    category: "visible-purpose",
+    headline: "40,000 civil servants studied: 4x mortality difference between top and bottom grades—not money, but control and status",
+    summary: "The Whitehall studies tracked 40,000 British civil servants for decades and found that those in the lowest employment grades had 4x the mortality rate of those at the top—even controlling for lifestyle factors. The key variable wasn't money or healthcare access, but control over one's work and perceived status. Low-grade workers had less autonomy, less respect, and died younger.",
+    sources: [
+      { name: "Original Whitehall Studies", url: "https://www.ucl.ac.uk/epidemiology-health-care/research/epidemiology-and-public-health/research/whitehall-ii" },
+      { name: "Michael Marmot - Status Syndrome", url: "https://www.bloomsbury.com/us/status-syndrome-9780805078541/" }
+    ],
+    eeaBaseline: "Hunter-gatherers were fiercely egalitarian. Status differences existed but were fluid. Everyone had autonomy over their daily activities.",
+    modernViolation: "Rigid hierarchies where some people spend their entire careers being told what to do, treated as interchangeable, given no voice in decisions affecting them.",
+    systemicCause: "Capitalist organization concentrates control at the top. Efficiency metrics treat workers as inputs. Status hierarchies maintained to extract compliance."
+  },
+  {
+    id: "deaths-of-despair",
+    name: "Deaths of Despair",
+    year: "1998-present",
+    location: "United States",
+    category: "visible-purpose",
+    headline: "150,000 Americans die yearly from suicide, overdose, alcohol—concentrated in communities that lost economic purpose",
+    summary: "Economists Anne Case and Angus Deaton documented 'deaths of despair'—suicide, drug overdose, alcohol—killing 150,000+ Americans annually. These deaths are concentrated among white working-class Americans in communities where manufacturing jobs disappeared. It's not poverty per se—it's loss of purpose, status, and meaning when work that defined generations vanished.",
+    sources: [
+      { name: "Case & Deaton Research", url: "https://www.pnas.org/doi/10.1073/pnas.1518393112" },
+      { name: "Deaths of Despair Book", url: "https://press.princeton.edu/books/hardcover/9780691190785/deaths-of-despair-and-the-future-of-capitalism" }
+    ],
+    eeaBaseline: "Work provided visible contribution to the tribe. Everyone could see how their efforts helped the community survive. Purpose was embedded in daily life.",
+    modernViolation: "Manufacturing jobs provided purpose and identity for generations. Their elimination left no replacement—only disability checks, opioids, and despair.",
+    systemicCause: "Globalization moved jobs without replacing community function. Opioid industry marketed to the despair. No political response to purposelessness."
+  },
+
+  // NATURE/ENVIRONMENT CASES
+  {
+    id: "ulrich-window-study",
+    name: "Roger Ulrich Window Study",
+    year: "1984",
+    location: "Pennsylvania, USA",
+    category: "closed-loops",
+    headline: "Same surgery, same hospital—patients with tree view recovered in 7.96 days vs 8.70 days for brick wall view",
+    summary: "Roger Ulrich's landmark study compared surgical patients with windows facing trees versus brick walls. Tree-view patients: 7.96 days recovery (vs 8.70), fewer negative nurse notes, fewer strong painkillers requested. Nature contact—even just a view—measurably speeds healing. Yet we build hospitals, schools, and offices that deliberately sever people from natural environments.",
+    sources: [
+      { name: "Original Ulrich Study", url: "https://pubmed.ncbi.nlm.nih.gov/6143402/" },
+      { name: "Biophilic Design Research", url: "https://www.terrapinbrightgreen.com/reports/14-patterns/" }
+    ],
+    eeaBaseline: "Humans recovered from illness and injury in natural environments, surrounded by plants, natural light, moving air, and the sounds of nature.",
+    modernViolation: "Healthcare facilities often designed for efficiency, not healing. Windowless rooms, artificial light, machine sounds—environments that impede the recovery they're meant to support.",
+    systemicCause: "Building costs prioritize square footage over windows. Medical system doesn't bill for 'nature views.' Evidence-based design ignored because it can't be monetized."
+  },
+  {
+    id: "harlow-surrogate",
+    name: "Harry Harlow Surrogate Studies",
+    year: "1958",
+    location: "Wisconsin, USA",
+    category: "distributed-care",
+    headline: "Infant monkeys chose cloth mother 17-18 hours/day over wire mother with food—contact comfort beats nutrition",
+    summary: "Harry Harlow's famous experiments showed infant rhesus monkeys preferred spending 17-18 hours/day clinging to a soft cloth 'mother' over a wire 'mother' with milk. They would only leave to feed, then return immediately. Touch and comfort are not luxuries—they are primary biological needs that trump even food. Yet we design childcare systems that minimize physical contact.",
+    sources: [
+      { name: "Harlow's Classic Studies", url: "https://psycnet.apa.org/record/1959-02006-001" },
+      { name: "Attachment Research", url: "https://www.psychologicalscience.org/publications/journals/pspi/attachment.html" }
+    ],
+    eeaBaseline: "Human infants were in near-constant physical contact with caregivers. Touch was the baseline, not an occasional reward.",
+    modernViolation: "Efficient childcare minimizes holding. Cribs, car seats, bouncers, and screens replace human contact. Touch-starved infants from infancy.",
+    systemicCause: "Childcare systems optimized for cost. Parents exhausted and unavailable. Cultural fear of 'spoiling' through too much contact."
+  },
+  {
+    id: "nature-deficit-disorder",
+    name: "Nature-Deficit Disorder",
+    year: "2005-present",
+    location: "United States",
+    category: "closed-loops",
+    headline: "American children: 4-7 minutes outdoor play daily vs 7+ hours screens—ADHD correlates with nature access",
+    summary: "Richard Louv coined 'nature-deficit disorder' after documenting that American children spend 4-7 minutes daily in unstructured outdoor play vs 7+ hours on screens. Research shows ADHD symptoms correlate with nature access—children in greener environments show fewer symptoms. We diagnose children with attention disorders rather than acknowledging their environments lack anything worth paying attention to.",
+    sources: [
+      { name: "Last Child in the Woods", url: "https://richardlouv.com/books/last-child/" },
+      { name: "Nature and ADHD Research", url: "https://pubmed.ncbi.nlm.nih.gov/15582281/" }
+    ],
+    eeaBaseline: "Children spent all day outdoors—exploring, climbing, playing in varied natural environments that demanded and developed their attention.",
+    modernViolation: "Children confined to indoor spaces, transported in cars, forbidden from independent outdoor play, attention artificially managed by screens and medications.",
+    systemicCause: "Suburban design requires cars. Fear culture prevents outdoor play. Schools eliminate recess. Nature becomes screen time."
+  },
+
+  // CIRCADIAN/SLEEP CASES
+  {
+    id: "nurse-shift-study",
+    name: "Nurses' Health Study - Night Shift",
+    year: "1988-2010",
+    location: "United States",
+    category: "closed-loops",
+    headline: "75,000 nurses tracked: 15+ years of rotating night shifts = 38% higher heart disease mortality",
+    summary: "The Nurses' Health Study tracked 75,000 nurses for 22 years and found those who worked rotating night shifts for 15+ years had 38% higher heart disease mortality. Circadian disruption isn't just tiredness—it causes measurable physiological damage. Yet millions of workers are required to fight their biology for shift schedules designed around production needs, not human needs.",
+    sources: [
+      { name: "Nurses' Health Study Results", url: "https://pubmed.ncbi.nlm.nih.gov/26444895/" },
+      { name: "Circadian Disruption Research", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5479574/" }
+    ],
+    eeaBaseline: "Humans slept when it was dark and woke when it was light. Circadian rhythms synchronized with natural light/dark cycles for hundreds of thousands of years.",
+    modernViolation: "24/7 economy requires workers to be awake when biology demands sleep. Rotating shifts prevent any adaptation. Bodies destroyed for economic convenience.",
+    systemicCause: "Capitalism values 24/7 productivity over human biology. Night shift workers are disproportionately poor and have no choice. Health costs externalized."
+  },
+
+  // DISTRIBUTED CARE / PARENTING CASES
+  {
+    id: "transfer-trauma",
+    name: "Transfer Trauma",
+    year: "Ongoing",
+    location: "Global",
+    category: "distributed-care",
+    headline: "Elderly relocated from long-term homes show 500% mortality spike—place attachment isn't sentiment, it's survival",
+    summary: "Research documents that elderly people relocated from long-term residences—even to 'better' facilities—show mortality spikes up to 500% higher than matched controls. Place attachment isn't sentimental—it's physiological. Familiar environments reduce cognitive load and stress. Uprooting elderly people kills them, yet we do it routinely for economic and family convenience.",
+    sources: [
+      { name: "Transfer Trauma Research", url: "https://pubmed.ncbi.nlm.nih.gov/7342199/" },
+      { name: "Relocation Stress Syndrome", url: "https://www.nursingtimes.net/clinical-archive/relocation-stress-syndrome-23-01-2006/" }
+    ],
+    eeaBaseline: "Elderly people remained in familiar environments, surrounded by lifelong community members, until death. Place and people were continuous.",
+    modernViolation: "Elderly people moved from home to home as family circumstances change, from independent living to assisted living to nursing homes, each transition a mortal stress.",
+    systemicCause: "Geographic mobility scatters families. Eldercare facilities designed for institutional efficiency. Each 'upgrade' may be a death sentence."
+  },
+  {
+    id: "baby-sarang-kim",
+    name: "Baby Sarang Kim",
+    year: "2009",
+    location: "South Korea",
+    category: "distributed-care",
+    headline: "3-month-old starved to death while parents spent 12 hours daily raising virtual baby in online game",
+    summary: "A 3-month-old South Korean baby starved to death while her parents spent 12 hours daily at internet cafes raising a virtual child in an online game. They fed their digital daughter while their real daughter died. This isn't inexplicable evil—it's the logical endpoint of systems that make virtual worlds more rewarding than unbearably difficult real-world parenting without support.",
+    sources: [
+      { name: "The Guardian - Korean Baby Death", url: "https://www.theguardian.com/world/2010/mar/05/korean-girl-starved-death-parents-online-game" },
+      { name: "BBC - Online Game Addiction", url: "https://www.bbc.com/news/10179015" }
+    ],
+    eeaBaseline: "Childcare was distributed across the tribe. Multiple caregivers ensured no infant was ever dependent on exhausted, isolated individuals.",
+    modernViolation: "Parents alone with infant, no community support, exhausted and desperate. Virtual worlds offer achievement and escape that real parenting can't compete with.",
+    systemicCause: "Nuclear family isolation leaves parents without support. Addictive game design creates supernormal stimuli. No safety net caught this family until death."
+  },
+
+  // TECHNOLOGY/ATTENTION CASES
+  {
+    id: "amanda-todd",
+    name: "Amanda Todd",
+    year: "2012",
+    location: "British Columbia, Canada",
+    category: "real-feedback",
+    headline: "15-year-old cyberbullied for years after photo extortion, posted YouTube video explaining her pain, suicide one month later",
+    summary: "Amanda Todd was 12 when she was manipulated into exposing herself online, then blackmailed with the images. For 3 years, the photos followed her to every new school, every new social media account. She made a YouTube video explaining her pain, holding up flashcards describing her torment. She died by suicide one month later. Digital permanence means one mistake as a child can haunt you forever.",
+    sources: [
+      { name: "CBC - Amanda Todd Story", url: "https://www.cbc.ca/news/canada/british-columbia/amanda-todd-1.5283715" },
+      { name: "Her YouTube Video", url: "https://www.youtube.com/watch?v=vOHXGNx-E7E" }
+    ],
+    eeaBaseline: "Reputation existed within a tribe of ~150 who knew your whole story. Mistakes could be redeemed over time. Moving to a new group meant a fresh start.",
+    modernViolation: "Digital evidence is permanent and follows you everywhere. One mistake at 12 can define you forever. There is no escape, no fresh start, no redemption.",
+    systemicCause: "Platforms designed for permanence and virality. No meaningful age protection. Predators have global reach. No real consequences for digital harassment."
+  },
+  {
+    id: "gaming-marathon-deaths",
+    name: "Gaming Marathon Deaths",
+    year: "2005-present",
+    location: "Asia (multiple)",
+    category: "closed-loops",
+    headline: "Multiple deaths from 40+ hour gaming sessions—heart failure, blood clots, exhaustion in internet cafes",
+    summary: "Multiple documented deaths across Asia from gaming sessions exceeding 40 hours—heart failure, blood clots, exhaustion. Victims die in internet cafes, sometimes unnoticed for hours. Internet cafes responded by installing timers, not questioning why games are more compelling than survival instincts. These games are engineered to be more engaging than anything the real world offers.",
+    sources: [
+      { name: "BBC - Gaming Deaths", url: "https://www.bbc.com/news/world-asia-pacific-12541769" },
+      { name: "Washington Post - Marathon Gaming", url: "https://www.washingtonpost.com/news/morning-mix/wp/2015/01/19/taiwanese-man-dies-after-3-day-online-gaming-binge/" }
+    ],
+    eeaBaseline: "Natural activities had natural endpoints—ate until full, walked until arrived, played until tired. Body signals governed activity duration.",
+    modernViolation: "Games engineered to override satiety signals. No natural completion point. Achievement loops more compelling than bodily needs. Literally designed to never let you stop.",
+    systemicCause: "Game companies optimize for engagement metrics without limit. Real world offers no comparable achievement systems. Addiction is the business model."
+  },
+
+  // FOOD/METABOLISM CASES
+  {
+    id: "ultra-processed-food",
+    name: "Ultra-Processed Food Mortality",
+    year: "Meta-analysis",
+    location: "Global",
+    category: "real-feedback",
+    headline: "Every 10% increase in ultra-processed food = 4% higher all-cause mortality; 62% of American diet is now engineered",
+    summary: "Meta-analyses show every 10% increase in ultra-processed food consumption increases all-cause mortality by 4%. Ultra-processed foods now constitute 62% of the American diet. These are products engineered to override satiety signals, combining fat/sugar/salt in ratios that don't exist in nature, designed by food scientists to maximize consumption, not nutrition.",
+    sources: [
+      { name: "BMJ - Ultra-Processed Food Study", url: "https://www.bmj.com/content/365/bmj.l1949" },
+      { name: "NIH - NOVA Classification", url: "https://pubmed.ncbi.nlm.nih.gov/30744710/" }
+    ],
+    eeaBaseline: "Food required effort to obtain and prepare. Satiety signals accurately reflected nutritional needs. Overconsumption was physically impossible.",
+    modernViolation: "Food engineered to override satiety signals. 'Bliss points' calculated to maximize consumption. Cheap, convenient, and designed to be impossible to eat in moderation.",
+    systemicCause: "Food industry profits from maximizing consumption. Regulation captured by industry. True costs externalized to healthcare system."
+  },
+
+  // MORE PSYCHIATRIC/MEDICAL CASES
+  {
+    id: "opioid-overdose-crisis",
+    name: "Opioid Overdose Crisis",
+    year: "1999-present",
+    location: "United States",
+    category: "visible-purpose",
+    headline: "500,000+ Americans dead from opioid overdoses since 1999—pharmaceutical companies knew addiction was inevitable",
+    summary: "Over 500,000 Americans have died from opioid overdoses since 1999, with pharmaceutical companies like Purdue Pharma deliberately marketing OxyContin as non-addictive while knowing otherwise. But this isn't just corporate malfeasance—it's demand meeting supply. People in despair seeking chemical escape from purposeless lives met companies happy to provide it.",
+    sources: [
+      { name: "CDC Opioid Data", url: "https://www.cdc.gov/drugoverdose/epidemic/index.html" },
+      { name: "Empire of Pain (Sackler Investigation)", url: "https://www.penguinrandomhouse.com/books/612793/empire-of-pain-by-patrick-radden-keefe/" }
+    ],
+    eeaBaseline: "Pain was managed through community care, rest, and natural recovery. Chronic purposelessness was prevented by tribal belonging and meaningful work.",
+    modernViolation: "Pills prescribed for both physical and existential pain. Chemical management of despair rather than addressing environmental causes.",
+    systemicCause: "Healthcare system that bills for pills, not community. Pharma profits from addiction. Communities destroyed by deindustrialization left desperate for any relief."
+  },
+  {
+    id: "teen-psychiatric-medication",
+    name: "Teen Psychiatric Medication Surge",
+    year: "2015-2023",
+    location: "United States",
+    category: "real-feedback",
+    headline: "41% of teen girls and 20% of teen boys now take psychiatric medication—we're medicating environmental distress",
+    summary: "Psychiatric medication use among US teens has surged, with 41% of teen girls and 20% of teen boys now taking medications for anxiety, depression, or ADHD. Rather than addressing why teens are anxious (social media, academic pressure, lack of purpose), we medicate them to tolerate intolerable conditions. The drugs may be necessary—but only because the environment is broken.",
+    sources: [
+      { name: "CDC Youth Mental Health Data", url: "https://www.cdc.gov/healthyyouth/mental-health/index.htm" },
+      { name: "Express Scripts - Teen Medication Trends", url: "https://www.express-scripts.com/corporate/americas-state-mind-report" }
+    ],
+    eeaBaseline: "Adolescents transitioned to adult roles within supportive communities. Anxiety and uncertainty were managed through rituals, mentorship, and clear paths to adulthood.",
+    modernViolation: "Teens face years of abstract credentialing with uncertain outcomes, social comparison via curated feeds, and no clear path to meaningful adulthood.",
+    systemicCause: "Education system that delays adulthood. Social media that maximizes comparison. Job market that offers no security. Pills are cheaper than fixing any of this."
+  },
+
+  // ADDITIONAL CASES
+  {
+    id: "screen-time-toddlers",
+    name: "Toddler Screen Time Crisis",
+    year: "2024",
+    location: "United States",
+    category: "distributed-care",
+    headline: "Average 2-year-old now gets 3+ hours daily screen time; AAP recommends zero—exhausted parents have no choice",
+    summary: "Despite pediatric guidelines recommending zero screen time under 2, the average American 2-year-old now gets 3+ hours daily. This isn't parental failure—it's environmental reality. Without extended family help, with both parents working, screens become the only affordable 'babysitter.' We created conditions where screens are necessary, then blame parents for using them.",
+    sources: [
+      { name: "JAMA Pediatrics - Screen Time Study", url: "https://jamanetwork.com/journals/jamapediatrics/fullarticle/2722666" },
+      { name: "AAP Screen Time Guidelines", url: "https://www.aap.org/en/patient-care/media-and-children/" }
+    ],
+    eeaBaseline: "Childcare was shared across extended family and tribe. No parent was alone with children for extended periods. Entertainment was interaction, not screens.",
+    modernViolation: "Isolated parents, no extended family nearby, both parents working, childcare unaffordable. Screens become necessary survival tool for overwhelmed caregivers.",
+    systemicCause: "No parental leave. Childcare costs exceed rent. Extended family scattered by economics. We demand screenless parenting without providing alternatives."
+  },
+  {
+    id: "bullshit-jobs",
+    name: "Bullshit Jobs Phenomenon",
+    year: "2013-present",
+    location: "Global",
+    category: "visible-purpose",
+    headline: "40% of workers believe their jobs are meaningless—we create work to justify paychecks, not because it needs doing",
+    summary: "Anthropologist David Graeber's research found that roughly 40% of workers believe their jobs make no meaningful contribution to the world. These 'bullshit jobs'—administrative bloat, unnecessary management layers, pointless paperwork—exist not because the work needs doing but because we've tied survival to employment. People spend their lives on work they know is meaningless.",
+    sources: [
+      { name: "Bullshit Jobs Book", url: "https://www.simonandschuster.com/books/Bullshit-Jobs/David-Graeber/9781501143311" },
+      { name: "Original Essay", url: "https://www.strike.coop/bullshit-jobs/" }
+    ],
+    eeaBaseline: "All work directly supported survival. Hunting provided food. Gathering provided food. Tool-making enabled hunting. Every task had visible, immediate purpose.",
+    modernViolation: "Much modern work has no visible benefit to anyone. Workers know this but must perform meaninglessness to survive. Purpose replaced by paycheck.",
+    systemicCause: "Employment as identity and survival mechanism. Automation should reduce work but instead creates pointless jobs. Dignity tied to 'having a job' regardless of meaning."
+  },
+
+  // Additional cases to reach 30+
+  {
+    id: "chronic-sleep-debt",
+    name: "Global Sleep Deprivation Crisis",
+    year: "2020-present",
+    location: "Global",
+    category: "closed-loops",
+    headline: "1 in 3 adults are chronically sleep-deprived; artificial light and 24/7 connectivity override our circadian biology",
+    summary: "The CDC reports that 1 in 3 American adults don't get enough sleep. Globally, sleep duration has decreased by 1-2 hours per night compared to a century ago. Electric lighting, screens, shift work, and the 'always on' culture override our evolved circadian rhythms. Sleep deprivation is linked to obesity, diabetes, heart disease, depression, and early mortality.",
+    sources: [
+      { name: "CDC Sleep Statistics", url: "https://www.cdc.gov/sleep/data-and-statistics/adults.html" },
+      { name: "Sleep Foundation - Statistics", url: "https://www.sleepfoundation.org/how-sleep-works/sleep-facts-statistics" }
+    ],
+    eeaBaseline: "Humans slept with the sun cycle—darkness triggered melatonin, morning light woke us naturally. Sleep was protected by the environment itself.",
+    modernViolation: "24/7 artificial lighting, screens emitting blue light, work demands at all hours, and entertainment options that never close override our biology.",
+    systemicCause: "Economic systems that reward 'hustle culture' and 24/7 productivity. Technology designed for engagement without biological limits. Cities that never sleep."
+  },
+  {
+    id: "childhood-obesity-crisis",
+    name: "Childhood Obesity Epidemic",
+    year: "1980-present",
+    location: "Global",
+    category: "closed-loops",
+    headline: "Childhood obesity has tripled since 1975; children now develop 'adult' diseases like type 2 diabetes",
+    summary: "Childhood obesity has nearly tripled worldwide since 1975. In the US, nearly 20% of children are obese. Children now develop type 2 diabetes, fatty liver disease, and hypertension—diseases that barely existed in children 50 years ago. This isn't about willpower; it's about environments engineered to make movement rare and hyperpalatable food abundant.",
+    sources: [
+      { name: "WHO Obesity Facts", url: "https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight" },
+      { name: "CDC Childhood Obesity", url: "https://www.cdc.gov/obesity/php/data-research/childhood-obesity-facts.html" }
+    ],
+    eeaBaseline: "Children ran, climbed, and played for hours daily. Food was whole, seasonal, and scarce enough that overconsumption wasn't possible.",
+    modernViolation: "Children sit in schools, then sit in cars, then sit at screens. Food is engineered for maximum calorie consumption. 'Safety' means staying indoors.",
+    systemicCause: "Car-dependent suburbs with no safe play areas. Schools that cut recess and PE. Food industry engineering hyperpalatable products. Screens designed for endless engagement."
+  },
+  {
+    id: "friendship-recession",
+    name: "The Friendship Recession",
+    year: "2020-present",
+    location: "United States",
+    category: "social-structure",
+    headline: "Americans' close friendships have declined by 50% since 1990; 15% of men report having no close friends",
+    summary: "The Survey Center on American Life found that Americans report having fewer close friends than ever. The share of Americans with no close friends has quadrupled since 1990. 15% of men report having no close friends at all. Meanwhile, the average hours spent socializing has dropped dramatically. We're more connected digitally and more alone than ever.",
+    sources: [
+      { name: "Survey Center on American Life", url: "https://www.americansurveycenter.org/research/the-state-of-american-friendship-change-challenges-and-loss/" },
+      { name: "The Atlantic - Friendship Recession", url: "https://www.theatlantic.com/ideas/archive/2022/05/american-friendship-crisis/629830/" }
+    ],
+    eeaBaseline: "Friendships formed automatically through shared daily life. You saw the same people every day while working, eating, playing. Friendship required no scheduling.",
+    modernViolation: "Friendships now require calendar coordination, transportation, and energy after exhausting work. Digital substitutes create illusion of connection without substance.",
+    systemicCause: "Car-dependent suburbs scatter people. Long work hours leave no time. Geographic mobility breaks bonds. Social media replaces quality with quantity."
+  },
+  {
+    id: "parental-leave-usa",
+    name: "Zero Paid Parental Leave",
+    year: "1993-present",
+    location: "United States",
+    category: "distributed-care",
+    headline: "The US is the only wealthy nation with zero guaranteed paid parental leave—forcing parents back to work within weeks of birth",
+    summary: "The United States stands alone among developed nations in guaranteeing zero weeks of paid parental leave. The Family and Medical Leave Act only guarantees 12 weeks unpaid leave—and only for those at companies with 50+ employees. Many new parents return to work within 2 weeks of giving birth, leaving newborns in care of strangers or inadequate arrangements.",
+    sources: [
+      { name: "Pew Research - Parental Leave", url: "https://www.pewresearch.org/short-reads/2019/12/16/u-s-lacks-mandated-paid-parental-leave/" },
+      { name: "OECD Family Database", url: "https://www.oecd.org/els/family/database.htm" }
+    ],
+    eeaBaseline: "New mothers were supported by extended family and community. Other adults held, fed, and cared for newborns. Mothers were never isolated with sole responsibility.",
+    modernViolation: "Parents—especially mothers—must choose between income and caring for their infant. Economic survival demands returning to work while biologically still recovering.",
+    systemicCause: "Economy that treats childcare as private problem. Corporate interests that lobbied against mandatory leave. Cultural narrative that 'strong' parents don't need help."
+  },
+  {
+    id: "commute-hell",
+    name: "The Extreme Commute",
+    year: "2019",
+    location: "United States",
+    category: "visible-purpose",
+    headline: "Average American spends 27 minutes each way commuting—some 'super commuters' travel 90+ minutes; this lost time is linked to divorce and depression",
+    summary: "Americans spend an average of 27.6 minutes commuting each way—nearly an hour daily. 'Super commuters' (90+ minutes each way) have grown 15% in recent years. Long commutes correlate with higher divorce rates, lower life satisfaction, less exercise, and more obesity. We literally waste years of our lives traveling between home and work.",
+    sources: [
+      { name: "Census Bureau Commute Data", url: "https://www.census.gov/newsroom/press-releases/2021/one-way-travel-time-to-work-rises.html" },
+      { name: "Study on Commuting and Divorce", url: "https://www.sciencedirect.com/science/article/abs/pii/S0094119011000131" }
+    ],
+    eeaBaseline: "Work happened where you lived. Commuting didn't exist. The separation of 'home' and 'work' into distant locations requiring travel is entirely modern.",
+    modernViolation: "Housing unaffordable near jobs. Jobs concentrated in expensive urban centers. Hours lost daily in cars or trains, adding stress and stealing time from family and rest.",
+    systemicCause: "Zoning that separates residential from commercial. Housing markets that price workers out of cities. Lack of public transit investment. Remote work resistance."
+  },
+  {
+    id: "suburban-isolation",
+    name: "Suburban Isolation Design",
+    year: "1950-present",
+    location: "United States",
+    category: "social-structure",
+    headline: "American suburbs were explicitly designed to separate people; cul-de-sacs and lack of sidewalks make casual social contact nearly impossible",
+    summary: "Post-WWII suburban design prioritized cars over people, private yards over shared spaces, and separation over community. Cul-de-sacs, lack of sidewalks, strict zoning, and garage-facing homes mean many Americans never casually encounter neighbors. Studies show suburban residents have fewer friends and higher rates of social isolation than urban dwellers.",
+    sources: [
+      { name: "Suburban Nation Book", url: "https://www.amazon.com/Suburban-Nation-Rise-Sprawl-American/dp/0865477507" },
+      { name: "Strong Towns - Suburban Isolation", url: "https://www.strongtowns.org/journal/2019/6/3/why-suburbia-works-against-us" }
+    ],
+    eeaBaseline: "Human settlements were designed around shared spaces—village commons, wells, markets. You couldn't avoid encountering your neighbors daily.",
+    modernViolation: "Suburban design actively prevents casual encounter. No shared spaces. Cars as only transportation. Each family isolated on their plot.",
+    systemicCause: "Post-war housing policy favoring car-dependent sprawl. Zoning laws mandating separation. Developer incentives for low-density, car-centric design."
+  },
+  {
+    id: "teacher-attrition",
+    name: "Mass Teacher Exodus",
+    year: "2020-present",
+    location: "United States",
+    category: "visible-purpose",
+    headline: "Teachers are leaving the profession at record rates—55% say they'll leave earlier than planned; those who stay report unprecedented burnout",
+    summary: "A 2022 NEA survey found 55% of teachers plan to leave education earlier than planned—up from 37% pre-pandemic. Teachers cite low pay, lack of respect, political attacks, and impossible workloads. Average teacher tenure has dropped. Schools face massive shortages, with some states hiring people without teaching credentials. The people we trust with children's development are fleeing.",
+    sources: [
+      { name: "NEA Teacher Survey", url: "https://www.nea.org/sites/default/files/2022-02/NEA%20Member%20COVID-19%20Survey%20Summary.pdf" },
+      { name: "EdWeek - Teacher Shortages", url: "https://www.edweek.org/teaching-learning/teacher-shortages-arent-just-a-covid-problem-heres-what-the-data-show/2022/09" }
+    ],
+    eeaBaseline: "Teaching children was distributed across the community. Knowledge passed through play, observation, and mentorship. No single person bore sole responsibility for 30 children.",
+    modernViolation: "One teacher responsible for 25-35 children, 7 hours daily. Blamed for systemic failures. Underpaid while expected to be therapist, security guard, and entertainer.",
+    systemicCause: "Defunding of public education. Political weaponization of teaching. Impossible accountability metrics. Society demanding teachers fix problems it created."
+  },
+  {
+    id: "healthcare-burnout",
+    name: "Healthcare Worker Burnout Crisis",
+    year: "2020-present",
+    location: "Global",
+    category: "visible-purpose",
+    headline: "Over 50% of healthcare workers report burnout; hospitals face mass resignations as those who heal others can't heal themselves",
+    summary: "More than half of healthcare workers report symptoms of burnout. Nursing turnover reached 27% in 2021. Doctors have suicide rates 2x the general population. The pandemic accelerated a crisis that was already brewing: the people we trust to heal us are being destroyed by systems that treat them as disposable productivity units.",
+    sources: [
+      { name: "CDC - Healthcare Worker Mental Health", url: "https://www.cdc.gov/niosh/topics/healthcare/workplaceviol.html" },
+      { name: "Mayo Clinic - Physician Burnout", url: "https://www.mayoclinicproceedings.org/article/S0025-6196(21)00744-8/fulltext" }
+    ],
+    eeaBaseline: "Healers worked within communities where they knew patients personally. They saw the results of their work. The community protected and valued them.",
+    modernViolation: "12+ hour shifts with strangers. Endless documentation. Patients as 'throughput.' Moral injury from profit-driven care decisions. Personal sacrifice expected as default.",
+    systemicCause: "Healthcare as profit center. Administrative bloat eating resources. EMR systems designed for billing not care. Staffing ratios set by accountants not healers."
+  },
+  {
+    id: "quarter-life-crisis",
+    name: "The Quarter-Life Crisis",
+    year: "2000-present",
+    location: "Global",
+    category: "visible-purpose",
+    headline: "75% of young adults report experiencing a 'quarter-life crisis'—feeling lost, directionless, and questioning life choices before age 35",
+    summary: "Research shows roughly 75% of people aged 25-35 experience a 'quarter-life crisis'—intense anxiety about career, relationships, and life direction. Unlike previous generations who followed predictable paths (school → job → marriage → house), young adults face paradox of choice, economic precarity, and no clear milestones. It's not a phase—it's the rational response to an illegible future.",
+    sources: [
+      { name: "LinkedIn Quarter-Life Crisis Survey", url: "https://news.linkedin.com/2017/11/linkedin-s-quarter-life-crisis" },
+      { name: "Psychology Today - Quarter-Life Crisis", url: "https://www.psychologytoday.com/us/basics/quarter-life-crisis" }
+    ],
+    eeaBaseline: "Life paths were clear and communally validated. You became an adult through known rituals. Your role was defined by your community. 'What should I do with my life?' wasn't a question.",
+    modernViolation: "Infinite career options but no guidance. Economic precarity making milestones unreachable. Social media showing curated highlight reels. No elders providing direction.",
+    systemicCause: "Collapse of predictable life paths. Student debt delaying adulthood. Housing costs preventing independence. Gig economy removing career ladders."
+  },
+  {
+    id: "retirement-crisis",
+    name: "The Retirement Mortality Spike",
+    year: "1990-present",
+    location: "Global",
+    category: "visible-purpose",
+    headline: "Studies show retirement increases mortality risk by 20% and accelerates cognitive decline—we evolved to be useful, not leisured",
+    summary: "Multiple studies show that retirement increases mortality risk. A meta-analysis found retirement increases risk of death by 20% in early years. Retirees show accelerated cognitive decline and higher rates of depression. The 'golden years' narrative hides a darker reality: humans evolved to be useful members of their community, and being told you're no longer needed can be fatal.",
+    sources: [
+      { name: "BMJ - Retirement and Mortality", url: "https://jech.bmj.com/content/73/4/337" },
+      { name: "Harvard Study on Retirement", url: "https://www.health.harvard.edu/blog/is-retirement-good-for-health-or-bad-for-it-2016100310178" }
+    ],
+    eeaBaseline: "Elderly people contributed wisdom, childcare, and specialized knowledge until death. 'Retirement' didn't exist—you mattered until the end.",
+    modernViolation: "Arbitrary age cutoff declares people useless. Removed from work identity. Isolated from daily social structure. Expected to enjoy purposeless 'leisure.'",
+    systemicCause: "Industrial economy that values productivity over wisdom. Mandatory retirement ages. Pension systems that require departure. Youth-focused culture devaluing experience."
   }
 ];
 

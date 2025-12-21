@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
 
-// Chart data from JSON - with clickable source URLs and context
+// Chart data with clickable sources and context
 const CHART_DATA = {
   heroStats: [
     {
@@ -93,10 +93,6 @@ const CHART_DATA = {
       { year: "2022", value: 890, label: "890M" },
       { year: "2035", value: 1530, label: "1.53B", projected: true },
     ],
-    usRate: [
-      { period: "1999-2000", value: 30.5 },
-      { period: "2017-2018", value: 42.4 },
-    ],
   },
   screenTime: {
     byGeneration: [
@@ -113,9 +109,9 @@ const CHART_DATA = {
   },
   nature: {
     timeOutdoors: [
-      { label: "≤5 hours/week", value: 60, color: "crisis" },
-      { label: "5-10 hours/week", value: 20, color: "warning" },
-      { label: "10+ hours/week", value: 20, color: "good" },
+      { label: "≤5 hours/week", value: 60, color: "#ef4444" },
+      { label: "5-10 hours/week", value: 20, color: "#f59e0b" },
+      { label: "10+ hours/week", value: 20, color: "#22c55e" },
     ],
   },
   sleep: {
@@ -137,55 +133,189 @@ const CHART_DATA = {
     { category: "Purpose", ancestral: "Tied to survival & tribe", modern: "Abstract/detached" },
     { category: "Feedback", ancestral: "Immediate, tangible", modern: "Infinite scroll, no completion" },
   ],
+  // Diet breakdown for pie chart
+  dietBreakdown: [
+    { label: "Ultra-processed", value: 62, color: "#ef4444" },
+    { label: "Processed", value: 18, color: "#f59e0b" },
+    { label: "Whole foods", value: 20, color: "#22c55e" },
+  ],
+  // Time allocation pie chart
+  dailyTimeAllocation: [
+    { label: "Sleep", value: 7, color: "#6366f1" },
+    { label: "Work", value: 8, color: "#8b5cf6" },
+    { label: "Screens (non-work)", value: 5, color: "#ef4444" },
+    { label: "Commute/errands", value: 2, color: "#f59e0b" },
+    { label: "Face-to-face social", value: 0.5, color: "#22c55e" },
+    { label: "Other", value: 1.5, color: "#94a3b8" },
+  ],
 };
 
 // Framework analysis for each stat section
 const FRAMEWORK_ANALYSIS = {
   loneliness: {
     whatIsHappening: "52 million Americans experience loneliness daily. The rate is highest among young adults (18-34) at 30%, despite having the most digital 'connections' in history.",
-    whatIsMissing: "Face-to-face interaction with a stable tribe. Humans evolved in groups of 50-150 people who saw each other daily. Modern life replaces this with anonymous cities, remote work, and digital substitutes.",
-    howToSolve: "Rebuild physical community structures. Cohousing, third places, walkable neighborhoods. Replace screen time with in-person rituals. Normalize regular gatherings as essential infrastructure, not optional social events.",
+    whatIsMissing: "Face-to-face interaction with a stable tribe. Humans evolved in groups of 50-150 people who saw each other daily.",
     keyMismatch: "Social Disconnection",
   },
   friendship: {
-    whatIsHappening: "The number of Americans with no close friends increased 467% since 1990. Those with 10+ close friends dropped 61%. Youth social interaction has declined 70% over 20 years.",
-    whatIsMissing: "Regular, unstructured time with consistent people. Friendship requires repeated, unplanned interaction—exactly what modern life optimizes away through scheduling, commuting, and screen-based entertainment.",
-    howToSolve: "Design environments that force repeated exposure: neighborhood amenities, shared workspaces, regular community meals. Make friendship formation automatic rather than requiring active scheduling.",
+    whatIsHappening: "The number of Americans with no close friends increased 467% since 1990. Those with 10+ close friends dropped 61%.",
+    whatIsMissing: "Regular, unstructured time with consistent people. Friendship requires repeated, unplanned interaction.",
     keyMismatch: "Community Collapse",
   },
   mentalHealth: {
     whatIsHappening: "Anxiety increased 17% and depression 16% from 2019-2022. 43% of adults feel more anxious than last year. 1 in 5 high schoolers have considered suicide.",
-    whatIsMissing: "Purpose, autonomy, and environmental stability. The brain requires predictable challenges with clear outcomes. Modern life offers infinite uncertainty, abstract work, and comparison to curated online personas.",
-    howToSolve: "Restore tangible work with visible outcomes. Limit exposure to algorithmic feeds. Rebuild stable social environments. Address root environmental causes rather than medicating symptoms.",
+    whatIsMissing: "Purpose, autonomy, and environmental stability. The brain requires predictable challenges with clear outcomes.",
     keyMismatch: "Purpose Deprivation + Attention Hijacking",
   },
   obesity: {
-    whatIsHappening: "Global obesity rose from 105M (1975) to 890M (2022), heading toward 1.53B by 2035. US adult obesity went from 30.5% to 42.4%. Childhood obesity increased 10x.",
-    whatIsMissing: "Movement as transportation and work. Whole foods requiring preparation. Natural hunger/satiety signals uncorrupted by engineered hyperpalatability.",
-    howToSolve: "Redesign cities for walking. Remove ultra-processed foods from default availability. Make movement unavoidable through environmental design rather than requiring willpower.",
+    whatIsHappening: "Global obesity rose from 105M (1975) to 890M (2022), heading toward 1.53B by 2035.",
+    whatIsMissing: "Movement as transportation and work. Whole foods requiring preparation. Natural hunger/satiety signals.",
     keyMismatch: "Movement Deprivation + Nutritional Mismatch",
   },
   screenTime: {
-    whatIsHappening: "Gen Z averages 9 hours of screen time daily. Teens spend 8+ hours on screens, 41% exceed this. 49% of people feel addicted to their phones.",
-    whatIsMissing: "Attention sovereignty. The brain evolved for finite information environments with natural completion points. Infinite scroll exploits dopamine systems designed for scarcity.",
-    howToSolve: "Treat attention as the scarce resource it is. Design technology with natural stopping points. Replace algorithmic feeds with curated, finite content. Restore boredom as creative space.",
+    whatIsHappening: "Gen Z averages 9 hours of screen time daily. 49% of people feel addicted to their phones.",
+    whatIsMissing: "Attention sovereignty. The brain evolved for finite information environments with natural completion points.",
     keyMismatch: "Attention Hijacking",
   },
   nature: {
-    whatIsHappening: "60% of adults spend ≤5 hours per week in nature. Children spend 3x more time on screens than playing outside. 99.9% of human evolution occurred in natural environments.",
-    whatIsMissing: "Daily exposure to natural light, green spaces, natural sounds, and variable temperatures. The nervous system requires natural input for proper regulation.",
-    howToSolve: "Biophilic design in homes and offices. Daily outdoor requirements. Forest schools. Urban greening. Make nature contact automatic through environmental design.",
+    whatIsHappening: "60% of adults spend ≤5 hours per week in nature. 99.9% of human evolution occurred in natural environments.",
+    whatIsMissing: "Daily exposure to natural light, green spaces, natural sounds, and variable temperatures.",
     keyMismatch: "Nature Severance",
   },
   sleep: {
-    whatIsHappening: "Average sleep dropped from 7.9 hours (1942) to 6.8 hours (2013). 77% of high schoolers are sleep deprived. 50-70 million Americans have sleep disorders.",
-    whatIsMissing: "Natural light/dark cycles. The circadian system requires bright light in morning and darkness at night. Artificial light, especially blue light from screens, suppresses melatonin.",
-    howToSolve: "Morning sunlight exposure. Screen curfews. Dim, warm lighting after sunset. Temperature variation. Consistent sleep schedules aligned with natural rhythms.",
+    whatIsHappening: "Average sleep dropped from 7.9 hours (1942) to 6.8 hours (2013). 77% of high schoolers are sleep deprived.",
+    whatIsMissing: "Natural light/dark cycles. The circadian system requires bright light in morning and darkness at night.",
     keyMismatch: "Circadian Disruption",
   },
 };
 
-// Horizontal bar chart component
+// SVG Pie Chart component
+function PieChart({
+  data,
+  title,
+  source,
+  sourceUrl,
+  size = 200
+}: {
+  data: { label: string; value: number; color: string }[];
+  title: string;
+  source: string;
+  sourceUrl?: string;
+  size?: number;
+}) {
+  const total = data.reduce((sum, d) => sum + d.value, 0);
+  let currentAngle = -90; // Start from top
+
+  const paths = data.map((item, idx) => {
+    const angle = (item.value / total) * 360;
+    const startAngle = currentAngle;
+    const endAngle = currentAngle + angle;
+    currentAngle = endAngle;
+
+    const startRad = (startAngle * Math.PI) / 180;
+    const endRad = (endAngle * Math.PI) / 180;
+
+    const x1 = 100 + 80 * Math.cos(startRad);
+    const y1 = 100 + 80 * Math.sin(startRad);
+    const x2 = 100 + 80 * Math.cos(endRad);
+    const y2 = 100 + 80 * Math.sin(endRad);
+
+    const largeArc = angle > 180 ? 1 : 0;
+
+    return (
+      <path
+        key={idx}
+        d={`M 100 100 L ${x1} ${y1} A 80 80 0 ${largeArc} 1 ${x2} ${y2} Z`}
+        fill={item.color}
+        className="transition-opacity hover:opacity-80"
+      />
+    );
+  });
+
+  return (
+    <div className="bg-white rounded-xl border border-gray-200 p-6">
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+      <div className="flex items-center gap-6">
+        <svg viewBox="0 0 200 200" className="w-40 h-40 flex-shrink-0">
+          {paths}
+        </svg>
+        <div className="space-y-2">
+          {data.map((item, idx) => (
+            <div key={idx} className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
+              <span className="text-sm text-gray-600">{item.label}</span>
+              <span className="text-sm font-semibold text-gray-900">{item.value}%</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      {sourceUrl ? (
+        <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="text-gray-500 text-xs mt-4 block hover:text-[#C75B39] transition-colors">
+          Source: {source} →
+        </a>
+      ) : (
+        <p className="text-gray-500 text-xs mt-4">Source: {source}</p>
+      )}
+    </div>
+  );
+}
+
+// Donut Chart component
+function DonutChart({
+  value,
+  total,
+  label,
+  color = "#C75B39",
+  source,
+  sourceUrl
+}: {
+  value: number;
+  total: number;
+  label: string;
+  color?: string;
+  source?: string;
+  sourceUrl?: string;
+}) {
+  const percentage = (value / total) * 100;
+  const circumference = 2 * Math.PI * 70;
+  const strokeDasharray = `${(percentage / 100) * circumference} ${circumference}`;
+
+  return (
+    <div className="bg-white rounded-xl border border-gray-200 p-6 text-center">
+      <svg viewBox="0 0 200 200" className="w-32 h-32 mx-auto">
+        <circle cx="100" cy="100" r="70" fill="none" stroke="#e5e7eb" strokeWidth="20" />
+        <circle
+          cx="100"
+          cy="100"
+          r="70"
+          fill="none"
+          stroke={color}
+          strokeWidth="20"
+          strokeDasharray={strokeDasharray}
+          strokeLinecap="round"
+          transform="rotate(-90 100 100)"
+          className="transition-all duration-1000"
+        />
+        <text x="100" y="95" textAnchor="middle" className="text-2xl font-bold fill-gray-900">
+          {Math.round(percentage)}%
+        </text>
+        <text x="100" y="115" textAnchor="middle" className="text-xs fill-gray-500">
+          of {total}
+        </text>
+      </svg>
+      <p className="text-gray-700 text-sm mt-2">{label}</p>
+      {source && (sourceUrl ? (
+        <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="text-gray-500 text-xs mt-2 block hover:text-[#C75B39]">
+          {source} →
+        </a>
+      ) : (
+        <p className="text-gray-500 text-xs mt-2">{source}</p>
+      ))}
+    </div>
+  );
+}
+
+// Horizontal bar chart component - LIGHT VERSION
 function HorizontalBarChart({
   data,
   title,
@@ -206,19 +336,19 @@ function HorizontalBarChart({
   const max = maxValue || Math.max(...data.map(d => d.value)) * 1.1;
 
   return (
-    <div className="bg-[#111] rounded-xl p-6">
-      <h3 className="text-xl font-bold text-white mb-1">{title}</h3>
-      {subtitle && <p className="text-gray-400 text-sm mb-4">{subtitle}</p>}
+    <div className="bg-white rounded-xl border border-gray-200 p-6">
+      <h3 className="text-lg font-semibold text-gray-900 mb-1">{title}</h3>
+      {subtitle && <p className="text-gray-500 text-sm mb-4">{subtitle}</p>}
       <div className="space-y-3">
         {data.map((item, idx) => (
           <div key={idx}>
             <div className="flex justify-between text-sm mb-1">
-              <span className={item.highlight ? "text-[#ff6b35] font-medium" : "text-gray-300"}>{item.label}</span>
-              <span className={item.highlight ? "text-[#ff6b35] font-bold" : "text-white font-medium"}>{item.value}{unit}</span>
+              <span className={item.highlight ? "text-[#C75B39] font-medium" : "text-gray-700"}>{item.label}</span>
+              <span className={item.highlight ? "text-[#C75B39] font-bold" : "text-gray-900 font-medium"}>{item.value}{unit}</span>
             </div>
-            <div className="h-6 bg-gray-800 rounded-full overflow-hidden">
+            <div className="h-6 bg-gray-100 rounded-full overflow-hidden">
               <div
-                className={`h-full rounded-full transition-all duration-1000 ${item.highlight ? 'bg-gradient-to-r from-[#ff3333] to-[#ff6b35]' : 'bg-gradient-to-r from-gray-600 to-gray-500'}`}
+                className={`h-full rounded-full transition-all duration-1000 ${item.highlight ? 'bg-[#C75B39]' : 'bg-gray-400'}`}
                 style={{ width: `${(item.value / max) * 100}%` }}
               />
             </div>
@@ -226,7 +356,7 @@ function HorizontalBarChart({
         ))}
       </div>
       {sourceUrl ? (
-        <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="text-gray-500 text-xs mt-4 block hover:text-[#ff6b35] transition-colors">
+        <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="text-gray-500 text-xs mt-4 block hover:text-[#C75B39] transition-colors">
           Source: {source} →
         </a>
       ) : (
@@ -236,7 +366,7 @@ function HorizontalBarChart({
   );
 }
 
-// Stat cards component
+// Stat cards component - LIGHT VERSION
 function StatCards({
   data,
   title
@@ -246,12 +376,12 @@ function StatCards({
 }) {
   return (
     <div>
-      <h3 className="text-xl font-bold text-white mb-4">{title}</h3>
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
       <div className="grid grid-cols-2 gap-4">
         {data.map((item, idx) => (
-          <div key={idx} className="bg-[#111] rounded-xl p-4 border border-gray-800">
-            <p className="text-3xl font-bold text-[#ff6b35]">{item.value}</p>
-            <p className="text-gray-300 text-sm mt-1">{item.label}</p>
+          <div key={idx} className="bg-white rounded-xl p-4 border border-gray-200">
+            <p className="text-2xl font-bold text-[#C75B39]">{item.value}</p>
+            <p className="text-gray-700 text-sm mt-1">{item.label}</p>
             {item.subtext && <p className="text-gray-500 text-xs mt-1">{item.subtext}</p>}
           </div>
         ))}
@@ -260,7 +390,7 @@ function StatCards({
   );
 }
 
-// Comparison chart (1990 vs 2024 style)
+// Comparison chart - LIGHT VERSION
 function ComparisonChart({
   data,
   title,
@@ -273,32 +403,32 @@ function ComparisonChart({
   sourceUrl?: string;
 }) {
   return (
-    <div className="bg-[#111] rounded-xl p-6">
-      <h3 className="text-xl font-bold text-white mb-4">{title}</h3>
+    <div className="bg-white rounded-xl border border-gray-200 p-6">
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
       <div className="space-y-6">
         {data.map((item, idx) => (
           <div key={idx}>
-            <p className="text-gray-300 text-sm mb-2">{item.metric}</p>
+            <p className="text-gray-700 text-sm mb-2">{item.metric}</p>
             <div className="flex items-center gap-4">
               <div className="flex-1">
                 <div className="flex justify-between text-xs mb-1">
                   <span className="text-gray-500">1990</span>
-                  <span className="text-gray-400">{item.year1990}%</span>
+                  <span className="text-gray-600">{item.year1990}%</span>
                 </div>
-                <div className="h-4 bg-gray-800 rounded-full overflow-hidden">
-                  <div className="h-full bg-gray-600 rounded-full" style={{ width: `${item.year1990}%` }} />
+                <div className="h-4 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-full bg-gray-400 rounded-full" style={{ width: `${item.year1990}%` }} />
                 </div>
               </div>
               <div className="flex-1">
                 <div className="flex justify-between text-xs mb-1">
                   <span className="text-gray-500">2024</span>
-                  <span className="text-[#ff6b35]">{item.year2024}%</span>
+                  <span className="text-[#C75B39]">{item.year2024}%</span>
                 </div>
-                <div className="h-4 bg-gray-800 rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-[#ff3333] to-[#ff6b35] rounded-full" style={{ width: `${item.year2024}%` }} />
+                <div className="h-4 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-full bg-[#C75B39] rounded-full" style={{ width: `${item.year2024}%` }} />
                 </div>
               </div>
-              <span className={`text-sm font-bold ${item.change.startsWith('+') ? 'text-red-500' : 'text-green-500'}`}>
+              <span className={`text-sm font-bold ${item.change.startsWith('+') ? 'text-red-600' : 'text-green-600'}`}>
                 {item.change}
               </span>
             </div>
@@ -306,7 +436,7 @@ function ComparisonChart({
         ))}
       </div>
       {sourceUrl ? (
-        <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="text-gray-500 text-xs mt-4 block hover:text-[#ff6b35] transition-colors">
+        <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="text-gray-500 text-xs mt-4 block hover:text-[#C75B39] transition-colors">
           Source: {source} →
         </a>
       ) : (
@@ -316,53 +446,49 @@ function ComparisonChart({
   );
 }
 
-// Framework analysis card
+// Framework analysis card - LIGHT VERSION
 function FrameworkAnalysis({
   analysis
 }: {
-  analysis: { whatIsHappening: string; whatIsMissing: string; howToSolve: string; keyMismatch: string };
+  analysis: { whatIsHappening: string; whatIsMissing: string; keyMismatch: string };
 }) {
   return (
-    <div className="bg-[#0a0a0a] border border-[#ff6b35]/30 rounded-xl p-6 mt-6">
-      <h4 className="text-[#ff6b35] font-bold uppercase tracking-wider text-sm mb-4 flex items-center gap-2">
+    <div className="bg-[#FDF8F6] border border-[#C75B39]/30 rounded-xl p-6 mt-6">
+      <h4 className="text-[#C75B39] font-bold uppercase tracking-wider text-sm mb-4 flex items-center gap-2">
         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
         </svg>
-        Framework Analysis
+        Framework Lens
       </h4>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         <div>
-          <p className="text-gray-500 text-xs uppercase tracking-wider mb-1">What is actually happening?</p>
-          <p className="text-gray-300 text-sm">{analysis.whatIsHappening}</p>
+          <p className="text-gray-500 text-xs uppercase tracking-wider mb-1">What&apos;s happening</p>
+          <p className="text-gray-700 text-sm">{analysis.whatIsHappening}</p>
         </div>
         <div>
-          <p className="text-gray-500 text-xs uppercase tracking-wider mb-1">What is missing?</p>
-          <p className="text-gray-300 text-sm">{analysis.whatIsMissing}</p>
+          <p className="text-gray-500 text-xs uppercase tracking-wider mb-1">What&apos;s missing</p>
+          <p className="text-gray-700 text-sm">{analysis.whatIsMissing}</p>
         </div>
-        <div>
-          <p className="text-gray-500 text-xs uppercase tracking-wider mb-1">How could this be solved?</p>
-          <p className="text-gray-300 text-sm">{analysis.howToSolve}</p>
-        </div>
-        <div className="pt-2 border-t border-gray-800">
+        <div className="pt-2 border-t border-[#C75B39]/20">
           <span className="text-xs text-gray-500">Key Mismatch: </span>
-          <span className="text-[#ff6b35] text-sm font-medium">{analysis.keyMismatch}</span>
+          <span className="text-[#C75B39] text-sm font-medium">{analysis.keyMismatch}</span>
         </div>
       </div>
     </div>
   );
 }
 
-// Big number stat
+// Big number stat - LIGHT VERSION
 function BigNumber({ value, label, source, sourceUrl }: { value: string; label: string; source?: string; sourceUrl?: string }) {
   return (
-    <div className="bg-[#111] rounded-xl p-6 text-center">
-      <p className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-[#ff3333] via-[#ff6b35] to-[#ffc107] bg-clip-text text-transparent">
+    <div className="bg-white rounded-xl border border-gray-200 p-6 text-center">
+      <p className="text-4xl md:text-5xl font-bold text-[#C75B39]">
         {value}
       </p>
-      <p className="text-gray-300 mt-2">{label}</p>
+      <p className="text-gray-700 mt-2">{label}</p>
       {source && (sourceUrl ? (
-        <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="text-gray-500 text-xs mt-2 inline-block hover:text-[#ff6b35] transition-colors">
+        <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="text-gray-500 text-xs mt-2 inline-block hover:text-[#C75B39] transition-colors">
           Source: {source} →
         </a>
       ) : (
@@ -372,20 +498,63 @@ function BigNumber({ value, label, source, sourceUrl }: { value: string; label: 
   );
 }
 
-// Ancestral vs Modern table
+// Line chart for trends
+function TrendChart({
+  data,
+  title,
+  source,
+  sourceUrl
+}: {
+  data: { year: string; value: number; label: string; projected?: boolean }[];
+  title: string;
+  source: string;
+  sourceUrl?: string;
+}) {
+  const maxVal = Math.max(...data.map(d => d.value));
+
+  return (
+    <div className="bg-white rounded-xl border border-gray-200 p-6">
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+      <div className="flex items-end gap-2 h-48 overflow-x-auto pb-4">
+        {data.map((item, idx) => {
+          const height = (item.value / maxVal) * 150;
+          return (
+            <div key={idx} className="flex flex-col items-center min-w-[50px]">
+              <p className="text-xs text-gray-600 mb-1 whitespace-nowrap">{item.label}</p>
+              <div
+                className={`w-10 rounded-t-lg transition-all ${item.projected ? 'bg-[#C75B39]/40' : 'bg-[#C75B39]'}`}
+                style={{ height: `${height}px` }}
+              />
+              <p className="text-gray-500 text-xs mt-2">{item.year}</p>
+            </div>
+          );
+        })}
+      </div>
+      {sourceUrl ? (
+        <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="text-gray-500 text-xs mt-4 block hover:text-[#C75B39]">
+          Source: {source} →
+        </a>
+      ) : (
+        <p className="text-gray-500 text-xs mt-4">Source: {source}</p>
+      )}
+    </div>
+  );
+}
+
+// Ancestral vs Modern table - LIGHT VERSION
 function AncestralModernTable({ data }: { data: { category: string; ancestral: string; modern: string }[] }) {
   return (
-    <div className="bg-[#111] rounded-xl overflow-hidden">
-      <div className="grid grid-cols-3 bg-[#1a1a1a] text-sm font-medium">
-        <div className="p-4 text-gray-400">Domain</div>
-        <div className="p-4 text-green-500">Ancestral</div>
-        <div className="p-4 text-red-500">Modern</div>
+    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="grid grid-cols-3 bg-gray-50 text-sm font-medium border-b border-gray-200">
+        <div className="p-4 text-gray-700">Domain</div>
+        <div className="p-4 text-green-700">Ancestral</div>
+        <div className="p-4 text-red-700">Modern</div>
       </div>
       {data.map((row, idx) => (
-        <div key={idx} className="grid grid-cols-3 text-sm border-t border-gray-800">
-          <div className="p-4 text-gray-300 font-medium">{row.category}</div>
-          <div className="p-4 text-gray-400">{row.ancestral}</div>
-          <div className="p-4 text-gray-400">{row.modern}</div>
+        <div key={idx} className="grid grid-cols-3 text-sm border-b border-gray-100 last:border-b-0">
+          <div className="p-4 text-gray-900 font-medium">{row.category}</div>
+          <div className="p-4 text-gray-600">{row.ancestral}</div>
+          <div className="p-4 text-gray-600">{row.modern}</div>
         </div>
       ))}
     </div>
@@ -394,36 +563,36 @@ function AncestralModernTable({ data }: { data: { category: string; ancestral: s
 
 export default function StatsPage() {
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white pt-20">
+    <main className="min-h-screen bg-[#FAF9F6] pt-20">
       <Navigation />
 
       {/* Hero */}
       <header className="pt-12 pb-16 px-6">
         <div className="max-w-5xl mx-auto text-center">
-          <p className="text-[#ff6b35] font-medium mb-4 tracking-wide uppercase text-sm">The Evidence</p>
-          <h1 className="text-5xl md:text-7xl font-bold mb-4" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-            THE WHY
+          <p className="text-[#C75B39] font-medium mb-4 tracking-wide uppercase text-sm">The Evidence</p>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+            The Numbers Don&apos;t Lie
           </h1>
-          <p className="text-xl text-gray-400 mb-12">
-            Stone Age Brains in Space Age Environments
+          <p className="text-xl text-gray-600 mb-12">
+            Stone Age brains in Space Age environments. Here&apos;s what it&apos;s costing us.
           </p>
 
           {/* Hero Stats */}
           <div className="grid md:grid-cols-3 gap-6">
             {CHART_DATA.heroStats.map(stat => (
-              <div key={stat.id} className="bg-[#111] rounded-xl p-6 border border-gray-800">
-                <p className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#ff3333] to-[#ff6b35] bg-clip-text text-transparent">
+              <div key={stat.id} className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+                <p className="text-4xl md:text-5xl font-bold text-[#C75B39]">
                   {stat.displayValue}
                 </p>
-                <p className="text-gray-300 mt-2">{stat.label}</p>
-                <p className="text-gray-400 text-sm mt-2 italic">{stat.context}</p>
+                <p className="text-gray-900 font-medium mt-2">{stat.label}</p>
+                <p className="text-gray-500 text-sm mt-2 italic">{stat.context}</p>
                 <a
                   href={stat.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-500 text-xs mt-2 inline-block hover:text-[#ff6b35] transition-colors"
+                  className="text-gray-400 text-xs mt-2 inline-block hover:text-[#C75B39] transition-colors"
                 >
-                  Source: {stat.source} →
+                  {stat.source} →
                 </a>
               </div>
             ))}
@@ -432,10 +601,10 @@ export default function StatsPage() {
       </header>
 
       {/* Section 1: Loneliness */}
-      <section className="px-6 py-16 border-t border-gray-800">
+      <section className="px-6 py-16 border-t border-gray-200 bg-white">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold mb-2">The Loneliness Epidemic</h2>
-          <p className="text-gray-400 mb-8">Despite being more "connected" than ever</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>The Loneliness Epidemic</h2>
+          <p className="text-gray-600 mb-8">Despite being more &quot;connected&quot; than ever</p>
 
           <div className="grid md:grid-cols-2 gap-6">
             <HorizontalBarChart
@@ -454,24 +623,35 @@ export default function StatsPage() {
             />
           </div>
 
-          <div className="mt-6">
-            <StatCards data={CHART_DATA.loneliness.prevalence} title="The Scale of the Crisis" />
-          </div>
-
-          {/* Cigarette comparison */}
-          <div className="mt-6 bg-[#111] rounded-xl p-6 flex items-center gap-6">
-            <div className="text-5xl">🚬</div>
-            <div>
-              <p className="text-xl font-bold text-[#ff6b35]">Health Impact of Chronic Loneliness</p>
-              <p className="text-gray-300">Equivalent to smoking 15 cigarettes per day</p>
-              <a
-                href="https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1000316"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-500 text-xs mt-1 inline-block hover:text-[#ff6b35] transition-colors"
-              >
-                Source: Holt-Lunstad et al. 2010, PLOS Medicine →
-              </a>
+          <div className="grid md:grid-cols-3 gap-6 mt-6">
+            <DonutChart
+              value={52}
+              total={260}
+              label="Million Americans lonely daily"
+              color="#C75B39"
+              source="Gallup 2024"
+              sourceUrl="https://news.gallup.com/poll/505745/loneliness-rates-highest-among-young-adults.aspx"
+            />
+            <DonutChart
+              value={30}
+              total={100}
+              label="% experiencing weekly loneliness"
+              color="#ef4444"
+            />
+            <div className="bg-white rounded-xl border border-gray-200 p-6 flex items-center gap-4">
+              <div className="text-4xl">🚬</div>
+              <div>
+                <p className="text-lg font-bold text-[#C75B39]">= 15 cigarettes/day</p>
+                <p className="text-gray-600 text-sm">Health impact of chronic loneliness</p>
+                <a
+                  href="https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1000316"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-500 text-xs hover:text-[#C75B39]"
+                >
+                  Holt-Lunstad et al. 2010 →
+                </a>
+              </div>
             </div>
           </div>
 
@@ -480,10 +660,10 @@ export default function StatsPage() {
       </section>
 
       {/* Section 2: Friendship Recession */}
-      <section className="px-6 py-16 border-t border-gray-800">
+      <section className="px-6 py-16 border-t border-gray-200">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold mb-2">The Friendship Collapse</h2>
-          <p className="text-gray-400 mb-8">The infrastructure of human connection is crumbling</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>The Friendship Collapse</h2>
+          <p className="text-gray-600 mb-8">The infrastructure of human connection is crumbling</p>
 
           <ComparisonChart
             data={CHART_DATA.friendship.collapse}
@@ -512,37 +692,37 @@ export default function StatsPage() {
       </section>
 
       {/* Section 3: Mental Health */}
-      <section className="px-6 py-16 border-t border-gray-800">
+      <section className="px-6 py-16 border-t border-gray-200 bg-white">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold mb-2">Mental Health Crisis</h2>
-          <p className="text-gray-400 mb-8">The symptoms of environmental mismatch</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>Mental Health Crisis</h2>
+          <p className="text-gray-600 mb-8">The symptoms of environmental mismatch</p>
 
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-[#111] rounded-xl p-6">
-              <h3 className="text-xl font-bold text-white mb-4">Anxiety & Depression Rising</h3>
+            <div className="bg-white rounded-xl border border-gray-200 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Anxiety & Depression Rising</h3>
               {CHART_DATA.mentalHealth.anxietyDepression.map((item, idx) => (
                 <div key={idx} className="mb-4">
-                  <p className="text-gray-300 text-sm mb-2">{item.condition}</p>
+                  <p className="text-gray-700 text-sm mb-2">{item.condition}</p>
                   <div className="flex items-center gap-4">
                     <div className="flex-1">
                       <div className="flex justify-between text-xs mb-1">
                         <span className="text-gray-500">2019</span>
-                        <span className="text-gray-400">{item.year2019}%</span>
+                        <span className="text-gray-600">{item.year2019}%</span>
                       </div>
-                      <div className="h-4 bg-gray-800 rounded-full overflow-hidden">
-                        <div className="h-full bg-gray-600 rounded-full" style={{ width: `${item.year2019 * 2}%` }} />
+                      <div className="h-4 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="h-full bg-gray-400 rounded-full" style={{ width: `${item.year2019 * 2}%` }} />
                       </div>
                     </div>
                     <div className="flex-1">
                       <div className="flex justify-between text-xs mb-1">
                         <span className="text-gray-500">2022</span>
-                        <span className="text-[#ff6b35]">{item.year2022}%</span>
+                        <span className="text-[#C75B39]">{item.year2022}%</span>
                       </div>
-                      <div className="h-4 bg-gray-800 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-[#ff3333] to-[#ff6b35] rounded-full" style={{ width: `${item.year2022 * 2}%` }} />
+                      <div className="h-4 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="h-full bg-[#C75B39] rounded-full" style={{ width: `${item.year2022 * 2}%` }} />
                       </div>
                     </div>
-                    <span className="text-red-500 text-sm font-bold">{item.change}</span>
+                    <span className="text-red-600 text-sm font-bold">{item.change}</span>
                   </div>
                 </div>
               ))}
@@ -550,7 +730,7 @@ export default function StatsPage() {
                 href="https://www.cdc.gov/nchs/data/nhis/earlyrelease/earlyrelease202408.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-500 text-xs mt-4 inline-block hover:text-[#ff6b35] transition-colors"
+                className="text-gray-500 text-xs mt-4 inline-block hover:text-[#C75B39] transition-colors"
               >
                 Source: CDC/NCHS 2024 →
               </a>
@@ -566,30 +746,6 @@ export default function StatsPage() {
             />
           </div>
 
-          <div className="mt-6 bg-[#111] rounded-xl p-6">
-            <h3 className="text-xl font-bold text-white mb-4">&quot;More Anxious Than Last Year&quot;</h3>
-            <div className="flex items-end gap-4 h-48">
-              {CHART_DATA.mentalHealth.risingAnxiety.map((item, idx) => (
-                <div key={idx} className="flex-1 flex flex-col items-center">
-                  <div
-                    className="w-full bg-gradient-to-t from-[#ff3333] to-[#ff6b35] rounded-t-lg transition-all"
-                    style={{ height: `${item.value * 3}px` }}
-                  />
-                  <p className="text-2xl font-bold text-[#ff6b35] mt-2">{item.value}%</p>
-                  <p className="text-gray-500 text-sm">{item.year}</p>
-                </div>
-              ))}
-            </div>
-            <a
-              href="https://www.apa.org/news/press/releases/stress"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-500 text-xs mt-4 inline-block hover:text-[#ff6b35] transition-colors"
-            >
-              Source: APA Stress in America →
-            </a>
-          </div>
-
           <div className="mt-6">
             <StatCards data={CHART_DATA.mentalHealth.youthCrisis} title="Youth Mental Health Crisis" />
           </div>
@@ -598,44 +754,31 @@ export default function StatsPage() {
         </div>
       </section>
 
-      {/* Section 4: Obesity */}
-      <section className="px-6 py-16 border-t border-gray-800">
+      {/* Section 4: Diet & Physical Health */}
+      <section className="px-6 py-16 border-t border-gray-200">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold mb-2">Physical Health Collapse</h2>
-          <p className="text-gray-400 mb-8">Bodies designed for movement, trapped in stillness</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>Physical Health Collapse</h2>
+          <p className="text-gray-600 mb-8">Bodies designed for movement, fueled with chemicals</p>
 
-          <div className="bg-[#111] rounded-xl p-6">
-            <h3 className="text-xl font-bold text-white mb-4">Global Obesity Epidemic</h3>
-            <div className="flex items-end gap-2 h-64 overflow-x-auto pb-4">
-              {CHART_DATA.obesity.trend.map((item, idx) => {
-                const maxVal = 1530;
-                const height = (item.value / maxVal) * 200;
-                return (
-                  <div key={idx} className="flex flex-col items-center min-w-[60px]">
-                    <p className="text-xs text-gray-400 mb-1">{item.label}</p>
-                    <div
-                      className={`w-12 rounded-t-lg transition-all ${item.projected ? 'bg-gradient-to-t from-[#ffc107] to-[#ff6b35] opacity-60' : 'bg-gradient-to-t from-[#ff3333] to-[#ff6b35]'}`}
-                      style={{ height: `${height}px` }}
-                    />
-                    <p className="text-gray-500 text-xs mt-2">{item.year}</p>
-                  </div>
-                );
-              })}
-            </div>
-            <a
-              href="https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-500 text-xs mt-4 inline-block hover:text-[#ff6b35] transition-colors"
-            >
-              Source: WHO / NCD-RisC / World Obesity Federation →
-            </a>
+          <div className="grid md:grid-cols-2 gap-6">
+            <TrendChart
+              data={CHART_DATA.obesity.trend}
+              title="Global Obesity Epidemic (millions)"
+              source="WHO / World Obesity Federation"
+              sourceUrl="https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight"
+            />
+            <PieChart
+              data={CHART_DATA.dietBreakdown}
+              title="American Diet Breakdown"
+              source="BMJ Open 2016"
+              sourceUrl="https://bmjopen.bmj.com/content/6/3/e009892"
+            />
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 mt-6">
             <BigNumber
               value="10x"
-              label="Increase in child/adolescent obesity (1975-2022)"
+              label="Increase in child obesity (1975-2022)"
               source="WHO"
               sourceUrl="https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight"
             />
@@ -652,99 +795,60 @@ export default function StatsPage() {
       </section>
 
       {/* Section 5: Screen Time */}
-      <section className="px-6 py-16 border-t border-gray-800">
+      <section className="px-6 py-16 border-t border-gray-200 bg-white">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold mb-2">Screen Time & Attention</h2>
-          <p className="text-gray-400 mb-8">Hijacked by algorithms designed to never let go</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>Screen Time & Attention</h2>
+          <p className="text-gray-600 mb-8">Hijacked by algorithms designed to never let go</p>
 
           <div className="grid md:grid-cols-2 gap-6">
             <HorizontalBarChart
               data={CHART_DATA.screenTime.byGeneration}
               title="Daily Screen Time by Generation"
-              source="DemandSage / Various 2024-2025"
+              source="DemandSage 2024-2025"
               sourceUrl="https://www.demandsage.com/screen-time-statistics/"
               unit=" hrs"
               maxValue={10}
             />
-            <div>
-              <StatCards data={CHART_DATA.screenTime.teenStats} title="Teen Screen Saturation" />
-              <div className="mt-4 bg-[#111] rounded-xl p-4 border border-[#ff6b35]/30">
-                <p className="text-4xl font-bold text-[#ff6b35]">49%</p>
-                <p className="text-gray-300 text-sm">of people feel addicted to their phones</p>
-                <a
-                  href="https://www.harmonyhit.com/smartphone-addiction-statistics/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-500 text-xs mt-1 inline-block hover:text-[#ff6b35] transition-colors"
-                >
-                  Source: Harmony Healthcare IT 2025 →
-                </a>
-              </div>
-            </div>
+            <PieChart
+              data={CHART_DATA.dailyTimeAllocation}
+              title="How We Spend Our Day"
+              source="Bureau of Labor Statistics + estimates"
+            />
+          </div>
+
+          <div className="mt-6">
+            <StatCards data={CHART_DATA.screenTime.teenStats} title="Teen Screen Saturation" />
           </div>
 
           <FrameworkAnalysis analysis={FRAMEWORK_ANALYSIS.screenTime} />
         </div>
       </section>
 
-      {/* Section 6: Nature Deficit */}
-      <section className="px-6 py-16 border-t border-gray-800">
+      {/* Section 6: Nature */}
+      <section className="px-6 py-16 border-t border-gray-200">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold mb-2">Nature Severance</h2>
-          <p className="text-gray-400 mb-8">Evolved in forests, confined to boxes</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>Nature Severance</h2>
+          <p className="text-gray-600 mb-8">Evolved in forests, confined to boxes</p>
 
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-[#111] rounded-xl p-6">
-              <h3 className="text-xl font-bold text-white mb-4">Weekly Time in Nature (Adults)</h3>
-              <div className="space-y-3">
-                {CHART_DATA.nature.timeOutdoors.map((item, idx) => (
-                  <div key={idx}>
-                    <div className="flex justify-between text-sm mb-1">
-                      <span className="text-gray-300">{item.label}</span>
-                      <span className={item.color === 'crisis' ? 'text-red-500 font-bold' : item.color === 'warning' ? 'text-yellow-500' : 'text-green-500'}>{item.value}%</span>
-                    </div>
-                    <div className="h-6 bg-gray-800 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full rounded-full ${item.color === 'crisis' ? 'bg-red-500' : item.color === 'warning' ? 'bg-yellow-500' : 'bg-green-500'}`}
-                        style={{ width: `${item.value}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <a
-                href="https://natureofamericans.org/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-500 text-xs mt-4 inline-block hover:text-[#ff6b35] transition-colors"
-              >
-                Source: Nature of Americans Report →
-              </a>
-            </div>
-
-            <div className="bg-[#111] rounded-xl p-6">
-              <h3 className="text-xl font-bold text-white mb-4">Evolutionary Context</h3>
+            <PieChart
+              data={CHART_DATA.nature.timeOutdoors}
+              title="Weekly Time in Nature (Adults)"
+              source="Nature of Americans Report"
+              sourceUrl="https://natureofamericans.org/"
+            />
+            <div className="bg-white rounded-xl border border-gray-200 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Evolutionary Context</h3>
               <div className="space-y-6">
                 <div>
-                  <p className="text-5xl font-bold text-green-500">99.9%</p>
-                  <p className="text-gray-300">of our 200,000 year history spent in nature</p>
+                  <p className="text-4xl font-bold text-green-600">99.9%</p>
+                  <p className="text-gray-600">of our 200,000 year history spent in nature</p>
                 </div>
-                <div className="border-t border-gray-800 pt-6">
-                  <p className="text-5xl font-bold text-red-500">&lt;7%</p>
-                  <p className="text-gray-300">of modern waking hours spent outside</p>
+                <div className="border-t border-gray-200 pt-6">
+                  <p className="text-4xl font-bold text-red-600">&lt;7%</p>
+                  <p className="text-gray-600">of modern waking hours spent outside</p>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="mt-6 bg-[#111] rounded-xl p-6">
-            <h3 className="text-xl font-bold text-white mb-2">Children: Screens vs Outdoors</h3>
-            <p className="text-gray-400 text-sm mb-4">Ages 8-12</p>
-            <div className="flex items-center gap-4">
-              <div className="flex-1 h-16 bg-red-500/20 rounded-lg flex items-center justify-center">
-                <span className="text-2xl font-bold text-red-500">3x</span>
-              </div>
-              <span className="text-gray-500">more time on screens than playing outside</span>
             </div>
           </div>
 
@@ -753,28 +857,28 @@ export default function StatsPage() {
       </section>
 
       {/* Section 7: Sleep */}
-      <section className="px-6 py-16 border-t border-gray-800">
+      <section className="px-6 py-16 border-t border-gray-200 bg-white">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold mb-2">Sleep Deprivation</h2>
-          <p className="text-gray-400 mb-8">Circadian rhythms under siege</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>Sleep Deprivation</h2>
+          <p className="text-gray-600 mb-8">Circadian rhythms under siege</p>
 
-          <div className="bg-[#111] rounded-xl p-6 mb-6">
-            <h3 className="text-xl font-bold text-white mb-4">Sleep Decline Over 70 Years</h3>
-            <div className="flex items-center justify-center gap-8">
+          <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Sleep Decline Over 70 Years</h3>
+            <div className="flex items-center justify-center gap-8 flex-wrap">
               <div className="text-center">
                 <p className="text-gray-500 text-sm">1942</p>
-                <p className="text-5xl font-bold text-green-500">{CHART_DATA.sleep.decline.before}</p>
-                <p className="text-gray-400">hrs/night</p>
+                <p className="text-4xl font-bold text-green-600">{CHART_DATA.sleep.decline.before}</p>
+                <p className="text-gray-500">hrs/night</p>
               </div>
-              <div className="text-4xl text-gray-600">→</div>
+              <div className="text-3xl text-gray-400">→</div>
               <div className="text-center">
                 <p className="text-gray-500 text-sm">2013</p>
-                <p className="text-5xl font-bold text-red-500">{CHART_DATA.sleep.decline.after}</p>
-                <p className="text-gray-400">hrs/night</p>
+                <p className="text-4xl font-bold text-red-600">{CHART_DATA.sleep.decline.after}</p>
+                <p className="text-gray-500">hrs/night</p>
               </div>
-              <div className="text-center border-l border-gray-800 pl-8">
-                <p className="text-3xl font-bold text-[#ff6b35]">-14%</p>
-                <p className="text-gray-400">{CHART_DATA.sleep.decline.lostTime}</p>
+              <div className="text-center border-l border-gray-200 pl-8">
+                <p className="text-2xl font-bold text-[#C75B39]">-14%</p>
+                <p className="text-gray-500">{CHART_DATA.sleep.decline.lostTime}</p>
               </div>
             </div>
           </div>
@@ -786,41 +890,41 @@ export default function StatsPage() {
       </section>
 
       {/* Section 8: Ancestral vs Modern */}
-      <section className="px-6 py-16 border-t border-gray-800">
+      <section className="px-6 py-16 border-t border-gray-200">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold mb-2">Ancestral vs Modern</h2>
-          <p className="text-gray-400 mb-8">The environmental shift our biology never adapted to</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>Ancestral vs Modern</h2>
+          <p className="text-gray-600 mb-8">The environmental shift our biology never adapted to</p>
 
           <AncestralModernTable data={CHART_DATA.ancestralVsModern} />
         </div>
       </section>
 
       {/* CTA */}
-      <section className="px-6 py-16 bg-gradient-to-b from-[#0a0a0a] to-[#111]">
+      <section className="px-6 py-16 bg-white border-t border-gray-200">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">The Data Is Undeniable</h2>
-          <p className="text-xl text-gray-400 mb-8">
-            The path is clear. Demismatch first. Then augment.
+          <h2 className="text-3xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>The Data Is Undeniable</h2>
+          <p className="text-xl text-gray-600 mb-8">
+            These aren&apos;t individual failures. They&apos;re environmental mismatches.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               href="/framework"
-              className="bg-[#ff6b35] text-white px-8 py-3 rounded-xl font-semibold hover:bg-[#ff5522] transition"
+              className="bg-[#C75B39] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#b54d2e] transition"
             >
               Read the Framework
             </Link>
             <Link
               href="/cases"
-              className="border-2 border-gray-700 text-white px-8 py-3 rounded-xl font-semibold hover:border-gray-500 transition"
+              className="border-2 border-gray-300 text-gray-700 px-8 py-3 rounded-lg font-medium hover:border-gray-400 transition"
             >
-              See Individual Cases
+              See Case Studies
             </Link>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="px-6 py-12 border-t border-gray-800">
+      <footer className="px-6 py-12 border-t border-gray-200">
         <div className="max-w-5xl mx-auto text-center text-gray-500 text-sm">
           <p>Data sources: WHO, CDC, Gallup, APA, Harvard Making Caring Common, and peer-reviewed research</p>
           <p className="mt-2">Last updated: December 2024</p>
