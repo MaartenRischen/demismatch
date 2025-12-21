@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import Navigation from "@/components/Navigation";
+import TTSPlayer from "@/components/TTSPlayer";
 
 // Framework sections for navigation
 const SECTIONS = [
@@ -53,7 +54,10 @@ function NoteOnEvidenceAccordion({ content }: { content: string[] }) {
   );
 }
 
-function parseMarkdownToSections(markdown: string) {
+// Global segment counter for TTS synchronization
+let globalSegmentIndex = 0;
+
+function parseMarkdownToSections(markdown: string, highlightedSegment: string | null) {
   const lines = markdown.split('\n');
   const sections: { id: string; title: string; content: React.ReactNode[] }[] = [];
   let currentSection: { id: string; title: string; content: React.ReactNode[] } | null = null;
@@ -61,9 +65,59 @@ function parseMarkdownToSections(markdown: string) {
   let inNoteOnEvidence = false;
   let noteOnEvidenceContent: string[] = [];
 
+  // Reset segment counter
+  globalSegmentIndex = 0;
+
+  // Helper to create highlighted text element
+  const createTextElement = (
+    text: string,
+    className: string,
+    style?: React.CSSProperties,
+    ElementType: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'li' = 'p'
+  ) => {
+    // Split into sentences for granular highlighting
+    const sentences = text.split(/(?<=[.!?])\s+/).filter(s => s.trim());
+
+    if (sentences.length <= 1) {
+      const segId = `seg-${globalSegmentIndex++}`;
+      const isHighlighted = highlightedSegment === segId;
+      return (
+        <ElementType
+          key={key++}
+          data-tts-segment={segId}
+          className={`${className} transition-all duration-300 ${isHighlighted ? 'bg-yellow-200 rounded px-1 -mx-1' : ''}`}
+          style={style}
+        >
+          {text}
+        </ElementType>
+      );
+    }
+
+    // Multiple sentences - wrap each for individual highlighting
+    const sentenceElements = sentences.map((sentence, idx) => {
+      const segId = `seg-${globalSegmentIndex++}`;
+      const isHighlighted = highlightedSegment === segId;
+      return (
+        <span
+          key={`${key}-${idx}`}
+          data-tts-segment={segId}
+          className={`transition-all duration-300 ${isHighlighted ? 'bg-yellow-200 rounded px-1' : ''}`}
+        >
+          {sentence}{idx < sentences.length - 1 ? ' ' : ''}
+        </span>
+      );
+    });
+
+    return (
+      <ElementType key={key++} className={className} style={style}>
+        {sentenceElements}
+      </ElementType>
+    );
+  };
+
   for (const line of lines) {
     if (line.trim() === '') continue;
-    
+
     // Detect "A Note on Evidence" section - make it collapsible
     if (line.toLowerCase().includes('a note on evidence')) {
       inNoteOnEvidence = true;
@@ -72,7 +126,7 @@ function parseMarkdownToSections(markdown: string) {
       }
       continue;
     }
-    
+
     // End of note on evidence at next major heading or horizontal rule
     if (inNoteOnEvidence && (line.startsWith('## Part') || line.startsWith('# Part') || line.trim() === '---')) {
       // Render the collected note on evidence as a collapsible accordion
@@ -84,7 +138,7 @@ function parseMarkdownToSections(markdown: string) {
       }
       inNoteOnEvidence = false;
     }
-    
+
     // If in note on evidence, collect content
     if (inNoteOnEvidence) {
       if (!line.startsWith('#')) {
@@ -92,7 +146,7 @@ function parseMarkdownToSections(markdown: string) {
       }
       continue;
     }
-    
+
     // Check for Part headers (# Part I, ## Part II, etc.)
     const partMatch = line.match(/^#+\s*(Part\s+[IVX]+[:\s]*.+)/i);
     if (partMatch) {
@@ -105,8 +159,16 @@ function parseMarkdownToSections(markdown: string) {
         title: partMatch[1],
         content: []
       };
+      const segId = `seg-${globalSegmentIndex++}`;
+      const isHighlighted = highlightedSegment === segId;
       currentSection.content.push(
-        <h1 key={key++} id={`part-${partNum}`} className="text-4xl text-gray-900 mt-16 mb-6 scroll-mt-24" style={{ fontFamily: 'Georgia, serif' }}>
+        <h1
+          key={key++}
+          id={`part-${partNum}`}
+          data-tts-segment={segId}
+          className={`text-4xl text-gray-900 mt-16 mb-6 scroll-mt-24 transition-all duration-300 ${isHighlighted ? 'bg-yellow-200 rounded px-2 -mx-2' : ''}`}
+          style={{ fontFamily: 'Georgia, serif' }}
+        >
           {partMatch[1]}
         </h1>
       );
@@ -121,72 +183,58 @@ function parseMarkdownToSections(markdown: string) {
       currentSection.content.push(<hr key={key++} className="my-12 border-gray-200" />);
       continue;
     }
-    
+
     // H1 headers
     if (line.startsWith('# ')) {
       const title = line.slice(2);
       currentSection.content.push(
-        <h1 key={key++} className="text-4xl text-gray-900 mt-16 mb-6" style={{ fontFamily: 'Georgia, serif' }}>
-          {title}
-        </h1>
+        createTextElement(title, "text-4xl text-gray-900 mt-16 mb-6", { fontFamily: 'Georgia, serif' }, 'h1')
       );
       continue;
     }
-    
+
     // H2 headers
     if (line.startsWith('## ')) {
       const title = line.slice(3);
       currentSection.content.push(
-        <h2 key={key++} className="text-3xl text-gray-900 mt-12 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
-          {title}
-        </h2>
+        createTextElement(title, "text-3xl text-gray-900 mt-12 mb-4", { fontFamily: 'Georgia, serif' }, 'h2')
       );
       continue;
     }
-    
+
     // H3 headers
     if (line.startsWith('### ')) {
       currentSection.content.push(
-        <h3 key={key++} className="text-2xl text-gray-900 mt-8 mb-3" style={{ fontFamily: 'Georgia, serif' }}>
-          {line.slice(4)}
-        </h3>
+        createTextElement(line.slice(4), "text-2xl text-gray-900 mt-8 mb-3", { fontFamily: 'Georgia, serif' }, 'h3')
       );
       continue;
     }
-    
+
     // H4 headers
     if (line.startsWith('#### ')) {
       currentSection.content.push(
-        <h4 key={key++} className="text-xl text-gray-900 mt-6 mb-2 font-semibold">
-          {line.slice(5)}
-        </h4>
+        createTextElement(line.slice(5), "text-xl text-gray-900 mt-6 mb-2 font-semibold", undefined, 'h4')
       );
       continue;
     }
-    
+
     // List items
     if (line.startsWith('- ') || line.startsWith('* ')) {
       currentSection.content.push(
-        <li key={key++} className="text-lg text-gray-700 ml-6 mb-2">
-          {line.slice(2)}
-        </li>
+        createTextElement(line.slice(2), "text-lg text-gray-700 ml-6 mb-2", undefined, 'li')
       );
       continue;
     }
     if (/^\d+\.\s/.test(line)) {
       currentSection.content.push(
-        <li key={key++} className="text-lg text-gray-700 ml-6 mb-2 list-decimal">
-          {line.replace(/^\d+\.\s/, '')}
-        </li>
+        createTextElement(line.replace(/^\d+\.\s/, ''), "text-lg text-gray-700 ml-6 mb-2 list-decimal", undefined, 'li')
       );
       continue;
     }
-    
+
     // Regular paragraphs
     currentSection.content.push(
-      <p key={key++} className="text-lg text-gray-700 mb-4 leading-relaxed">
-        {line}
-      </p>
+      createTextElement(line, "text-lg text-gray-700 mb-4 leading-relaxed", undefined, 'p')
     );
   }
 
@@ -197,9 +245,23 @@ function parseMarkdownToSections(markdown: string) {
   return sections;
 }
 
-function FrameworkContent({ content }: { content: string }) {
-  const sections = parseMarkdownToSections(content);
-  
+function FrameworkContent({ content, highlightedSegment }: { content: string; highlightedSegment: string | null }) {
+  const sections = parseMarkdownToSections(content, highlightedSegment);
+
+  // Auto-scroll to highlighted segment
+  useEffect(() => {
+    if (highlightedSegment) {
+      const element = document.querySelector(`[data-tts-segment="${highlightedSegment}"]`);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        const isInViewport = rect.top >= 100 && rect.bottom <= window.innerHeight - 150;
+        if (!isInViewport) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }
+  }, [highlightedSegment]);
+
   return (
     <div>
       {sections.map((section) => (
@@ -325,7 +387,14 @@ export default function FrameworkPage() {
   const [generating, setGenerating] = useState(false);
   const [customFramework, setCustomFramework] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [highlightedSegment, setHighlightedSegment] = useState<string | null>(null);
+  const [showTTSPlayer, setShowTTSPlayer] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  // TTS highlight handler
+  const handleHighlightChange = useCallback((segmentId: string | null) => {
+    setHighlightedSegment(segmentId);
+  }, []);
 
   useEffect(() => {
     fetch("https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/framework/mothership-full.md")
@@ -403,9 +472,29 @@ export default function FrameworkPage() {
       </div>
 
       <div className="lg:ml-64">
-        <article ref={contentRef} className="px-8 py-16 pb-20 max-w-4xl mx-auto">
+        {/* TTS Toggle Button in Header */}
+        <div className="sticky top-20 z-30 bg-[#faf9f6]/95 backdrop-blur-sm border-b border-gray-200 px-8 py-3">
+          <div className="max-w-4xl mx-auto flex items-center justify-between">
+            <span className="text-sm text-gray-500">Framework Document</span>
+            <button
+              onClick={() => setShowTTSPlayer(!showTTSPlayer)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition ${
+                showTTSPlayer
+                  ? 'bg-[#c75b3a] text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              </svg>
+              {showTTSPlayer ? 'Hide Audio Player' : 'Listen to Framework'}
+            </button>
+          </div>
+        </div>
+
+        <article ref={contentRef} className={`px-8 py-16 max-w-4xl mx-auto ${showTTSPlayer ? 'pb-48' : 'pb-20'}`}>
           {content ? (
-            <FrameworkContent content={content} />
+            <FrameworkContent content={content} highlightedSegment={highlightedSegment} />
           ) : (
             <div className="animate-pulse space-y-4">
               <div className="h-8 bg-gray-200 rounded w-3/4" />
@@ -636,6 +725,14 @@ export default function FrameworkPage() {
             )}
           </div>
         </div>
+      )}
+
+      {/* TTS Player */}
+      {showTTSPlayer && content && (
+        <TTSPlayer
+          content={content}
+          onHighlightChange={handleHighlightChange}
+        />
       )}
     </main>
   );
