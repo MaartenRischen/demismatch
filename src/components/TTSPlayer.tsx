@@ -28,6 +28,7 @@ function parseContentToSegments(markdown: string): TTSSegment[] {
   const segments: TTSSegment[] = [];
   let paragraphBuffer = '';
   let segmentIndex = 0;
+  let inNoteOnEvidence = false;
 
   const flushParagraph = () => {
     if (paragraphBuffer.trim()) {
@@ -60,6 +61,28 @@ function parseContentToSegments(markdown: string): TTSSegment[] {
     // Skip markdown formatting we don't want to read
     if (trimmed === '---') {
       flushParagraph();
+      // End of note on evidence section at horizontal rule
+      if (inNoteOnEvidence) {
+        inNoteOnEvidence = false;
+      }
+      continue;
+    }
+
+    // Detect "A Note on Evidence" section - skip it entirely
+    if (trimmed.toLowerCase().includes('a note on evidence')) {
+      flushParagraph();
+      inNoteOnEvidence = true;
+      continue;
+    }
+
+    // End of note on evidence at next major Part heading
+    if (inNoteOnEvidence && (trimmed.startsWith('## Part') || trimmed.startsWith('# Part'))) {
+      inNoteOnEvidence = false;
+      // Don't continue - process this heading below
+    }
+
+    // Skip content while in "Note on Evidence" section
+    if (inNoteOnEvidence) {
       continue;
     }
 
@@ -67,7 +90,7 @@ function parseContentToSegments(markdown: string): TTSSegment[] {
     if (trimmed.startsWith('#')) {
       flushParagraph();
       const headingText = trimmed.replace(/^#+\s*/, '');
-      if (headingText && !headingText.toLowerCase().includes('a note on evidence')) {
+      if (headingText) {
         segments.push({
           id: `seg-${segmentIndex++}`,
           text: headingText,
