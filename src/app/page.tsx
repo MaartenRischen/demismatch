@@ -66,54 +66,52 @@ export default function Home() {
 
       {/* START HERE - Clear user journey */}
       <section className="px-8 py-16 max-w-5xl mx-auto">
-        <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 md:p-12">
-          <div className="text-center mb-10">
-            <p className="text-[#c75b3a] text-sm uppercase tracking-widest mb-2">New here?</p>
-            <h2 className="text-3xl md:text-4xl text-white mb-3" style={{ fontFamily: 'Georgia, serif' }}>
-              Start Here
-            </h2>
-            <p className="text-gray-400 max-w-xl mx-auto">
-              Three paths to understanding. Pick the one that fits how you learn.
+        <div className="text-center mb-10">
+          <p className="text-[#c75b3a] text-sm uppercase tracking-widest mb-2">New here?</p>
+          <h2 className="text-3xl md:text-4xl text-gray-900 mb-3" style={{ fontFamily: 'Georgia, serif' }}>
+            Start Here
+          </h2>
+          <p className="text-gray-600 max-w-xl mx-auto">
+            Three paths to understanding. Pick the one that fits how you learn.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {/* Path 1: Quick Understanding */}
+          <Link href="/faq" className="group bg-white border border-gray-200 hover:border-[#c75b3a] rounded-xl p-6 transition-all hover:shadow-lg">
+            <div className="text-3xl mb-4">⚡</div>
+            <h3 className="text-xl text-gray-900 font-semibold mb-2 group-hover:text-[#c75b3a] transition-colors">
+              5-Minute Overview
+            </h3>
+            <p className="text-gray-600 text-sm mb-4">
+              Quick answers to key questions. Perfect if you're short on time.
             </p>
-          </div>
+            <span className="text-[#c75b3a] text-sm font-medium">Read the FAQ →</span>
+          </Link>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {/* Path 1: Quick Understanding */}
-            <Link href="/faq" className="group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-6 transition-all">
-              <div className="text-3xl mb-4">⚡</div>
-              <h3 className="text-xl text-white font-semibold mb-2 group-hover:text-[#c75b3a] transition-colors">
-                5-Minute Overview
-              </h3>
-              <p className="text-gray-400 text-sm mb-4">
-                Quick answers to key questions. Perfect if you're short on time.
-              </p>
-              <span className="text-[#c75b3a] text-sm font-medium">Read the FAQ →</span>
-            </Link>
+          {/* Path 2: Interactive */}
+          <Link href="/app" className="group bg-white border border-gray-200 hover:border-[#c75b3a] rounded-xl p-6 transition-all hover:shadow-lg">
+            <div className="text-3xl mb-4">🔍</div>
+            <h3 className="text-xl text-gray-900 font-semibold mb-2 group-hover:text-[#c75b3a] transition-colors">
+              Try It Yourself
+            </h3>
+            <p className="text-gray-600 text-sm mb-4">
+              Paste any situation into the Analyzer. See the framework in action immediately.
+            </p>
+            <span className="text-[#c75b3a] text-sm font-medium">Open the Analyzer →</span>
+          </Link>
 
-            {/* Path 2: Interactive */}
-            <Link href="/app" className="group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-6 transition-all">
-              <div className="text-3xl mb-4">🔍</div>
-              <h3 className="text-xl text-white font-semibold mb-2 group-hover:text-[#c75b3a] transition-colors">
-                Try It Yourself
-              </h3>
-              <p className="text-gray-400 text-sm mb-4">
-                Paste any situation into the Analyzer. See the framework in action immediately.
-              </p>
-              <span className="text-[#c75b3a] text-sm font-medium">Open the Analyzer →</span>
-            </Link>
-
-            {/* Path 3: Deep Dive */}
-            <Link href="/framework" className="group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-6 transition-all">
-              <div className="text-3xl mb-4">📖</div>
-              <h3 className="text-xl text-white font-semibold mb-2 group-hover:text-[#c75b3a] transition-colors">
-                The Full Framework
-              </h3>
-              <p className="text-gray-400 text-sm mb-4">
-                50,000+ words. 10 parts. The complete theory from first principles.
-              </p>
-              <span className="text-[#c75b3a] text-sm font-medium">Start reading →</span>
-            </Link>
-          </div>
+          {/* Path 3: Deep Dive */}
+          <Link href="/framework" className="group bg-white border border-gray-200 hover:border-[#c75b3a] rounded-xl p-6 transition-all hover:shadow-lg">
+            <div className="text-3xl mb-4">📖</div>
+            <h3 className="text-xl text-gray-900 font-semibold mb-2 group-hover:text-[#c75b3a] transition-colors">
+              The Full Framework
+            </h3>
+            <p className="text-gray-600 text-sm mb-4">
+              50,000+ words. 10 parts. The complete theory from first principles.
+            </p>
+            <span className="text-[#c75b3a] text-sm font-medium">Start reading →</span>
+          </Link>
         </div>
       </section>
 
