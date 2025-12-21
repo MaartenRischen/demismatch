@@ -32,20 +32,11 @@ function parseContentToSegments(markdown: string): TTSSegment[] {
 
   const flushParagraph = () => {
     if (paragraphBuffer.trim()) {
-      // Split paragraph into sentences for better TTS control
-      const sentences = paragraphBuffer
-        .trim()
-        .split(/(?<=[.!?])\s+/)
-        .filter(s => s.trim());
-
-      sentences.forEach(sentence => {
-        if (sentence.trim()) {
-          segments.push({
-            id: `seg-${segmentIndex++}`,
-            text: sentence.trim(),
-            type: 'paragraph',
-          });
-        }
+      // Keep paragraph as single segment for natural TTS prosody
+      segments.push({
+        id: `seg-${segmentIndex++}`,
+        text: paragraphBuffer.trim(),
+        type: 'paragraph',
       });
       paragraphBuffer = '';
     }

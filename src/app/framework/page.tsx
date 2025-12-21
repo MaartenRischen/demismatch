@@ -68,49 +68,23 @@ function parseMarkdownToSections(markdown: string, highlightedSegment: string | 
   // Reset segment counter
   globalSegmentIndex = 0;
 
-  // Helper to create highlighted text element
+  // Helper to create highlighted text element (paragraph-level highlighting for natural TTS)
   const createTextElement = (
     text: string,
     className: string,
     style?: React.CSSProperties,
     ElementType: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'li' = 'p'
   ) => {
-    // Split into sentences for granular highlighting
-    const sentences = text.split(/(?<=[.!?])\s+/).filter(s => s.trim());
-
-    if (sentences.length <= 1) {
-      const segId = `seg-${globalSegmentIndex++}`;
-      const isHighlighted = highlightedSegment === segId;
-      return (
-        <ElementType
-          key={key++}
-          data-tts-segment={segId}
-          className={`${className} transition-all duration-300 ${isHighlighted ? 'bg-yellow-200 rounded px-1 -mx-1' : ''}`}
-          style={style}
-        >
-          {text}
-        </ElementType>
-      );
-    }
-
-    // Multiple sentences - wrap each for individual highlighting
-    const sentenceElements = sentences.map((sentence, idx) => {
-      const segId = `seg-${globalSegmentIndex++}`;
-      const isHighlighted = highlightedSegment === segId;
-      return (
-        <span
-          key={`${key}-${idx}`}
-          data-tts-segment={segId}
-          className={`transition-all duration-300 ${isHighlighted ? 'bg-yellow-200 rounded px-1' : ''}`}
-        >
-          {sentence}{idx < sentences.length - 1 ? ' ' : ''}
-        </span>
-      );
-    });
-
+    const segId = `seg-${globalSegmentIndex++}`;
+    const isHighlighted = highlightedSegment === segId;
     return (
-      <ElementType key={key++} className={className} style={style}>
-        {sentenceElements}
+      <ElementType
+        key={key++}
+        data-tts-segment={segId}
+        className={`${className} transition-all duration-300 ${isHighlighted ? 'bg-yellow-200 rounded px-1 -mx-1' : ''}`}
+        style={style}
+      >
+        {text}
       </ElementType>
     );
   };
