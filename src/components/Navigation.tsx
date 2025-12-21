@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from "react";
 // Simplified nav structure
 const MAIN_LINKS = [
   { href: "/framework", label: "Framework" },
+  { href: "/cases", label: "Cases" },
   { href: "/library", label: "Library" },
   { href: "/projects", label: "Projects" },
 ];
