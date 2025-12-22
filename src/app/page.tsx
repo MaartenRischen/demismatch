@@ -4,7 +4,7 @@ import Link from "next/link";
 import Navigation from "@/components/Navigation";
 import DemismatchCarousel from "@/components/DemismatchCarousel";
 import CollapsibleAISection from "@/components/CollapsibleAISection";
-import ExpandableFAQTiles from "@/components/ExpandableFAQTiles";
+import HomepageFAQTile from "@/components/HomepageFAQTile";
 
 export default function Home() {
   return (
@@ -27,8 +27,8 @@ export default function Home() {
       {/* Demismatch First, Then Augment Carousel */}
       <DemismatchCarousel />
 
-      {/* THE BASICS - Expandable FAQ Tiles */}
-      <ExpandableFAQTiles />
+      {/* Interactive FAQ Tile */}
+      <HomepageFAQTile />
 
       {/* The Call Section - Cards with icons, consistent buttons */}
       <section className="px-8 py-20 max-w-5xl mx-auto">
