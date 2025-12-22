@@ -56,13 +56,9 @@ function KeyTermsSection() {
   return (
     <section className="px-8 py-16 max-w-6xl mx-auto">
       <div className="text-center mb-12">
-        <p className="text-[#c75b3a] text-sm uppercase tracking-widest mb-2">The basics</p>
-        <h2 className="text-3xl md:text-4xl text-gray-900 mb-3" style={{ fontFamily: 'Georgia, serif' }}>
-          Key Terms
+        <h2 className="text-3xl md:text-4xl text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>
+          The Basics
         </h2>
-        <p className="text-gray-600 max-w-xl mx-auto">
-          Six concepts. That's it. Get these and the rest clicks into place.
-        </p>
       </div>
 
       {/* Terms grid */}
@@ -103,7 +99,13 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="px-8 py-24 max-w-4xl mx-auto text-center">
-        <p className="text-xl md:text-2xl text-gray-700 leading-relaxed" style={{ fontFamily: 'Georgia, serif' }}>
+        <p className="text-3xl md:text-4xl text-gray-700 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+          <span className="underline decoration-[#c75b3a] decoration-2 underline-offset-4">You're not broken.</span>
+        </p>
+        <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 leading-tight mb-8" style={{ fontFamily: 'Georgia, serif' }}>
+          Modern civilization is incompatible with human nature.
+        </h1>
+        <p className="text-xl md:text-2xl text-gray-500 leading-relaxed" style={{ fontFamily: 'Georgia, serif' }}>
           We're talking about augmenting humans with technology, but we haven't been able to be fully human for millennia. What exactly are we augmenting? Let's find out what it means to be demismatched first, and take it from there.
         </p>
       </section>
@@ -113,85 +115,6 @@ export default function Home() {
 
       {/* KEY TERMS - Quick Reference */}
       <KeyTermsSection />
-
-      {/* THE TOOLS - Framework in Action (improved cards) */}
-      <section className="px-8 py-20 max-w-5xl mx-auto">
-        <h2 className="text-4xl text-gray-900 mb-4 text-center" style={{ fontFamily: 'Georgia, serif' }}>Framework in Action</h2>
-        <p className="text-xl text-gray-600 mb-12 text-center max-w-2xl mx-auto">
-          Tools built on this framework. Use them to understand, to test, to build.
-        </p>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* The Mismatch Analyzer - improved clickability */}
-          <Link href="/app" className="group block bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-xl hover:border-[#c75b3a]/30 transition-all">
-            <div className="h-40 bg-gradient-to-br from-[#c75b3a]/10 to-[#c75b3a]/5 flex items-center justify-center">
-              <div className="text-6xl">🔍</div>
-            </div>
-            <div className="p-6">
-              <h3 className="text-2xl text-gray-900 mb-3 group-hover:text-[#c75b3a] transition-colors" style={{ fontFamily: 'Georgia, serif' }}>
-                The Mismatch Analyzer
-              </h3>
-              <p className="text-gray-700 mb-4">
-                AI that's internalized the entire framework. Paste any situation - see it through the evolutionary mismatch lens.
-              </p>
-              <span className="inline-flex items-center text-[#c75b3a] font-medium group-hover:gap-2 transition-all">
-                Try it now
-                <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-              </span>
-            </div>
-          </Link>
-
-          {/* The Image Library - improved clickability */}
-          <Link href="/library" className="group block bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-xl hover:border-[#c75b3a]/30 transition-all">
-            <div className="h-40 bg-gradient-to-br from-[#c75b3a]/10 to-[#c75b3a]/5 flex items-center justify-center">
-              <div className="text-6xl">🖼️</div>
-            </div>
-            <div className="p-6">
-              <h3 className="text-2xl text-gray-900 mb-3 group-hover:text-[#c75b3a] transition-colors" style={{ fontFamily: 'Georgia, serif' }}>
-                The Image Library
-              </h3>
-              <p className="text-gray-700 mb-4">
-                2,500+ educational images on evolutionary psychology, mismatch theory, and human nature. Searchable and free to use.
-              </p>
-              <span className="inline-flex items-center text-[#c75b3a] font-medium group-hover:gap-2 transition-all">
-                Browse library
-                <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-              </span>
-            </div>
-          </Link>
-        </div>
-
-        {/* Example Analyzer Output */}
-        <div className="mt-12 p-6 bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-xl">
-          <p className="text-sm text-gray-500 uppercase tracking-wide mb-4 text-center">Example Analysis</p>
-          <div className="mb-4 p-3 bg-white border border-gray-200 rounded-lg text-center">
-            <p className="text-gray-600 italic">&quot;A friend who can&apos;t stop checking their phone during dinner&quot;</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-4 text-sm">
-            <div className="p-4 bg-white border border-gray-200 rounded-lg">
-              <p className="font-medium text-[#c75b3a] mb-2">What&apos;s Happening</p>
-              <p className="text-gray-700">Variable-ratio reinforcement hijacking attention. The phone delivers unpredictable social rewards, triggering dopamine responses calibrated for survival-critical information.</p>
-            </div>
-            <div className="p-4 bg-white border border-gray-200 rounded-lg">
-              <p className="font-medium text-[#c75b3a] mb-2">What&apos;s Missing</p>
-              <p className="text-gray-700">Undivided presence with known tribe members. In ancestral environments, shared meals were sacred bonding rituals with complete attention.</p>
-            </div>
-            <div className="p-4 bg-white border border-gray-200 rounded-lg">
-              <p className="font-medium text-[#c75b3a] mb-2">What Actually Helps</p>
-              <p className="text-gray-700">Phone-free zones and rituals. Visible phone stacking. Scheduled check-in times. Environment design over willpower.</p>
-            </div>
-          </div>
-          <div className="mt-4 text-center">
-            <Link href="/app" className="inline-flex items-center text-[#c75b3a] font-medium hover:underline">
-              Try it with your own situation →
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* The Call Section - Cards with icons, consistent buttons */}
       <section className="px-8 py-20 max-w-5xl mx-auto">
