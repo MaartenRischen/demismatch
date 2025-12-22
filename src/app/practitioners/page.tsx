@@ -68,7 +68,7 @@ export default function PractitionersPage() {
           <div className="bg-white rounded-xl border-l-4 border-l-emerald-500 border border-[#E5E0D8] p-6">
             <h3 className="text-xl font-semibold text-[#1A1A1A] mb-3">Loneliness</h3>
             <p className="text-[#6b6b6b] mb-2 text-sm"><span className="line-through">Social skills deficit</span></p>
-            <p className="text-[#4A4A4A]"><span className="text-emerald-600 font-medium">Actually:</span> Accurate isolation alarm—surrounded by acquaintances, but no actual tribe</p>
+            <p className="text-[#4A4A4A]"><span className="text-emerald-600 font-medium">Actually:</span> Accurate isolation alarm-surrounded by acquaintances, but no actual tribe</p>
           </div>
 
           {/* Addiction */}
@@ -83,7 +83,7 @@ export default function PractitionersPage() {
         <div className="bg-white rounded-xl border-l-4 border-l-emerald-500 border border-[#E5E0D8] p-6 mb-8">
           <h3 className="text-xl font-semibold text-[#1A1A1A] mb-3">"ADHD"</h3>
           <p className="text-[#6b6b6b] mb-2 text-sm"><span className="line-through">Attention disorder</span></p>
-          <p className="text-[#4A4A4A]"><span className="text-emerald-600 font-medium">Actually:</span> Hunter cognition—varied attention, movement-seeking, novelty-responsive—trapped in farmer environments</p>
+          <p className="text-[#4A4A4A]"><span className="text-emerald-600 font-medium">Actually:</span> Hunter cognition-varied attention, movement-seeking, novelty-responsive-trapped in farmer environments</p>
         </div>
 
         <figure className="my-12">
@@ -108,7 +108,7 @@ export default function PractitionersPage() {
           What Your Client Actually Needs
         </h2>
         <p className="text-lg text-[#6b6b6b] mb-12">
-          Before diagnosis, before intervention, before medication—assess environment.
+          Before diagnosis, before intervention, before medication-assess environment.
         </p>
 
         {/* Tribe */}
@@ -279,7 +279,7 @@ export default function PractitionersPage() {
             </li>
             <li className="flex items-start gap-3">
               <span className="text-emerald-500 mt-1">•</span>
-              <span>Become a voice from inside—you know the system is failing</span>
+              <span>Become a voice from inside-you know the system is failing</span>
             </li>
           </ul>
         </div>
@@ -298,7 +298,7 @@ export default function PractitionersPage() {
             </li>
             <li className="flex items-start gap-3">
               <span className="text-emerald-500 mt-1">•</span>
-              <span>Build village structures—not just your nuclear family</span>
+              <span>Build village structures-not just your nuclear family</span>
             </li>
             <li className="flex items-start gap-3">
               <span className="text-emerald-500 mt-1">•</span>
@@ -333,7 +333,7 @@ export default function PractitionersPage() {
             </li>
             <li className="flex items-start gap-3">
               <span className="text-emerald-500 mt-1">•</span>
-              <span>Advocate for systemic change—you see the mismatch every day</span>
+              <span>Advocate for systemic change-you see the mismatch every day</span>
             </li>
           </ul>
         </div>
@@ -369,7 +369,7 @@ export default function PractitionersPage() {
         </h2>
         
         <p className="text-lg text-[#4A4A4A] leading-relaxed mb-6">
-          The psychiatric paradigm—brain as isolated organ, symptoms as malfunction, medication as correction—is a 20th century framework that the evidence no longer supports.
+          The psychiatric paradigm-brain as isolated organ, symptoms as malfunction, medication as correction-is a 20th century framework that the evidence no longer supports.
         </p>
         
         <p className="text-lg text-[#4A4A4A] leading-relaxed mb-6">
@@ -446,7 +446,7 @@ export default function PractitionersPage() {
             Be the Bridge
           </h2>
           <p className="text-lg text-gray-300 mb-8 leading-relaxed">
-            You see people in pain every day. Most of that pain is environmental. You can be the bridge that helps them build what they actually need—then step back as they thrive.
+            You see people in pain every day. Most of that pain is environmental. You can be the bridge that helps them build what they actually need-then step back as they thrive.
           </p>
           <p className="text-xl text-white font-medium mb-8">
             That's the work.

@@ -603,7 +603,7 @@ export default function FrameworkPage() {
             {!customFramework ? (
               <>
                 <p className="text-gray-600 mb-4">
-                  Get this framework regenerated for your specific context — as a 12-year-old would understand it, for clinicians, for policy makers, for parents, for researchers.
+                  Get this framework regenerated for your specific context - as a 12-year-old would understand it, for clinicians, for policy makers, for parents, for researchers.
                 </p>
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-2">

@@ -13,7 +13,7 @@ const CHART_DATA = {
       label: "People with Obesity",
       source: "WHO/NCD-RisC 2024",
       sourceUrl: "https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight",
-      context: "Up from 105M in 1975—a 10x increase in one generation"
+      context: "Up from 105M in 1975-a 10x increase in one generation"
     },
     {
       id: "hero-lonely",

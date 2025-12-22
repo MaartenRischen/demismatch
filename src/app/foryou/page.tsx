@@ -53,7 +53,7 @@ export default function ForYouPage() {
           <h3 className="text-xl font-semibold text-[#1A1A1A] mb-4">Anxiety</h3>
           <p className="text-[#6b6b6b] mb-4">They tell you it's a disorder. It's not.</p>
           <p className="text-[#4A4A4A] mb-4">
-            You're surrounded by strangers. You can't predict what's coming. You have no control over forces that shape your life. Your environment is full of threats—social, financial, existential—that you can't resolve through action.
+            You're surrounded by strangers. You can't predict what's coming. You have no control over forces that shape your life. Your environment is full of threats-social, financial, existential-that you can't resolve through action.
           </p>
           <p className="text-[#1A1A1A] font-medium">
             Your threat detection system is working correctly. The environment is actually threatening.
@@ -89,7 +89,7 @@ export default function ForYouPage() {
           <h3 className="text-xl font-semibold text-[#1A1A1A] mb-4">Addiction</h3>
           <p className="text-[#6b6b6b] mb-4">They tell you it's a disease. It's more complicated.</p>
           <p className="text-[#4A4A4A] mb-4">
-            You have drives—for connection, status, stimulation, meaning. Those drives evolved to be satisfied in specific ways. Those ways are blocked. So you reach for what's available.
+            You have drives-for connection, status, stimulation, meaning. Those drives evolved to be satisfied in specific ways. Those ways are blocked. So you reach for what's available.
           </p>
           <p className="text-[#1A1A1A] font-medium">
             Your drives are working correctly. The real satisfactions are actually blocked.
@@ -133,19 +133,19 @@ export default function ForYouPage() {
           </li>
           <li className="flex items-start gap-3">
             <span className="text-[#C75B39] mt-1">•</span>
-            <span>Daily closure—hunt, gather, make, eat, sleep, done</span>
+            <span>Daily closure-hunt, gather, make, eat, sleep, done</span>
           </li>
           <li className="flex items-start gap-3">
             <span className="text-[#C75B39] mt-1">•</span>
-            <span>Visible contribution—everyone saw what you did</span>
+            <span>Visible contribution-everyone saw what you did</span>
           </li>
           <li className="flex items-start gap-3">
             <span className="text-[#C75B39] mt-1">•</span>
-            <span>Physical life—moving, outdoors, using your body</span>
+            <span>Physical life-moving, outdoors, using your body</span>
           </li>
           <li className="flex items-start gap-3">
             <span className="text-[#C75B39] mt-1">•</span>
-            <span>Real status—evaluated against ~150 knowable people</span>
+            <span>Real status-evaluated against ~150 knowable people</span>
           </li>
         </ul>
 
@@ -371,7 +371,7 @@ export default function ForYouPage() {
         <div className="bg-white rounded-xl border border-[#E5E0D8] p-6 md:p-8 mb-6">
           <h3 className="text-xl font-semibold text-[#1A1A1A] mb-4">Medication</h3>
           <p className="text-[#4A4A4A]">
-            If your depression is accurate assessment that your life lacks meaning—medication doesn't add meaning. It's covering the oil light instead of checking the engine.
+            If your depression is accurate assessment that your life lacks meaning-medication doesn't add meaning. It's covering the oil light instead of checking the engine.
           </p>
         </div>
 
@@ -398,7 +398,7 @@ export default function ForYouPage() {
         <div className="bg-white rounded-xl border border-[#E5E0D8] p-6 md:p-8 mb-8">
           <h3 className="text-xl font-semibold text-[#1A1A1A] mb-4">Therapy (As Proxy)</h3>
           <p className="text-[#4A4A4A]">
-            Good therapy is a bridge. But therapy can become a proxy—the therapist as your only intimate relationship. Ask: Is my therapy helping me build real-world tribe? Or has it become the thing itself?
+            Good therapy is a bridge. But therapy can become a proxy-the therapist as your only intimate relationship. Ask: Is my therapy helping me build real-world tribe? Or has it become the thing itself?
           </p>
         </div>
       </section>
@@ -434,7 +434,7 @@ export default function ForYouPage() {
           <ul className="space-y-2 text-[#4A4A4A]">
             <li>• Make things and finish them</li>
             <li>• Have conversations that resolve</li>
-            <li>• Reduce open tabs—literal and metaphorical</li>
+            <li>• Reduce open tabs-literal and metaphorical</li>
             <li>• Do one thing at a time, to completion</li>
           </ul>
         </div>

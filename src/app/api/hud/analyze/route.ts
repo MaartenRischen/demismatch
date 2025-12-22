@@ -226,7 +226,7 @@ export async function POST(request: NextRequest) {
       }
     } catch (resizeErr) {
       console.error('[HUD Analyze] Resize/recompress error:', resizeErr);
-      // Don't fail hard — try the original; provider will enforce limits.
+      // Don't fail hard - try the original; provider will enforce limits.
     }
     
     const imageDataUrl = `data:image/${mimeType};base64,${base64Data}`;

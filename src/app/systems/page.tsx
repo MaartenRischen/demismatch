@@ -71,7 +71,7 @@ export default function SystemsPage() {
           Depression rates 10x higher in modern vs traditional societies. Anxiety disorders affect 30%+ of the population. Loneliness is now a public health epidemic. Suicide rates rising despite unprecedented material wealth.
         </p>
         <p className="text-lg text-[#4A4A4A] leading-relaxed mb-8">
-          The standard response—medicating individuals to tolerate intolerable conditions—has failed. The systems themselves must change.
+          The standard response-medicating individuals to tolerate intolerable conditions-has failed. The systems themselves must change.
         </p>
         
         <figure className="my-12">
@@ -319,7 +319,7 @@ export default function SystemsPage() {
             <li>• Communication tools that create closure (not infinite threads)</li>
             <li>• AI that serves human judgment (not replaces it)</li>
             <li>• Matching systems for tribe formation (not engagement farming)</li>
-            <li>• Decay functions—features that degrade without physical presence</li>
+            <li>• Decay functions-features that degrade without physical presence</li>
           </ul>
         </div>
 
@@ -343,7 +343,7 @@ export default function SystemsPage() {
             <li>• Neighborhoods with spontaneous interaction designed in</li>
             <li>• Workspaces with movement and daylight integrated</li>
             <li>• Third places not optimized for extraction</li>
-            <li>• Fire circle spaces—evening gathering built into communities</li>
+            <li>• Fire circle spaces-evening gathering built into communities</li>
           </ul>
         </div>
 
@@ -432,7 +432,7 @@ export default function SystemsPage() {
           Demismatch First. Then Augment.
         </h2>
         <p className="text-lg text-[#4A4A4A] leading-relaxed mb-4">
-          The goal is not return to the past. It's conscious alignment of environment with biology—then enhancement.
+          The goal is not return to the past. It's conscious alignment of environment with biology-then enhancement.
         </p>
         <p className="text-lg text-[#4A4A4A] leading-relaxed mb-4">
           The sequence matters:

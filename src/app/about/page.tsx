@@ -18,7 +18,7 @@ export default function AboutPage() {
             About DEMISMATCH
           </h1>
           <p className="text-xl text-[#4A4A4A] leading-relaxed">
-            Understanding why we suffer in modern environments—and what we can do about it.
+            Understanding why we suffer in modern environments-and what we can do about it.
           </p>
         </div>
       </header>
@@ -41,7 +41,7 @@ export default function AboutPage() {
               What if the environment is?
             </p>
             <p className="text-[#4A4A4A] leading-relaxed">
-              The DEMISMATCH framework provides a lens for understanding human suffering as an environmental mismatch problem—
+              The DEMISMATCH framework provides a lens for understanding human suffering as an environmental mismatch problem-
               the gap between the conditions humans evolved for and the conditions we actually live in.
             </p>
           </div>
@@ -57,23 +57,23 @@ export default function AboutPage() {
             <ul className="space-y-3 text-[#4A4A4A]">
               <li className="flex items-start gap-3">
                 <span className="w-2 h-2 rounded-full bg-[#C75B39] mt-2 flex-shrink-0" />
-                <span><strong>Social Structure</strong> — Stable tribe of ~150 known people</span>
+                <span><strong>Social Structure</strong> - Stable tribe of ~150 known people</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-2 h-2 rounded-full bg-[#C75B39] mt-2 flex-shrink-0" />
-                <span><strong>Visible Purpose</strong> — Work with tangible benefit to known people</span>
+                <span><strong>Visible Purpose</strong> - Work with tangible benefit to known people</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-2 h-2 rounded-full bg-[#C75B39] mt-2 flex-shrink-0" />
-                <span><strong>Closed Loops</strong> — Problems resolvable through action</span>
+                <span><strong>Closed Loops</strong> - Problems resolvable through action</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-2 h-2 rounded-full bg-[#C75B39] mt-2 flex-shrink-0" />
-                <span><strong>Real Feedback</strong> — Stable reputation among people who know you</span>
+                <span><strong>Real Feedback</strong> - Stable reputation among people who know you</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-2 h-2 rounded-full bg-[#C75B39] mt-2 flex-shrink-0" />
-                <span><strong>Distributed Care</strong> — Multiple caregivers, shared responsibility</span>
+                <span><strong>Distributed Care</strong> - Multiple caregivers, shared responsibility</span>
               </li>
             </ul>
             <p className="text-[#4A4A4A] leading-relaxed mt-4">

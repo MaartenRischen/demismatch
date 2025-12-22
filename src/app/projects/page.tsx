@@ -62,7 +62,7 @@ export default function ProjectsPage() {
                   The Mismatch Analyzer
                 </h2>
                 <p className="text-white/80 text-lg max-w-md">
-                  AI that's internalized the entire framework. Paste any situation — see it through the evolutionary lens.
+                  AI that's internalized the entire framework. Paste any situation - see it through the evolutionary lens.
                 </p>
               </div>
               <div className="flex items-end justify-between">
@@ -143,7 +143,7 @@ export default function ProjectsPage() {
                   Evolutionary HUD
                 </h3>
                 <p className="text-gray-400 text-sm">
-                  Upload any image. See what your brain is computing — threat, resource, opportunity.
+                  Upload any image. See what your brain is computing - threat, resource, opportunity.
                 </p>
               </div>
               <div className="flex items-center justify-between mt-4">
@@ -272,7 +272,7 @@ export default function ProjectsPage() {
                 Build With Us
               </h2>
               <p className="text-gray-400 max-w-lg">
-                The framework is open. If you're building something that helps humans de-mismatch — 
+                The framework is open. If you're building something that helps humans de-mismatch - 
                 we want to know about it.
               </p>
             </div>

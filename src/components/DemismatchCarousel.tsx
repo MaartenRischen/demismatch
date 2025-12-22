@@ -187,6 +187,18 @@ export default function DemismatchCarousel() {
   return (
     <section className="bg-gray-900 py-8 md:py-16 overflow-hidden">
       <div className="w-full max-w-[1400px] mx-auto px-4">
+        {/* Section header */}
+        <div className="text-center mb-10 max-w-3xl mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl text-white mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+            The Sequence Matters
+          </h2>
+          <p className="text-gray-400 text-lg leading-relaxed">
+            We're not anti-technology. We're pro-sequence. Fix the foundation before you build higher.
+            Each concept below shows the progression: the current mismatch, the healthy baseline we evolved for,
+            and the augmented future that builds on solid ground.
+          </p>
+        </div>
+
         {/* Main carousel container */}
         <div
           className="relative cursor-pointer select-none"

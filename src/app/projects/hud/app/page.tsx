@@ -353,7 +353,7 @@ export default function HUDApp() {
               <div className="p-3 space-y-2">
                 <div className="flex items-center justify-between">
                   <div className="text-xs text-gray-500">
-                    {h.created_at ? new Date(h.created_at).toLocaleString() : '—'}
+                    {h.created_at ? new Date(h.created_at).toLocaleString() : '-'}
                   </div>
                   <div className="text-xs text-gray-500">
                     {h.analysis?.scene_type ? h.analysis.scene_type.toUpperCase() : ''}

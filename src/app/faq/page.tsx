@@ -287,7 +287,7 @@ No fluff. Real answers. Links to learn more.
 
 Yes. Good thing too.
 
-Behind this is one human (Peter—someone who spent more than a decade connecting dots across evolutionary psychology, anthropology, neuroscience and technology, and realized they all point to the same thing that no one's saying clearly) and one AI (Claude). We've been collaborating for months.
+Behind this is one human (Peter-someone who spent more than a decade connecting dots across evolutionary psychology, anthropology, neuroscience and technology, and realized they all point to the same thing that no one's saying clearly) and one AI (Claude). We've been collaborating for months.
 
 He could write this himself. He started with 50+ pages of dense, original framework. It's still out there somewhere. 
 
@@ -307,7 +307,7 @@ The ideas are either true or they aren't. How they got here matters less than wh
 A framework explaining why modern humans suffer and what conditions would let them thrive. Not therapy. Not self-help. A spec sheet for human nature.
 
 **2. What are you trying to do?**
-Change how people understand suffering. It's not you. It's the environment. Once you see it, you can't unsee it—and you can start building differently.
+Change how people understand suffering. It's not you. It's the environment. Once you see it, you can't unsee it-and you can start building differently.
 
 **3. Why should I care?**
 Because you're probably suffering and blaming yourself. Because the "solutions" you've tried haven't worked. Because understanding the actual problem is the first step to fixing it.
@@ -316,10 +316,10 @@ Because you're probably suffering and blaming yourself. Because the "solutions" 
 Anyone who feels something is deeply wrong but can't name it. Also: therapists tired of prescribing band-aids, technologists who want to build things that help, researchers looking for a unifying framework, parents watching their kids struggle.
 
 **5. Is this anti-psychiatry?**
-It's anti-misdiagnosis. Psychiatric conditions are real behavioral patterns. They're just not diseases—they're accurate responses to environmental mismatch. Different diagnosis, different solutions.
+It's anti-misdiagnosis. Psychiatric conditions are real behavioral patterns. They're just not diseases-they're accurate responses to environmental mismatch. Different diagnosis, different solutions.
 
 **6. Is this anti-technology?**
-No. Technology is pharmakon—both poison and cure. The same tools creating mismatch can serve demismatching. Depends on design.
+No. Technology is pharmakon-both poison and cure. The same tools creating mismatch can serve demismatching. Depends on design.
 
 **7. What do you want me to do after reading this?**
 Stop blaming yourself. Understand the pattern. Then build: your own tribe, your own closure, your own visible contribution. Understanding alone changes nothing.
@@ -331,7 +331,7 @@ No one owns truth about human nature. The framework is open source. Fork it, imp
 2,500+ visuals in the library. Framework is dense. Images make it visceral. Use them for presentations, conversations, your own understanding.
 
 **10. How do I know this isn't just another self-help thing?**
-Self-help sells individual solutions to systemic problems. That's why it doesn't work—and why you keep buying more. This framework says: the problem is environmental, the solution is collective, and anyone selling you personal optimization is part of the problem.
+Self-help sells individual solutions to systemic problems. That's why it doesn't work-and why you keep buying more. This framework says: the problem is environmental, the solution is collective, and anyone selling you personal optimization is part of the problem.
 
 ---
 
@@ -346,7 +346,7 @@ Environment of Evolutionary Adaptedness. The conditions humans evolved in: small
 → [Part III: The Spec Sheet]
 
 **13. Why do I feel so bad?**
-You're a fish on land. Your suffering isn't malfunction—it's accurate biological response to an environment that violates every condition your species requires.
+You're a fish on land. Your suffering isn't malfunction-it's accurate biological response to an environment that violates every condition your species requires.
 → [Part I: The Pattern]
 
 **14. What's "fish on land"?**
@@ -394,7 +394,7 @@ Drive-seeking redirected to proxies. Real satisfactions are blocked, so you reac
 → [Part IV: The Violations]
 
 **24. What is ADHD actually?**
-Hunter cognition in a farmer world. Scanning attention, movement-seeking, novelty-responsive—adaptive in EEA, pathologized in classrooms.
+Hunter cognition in a farmer world. Scanning attention, movement-seeking, novelty-responsive-adaptive in EEA, pathologized in classrooms.
 → [Part VII: The Misdiagnosis]
 
 **25. What is social anxiety actually?**
@@ -554,7 +554,7 @@ You evolved to be watched by 150 known people. Now the simulation runs on phanto
 → [Part VI: The Cascades]
 
 **59. What is negativity bias?**
-Evolution made assuming danger safer than assuming safety. Now applies to social evaluation—you assume rejection, criticism, mockery by default.
+Evolution made assuming danger safer than assuming safety. Now applies to social evaluation-you assume rejection, criticism, mockery by default.
 → [Part VI: The Cascades]
 
 **60. What is the perfectionism trap?**
@@ -574,7 +574,7 @@ Deliberate open loop design. No end state. No completion. Your brain keeps seeki
 → [Part VI: The Cascades]
 
 **64. Why can't I stop ruminating?**
-Rumination evolved to plan solutions. Now it has nothing to work with—unchangeable past, uncontrollable future. The mechanism works. The problems don't resolve.
+Rumination evolved to plan solutions. Now it has nothing to work with-unchangeable past, uncontrollable future. The mechanism works. The problems don't resolve.
 → [Part VI: The Cascades]
 
 **65. What is partial control?**
@@ -638,7 +638,7 @@ Invented "chemical imbalance" to sell chemicals. Signal override without address
 → [Part V: The Exploitation]
 
 **78. What is the serotonin hypothesis?**
-Debunked narrative that depression is serotonin deficiency. SSRIs don't correct deficiency—they flood the system. Same mechanism as cocaine flooding dopamine.
+Debunked narrative that depression is serotonin deficiency. SSRIs don't correct deficiency-they flood the system. Same mechanism as cocaine flooding dopamine.
 → [Part VII: The Misdiagnosis]
 
 **79. What are ghostwritten studies?**
@@ -646,7 +646,7 @@ Pharma pays for research, writes the conclusions, puts academic names on it. Doc
 → [Part V: The Exploitation]
 
 **80. How does the food industry exploit me?**
-Engineers hyperpalatability. Bliss point optimization—precise combination of sugar, fat, salt for maximum craving without satisfaction. Foods designed to be impossible to eat in moderation. Addiction is the feature.
+Engineers hyperpalatability. Bliss point optimization-precise combination of sugar, fat, salt for maximum craving without satisfaction. Foods designed to be impossible to eat in moderation. Addiction is the feature.
 → [Part V: The Exploitation]
 
 **81. How do dating apps exploit me?**
@@ -658,7 +658,7 @@ Supernormal stimuli hijacking mating drive. Unlimited novelty impossible in natu
 → [Part V: The Exploitation]
 
 **83. How does news media exploit me?**
-Profits from threat activation. "If it bleeds, it leads." Open loops that never close. Anxiety about events you can't influence. Your stress hormones—cortisol—elevated for profit.
+Profits from threat activation. "If it bleeds, it leads." Open loops that never close. Anxiety about events you can't influence. Your stress hormones-cortisol-elevated for profit.
 → [Part V: The Exploitation]
 
 **84. What is cortisol?**
@@ -670,7 +670,7 @@ Requires that self-help doesn't work. Individual solutions to systemic problems.
 → [Part V: The Exploitation]
 
 **86. How does gambling exploit me?**
-Variable ratio reinforcement perfected, then exported everywhere. Loot boxes. Gacha. Engagement loops. "Whales"—vulnerable users accounting for most revenue—specifically targeted.
+Variable ratio reinforcement perfected, then exported everywhere. Loot boxes. Gacha. Engagement loops. "Whales"-vulnerable users accounting for most revenue-specifically targeted.
 → [Part V: The Exploitation]
 
 **87. What are whales?**
@@ -682,7 +682,7 @@ $700B+ annually weaponizing evolutionary psychology. Manufacturing inadequacy. M
 → [Part V: The Exploitation]
 
 **89. Why isn't this common knowledge?**
-The suppression. Not conspiracy—incentives. Funding goes to drug development, not environmental intervention. Media covers new treatments, not systemic critique. Truth isn't profitable. Profitable isn't true.
+The suppression. Not conspiracy-incentives. Funding goes to drug development, not environmental intervention. Media covers new treatments, not systemic critique. Truth isn't profitable. Profitable isn't true.
 → [Part V: The Exploitation]
 
 **90. What is the celebrity phenomenon?**
@@ -722,7 +722,7 @@ What medication does. Floods system to suppress signal without addressing what i
 → [Part V: The Exploitation]
 
 **98. What's wrong with therapy?**
-Nothing—if it's a bridge. Problem: therapy as proxy. $200/hour paid intimacy. Therapist as only person who "really understands." Subscription service for belonging. Years without environmental change.
+Nothing-if it's a bridge. Problem: therapy as proxy. $200/hour paid intimacy. Therapist as only person who "really understands." Subscription service for belonging. Years without environmental change.
 → [Part VI: The Cascades]
 
 **99. What's a 15-minute medication check?**
@@ -734,7 +734,7 @@ Medication becomes "necessary" because we've destroyed social structures that wo
 → [Supplementary: Objections]
 
 **101. What did Rat Park show?**
-Rats in enriched environments don't self-administer drugs. Isolated rats do. Environment is the variable. Addiction isn't the substance—it's the solution to isolation.
+Rats in enriched environments don't self-administer drugs. Isolated rats do. Environment is the variable. Addiction isn't the substance-it's the solution to isolation.
 → [Part IV: The Violations]
 
 ---
@@ -742,7 +742,7 @@ Rats in enriched environments don't self-administer drugs. Isolated rats do. Env
 ## THE DESTINATION
 
 **102. What is demismatch?**
-Return to baseline human thriving. Conscious alignment of environment with biology. Not returning to past—building forward.
+Return to baseline human thriving. Conscious alignment of environment with biology. Not returning to past-building forward.
 → [Part IX: The Destination]
 
 **103. What is augment?**
@@ -778,11 +778,11 @@ Not age-segregated classrooms. Five-year-olds learning from ten-year-olds teachi
 → [Part III: The Spec Sheet]
 
 **110. What is apprenticeship?**
-Children learning through observation and gradual participation. A seven-year-old gathering herbs isn't playing—they're contributing. By teenage years: adult-level skills.
+Children learning through observation and gradual participation. A seven-year-old gathering herbs isn't playing-they're contributing. By teenage years: adult-level skills.
 → [Part III: The Spec Sheet]
 
 **111. What is demand sharing?**
-Economic pattern: those with surplus share when asked. Not charity—obligation and insurance. Share today, ask tomorrow. No accumulation possible. No starvation possible.
+Economic pattern: those with surplus share when asked. Not charity-obligation and insurance. Share today, ask tomorrow. No accumulation possible. No starvation possible.
 → [Part III: The Spec Sheet]
 
 **112. What is immediate-return economy?**
@@ -806,15 +806,15 @@ Wake at dawn (naturally, with light). Work through morning. Rest, socialize, nap
 → [Part III: The Spec Sheet]
 
 **117. What is birth spacing?**
-3-4 years between children via extended breastfeeding. Parents not overwhelmed. Grandmothers crucial. Fathers highly involved—among Aka, fathers hold infants 20%+ of daytime.
+3-4 years between children via extended breastfeeding. Parents not overwhelmed. Grandmothers crucial. Fathers highly involved-among Aka, fathers hold infants 20%+ of daytime.
 → [Part III: The Spec Sheet]
 
 **118. What about physical contact for infants?**
-Constant. Babies rarely put down. Carried in slings all day. Passed person to person. Co-sleeping at night. No infant experienced prolonged distress—someone always responded immediately.
+Constant. Babies rarely put down. Carried in slings all day. Passed person to person. Co-sleeping at night. No infant experienced prolonged distress-someone always responded immediately.
 → [Part III: The Spec Sheet]
 
 **119. What is fission-fusion?**
-Natural social dynamics. Groups split and reform. Bands divide when too large, merge after conflicts, members move between groups. Not failure—social metabolism.
+Natural social dynamics. Groups split and reform. Bands divide when too large, merge after conflicts, members move between groups. Not failure-social metabolism.
 → [Supplementary: Fission-Fusion]
 
 ---
@@ -826,7 +826,7 @@ Humans entering tribes are hierarchy-damaged. Trained to climb, manipulate, defe
 → [Supplementary: Governance]
 
 **121. What is rotation?**
-Any power-accumulating role rotates formally. External negotiator, conflict arbiter, resource controller—all rotate on schedule. Prevents consolidation.
+Any power-accumulating role rotates formally. External negotiator, conflict arbiter, resource controller-all rotate on schedule. Prevents consolidation.
 → [Supplementary: Governance]
 
 **122. What is transparency?**
@@ -858,7 +858,7 @@ Scale without Dunbar layers. Tried to operate flat at 3,000+ people. Governance 
 ## TECHNOLOGY
 
 **128. What is pharmakon?**
-Greek: both poison and cure. Technology's dual nature. Same tools creating mismatch can serve demismatching—if designed differently.
+Greek: both poison and cure. Technology's dual nature. Same tools creating mismatch can serve demismatching-if designed differently.
 → [Part IX: The Destination]
 
 **129. What is a decay function?**
@@ -894,7 +894,7 @@ People with resources: schedule flexibility, savings buffer, existing relationsh
 → [Supplementary: Transition]
 
 **136. What is constructive scarcity?**
-Challenges requiring effort, cooperation, skill—creating conditions for meaning. Time limits, skill mastery, coordination problems. Remains even with material abundance. The tribe still needs to raise children, resolve conflicts, create together.
+Challenges requiring effort, cooperation, skill-creating conditions for meaning. Time limits, skill mastery, coordination problems. Remains even with material abundance. The tribe still needs to raise children, resolve conflicts, create together.
 → [Part IX: The Destination]
 
 **137. What is toxic scarcity?**
@@ -906,11 +906,11 @@ Solves resource distribution, not meaning. Money without role, tribe, purpose. "
 → [Part IX: The Destination]
 
 **139. What does automation change?**
-Eliminating human roles in production. The proxy purpose that work provides is disappearing. Makes framework more urgent—rebuild meaning through tribe, not through jobs that won't exist.
+Eliminating human roles in production. The proxy purpose that work provides is disappearing. Makes framework more urgent-rebuild meaning through tribe, not through jobs that won't exist.
 → [Part IX: The Destination]
 
 **140. What if my tribe attempt fails?**
-Fission-fusion is normal. Even temporary tribes valuable—years of genuine tribal experience, skills developed, relationships that persist. Permanence isn't the only success metric.
+Fission-fusion is normal. Even temporary tribes valuable-years of genuine tribal experience, skills developed, relationships that persist. Permanence isn't the only success metric.
 → [Supplementary: Fission-Fusion]
 
 ---
@@ -930,7 +930,7 @@ Nature exposure, co-living reduce symptoms independent of medication. Environmen
 → [Supplementary: Research]
 
 **144. What do intentional communities show?**
-Twin Oaks (58 years), East Wind (51 years), kibbutzim—long-term stability possible with proper governance. Communities arrived at similar solutions independently. Convergent evidence.
+Twin Oaks (58 years), East Wind (51 years), kibbutzim-long-term stability possible with proper governance. Communities arrived at similar solutions independently. Convergent evidence.
 → [Supplementary: Governance Case Studies]
 
 **145. What is Twin Oaks?**
@@ -946,7 +946,7 @@ Intentional community since 1974. ~70 members. Nut butter business. Rotating coo
 ## PRACTICAL: SO NOW WHAT?
 
 **147. What's step one?**
-Reduce mismatch load. Audit parasocial relationships. Reduce open loops. Circadian basics: wake with light, reduce evening screens. Move your body—not for fitness, for the neurochemistry your brain expects.
+Reduce mismatch load. Audit parasocial relationships. Reduce open loops. Circadian basics: wake with light, reduce evening screens. Move your body-not for fitness, for the neurochemistry your brain expects.
 → [Part IX: The Destination]
 
 **148. What's step two?**
@@ -962,7 +962,7 @@ Build. One dinner. One finished project. One person who sees your contribution. 
 → [Part IX: The Destination]
 
 **151. What if I can't build tribe right now?**
-Reduce mismatch load first. Circadian alignment, nature exposure, reduced stranger interaction—these help even alone. Build capacity. Move from 90% mismatched to 70%. Still mismatched, but better positioned.
+Reduce mismatch load first. Circadian alignment, nature exposure, reduced stranger interaction-these help even alone. Build capacity. Move from 90% mismatched to 70%. Still mismatched, but better positioned.
 → [Supplementary: Transition]
 
 **152. What's minimum viable demismatch?**
@@ -982,7 +982,7 @@ Reading about mismatch while sitting alone, scrolling, under artificial light. U
 ## OBJECTIONS
 
 **155. "I'm an introvert."**
-Introversion = how you recover energy, not what you need. You need tribe with quieter role. EEA had roles for every temperament. Not isolation—predictable, low-demand belonging.
+Introversion = how you recover energy, not what you need. You need tribe with quieter role. EEA had roles for every temperament. Not isolation-predictable, low-demand belonging.
 → [Supplementary: Objections]
 
 **156. "Different people need different things."**
@@ -990,7 +990,7 @@ Surface variation exists. Deep structure universal. No human thrives isolated, p
 → [Supplementary: Objections]
 
 **157. "You're romanticizing the past."**
-27% infant mortality. 48% child death. Framework doesn't claim past was better—claims social environment matched the hardware. You can have modern medicine AND social structures that work.
+27% infant mortality. 48% child death. Framework doesn't claim past was better-claims social environment matched the hardware. You can have modern medicine AND social structures that work.
 → [Supplementary: Objections]
 
 **158. "This sounds like a cult."**
