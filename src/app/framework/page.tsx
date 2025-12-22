@@ -5,6 +5,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import Navigation from "@/components/Navigation";
 import TTSPlayer from "@/components/TTSPlayer";
+import { FrameworkStructuredData } from "@/components/StructuredData";
 
 // Framework sections for navigation
 const SECTIONS = [
@@ -468,6 +469,7 @@ export default function FrameworkPage() {
 
   return (
     <main className="min-h-screen bg-[#faf9f6] pt-20">
+      <FrameworkStructuredData />
       <ProgressBar progress={progress} />
       <NavigationSidebar activeSection={activeSection} onRequestCustom={() => setShowCustomModal(true)} />
 

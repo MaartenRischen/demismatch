@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { WebsiteStructuredData, OrganizationStructuredData } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
   title: "DEMISMATCH",
@@ -34,6 +35,8 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icon-192.png" />
       </head>
       <body>
+        <WebsiteStructuredData />
+        <OrganizationStructuredData />
         {children}
       </body>
     </html>
