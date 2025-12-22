@@ -12,6 +12,7 @@ const MAIN_LINKS = [
   { href: "/library", label: "Library" },
   { href: "/projects", label: "Projects" },
   { href: "/faq", label: "FAQ" }, // Moved from dropdown per critique
+  { href: "/glossary", label: "Glossary" },
   { href: "/sources", label: "Sources" }, // Moved from dropdown per critique
   { href: "/about", label: "About" }, // New page per critique
 ];

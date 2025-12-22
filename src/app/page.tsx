@@ -4,93 +4,7 @@ import Link from "next/link";
 import Navigation from "@/components/Navigation";
 import DemismatchCarousel from "@/components/DemismatchCarousel";
 import CollapsibleAISection from "@/components/CollapsibleAISection";
-
-// Key terms for the quick reference section
-const KEY_TERMS = [
-  {
-    id: "mismatch",
-    term: "Mismatch",
-    question: "What's a mismatch?",
-    answer: "Your brain was built for a world that no longer exists. 300,000 years of evolution, then everything changed in a blink. The hardware works perfectly. The environment doesn't match. That gap? That's the mismatch.",
-    emoji: "🐟",
-  },
-  {
-    id: "proxy",
-    term: "Proxy",
-    question: "What's a proxy?",
-    answer: "A substitute that hijacks your drives without satisfying them. Social media for tribe. Porn for intimacy. Junk food for nourishment. They give you the hit but not the thing. Salt water when you're thirsty-the more you drink, the thirstier you get.",
-    emoji: "🧂",
-  },
-  {
-    id: "eea",
-    term: "EEA",
-    question: "What's the EEA?",
-    answer: "Environment of Evolutionary Adaptedness. The conditions humans evolved in: small bands, known faces, daily closure, visible contribution, physical life. Think of it as the spec sheet for human thriving. We're running software designed for that hardware-on completely different hardware.",
-    emoji: "🏕️",
-  },
-  {
-    id: "dunbar",
-    term: "Dunbar's Number",
-    question: "What's Dunbar's number?",
-    answer: "Hard cognitive limits: 5 intimate → 15 close → 50 friends → 150 meaningful. Beyond 150, people become categories. You have 2,000 followers? Cool. Your brain can't actually know them. That's architecture, not culture.",
-    emoji: "🧠",
-  },
-  {
-    id: "open-loop",
-    term: "Open Loop",
-    question: "What's an open loop?",
-    answer: "A problem that cannot be resolved through action. You worry about climate change, the economy, that embarrassing thing you said in 2015. Your brain evolved to solve problems and move on. Modern life is an open loop factory-chronic emotion without resolution.",
-    emoji: "🔄",
-  },
-  {
-    id: "demismatch",
-    term: "Demismatch",
-    question: "What does it mean to demismatch?",
-    answer: "Consciously aligning your environment with your biology. Not going back to caves-building forward with the spec sheet in hand. Find your 5. Close some loops. Do something with visible results. Stop drinking salt water.",
-    emoji: "🎯",
-  },
-];
-
-// Key Terms Section component
-function KeyTermsSection() {
-  return (
-    <section className="px-8 py-16 max-w-6xl mx-auto">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>
-          The Basics
-        </h2>
-      </div>
-
-      {/* Terms grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {KEY_TERMS.map((term) => (
-          <div
-            key={term.id}
-            className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg hover:border-[#c75b3a]/20 transition-all"
-          >
-            <h3 className="text-xl font-semibold text-gray-900 mb-1" style={{ fontFamily: 'Georgia, serif' }}>
-              {term.term}
-            </h3>
-            <p className="text-sm text-[#c75b3a] mb-3">{term.question}</p>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              {term.answer}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      {/* Link to full FAQ */}
-      <div className="text-center mt-10">
-        <Link
-          href="/faq"
-          className="text-[#c75b3a] hover:underline font-medium"
-        >
-          Want all 162 questions? Read the full FAQ →
-        </Link>
-      </div>
-    </section>
-  );
-}
+import ExpandableFAQTiles from "@/components/ExpandableFAQTiles";
 
 export default function Home() {
   return (
@@ -113,8 +27,8 @@ export default function Home() {
       {/* Demismatch First, Then Augment Carousel */}
       <DemismatchCarousel />
 
-      {/* KEY TERMS - Quick Reference */}
-      <KeyTermsSection />
+      {/* THE BASICS - Expandable FAQ Tiles */}
+      <ExpandableFAQTiles />
 
       {/* The Call Section - Cards with icons, consistent buttons */}
       <section className="px-8 py-20 max-w-5xl mx-auto">

@@ -328,7 +328,7 @@ Stop blaming yourself. Understand the pattern. Then build: your own tribe, your 
 No one owns truth about human nature. The framework is open source. Fork it, improve it, implement it.
 
 **9. What's with all the images?**
-2,500+ visuals in the library. Framework is dense. Images make it visceral. Use them for presentations, conversations, your own understanding.
+2,500+ visuals in the library. Demismatch is dense. Images make it visceral. Use them for presentations, conversations, your own understanding.
 
 **10. How do I know this isn't just another self-help thing?**
 Self-help sells individual solutions to systemic problems. That's why it doesn't work-and why you keep buying more. This framework says: the problem is environmental, the solution is collective, and anyone selling you personal optimization is part of the problem.
@@ -990,11 +990,11 @@ Surface variation exists. Deep structure universal. No human thrives isolated, p
 → [Supplementary: Objections]
 
 **157. "You're romanticizing the past."**
-27% infant mortality. 48% child death. Framework doesn't claim past was better-claims social environment matched the hardware. You can have modern medicine AND social structures that work.
+27% infant mortality. 48% child death. Demismatch doesn't claim past was better-claims social environment matched the hardware. You can have modern medicine AND social structures that work.
 → [Supplementary: Objections]
 
 **158. "This sounds like a cult."**
-Cults: charismatic leader, isolation, information control, punishment for leaving. Framework: distributed authority, transparency, embedded in society, freedom to exit. The structure prevents cult dynamics.
+Cults: charismatic leader, isolation, information control, punishment for leaving. Demismatch: distributed authority, transparency, embedded in society, freedom to exit. The structure prevents cult dynamics.
 → [Supplementary: Objections]
 
 **159. "Society can't reorganize."**
@@ -1006,11 +1006,11 @@ Partly true. First tribes will come from those who can experiment. Question is w
 → [Supplementary: Objections]
 
 **161. "What about people who genuinely can't form relationships?"**
-Some genuine neurological differences exist. Framework claims most suffering is environmental, not neurological. For genuine difference: modified structures, different roles, augmented communication. Goal remains same.
+Some genuine neurological differences exist. Demismatch claims most suffering is environmental, not neurological. For genuine difference: modified structures, different roles, augmented communication. Goal remains same.
 → [Supplementary: Objections]
 
 **162. "Isn't this just 'touch grass' with extra steps?"**
-Yes and no. Touch grass captures something real. Framework explains why it helps (circadian, movement, reduced strangers) and what else is needed (tribe, purpose, closed loops). Touch grass is necessary but insufficient.
+Yes and no. Touch grass captures something real. Demismatch explains why it helps (circadian, movement, reduced strangers) and what else is needed (tribe, purpose, closed loops). Touch grass is necessary but insufficient.
 → [Supplementary: Objections]
 
 ---
