@@ -162,10 +162,10 @@ export default function DemismatchCarousel() {
 
   if (isLoading) {
     return (
-      <section className="bg-gray-900 py-16">
+      <section className="bg-[#faf9f6] py-16 border-y border-gray-200">
         <div className="max-w-6xl mx-auto px-4">
           <div className="h-[400px] flex items-center justify-center">
-            <div className="text-white/50">Loading...</div>
+            <div className="text-gray-400">Loading...</div>
           </div>
         </div>
       </section>
@@ -174,10 +174,10 @@ export default function DemismatchCarousel() {
 
   if (error || concepts.length === 0) {
     return (
-      <section className="bg-gray-900 py-16">
+      <section className="bg-[#faf9f6] py-16 border-y border-gray-200">
         <div className="max-w-6xl mx-auto px-4">
           <div className="h-[400px] flex items-center justify-center">
-            <div className="text-white/50">{error || 'No images available'}</div>
+            <div className="text-gray-400">{error || 'No images available'}</div>
           </div>
         </div>
       </section>
@@ -185,14 +185,14 @@ export default function DemismatchCarousel() {
   }
 
   return (
-    <section className="bg-gray-900 py-8 md:py-16 overflow-hidden">
+    <section className="bg-[#faf9f6] py-8 md:py-16 overflow-hidden border-y border-gray-200">
       <div className="w-full max-w-[1400px] mx-auto px-4">
         {/* Section header */}
         <div className="text-center mb-10 max-w-3xl mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl text-white mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+          <h2 className="text-3xl md:text-4xl text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
             The Sequence Matters
           </h2>
-          <p className="text-gray-400 text-lg leading-relaxed">
+          <p className="text-gray-600 text-lg leading-relaxed">
             We're not anti-technology. We're pro-sequence. Fix the foundation before you build higher.
             Each concept below shows the progression: the current mismatch, the healthy baseline we evolved for,
             and the augmented future that builds on solid ground.
@@ -212,7 +212,7 @@ export default function DemismatchCarousel() {
             {/* Image 1 - Mismatched (no frame) */}
             <div className={`relative transition-all duration-500 flex-shrink-0 ${currentImageIndex >= 0 ? 'opacity-100 scale-100' : 'opacity-50 scale-95'}`}>
               <div
-                className="relative rounded-xl overflow-hidden shadow-2xl transition-all duration-500 border-2 border-white/20"
+                className="relative rounded-xl overflow-hidden shadow-lg transition-all duration-500 border-2 border-gray-200"
                 style={{
                   width: 'var(--img-size)',
                   height: 'var(--img-size)'
@@ -232,22 +232,15 @@ export default function DemismatchCarousel() {
               {/* Arrow pointing right on desktop, down on mobile */}
               <div className="hidden lg:block">
                 <svg
-                  className={`text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] ${currentImageIndex === 1 ? 'animate-pulse' : ''}`}
+                  className={`text-gray-700 ${currentImageIndex === 1 ? 'animate-pulse' : ''}`}
                   style={{ width: 'clamp(40px, 5vw, 80px)', height: 'clamp(30px, 4vw, 50px)' }}
                   viewBox="0 0 100 50"
                   preserveAspectRatio="xMidYMid meet"
                 >
                   <defs>
-                    <filter id="glow1">
-                      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                      <feMerge>
-                        <feMergeNode in="coloredBlur"/>
-                        <feMergeNode in="SourceGraphic"/>
-                      </feMerge>
-                    </filter>
                     <linearGradient id="arrowGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#ffffff" stopOpacity="0.6"/>
-                      <stop offset="100%" stopColor="#ffffff" stopOpacity="1"/>
+                      <stop offset="0%" stopColor="#374151" stopOpacity="0.6"/>
+                      <stop offset="100%" stopColor="#374151" stopOpacity="1"/>
                     </linearGradient>
                   </defs>
                   <path
@@ -257,12 +250,11 @@ export default function DemismatchCarousel() {
                     fill="none"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    filter="url(#glow1)"
                   />
                 </svg>
               </div>
               <div className="lg:hidden py-1">
-                <svg className={`w-8 h-10 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] ${currentImageIndex === 1 ? 'animate-pulse' : ''}`} viewBox="0 0 50 60" preserveAspectRatio="xMidYMid meet">
+                <svg className={`w-8 h-10 text-gray-700 ${currentImageIndex === 1 ? 'animate-pulse' : ''}`} viewBox="0 0 50 60" preserveAspectRatio="xMidYMid meet">
                   <path
                     d="M25 5 L25 45 M25 45 L12 32 M25 45 L38 32"
                     stroke="currentColor"
@@ -274,7 +266,7 @@ export default function DemismatchCarousel() {
                 </svg>
               </div>
               <p
-                className={`font-black tracking-wide whitespace-nowrap bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(255,255,255,0.9)] ${currentImageIndex === 1 ? 'animate-pulse scale-110' : ''} transition-transform duration-300`}
+                className={`font-black tracking-wide whitespace-nowrap text-gray-800 ${currentImageIndex === 1 ? 'animate-pulse scale-110' : ''} transition-transform duration-300`}
                 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(14px, 1.5vw, 22px)' }}
               >
                 Demismatch first
@@ -284,11 +276,11 @@ export default function DemismatchCarousel() {
             {/* Image 2 - Baseline/Demismatched (slight frame) */}
             <div className={`relative transition-all duration-500 flex-shrink-0 ${currentImageIndex >= 1 ? 'opacity-100 scale-100' : 'opacity-50 scale-95'}`}>
               <div
-                className={`relative rounded-xl overflow-hidden shadow-2xl transition-all duration-500 ${(currentImageIndex >= 1) ? 'ring-2 ring-yellow-400/60 border-2 border-yellow-400/60' : 'border-2 border-white/20'}`}
+                className={`relative rounded-xl overflow-hidden shadow-lg transition-all duration-500 ${(currentImageIndex >= 1) ? 'ring-2 ring-yellow-500 border-2 border-yellow-500' : 'border-2 border-gray-200'}`}
                 style={{
                   width: 'var(--img-size)',
                   height: 'var(--img-size)',
-                  boxShadow: (currentImageIndex >= 1) ? '0 0 15px rgba(250, 204, 21, 0.3)' : undefined
+                  boxShadow: (currentImageIndex >= 1) ? '0 0 15px rgba(234, 179, 8, 0.4)' : undefined
                 }}
               >
                 <img
@@ -357,11 +349,11 @@ export default function DemismatchCarousel() {
             {/* Image 3 - Augmented (nice golden frame) */}
             <div className={`relative transition-all duration-500 flex-shrink-0 ${currentImageIndex >= 2 ? 'opacity-100 scale-100' : 'opacity-50 scale-95'}`}>
               <div
-                className={`relative rounded-xl overflow-hidden shadow-2xl transition-all duration-500 ${(currentImageIndex >= 2) ? 'ring-4 ring-yellow-400 border-2 border-yellow-400' : 'border-2 border-white/20'}`}
+                className={`relative rounded-xl overflow-hidden shadow-lg transition-all duration-500 ${(currentImageIndex >= 2) ? 'ring-4 ring-yellow-500 border-2 border-yellow-500' : 'border-2 border-gray-200'}`}
                 style={{
                   width: 'var(--img-size)',
                   height: 'var(--img-size)',
-                  boxShadow: (currentImageIndex >= 2) ? '0 0 30px rgba(250, 204, 21, 0.6), 0 0 60px rgba(250, 204, 21, 0.3)' : undefined
+                  boxShadow: (currentImageIndex >= 2) ? '0 0 20px rgba(234, 179, 8, 0.5)' : undefined
                 }}
               >
                 <img
@@ -379,10 +371,10 @@ export default function DemismatchCarousel() {
             {/* Previous concept button */}
             <button
               onClick={handlePrevConcept}
-              className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+              className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
               aria-label="Previous concept"
             >
-              <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
             </button>
@@ -390,16 +382,16 @@ export default function DemismatchCarousel() {
             {/* Pause/Play button */}
             <button
               onClick={handlePause}
-              className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+              className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
               aria-label={isPaused ? "Play" : "Pause"}
             >
               {isPaused ? (
-                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               ) : (
-                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               )}
@@ -408,10 +400,10 @@ export default function DemismatchCarousel() {
             {/* Next concept button */}
             <button
               onClick={handleNextConcept}
-              className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+              className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
               aria-label="Next concept"
             >
-              <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -432,8 +424,8 @@ export default function DemismatchCarousel() {
                 }}
                 className={`w-2 h-2 rounded-full transition-all ${
                   index === currentConceptIndex
-                    ? 'bg-white w-4'
-                    : 'bg-white/30 hover:bg-white/50'
+                    ? 'bg-[#c75b3a] w-4'
+                    : 'bg-gray-300 hover:bg-gray-400'
                 }`}
                 aria-label={`Go to concept ${index + 1}`}
               />
@@ -441,7 +433,7 @@ export default function DemismatchCarousel() {
           </div>
 
           {/* Click hint */}
-          <p className="text-center text-white/40 text-sm mt-6">
+          <p className="text-center text-gray-400 text-sm mt-6">
             Click anywhere to advance
           </p>
         </div>
