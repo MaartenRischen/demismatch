@@ -37,14 +37,8 @@ export default function Home() {
         <h1 className="text-5xl md:text-6xl text-gray-900 leading-tight mb-8" style={{ fontFamily: 'Georgia, serif' }}>
           Modern civilization is incompatible with human nature.
         </h1>
-        <p className="text-xl text-gray-600 mb-3">
-          This is not metaphor. This is biology.
-        </p>
-        <p className="text-xl text-gray-600 mb-3">
-          Every condition we call mental illness is the machinery working correctly in the wrong environment. The signals aren't broken — the environment is.
-        </p>
-        <p className="text-xl text-gray-600 mb-10 font-bold">
-          This framework explains the what, the why, and the 'now what?'
+        <p className="text-xl text-gray-600 mb-10">
+          We're talking about augmenting humans with technology, but we haven't been fully human for millennia. What exactly are we augmenting? Let's find out what it means to be demismatched first, and take it from there.
         </p>
 
         {/* Clear CTA */}
