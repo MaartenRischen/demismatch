@@ -1690,10 +1690,10 @@ export default function HomepageFAQTile() {
                 {parseAnswer(currentQ.answer, handleGlossaryClick)}
               </div>
 
-              {/* Small thumbnail in lower right */}
+              {/* Thumbnail in lower right */}
               <button
                 onClick={() => setImagePopup(true)}
-                className="absolute bottom-4 right-6 w-16 h-16 rounded-lg overflow-hidden opacity-30 hover:opacity-80 transition-opacity cursor-pointer border border-gray-200 shadow-sm"
+                className="absolute bottom-4 right-6 w-32 h-32 rounded-lg overflow-hidden opacity-40 hover:opacity-90 transition-opacity cursor-pointer border border-gray-200 shadow-md"
                 title="Click to view image"
               >
                 <Image
@@ -1701,7 +1701,7 @@ export default function HomepageFAQTile() {
                   alt={currentQ.question}
                   fill
                   className="object-cover"
-                  sizes="64px"
+                  sizes="128px"
                 />
               </button>
             </div>
