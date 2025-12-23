@@ -53,7 +53,7 @@ const SERIES_DISPLAY_NAMES: Record<string, string> = {
   "The Mismatch Answer 50 STATUS GAME VOL9": "The Status Game",
 
   // Signals & Emotions
-  "The Sequencing": "How Signals Work",
+  // UNUSED: "The Sequencing" (folder: the_sequencing) - 97 images removed from DB, files kept on storage
   "Fear & Anxiety": "Fear & Anxiety Signals",
   "Emotions": "The Emotional Dashboard",
   "Dashboard Overload": "When the Dashboard Breaks",
@@ -101,7 +101,7 @@ const SERIES_ORDER: string[] = [
   "The Mismatch Actually 100 EVERYONE WRONG VOL11",
 
   // 3. Understanding the signals
-  "The Sequencing",
+  // UNUSED: "The Sequencing" - removed from library
   "Fear & Anxiety",
   "Emotions",
   "Hoffman Interface Theory",

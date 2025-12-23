@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { glossaryById } from "@/data/glossaryData";
 
 interface TileData {
   id: number;
@@ -10,76 +11,6 @@ interface TileData {
   answer: string;
   imageUrl: string;
 }
-
-// Glossary definitions for inline popups (first paragraph of each term)
-const glossaryData: Record<string, { title: string; definition: string }> = {
-  "mismatch": { title: "Mismatch", definition: "The gap between the environment your biology expects and the environment you actually inhabit. Your brain was built for a world that no longer exists." },
-  "eea": { title: "EEA (Environment of Evolutionary Adaptedness)", definition: "The conditions humans evolved in. The spec sheet for human thriving. For roughly 300,000 years, certain environmental conditions were constant: small bands of 30-50 people, extended tribe of 150, known faces, daily closure." },
-  "open-loop": { title: "Open Loop", definition: "A problem that cannot be resolved through action. Chronic emotion without resolution. Your brain evolved solving problems, but modern life generates problems immune to action." },
-  "closed-loop": { title: "Closed Loop", definition: "A problem resolved through action. The emotional state dissipates because the situation is handled. Hunt → eat → done. This is what your brain evolved for." },
-  "status": { title: "Status", definition: "Relative social position within a group. A fundamental human drive because, in ancestral conditions, status determined survival and reproduction." },
-  "indirect-fitness": { title: "Indirect Fitness", definition: "Survival and reproduction through social mechanisms. The drives that make you care about reputation, status, reciprocity, and belonging." },
-  "dunbars-numbers": { title: "Dunbar's Numbers", definition: "Hard cognitive limits on relationships: 5 intimate, 15 close friends, 50 good friends (the band), 150 meaningful acquaintances (the tribe). Beyond 150, people become categories." },
-  "the-5": { title: "The 5", definition: "The innermost Dunbar layer. People you'd call at 3am. Complete vulnerability. Almost daily contact. If you don't have 5—that's the problem." },
-  "the-15": { title: "The 15", definition: "The close friend layer. People whose deaths would devastate you. People whose current struggles you know without having to ask." },
-  "the-50-band": { title: "The 50 (Band)", definition: "5-8 families (approximately 50 individuals) in daily interaction. Your immediate community in ancestral conditions. Who you'd share meals with, work alongside, sit with at the fire circle." },
-  "the-150-tribe": { title: "The 150 (Tribe)", definition: "The maximum number of people you can maintain stable social relationships with. Beyond this, people become categories. Your brain cannot actually know your 5,000 followers." },
-  "parasocial-relationships": { title: "Parasocial Relationships", definition: "One-way emotional bonds with people who don't know you exist. You know their face, voice, struggles—they've never heard your name. The counterfeit intimacy of media." },
-  "proxy": { title: "Proxy", definition: "A substitute that hijacks a biological drive without satisfying the underlying need. Social media for tribe. Porn for intimacy. Momentary relief, increasing hunger. Salt water for thirst." },
-  "signal-vs-symptom": { title: "Signal vs Symptom", definition: "Signal: Information requiring environmental response. Symptom: Malfunction requiring suppression. Psychiatry treats signals as symptoms, medicating accurate feedback instead of addressing the environment." },
-  "oil-light-metaphor": { title: "Oil Light Metaphor", definition: "Medication is like covering the oil light instead of checking the engine. Signal suppressed, underlying problem unchanged." },
-  "visible-contribution": { title: "Visible Contribution", definition: "Work whose results you can see, whose benefits accrue to people you know. Ancestral work was visible: hunt → meat → everyone eats. Modern work is often invisible abstraction." },
-  "fish-on-land": { title: "Fish on Land", definition: "The core metaphor. A fish out of water flops around—its gills work perfectly, designed for water. The problem isn't broken fish. The problem is wrong environment. You wouldn't medicate the flopping." },
-  "flopping-disorder": { title: "Flopping Disorder", definition: "Satirical term for pathologizing adaptive responses to environmental mismatch. We name the flopping, categorize it, medicate it—while ignoring the environment." },
-  "fire-circle": { title: "Fire Circle", definition: "The nightly gathering of the entire band. 2-4 hours every single night for 300,000 years. Processing the day, storytelling, bonding. We've replaced it with screens." },
-  "alloparenting": { title: "Alloparenting", definition: "Child-rearing by multiple adults—not just biological parents. In ancestral conditions, children were raised by 20+ caregivers. The nuclear family—two exhausted parents alone—is a historical aberration." },
-  "rumination": { title: "Rumination", definition: "The brain's planning mechanism running without anything to plan. It evolved to analyze problems and generate solutions, but now runs on problems that don't admit solutions." },
-  "internal-audience": { title: "Internal Audience", definition: "Imaginary critics in your mind generating real biological responses. Your brain evolved being watched by 150. Now it simulates an audience—harsher than any real one." },
-  "negativity-bias": { title: "Negativity Bias", definition: "The brain's tendency to weight negative information more heavily. Missing a threat was fatal; missing an opportunity was recoverable. Now it runs on phantoms." },
-  "perfectionism-trap": { title: "Perfectionism Trap", definition: "The internal audience demanding impossible, mutually contradictory standards. Be confident but not arrogant. Be successful but not obsessed. Any position violates something." },
-  "partial-control": { title: "Partial Control", definition: "The worst anxiety zone. Enough influence to feel responsible but not enough to determine outcomes. You can't let go, but you can't resolve it." },
-  "hyperstimuli": { title: "Hyperstimuli", definition: "Stimuli exceeding anything in nature. Porn, junk food, social media—they hijack drives by exaggerating what drives respond to. Real satisfactions become inadequate." },
-  "atomized-individual": { title: "Atomized Individual", definition: "A person severed from tribe, purpose, and genuine intimacy. The ideal consumer unit. A satisfied human is a terrible customer." },
-  "exploitation-formula": { title: "Exploitation Formula", definition: "Identify need → block satisfaction → offer proxy → proxy doesn't satisfy → monetize return visits. Social media, porn, junk food, news all follow this pattern." },
-  "variable-ratio-reinforcement": { title: "Variable Ratio Reinforcement", definition: "The most addictive reward schedule. Unpredictable rewards for consistent behavior. Pull-to-refresh is literally a slot machine lever." },
-  "dopamine": { title: "Dopamine", definition: "Neurotransmitter driving reward-seeking. It spikes on anticipation, not receipt. Modern tech delivers triggers without effort or satisfaction—chronic activation, tolerance, baseline depression." },
-  "serotonin-hypothesis": { title: "Serotonin Hypothesis", definition: "The debunked narrative that depression is caused by serotonin deficiency. A 2022 review found no consistent evidence. The chemical imbalance theory was marketing, not science." },
-  "signal-override": { title: "Signal Override", definition: "What psychiatric medication actually does: flooding systems to suppress signals without addressing what the signals are responding to. Sometimes necessary—but often the whole intervention." },
-  "ghostwritten-studies": { title: "Ghostwritten Studies", definition: "Research papers written by pharmaceutical companies and published under academic names. The 'scientific literature' is substantially marketing material." },
-  "cortisol": { title: "Cortisol", definition: "Stress hormone designed to spike briefly, then dissipate. Tiger appears → cortisol mobilizes. Tiger leaves → cortisol drops. Modern life: the tiger never leaves." },
-  "bliss-point": { title: "Bliss Point", definition: "The precise combination of sugar, fat, and salt engineered to maximize craving without satisfaction. Designed to be impossible to eat in moderation." },
-  "rat-park": { title: "Rat Park", definition: "Experiment showing addiction is environmental. Isolated rats self-medicate. Rats in enriched environments largely ignore drugs. The variable is environment, not substance." },
-  "farmer-brain": { title: "Farmer Brain", definition: "The compliant, sit-still cognitive style institutions treat as normal. ADHD isn't broken attention—it's hunter cognition in a farmer world." },
-  "bullshit-jobs": { title: "Bullshit Jobs", definition: "Jobs whose existence the workers themselves cannot justify. Work that produces nothing tangible, benefits no one you know, exists to perpetuate itself." },
-  "stranger-overload": { title: "Stranger Overload", definition: "Encountering more unknown humans daily than ancestors met in years. Your brain can't stop assessing them—threat or not? The drain of cities." },
-  "immediate-return-economy": { title: "Immediate-Return Economy", definition: "Hunt → eat. Gather → consume. Work → benefit. The line between effort and reward is direct, visible, immediate. Not layers of abstraction." },
-  "demand-sharing": { title: "Demand Sharing", definition: "Those with surplus share when asked. Not charity—obligation and insurance. Tomorrow you might be asking. Poverty impossible within the group." },
-  "egalitarian-enforcement": { title: "Egalitarian Enforcement", definition: "How hunter-gatherers prevented dominance. Boasting, hoarding, bossing triggered immediate coalition response. Christopher Boehm calls it 'reverse dominance hierarchy.'" },
-  "conflict-resolution-cascade": { title: "Conflict Resolution Cascade", definition: "Humor → public discussion → ridicule → shunning → exile → violence (rare). Most conflicts resolved early through joking. Reputation was inescapable." },
-  "circadian-rhythm": { title: "Circadian Rhythm", definition: "Your body's internal clock. Wake with light. Active morning. Rest afternoon. Fire circle evening. Sleep with darkness. No alarm clocks. No artificial light." },
-  "fission-fusion": { title: "Fission-Fusion", definition: "Natural social dynamics where groups split and reform fluidly. Not failure—social metabolism. When the band grew too large, it split. Fluidity meant you were never permanently trapped." },
-  "metapopulation": { title: "Metapopulation", definition: "The 500-1500 people connected across multiple tribes through marriage, kinship, and trade. The broader network ensuring genetic diversity and resilience." },
-  "rotation": { title: "Rotation", definition: "Power-adjacent roles cycle between members on a fixed schedule. No one occupies influence-generating positions permanently. Trades efficiency for equality." },
-  "transparency": { title: "Transparency", definition: "Information visible to all tribe members. No back-channels. No private deals. Information asymmetry is proto-hierarchy." },
-  "domain-separation": { title: "Domain Separation", definition: "No single person holds multiple power-adjacent roles. Separating domains prevents power consolidation despite formal rules." },
-  "onboarding-filter": { title: "Onboarding Filter", definition: "Screening process for new members to identify hierarchy-trained dominance patterns. Trial period to surface problems before full inclusion." },
-  "viable-exit": { title: "Viable Exit", definition: "The ability to leave without catastrophic consequences. What distinguishes tribe from cult. You're held by value, not by bars." },
-  "demismatch": { title: "Demismatch", definition: "Consciously aligning your environment with your biology. Not going back to caves—building forward with the spec sheet. The intervention is changing conditions, not fixing yourself." },
-  "augment": { title: "Augment", definition: "Extending capability through technology—but only from a foundation of thriving. You can't augment broken. Demismatch first, then augment." },
-  "pharmakon": { title: "Pharmakon", definition: "Greek for both poison and cure. Technology's dual nature. Same tools creating mismatch can serve demismatching—if designed differently." },
-  "decay-function": { title: "Decay Function", definition: "Technology designed to degrade without in-person presence. Features lock unless you've met recently. Success measured by decreasing use. Opposite of engagement optimization." },
-  "tribe-formation-ai": { title: "Tribe Formation AI", definition: "AI designed to match people for tribal formation. Analyzing compatibility—nervous system styles, conflict approaches, values. A discovery tool, not relationship substitute." },
-  "the-most-human-post-human": { title: "Most Human Post-Human", definition: "Humans with matched environments, enhanced by technology. Meeting needs fully, then augmenting. Baseline thriving plus capability enhancement." },
-  "double-shift": { title: "Double Shift", definition: "Maintaining wage labor while building tribal structure. 8 hours capitalist work + 2-3 hours tribal maintenance. Unsustainable. The primary reason tribe formation attempts fail." },
-  "great-filter": { title: "Great Filter", definition: "The transition period where most tribe formation attempts fail. Double shift exhausts. Hierarchies emerge despite intentions. Not character failure—predictable difficulty." },
-  "transition": { title: "Transition", definition: "Moving from atomized existence to tribal belonging. Inherently difficult. Keep the old running while constructing the new. Expect setbacks. Treat fission as part of fusion." },
-  "whales": { title: "Whales", definition: "Vulnerable users who account for disproportionate revenue. Problem gamblers, people with addictive tendencies. Your vulnerability is their profit center." },
-  "infinite-scroll": { title: "Infinite Scroll", definition: "Deliberate open loop design. No end state. No completion signal. Your brain keeps seeking closure that will never come." },
-  "reciprocal-altruism": { title: "Reciprocal Altruism", definition: "Helping others with expectation of future help. The foundation of cooperation beyond kinship. Only works with memory, reputation, and repeated interaction." },
-  "direct-fitness": { title: "Direct Fitness", definition: "Survival and reproduction mechanisms that run automatically. Hunger, thirst, fear, lust. You can override them temporarily but can't eliminate them." },
-  "social-anxiety": { title: "Social Anxiety", definition: "Fear of the internal audience projected onto real people. You assume strangers scrutinize you intensely. They're not—they're barely aware you exist." },
-  "mismatched": { title: "Mismatch", definition: "The gap between the environment your biology expects and the environment you actually inhabit. Your brain was built for a world that no longer exists." }
-};
 
 // Image mappings for each question - SINGLE PANEL IMAGES ONLY (no two-panel/comparison images)
 // Carefully selected to match each tile's topic from the 2850+ image library
@@ -1699,7 +1630,7 @@ export default function HomepageFAQTile() {
     setGlossaryPopup(termId);
   };
 
-  const glossaryTerm = glossaryPopup ? glossaryData[glossaryPopup] : null;
+  const glossaryTerm = glossaryPopup ? glossaryById[glossaryPopup] : null;
 
   const handleReveal = () => {
     setIsRevealed(true);
@@ -1880,7 +1811,7 @@ export default function HomepageFAQTile() {
           onClick={() => setGlossaryPopup(null)}
         >
           <div
-            className="relative max-w-lg w-full bg-white rounded-xl overflow-hidden shadow-2xl"
+            className="relative max-w-lg w-full max-h-[80vh] bg-white rounded-xl overflow-hidden shadow-2xl flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -1891,21 +1822,16 @@ export default function HomepageFAQTile() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <div className="p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-3 pr-8" style={{ fontFamily: 'Georgia, serif' }}>
+            <div className="p-6 overflow-y-auto">
+              <h3 className="text-xl font-bold text-gray-900 mb-4 pr-8" style={{ fontFamily: 'Georgia, serif' }}>
                 {glossaryTerm.title}
               </h3>
-              <p className="text-gray-700 leading-relaxed">
-                {glossaryTerm.definition}
-              </p>
-              <div className="mt-4 pt-3 border-t border-gray-100">
-                <Link
-                  href={`/glossary#${glossaryPopup}`}
-                  className="text-sm text-[#C75B39] hover:underline"
-                  onClick={() => setGlossaryPopup(null)}
-                >
-                  Read full definition →
-                </Link>
+              <div className="space-y-3">
+                {glossaryTerm.definition.map((paragraph, idx) => (
+                  <p key={idx} className="text-gray-700 leading-relaxed">
+                    {paragraph}
+                  </p>
+                ))}
               </div>
             </div>
           </div>
