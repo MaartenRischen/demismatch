@@ -53,11 +53,11 @@ const SERIES_DISPLAY_NAMES: Record<string, string> = {
   "The Mismatch Answer 50 STATUS GAME VOL9": "The Status Game",
 
   // Signals & Emotions
-  // UNUSED: "The Sequencing" (folder: the_sequencing) - 97 images removed from DB, files kept on storage
+  // UNUSED: "The Sequencing" (folder: the_sequencing) - removed from DB
   "Fear & Anxiety": "Fear & Anxiety Signals",
   "Emotions": "The Emotional Dashboard",
   "Dashboard Overload": "When the Dashboard Breaks",
-  "Dashboard Calibrated": "When the Dashboard Works",
+  // UNUSED: "Dashboard Calibrated" (folder: dashboard_calibrated_series) - removed from DB
 
   // Life Domains
   "Dating & Mating": "Dating, Mating & Pair Bonding",
@@ -70,7 +70,7 @@ const SERIES_DISPLAY_NAMES: Record<string, string> = {
 
   // Perspective Series
   // UNUSED: "The Trap Recognized" (folder: the_trap_recognized) - removed from DB
-  "The Bridge": "Building the Bridge",
+  // UNUSED: "The Bridge" (folder: the_bridge_series) - removed from DB
   // UNUSED: "The Same Scene Two Eyes" (folder: the_same_scene_two_eyes) - removed from DB
   "The Real Thing": "The Real Thing",
   "The Real Thing PART2": "The Real Thing Part 2",
@@ -82,10 +82,31 @@ const SERIES_DISPLAY_NAMES: Record<string, string> = {
   "Dystopia": "The Warning: Misaligned Living",
 
   // Other
-  "Misc": "More Insights",
+  // UNUSED: "Misc" (folder: the_lies_we_tell) - removed from DB
   "Technology": "Technology",
-  "Work Rest & Productivity": "Work, Rest & Productivity",
+  // UNUSED: "Work Rest & Productivity" (shared images only) - removed from DB
 };
+
+// Series that are hidden from the library (removed from DB or deprecated)
+const UNUSED_SERIES: string[] = [
+  "The Sequencing",
+  "Dashboard Calibrated",
+  "Meaning & Purpose 100",
+  "The Trap Recognized",
+  "The Bridge",
+  "The Same Scene Two Eyes",
+  "Utopia",
+  "Misc",
+  "Work Rest & Productivity",
+  // Newly removed:
+  "The Mismatch Answer 100 DEMISMATCH TECH VOL6",  // Technology: Help or Harm?
+  "The Mismatch Answer 100 REAL THING VOL7",       // The Real Thing vs The Proxy
+  "The Mismatch Answer 100 VOL3",                  // Solutions Vol 2
+  "The Mismatch Answer",                           // The Demismatch Solution
+  "Dystopia",                                      // The Warning: Misaligned Living
+  "Money & Status",                                // Money, Status & Resources
+  "The Mismatch Actually 100 EVERYONE WRONG VOL11", // What Everyone Gets Wrong
+];
 
 // Series ordering: defines the logical flow through the framework
 // Series not in this list will appear at the end, sorted by count
@@ -132,18 +153,18 @@ const SERIES_ORDER: string[] = [
 
   // 7. When it works - matched state
   "The Mismatch Actually 100 MATCHED VOL5",
-  "Dashboard Calibrated",
+  // UNUSED: "Dashboard Calibrated"
   "The Real Thing",
   "The Real Thing PART2",
-  "The Bridge",
+  // UNUSED: "The Bridge"
 
   // 8. The destination
-  // UNUSED: "Utopia" (folder: utopia_100_prompts was removed)
+  // UNUSED: "Utopia"
 
   // 9. Misc at the end
   "Technology",
-  "Work Rest & Productivity",
-  "Misc",
+  // UNUSED: "Work Rest & Productivity"
+  // UNUSED: "Misc"
 ];
 
 // Helper to get display name for a series
@@ -890,6 +911,15 @@ function LibraryContent() {
       return [];
     }
 
+    // Filter out images that belong ONLY to unused series
+    result = result.filter(img => {
+      if (!img.series || !Array.isArray(img.series) || img.series.length === 0) {
+        return true; // Keep images with no series (will go to "Other")
+      }
+      // Keep if at least one series is NOT in UNUSED_SERIES
+      return img.series.some(s => !UNUSED_SERIES.includes(s));
+    });
+
     // Filter by search query
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -1017,6 +1047,8 @@ function LibraryContent() {
       if (img.series && Array.isArray(img.series) && img.series.length > 0) {
         for (const series of img.series) {
           if (!series || !series.trim()) continue;
+          // Skip series that are marked as unused/hidden
+          if (UNUSED_SERIES.includes(series)) continue;
           if (!grouped[series]) grouped[series] = [];
           grouped[series].push(img);
         }
