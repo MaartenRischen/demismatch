@@ -1684,24 +1684,24 @@ export default function HomepageFAQTile() {
         {/* Answer (when revealed) */}
         {isRevealed && (
           <div className="animate-fadeIn">
-            {/* Answer content with thumbnail */}
-            <div className="px-8 pt-6 pb-6 relative">
-              <div className="pr-20">
-                {parseAnswer(currentQ.answer, handleGlossaryClick)}
-              </div>
+            {/* Answer content */}
+            <div className="px-8 pt-6 pb-4">
+              {parseAnswer(currentQ.answer, handleGlossaryClick)}
+            </div>
 
-              {/* Thumbnail in lower right */}
+            {/* Image thumbnail - centered below answer */}
+            <div className="px-8 pb-6 flex justify-center">
               <button
                 onClick={() => setImagePopup(true)}
-                className="absolute bottom-4 right-6 w-32 h-32 rounded-lg overflow-hidden opacity-40 hover:opacity-90 transition-opacity cursor-pointer border border-gray-200 shadow-md"
+                className="w-64 h-64 rounded-lg overflow-hidden cursor-pointer border border-gray-200 shadow-md hover:shadow-lg transition-shadow"
                 title="Click to view image"
               >
                 <Image
                   src={currentQ.imageUrl}
                   alt={currentQ.question}
-                  fill
-                  className="object-cover"
-                  sizes="128px"
+                  width={256}
+                  height={256}
+                  className="object-cover w-full h-full"
                 />
               </button>
             </div>
