@@ -13,14 +13,15 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="px-8 py-24 max-w-4xl mx-auto text-center">
-        <p className="text-3xl md:text-4xl text-gray-700 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
-          <span className="underline decoration-[#c75b3a] decoration-2 underline-offset-4">You're not broken.</span>
-        </p>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 leading-tight mb-8" style={{ fontFamily: 'Georgia, serif' }}>
-          Modern civilization is incompatible with human nature.
+        <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 leading-tight mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+          You're not broken.<br />
+          <span className="underline decoration-[#c75b3a] decoration-2 underline-offset-4">You're mismatched.</span>
         </h1>
+        <p className="text-3xl md:text-4xl text-gray-700 mb-8" style={{ fontFamily: 'Georgia, serif' }}>
+          The world wasn't built for you.
+        </p>
         <p className="text-xl md:text-2xl text-gray-500 leading-relaxed" style={{ fontFamily: 'Georgia, serif' }}>
-          We're talking about augmenting humans with technology, but we haven't been able to be fully human for millennia. What exactly are we augmenting? Let's find out what it means to be demismatched first, and take it from there.
+          We're rushing to augment humans who haven't been allowed to be fully human for 10,000 years. Before we add anything, let's restore what's missing.
         </p>
       </section>
 
