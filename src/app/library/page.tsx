@@ -66,19 +66,19 @@ const SERIES_DISPLAY_NAMES: Record<string, string> = {
   "Social Dynamics": "Social Dynamics & Hierarchy",
   "Survive & Reproduce": "Survival & Reproduction Drives",
   "Meaning & Purpose": "Meaning & Purpose",
-  "Meaning & Purpose 100": "Meaning & Purpose (Extended)",
+  // UNUSED: "Meaning & Purpose 100" (folder: meaning_purpose_sacred_100_prompts_v2) - removed from DB
 
   // Perspective Series
-  "The Trap Recognized": "Recognizing the Trap",
+  // UNUSED: "The Trap Recognized" (folder: the_trap_recognized) - removed from DB
   "The Bridge": "Building the Bridge",
-  "The Same Scene Two Eyes": "Same Scene, Different Lens",
+  // UNUSED: "The Same Scene Two Eyes" (folder: the_same_scene_two_eyes) - removed from DB
   "The Real Thing": "The Real Thing",
   "The Real Thing PART2": "The Real Thing Part 2",
   "Hoffman Interface Theory": "Perception as Interface",
   "The Scale Matters": "Scale Matters: 150 vs Millions",
 
   // Destination Series
-  "Utopia": "The Destination: Aligned Living",
+  // UNUSED: "Utopia" (folder: utopia_100_prompts) - removed from DB
   "Dystopia": "The Warning: Misaligned Living",
 
   // Other
@@ -113,12 +113,12 @@ const SERIES_ORDER: string[] = [
   "Food & Body",
   "Survive & Reproduce",
   "Meaning & Purpose",
-  "Meaning & Purpose 100",
+  // UNUSED: "Meaning & Purpose 100"
   "The Scale Matters",
 
   // 5. Recognizing the problem
-  "The Trap Recognized",
-  "The Same Scene Two Eyes",
+  // UNUSED: "The Trap Recognized"
+  // UNUSED: "The Same Scene Two Eyes"
   "Dystopia",
 
   // 6. The solution - demismatch
@@ -138,7 +138,7 @@ const SERIES_ORDER: string[] = [
   "The Bridge",
 
   // 8. The destination
-  "Utopia",
+  // UNUSED: "Utopia" (folder: utopia_100_prompts was removed)
 
   // 9. Misc at the end
   "Technology",
