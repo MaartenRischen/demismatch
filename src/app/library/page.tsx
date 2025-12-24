@@ -85,6 +85,9 @@ const SERIES_DISPLAY_NAMES: Record<string, string> = {
   // UNUSED: "Misc" (folder: the_lies_we_tell) - removed from DB
   "Technology": "Technology",
   // UNUSED: "Work Rest & Productivity" (shared images only) - removed from DB
+
+  // New Series
+  "The Diagnosis": "The Diagnosis",
 };
 
 // Series that are hidden from the library (removed from DB or deprecated)
@@ -113,6 +116,9 @@ const UNUSED_SERIES: string[] = [
 const SERIES_ORDER: string[] = [
   // 1. Start with the baseline - what humans evolved for
   "EEA",
+
+  // 1.5. The Diagnosis - recognizing the problem
+  "The Diagnosis",
 
   // 2. The mismatch - what's going wrong
   "The Mismatch Actually",

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import Navigation from "@/components/Navigation";
 import DemismatchCarousel from "@/components/DemismatchCarousel";
 import CollapsibleAISection from "@/components/CollapsibleAISection";
@@ -17,8 +18,22 @@ export default function Home() {
           You're not broken.<br />
           <span className="underline decoration-[#c75b3a] decoration-2 underline-offset-4">You're mismatched.</span>
         </h1>
+
+        {/* Hero Image */}
+        <div className="my-8 flex justify-center">
+          <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-xl overflow-hidden shadow-lg">
+            <Image
+              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/new_images/1_The_Cubicle_Worker.png"
+              alt="The Cubicle Worker"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+        </div>
+
         <p className="text-3xl md:text-4xl text-gray-700 mb-8" style={{ fontFamily: 'Georgia, serif' }}>
-          The world wasn't built for you.
+          This world wasn't built for you.
         </p>
         <p className="text-xl md:text-2xl text-gray-500 leading-relaxed" style={{ fontFamily: 'Georgia, serif' }}>
           We're rushing to augment humans who haven't been allowed to be fully human for 10,000 years. Before we add anything, let's restore what's missing.

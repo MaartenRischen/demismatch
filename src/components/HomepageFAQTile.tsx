@@ -9,7 +9,7 @@ interface TileData {
   id: number;
   question: string;
   answer: string;
-  imageUrl: string;
+  imageUrls: string[];  // Array of 3 image URLs for gallery
 }
 
 // Image mappings for each question - Auto-generated from valid folders only
@@ -17,169 +17,817 @@ interface TileData {
 // the_trap_recognized, utopia_100_prompts, dashboard_calibrated_series, the_bridge_series, the_lies_we_tell,
 // the_mismatch_answer_100_demismatch_tech_vol6, the_mismatch_answer_100_real_thing_vol7, the_mismatch_answer_100_vol3,
 // dystopia_100_prompts, money_consumption_status_100_prompts, the_mismatch_actually_100_everyone_wrong_vol11
-const imageMap: Record<number, string> = {
-  1: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/36_THE_MISMATCH_DIAGNOSTIC.png',
-  2: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
-  3: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/12_THE_OVERTHINKING.png',
-  4: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png',
-  5: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png',
-  6: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png',
-  7: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/23_THE_FOLLOWER_COUNT.png',
-  8: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/15_THE_BEAUTY_PROXY.png',
-  9: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
-  10: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/64_THE_NEVER_ENOUGH.png',
-  11: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/45_THE_EMOTION_PROGRAMS.png',
-  12: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-  13: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/42_THE_SYMPTOM_SPIRAL.png',
-  14: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
-  15: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/19_THE_ANXIETY.png',
-  16: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
-  17: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/11_THE_BEETLE_S_MISTAKE.png',
-  18: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
-  19: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-  20: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/10_THE_SINGING_TOGETHER.png',
-  21: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/90_THE_RUMINATION.png',
-  22: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/22_THE_AUDIENCE.png',
-  23: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/88_THE_CATASTROPHE.png',
-  24: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/30_THE_PERFECTIONISM.png',
-  25: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/76_THE_CHECKING.png',
-  26: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
-  27: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/128_THE_FUNERAL_ATTENDED.png',
-  28: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/44_THE_ACHIEVEMENT_HOLLOW.png',
-  29: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/39_THE_BULLSHIT_JOB.png',
-  30: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/39_THE_BULLSHIT_JOB.png',
-  31: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
-  32: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/6_THE_KNOWN_BY_ALL.png',
-  33: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_comparison_trap.jpeg',
-  34: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png',
-  35: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/9_THE_PROCESSED_ENGINEERING.png',
-  36: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png',
-  37: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png',
-  38: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/28_THE_ATTENTION_ENGINE.png',
-  39: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png',
-  40: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-  41: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/61_THE_DOPAMINE_EXHAUSTION.png',
-  42: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-  43: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
-  44: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
-  45: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
-  46: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/41_THE_WEBMD.png',
-  47: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/62_THE_CORTISOL_DRIP.png',
-  48: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/22_THE_NEWS_ADDICTION.png',
-  49: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/9_THE_PROCESSED_ENGINEERING.png',
-  50: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/4_THE_DATING_APP.png',
-  51: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dating_mating_100_prompts_final2/22_THE_COOLIDGE_EFFECT.png',
-  52: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
-  53: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png',
-  54: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/17_THE_US_AND_THEM.png',
-  55: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/41_THE_WEBMD.png',
-  56: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png',
-  57: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_comparison_trap.jpeg',
-  58: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png',
-  59: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png',
-  60: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png',
-  61: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/56_THE_BOREDOM_INTOLERANCE.png',
-  62: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-  63: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/20_THE_SOCIAL_ANXIETY.png',
-  64: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png',
-  65: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/17_THE_IMPOSTER_SYNDROME.png',
-  66: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
-  67: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-  68: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-  69: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-  70: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
-  71: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
-  72: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
-  73: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/68_THE_SUICIDAL_THOUGHTS.png',
-  74: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/121_THE_FIRE_LIT.png',
-  75: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/14_THE_CHILDREN_S_PACK.png',
-  76: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/11_THE_CHILD_ON_IPAD.png',
-  77: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/106_THE_SKILL_PRACTICED.png',
-  78: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/37_THE_POTLATCH.png',
-  79: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/31_THE_DIGGING.png',
-  80: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
-  81: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
-  82: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/84_THE_DISPUTE.png',
-  83: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/34_THE_SUNSET_MARKING.png',
-  84: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/78_THE_NURSING.png',
-  85: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/38_THE_CARRYING.png',
-  86: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/47_THE_OTHER_BAND.png',
-  87: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/47_THE_OTHER_BAND.png',
-  88: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png',
-  89: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
-  90: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
-  91: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/26_THE_WHISPER_NETWORK.png',
-  92: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png',
-  93: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/35_THE_CHEATER_BLIND_SPOT.png',
-  94: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/38_THE_OUT-GROUP.png',
-  95: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/98_THE_CROWD.png',
-  96: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
-  97: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-  98: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
-  99: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-  100: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/35_THE_PHYSICAL_GREETING.png',
-  101: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png',
-  102: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/28_THE_PHONE_CALL.png',
-  103: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/82_THE_STARTUP_GRIND.png',
-  104: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
-  105: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/51_THE_BELONGING_CONFIRMED.png',
-  106: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/43_THE_SHARED_BURDEN.png',
-  107: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
-  108: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
-  109: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
-  110: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
-  111: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
-  112: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/47_THE_CLEAN_SPACE_CALM.png',
-  113: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/69_THE_BEING_TRULY_SEEN.png',
-  114: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/24_THE_PHONE_SEPARATION.png',
-  115: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png',
-  116: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/28_THE_PHONE_CALL.png',
-  117: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
-  118: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/45_THE_DAILY_PRACTICE.png',
-  119: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png',
-  120: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png',
-  121: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
-  122: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/95_THE_GOODBYE_PROPER.png',
-  123: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-  124: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/16_THE_EFFORT.png',
-  125: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/16_THE_EFFORT.png',
-  126: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/41_THE_PURPOSE_VACANCY.png',
-  127: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/40_THE_AUTOMATION_SHADOW.png',
-  128: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/1_THE_HUNGER.png',
-  129: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/1_THE_HUNGER.png',
-  130: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png',
-  131: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/33_THE_TIT_FOR_TAT.png',
-  132: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/64_THE_NEVER_ENOUGH.png',
-  133: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/32_THE_SOCIAL_OVERLOAD.png',
-  134: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/33_THE_CELEBRATION.png',
-  135: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
-  136: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png',
-  137: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-  138: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/1_THE_DESKTOP_OF_PERCEPTION.png',
-  139: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
-  140: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-  141: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/10_THE_SINGING_TOGETHER.png',
-  142: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
-  143: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-  144: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-  145: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-  146: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-  147: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/17_THE_CHRONIC.png',
-  148: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png',
-  149: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/36_THE_GIFT.png',
-  150: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/111_THE_LANGUAGE_BROKEN.png',
-  151: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
-  152: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/17_THE_PEOPLE_DREAD.png',
-  153: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
-  154: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
-  155: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
-  156: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
-  157: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
-  158: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-  159: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
-  160: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-  161: 'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/87_THE_DOOR_KNOCKED.png',
+// imageMap now holds arrays of 3 URLs for gallery display
+// Initially using placeholders - run the image selector tool to pick 3 unique images per question
+const imageMap: Record<number, string[]> = {
+  1: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/36_THE_MISMATCH_DIAGNOSTIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/36_THE_MISMATCH_DIAGNOSTIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/36_THE_MISMATCH_DIAGNOSTIC.png'
+  ],
+  2: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png'
+  ],
+  3: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/12_THE_OVERTHINKING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/12_THE_OVERTHINKING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/12_THE_OVERTHINKING.png'
+  ],
+  4: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png'
+  ],
+  5: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png'
+  ],
+  6: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png'
+  ],
+  7: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/23_THE_FOLLOWER_COUNT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/23_THE_FOLLOWER_COUNT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/23_THE_FOLLOWER_COUNT.png'
+  ],
+  8: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/15_THE_BEAUTY_PROXY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/15_THE_BEAUTY_PROXY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/15_THE_BEAUTY_PROXY.png'
+  ],
+  9: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png'
+  ],
+  10: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/64_THE_NEVER_ENOUGH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/64_THE_NEVER_ENOUGH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/64_THE_NEVER_ENOUGH.png'
+  ],
+  11: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/45_THE_EMOTION_PROGRAMS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/45_THE_EMOTION_PROGRAMS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/45_THE_EMOTION_PROGRAMS.png'
+  ],
+  12: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
+  ],
+  13: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/42_THE_SYMPTOM_SPIRAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/42_THE_SYMPTOM_SPIRAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/42_THE_SYMPTOM_SPIRAL.png'
+  ],
+  14: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png'
+  ],
+  15: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/19_THE_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/19_THE_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/19_THE_ANXIETY.png'
+  ],
+  16: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png'
+  ],
+  17: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/11_THE_BEETLE_S_MISTAKE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/11_THE_BEETLE_S_MISTAKE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/11_THE_BEETLE_S_MISTAKE.png'
+  ],
+  18: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png'
+  ],
+  19: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
+  ],
+  20: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/10_THE_SINGING_TOGETHER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/10_THE_SINGING_TOGETHER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/10_THE_SINGING_TOGETHER.png'
+  ],
+  21: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/90_THE_RUMINATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/90_THE_RUMINATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/90_THE_RUMINATION.png'
+  ],
+  22: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/22_THE_AUDIENCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/22_THE_AUDIENCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/22_THE_AUDIENCE.png'
+  ],
+  23: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/88_THE_CATASTROPHE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/88_THE_CATASTROPHE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/88_THE_CATASTROPHE.png'
+  ],
+  24: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/30_THE_PERFECTIONISM.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/30_THE_PERFECTIONISM.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/30_THE_PERFECTIONISM.png'
+  ],
+  25: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/76_THE_CHECKING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/76_THE_CHECKING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/76_THE_CHECKING.png'
+  ],
+  26: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png'
+  ],
+  27: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/128_THE_FUNERAL_ATTENDED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/128_THE_FUNERAL_ATTENDED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/128_THE_FUNERAL_ATTENDED.png'
+  ],
+  28: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/44_THE_ACHIEVEMENT_HOLLOW.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/44_THE_ACHIEVEMENT_HOLLOW.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/44_THE_ACHIEVEMENT_HOLLOW.png'
+  ],
+  29: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/39_THE_BULLSHIT_JOB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/39_THE_BULLSHIT_JOB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/39_THE_BULLSHIT_JOB.png'
+  ],
+  30: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/39_THE_BULLSHIT_JOB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/39_THE_BULLSHIT_JOB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/39_THE_BULLSHIT_JOB.png'
+  ],
+  31: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png'
+  ],
+  32: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/6_THE_KNOWN_BY_ALL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/6_THE_KNOWN_BY_ALL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/6_THE_KNOWN_BY_ALL.png'
+  ],
+  33: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_comparison_trap.jpeg',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_comparison_trap.jpeg',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_comparison_trap.jpeg'
+  ],
+  34: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png'
+  ],
+  35: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/9_THE_PROCESSED_ENGINEERING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/9_THE_PROCESSED_ENGINEERING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/9_THE_PROCESSED_ENGINEERING.png'
+  ],
+  36: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png'
+  ],
+  37: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png'
+  ],
+  38: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/28_THE_ATTENTION_ENGINE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/28_THE_ATTENTION_ENGINE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/28_THE_ATTENTION_ENGINE.png'
+  ],
+  39: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png'
+  ],
+  40: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png'
+  ],
+  41: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/61_THE_DOPAMINE_EXHAUSTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/61_THE_DOPAMINE_EXHAUSTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/61_THE_DOPAMINE_EXHAUSTION.png'
+  ],
+  42: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png'
+  ],
+  43: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png'
+  ],
+  44: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png'
+  ],
+  45: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png'
+  ],
+  46: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/41_THE_WEBMD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/41_THE_WEBMD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/41_THE_WEBMD.png'
+  ],
+  47: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/62_THE_CORTISOL_DRIP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/62_THE_CORTISOL_DRIP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/62_THE_CORTISOL_DRIP.png'
+  ],
+  48: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/22_THE_NEWS_ADDICTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/22_THE_NEWS_ADDICTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/22_THE_NEWS_ADDICTION.png'
+  ],
+  49: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/9_THE_PROCESSED_ENGINEERING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/9_THE_PROCESSED_ENGINEERING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/9_THE_PROCESSED_ENGINEERING.png'
+  ],
+  50: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/4_THE_DATING_APP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/4_THE_DATING_APP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/4_THE_DATING_APP.png'
+  ],
+  51: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dating_mating_100_prompts_final2/22_THE_COOLIDGE_EFFECT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dating_mating_100_prompts_final2/22_THE_COOLIDGE_EFFECT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dating_mating_100_prompts_final2/22_THE_COOLIDGE_EFFECT.png'
+  ],
+  52: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png'
+  ],
+  53: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png'
+  ],
+  54: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/17_THE_US_AND_THEM.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/17_THE_US_AND_THEM.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/17_THE_US_AND_THEM.png'
+  ],
+  55: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/41_THE_WEBMD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/41_THE_WEBMD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/41_THE_WEBMD.png'
+  ],
+  56: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png'
+  ],
+  57: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_comparison_trap.jpeg',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_comparison_trap.jpeg',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_comparison_trap.jpeg'
+  ],
+  58: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png'
+  ],
+  59: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png'
+  ],
+  60: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png'
+  ],
+  61: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/56_THE_BOREDOM_INTOLERANCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/56_THE_BOREDOM_INTOLERANCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/56_THE_BOREDOM_INTOLERANCE.png'
+  ],
+  62: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
+  ],
+  63: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/20_THE_SOCIAL_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/20_THE_SOCIAL_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/20_THE_SOCIAL_ANXIETY.png'
+  ],
+  64: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png'
+  ],
+  65: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/17_THE_IMPOSTER_SYNDROME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/17_THE_IMPOSTER_SYNDROME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/17_THE_IMPOSTER_SYNDROME.png'
+  ],
+  66: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png'
+  ],
+  67: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
+  ],
+  68: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
+  ],
+  69: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
+  ],
+  70: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png'
+  ],
+  71: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png'
+  ],
+  72: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png'
+  ],
+  73: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/68_THE_SUICIDAL_THOUGHTS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/68_THE_SUICIDAL_THOUGHTS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/68_THE_SUICIDAL_THOUGHTS.png'
+  ],
+  74: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/121_THE_FIRE_LIT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/121_THE_FIRE_LIT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/121_THE_FIRE_LIT.png'
+  ],
+  75: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/14_THE_CHILDREN_S_PACK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/14_THE_CHILDREN_S_PACK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/14_THE_CHILDREN_S_PACK.png'
+  ],
+  76: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/11_THE_CHILD_ON_IPAD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/11_THE_CHILD_ON_IPAD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/11_THE_CHILD_ON_IPAD.png'
+  ],
+  77: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/106_THE_SKILL_PRACTICED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/106_THE_SKILL_PRACTICED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/106_THE_SKILL_PRACTICED.png'
+  ],
+  78: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/37_THE_POTLATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/37_THE_POTLATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/37_THE_POTLATCH.png'
+  ],
+  79: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/31_THE_DIGGING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/31_THE_DIGGING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/31_THE_DIGGING.png'
+  ],
+  80: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png'
+  ],
+  81: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png'
+  ],
+  82: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/84_THE_DISPUTE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/84_THE_DISPUTE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/84_THE_DISPUTE.png'
+  ],
+  83: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/34_THE_SUNSET_MARKING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/34_THE_SUNSET_MARKING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/34_THE_SUNSET_MARKING.png'
+  ],
+  84: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/78_THE_NURSING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/78_THE_NURSING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/78_THE_NURSING.png'
+  ],
+  85: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/38_THE_CARRYING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/38_THE_CARRYING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/38_THE_CARRYING.png'
+  ],
+  86: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/47_THE_OTHER_BAND.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/47_THE_OTHER_BAND.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/47_THE_OTHER_BAND.png'
+  ],
+  87: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/47_THE_OTHER_BAND.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/47_THE_OTHER_BAND.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/47_THE_OTHER_BAND.png'
+  ],
+  88: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png'
+  ],
+  89: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png'
+  ],
+  90: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png'
+  ],
+  91: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/26_THE_WHISPER_NETWORK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/26_THE_WHISPER_NETWORK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/26_THE_WHISPER_NETWORK.png'
+  ],
+  92: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png'
+  ],
+  93: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/35_THE_CHEATER_BLIND_SPOT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/35_THE_CHEATER_BLIND_SPOT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/35_THE_CHEATER_BLIND_SPOT.png'
+  ],
+  94: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/38_THE_OUT-GROUP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/38_THE_OUT-GROUP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/38_THE_OUT-GROUP.png'
+  ],
+  95: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/98_THE_CROWD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/98_THE_CROWD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/98_THE_CROWD.png'
+  ],
+  96: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png'
+  ],
+  97: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png'
+  ],
+  98: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png'
+  ],
+  99: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png'
+  ],
+  100: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/35_THE_PHYSICAL_GREETING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/35_THE_PHYSICAL_GREETING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/35_THE_PHYSICAL_GREETING.png'
+  ],
+  101: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png'
+  ],
+  102: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/28_THE_PHONE_CALL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/28_THE_PHONE_CALL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/28_THE_PHONE_CALL.png'
+  ],
+  103: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/82_THE_STARTUP_GRIND.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/82_THE_STARTUP_GRIND.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/82_THE_STARTUP_GRIND.png'
+  ],
+  104: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png'
+  ],
+  105: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/51_THE_BELONGING_CONFIRMED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/51_THE_BELONGING_CONFIRMED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/51_THE_BELONGING_CONFIRMED.png'
+  ],
+  106: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/43_THE_SHARED_BURDEN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/43_THE_SHARED_BURDEN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/43_THE_SHARED_BURDEN.png'
+  ],
+  107: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png'
+  ],
+  108: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png'
+  ],
+  109: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png'
+  ],
+  110: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png'
+  ],
+  111: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png'
+  ],
+  112: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/47_THE_CLEAN_SPACE_CALM.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/47_THE_CLEAN_SPACE_CALM.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/47_THE_CLEAN_SPACE_CALM.png'
+  ],
+  113: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/69_THE_BEING_TRULY_SEEN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/69_THE_BEING_TRULY_SEEN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/69_THE_BEING_TRULY_SEEN.png'
+  ],
+  114: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/24_THE_PHONE_SEPARATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/24_THE_PHONE_SEPARATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/24_THE_PHONE_SEPARATION.png'
+  ],
+  115: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png'
+  ],
+  116: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/28_THE_PHONE_CALL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/28_THE_PHONE_CALL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/28_THE_PHONE_CALL.png'
+  ],
+  117: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png'
+  ],
+  118: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/45_THE_DAILY_PRACTICE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/45_THE_DAILY_PRACTICE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/45_THE_DAILY_PRACTICE.png'
+  ],
+  119: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png'
+  ],
+  120: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png'
+  ],
+  121: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png'
+  ],
+  122: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/95_THE_GOODBYE_PROPER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/95_THE_GOODBYE_PROPER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/95_THE_GOODBYE_PROPER.png'
+  ],
+  123: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png'
+  ],
+  124: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/16_THE_EFFORT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/16_THE_EFFORT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/16_THE_EFFORT.png'
+  ],
+  125: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/16_THE_EFFORT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/16_THE_EFFORT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/16_THE_EFFORT.png'
+  ],
+  126: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/41_THE_PURPOSE_VACANCY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/41_THE_PURPOSE_VACANCY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/41_THE_PURPOSE_VACANCY.png'
+  ],
+  127: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/40_THE_AUTOMATION_SHADOW.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/40_THE_AUTOMATION_SHADOW.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/40_THE_AUTOMATION_SHADOW.png'
+  ],
+  128: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/1_THE_HUNGER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/1_THE_HUNGER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/1_THE_HUNGER.png'
+  ],
+  129: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/1_THE_HUNGER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/1_THE_HUNGER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/1_THE_HUNGER.png'
+  ],
+  130: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png'
+  ],
+  131: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/33_THE_TIT_FOR_TAT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/33_THE_TIT_FOR_TAT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/33_THE_TIT_FOR_TAT.png'
+  ],
+  132: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/64_THE_NEVER_ENOUGH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/64_THE_NEVER_ENOUGH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/64_THE_NEVER_ENOUGH.png'
+  ],
+  133: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/32_THE_SOCIAL_OVERLOAD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/32_THE_SOCIAL_OVERLOAD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/32_THE_SOCIAL_OVERLOAD.png'
+  ],
+  134: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/33_THE_CELEBRATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/33_THE_CELEBRATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/33_THE_CELEBRATION.png'
+  ],
+  135: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png'
+  ],
+  136: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png'
+  ],
+  137: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
+  ],
+  138: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/1_THE_DESKTOP_OF_PERCEPTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/1_THE_DESKTOP_OF_PERCEPTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/1_THE_DESKTOP_OF_PERCEPTION.png'
+  ],
+  139: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png'
+  ],
+  140: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
+  ],
+  141: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/10_THE_SINGING_TOGETHER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/10_THE_SINGING_TOGETHER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/10_THE_SINGING_TOGETHER.png'
+  ],
+  142: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png'
+  ],
+  143: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png'
+  ],
+  144: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
+  ],
+  145: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
+  ],
+  146: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
+  ],
+  147: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/17_THE_CHRONIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/17_THE_CHRONIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/17_THE_CHRONIC.png'
+  ],
+  148: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png'
+  ],
+  149: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/36_THE_GIFT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/36_THE_GIFT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/36_THE_GIFT.png'
+  ],
+  150: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/111_THE_LANGUAGE_BROKEN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/111_THE_LANGUAGE_BROKEN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/111_THE_LANGUAGE_BROKEN.png'
+  ],
+  151: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png'
+  ],
+  152: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/17_THE_PEOPLE_DREAD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/17_THE_PEOPLE_DREAD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/17_THE_PEOPLE_DREAD.png'
+  ],
+  153: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png'
+  ],
+  154: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png'
+  ],
+  155: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png'
+  ],
+  156: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png'
+  ],
+  157: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png'
+  ],
+  158: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
+  ],
+  159: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png'
+  ],
+  160: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
+  ],
+  161: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/87_THE_DOOR_KNOCKED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/87_THE_DOOR_KNOCKED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/87_THE_DOOR_KNOCKED.png'
+  ],
 };
+
+
 
 const tileData: TileData[] = [
   {
@@ -188,7 +836,7 @@ const tileData: TileData[] = [
     answer: `You're not broken. Your environment is.
 
 This is [mismatch](/glossary#mismatch)—the gap between what your biology expects and what it gets. Your brain was built for a world that no longer exists.`,
-    imageUrl: imageMap[1]
+    imageUrls: imageMap[1]
   },
   {
     id: 2,
@@ -196,7 +844,7 @@ This is [mismatch](/glossary#mismatch)—the gap between what your biology expec
     answer: `You evolved for completely different conditions.
 
 For 300,000 years, humans lived in the [EEA](/glossary#eea)—small bands, known faces, daily closure. Then everything changed faster than evolution could track.`,
-    imageUrl: imageMap[2]
+    imageUrls: imageMap[2]
   },
   {
     id: 3,
@@ -204,7 +852,7 @@ For 300,000 years, humans lived in the [EEA](/glossary#eea)—small bands, known
     answer: `You're caught in an [open loop](/glossary#open-loop).
 
 Your brain evolved to solve problems and move on. Climate change? The economy? No action resolves them. The loop won't close.`,
-    imageUrl: imageMap[3]
+    imageUrls: imageMap[3]
   },
   {
     id: 4,
@@ -212,7 +860,7 @@ Your brain evolved to solve problems and move on. Climate change? The economy? N
     answer: `That's a [closed loop](/glossary#closed-loop). Problem resolved. Emotion dissipates.
 
 Hunt → eat → done. This is what your brain was designed for. Not infinite unresolvable anxiety.`,
-    imageUrl: imageMap[4]
+    imageUrls: imageMap[4]
   },
   {
     id: 5,
@@ -220,7 +868,7 @@ Hunt → eat → done. This is what your brain was designed for. Not infinite un
     answer: `Because social rejection used to be death.
 
 High [status](/glossary#status) meant survival. The drive isn't vanity—it's [indirect fitness](/glossary#indirect-fitness). Still running.`,
-    imageUrl: imageMap[5]
+    imageUrls: imageMap[5]
   },
   {
     id: 6,
@@ -228,7 +876,7 @@ High [status](/glossary#status) meant survival. The drive isn't vanity—it's [i
     answer: `Yes. Hard limit. [Dunbar's numbers](/glossary#dunbars-numbers):
 
 [5](/glossary#the-5) intimate, [15](/glossary#the-15) close, [50](/glossary#the-50-band) friends, [150](/glossary#the-150-tribe) meaningful. Beyond that, people become categories.`,
-    imageUrl: imageMap[6]
+    imageUrls: imageMap[6]
   },
   {
     id: 7,
@@ -236,7 +884,7 @@ High [status](/glossary#status) meant survival. The drive isn't vanity—it's [i
     answer: `Followers aren't tribe.
 
 Those 2,000 create [parasocial relationships](/glossary#parasocial-relationships)—one-way bonds with people who don't know you exist. Your [Dunbar layers](/glossary#dunbars-numbers) are full of strangers.`,
-    imageUrl: imageMap[7]
+    imageUrls: imageMap[7]
   },
   {
     id: 8,
@@ -244,7 +892,7 @@ Those 2,000 create [parasocial relationships](/glossary#parasocial-relationships
     answer: `They're designed not to.
 
 A [proxy](/glossary#proxy) hijacks a drive without meeting the need. Social media for belonging. Porn for intimacy. Momentary relief, increasing hunger.`,
-    imageUrl: imageMap[8]
+    imageUrls: imageMap[8]
   },
   {
     id: 9,
@@ -252,7 +900,7 @@ A [proxy](/glossary#proxy) hijacks a drive without meeting the need. Social medi
     answer: `[Proxies](/glossary#proxy) address signals, not needs. They create tolerance. They prevent real solutions.
 
 The business model requires they don't work.`,
-    imageUrl: imageMap[9]
+    imageUrls: imageMap[9]
   },
   {
     id: 10,
@@ -260,7 +908,7 @@ The business model requires they don't work.`,
     answer: `You got what you *thought* you wanted.
 
 Wants: fame, money, perfect life. Needs: small [tribe](/glossary#the-150-tribe), real connection. Chasing [proxies](/glossary#proxy) while needs go unmet.`,
-    imageUrl: imageMap[10]
+    imageUrls: imageMap[10]
   },
   {
     id: 11,
@@ -268,7 +916,7 @@ Wants: fame, money, perfect life. Needs: small [tribe](/glossary#the-150-tribe),
     answer: `They're data. [Signal or symptom](/glossary#signal-vs-symptom)?
 
 Signal: something needs addressing. Symptom: broken machinery. Most suffering is signal. The environment is wrong.`,
-    imageUrl: imageMap[11]
+    imageUrls: imageMap[11]
   },
   {
     id: 12,
@@ -276,7 +924,7 @@ Signal: something needs addressing. Symptom: broken machinery. Most suffering is
     answer: `Correct. The environment generating them is.
 
 Your anxiety isn't broken. Your environment is actually threatening. The [signal](/glossary#signal-vs-symptom) is accurate.`,
-    imageUrl: imageMap[12]
+    imageUrls: imageMap[12]
   },
   {
     id: 13,
@@ -284,7 +932,7 @@ Your anxiety isn't broken. Your environment is actually threatening. The [signal
     answer: `[Signal vs. symptom](/glossary#signal-vs-symptom) is the core distinction.
 
 Psychiatry treats signals as symptoms. Suppresses accurate feedback. Different diagnosis, different treatment.`,
-    imageUrl: imageMap[13]
+    imageUrls: imageMap[13]
   },
   {
     id: 14,
@@ -292,7 +940,7 @@ Psychiatry treats signals as symptoms. Suppresses accurate feedback. Different d
     answer: `Covering the oil light instead of checking the engine.
 
 The [oil light metaphor](/glossary#oil-light-metaphor): medication suppresses the [signal](/glossary#signal-vs-symptom). The engine keeps degrading.`,
-    imageUrl: imageMap[14]
+    imageUrls: imageMap[14]
   },
   {
     id: 15,
@@ -300,7 +948,7 @@ The [oil light metaphor](/glossary#oil-light-metaphor): medication suppresses th
     answer: `Accurate threat detection.
 
 [Open loops](/glossary#open-loop) everywhere. Strangers everywhere. The alarm is working. The environment is actually dangerous.`,
-    imageUrl: imageMap[15]
+    imageUrls: imageMap[15]
   },
   {
     id: 16,
@@ -308,7 +956,7 @@ The [oil light metaphor](/glossary#oil-light-metaphor): medication suppresses th
     answer: `Accurate meaning assessment.
 
 No [tribe](/glossary#the-150-tribe). No [visible purpose](/glossary#visible-contribution). [Loops](/glossary#open-loop) that never close. The [signal](/glossary#signal-vs-symptom) is correct.`,
-    imageUrl: imageMap[16]
+    imageUrls: imageMap[16]
   },
   {
     id: 17,
@@ -316,7 +964,7 @@ No [tribe](/glossary#the-150-tribe). No [visible purpose](/glossary#visible-cont
     answer: `The environment.
 
 A [fish on land](/glossary#fish-on-land) flops. Its gills work perfectly—designed for water. You wouldn't medicate the flopping. You'd put it back.`,
-    imageUrl: imageMap[17]
+    imageUrls: imageMap[17]
   },
   {
     id: 18,
@@ -324,7 +972,7 @@ A [fish on land](/glossary#fish-on-land) flops. Its gills work perfectly—desig
     answer: `They've normalized the land.
 
 [Flopping disorder](/glossary#flopping-disorder): pathologizing adaptive responses to [mismatch](/glossary#mismatch). No billing code for "wrong environment."`,
-    imageUrl: imageMap[18]
+    imageUrls: imageMap[18]
   },
   {
     id: 19,
@@ -332,7 +980,7 @@ A [fish on land](/glossary#fish-on-land) flops. Its gills work perfectly—desig
     answer: `Everything breaks.
 
 Sleep without light cycles. Belonging without [tribe](/glossary#the-150-tribe). Meaning without [visible contribution](/glossary#visible-contribution). The [fish](/glossary#fish-on-land) isn't uncomfortable—it's dying.`,
-    imageUrl: imageMap[19]
+    imageUrls: imageMap[19]
   },
   {
     id: 20,
@@ -340,7 +988,7 @@ Sleep without light cycles. Belonging without [tribe](/glossary#the-150-tribe). 
     answer: `The [EEA](/glossary#eea). Small bands of 30-50. [Tribe](/glossary#the-150-tribe) of 150. Known faces. [Fire circles](/glossary#fire-circle) every night. [Shared parenting](/glossary#alloparenting).
 
 This is the spec sheet. We're running on something else.`,
-    imageUrl: imageMap[20]
+    imageUrls: imageMap[20]
   },
   {
     id: 21,
@@ -348,7 +996,7 @@ This is the spec sheet. We're running on something else.`,
     answer: `[Rumination](/glossary#rumination) is planning without anything to plan.
 
 It evolved to solve problems. Now it runs on unsolvable ones. The machinery churns without producing output.`,
-    imageUrl: imageMap[21]
+    imageUrls: imageMap[21]
   },
   {
     id: 22,
@@ -356,7 +1004,7 @@ It evolved to solve problems. Now it runs on unsolvable ones. The machinery chur
     answer: `The [internal audience](/glossary#internal-audience). Imaginary critics generating real anxiety.
 
 Your brain evolved being watched by 150. Now it simulates an audience. Harsher than any real one.`,
-    imageUrl: imageMap[22]
+    imageUrls: imageMap[22]
   },
   {
     id: 23,
@@ -364,7 +1012,7 @@ Your brain evolved being watched by 150. Now it simulates an audience. Harsher t
     answer: `[Negativity bias](/glossary#negativity-bias). Missing a threat was fatal. Missing an opportunity was recoverable.
 
 Now it runs on phantoms. Calibrated for real dangers that aren't there.`,
-    imageUrl: imageMap[23]
+    imageUrls: imageMap[23]
   },
   {
     id: 24,
@@ -372,7 +1020,7 @@ Now it runs on phantoms. Calibrated for real dangers that aren't there.`,
     answer: `The [perfectionism trap](/glossary#perfectionism-trap). Your [internal audience](/glossary#internal-audience) holds contradictory standards.
 
 Be confident but not arrogant. Successful but not obsessed. Any position violates something.`,
-    imageUrl: imageMap[24]
+    imageUrls: imageMap[24]
   },
   {
     id: 25,
@@ -380,7 +1028,7 @@ Be confident but not arrogant. Successful but not obsessed. Any position violate
     answer: `[Partial control](/glossary#partial-control)—the worst anxiety zone.
 
 You can affect outcomes, so you can't let go. You can't determine them, so you can't resolve it. [Loop](/glossary#open-loop) stays open.`,
-    imageUrl: imageMap[25]
+    imageUrls: imageMap[25]
   },
   {
     id: 26,
@@ -388,7 +1036,7 @@ You can affect outcomes, so you can't let go. You can't determine them, so you c
     answer: `[Five](/glossary#the-5). People you'd call at 3am. Complete vulnerability.
 
 If that circle has fewer than 5, that's the problem. Most modern people have 0-2.`,
-    imageUrl: imageMap[26]
+    imageUrls: imageMap[26]
   },
   {
     id: 27,
@@ -396,7 +1044,7 @@ If that circle has fewer than 5, that's the problem. Most modern people have 0-2
     answer: `About [15](/glossary#the-15). People whose deaths would devastate you.
 
 Active care, not passive connection. Count people you've had meaningful contact with this month.`,
-    imageUrl: imageMap[27]
+    imageUrls: imageMap[27]
   },
   {
     id: 28,
@@ -404,7 +1052,7 @@ Active care, not passive connection. Count people you've had meaningful contact 
     answer: `You got cultural success, not biological success.
 
 Money and credentials, but no [tribe](/glossary#the-150-tribe), no [visible contribution](/glossary#visible-contribution), no [closed loops](/glossary#closed-loop). The [signal](/glossary#signal-vs-symptom) is accurate.`,
-    imageUrl: imageMap[28]
+    imageUrls: imageMap[28]
   },
   {
     id: 29,
@@ -412,7 +1060,7 @@ Money and credentials, but no [tribe](/glossary#the-150-tribe), no [visible cont
     answer: `[Immediate-return](/glossary#immediate-return-economy) vs. delayed-return.
 
 Ancestral work: hunt → eat. Modern work: 8 hours of abstraction for invisible shareholders. Your meaning-making systems can't connect effort to survival.`,
-    imageUrl: imageMap[29]
+    imageUrls: imageMap[29]
   },
   {
     id: 30,
@@ -420,7 +1068,7 @@ Ancestral work: hunt → eat. Modern work: 8 hours of abstraction for invisible 
     answer: `Work that produces nothing tangible, benefits no one you know, exists to perpetuate itself.
 
 [Visible contribution](/glossary#visible-contribution) is a human need. [Bullshit jobs](/glossary#bullshit-jobs) structurally deny it.`,
-    imageUrl: imageMap[30]
+    imageUrls: imageMap[30]
   },
   {
     id: 31,
@@ -428,7 +1076,7 @@ Ancestral work: hunt → eat. Modern work: 8 hours of abstraction for invisible 
     answer: `[Stranger overload](/glossary#stranger-overload).
 
 You encounter more unknown humans daily than ancestors met in years. Your brain can't stop assessing them.`,
-    imageUrl: imageMap[31]
+    imageUrls: imageMap[31]
   },
   {
     id: 32,
@@ -436,7 +1084,7 @@ You encounter more unknown humans daily than ancestors met in years. Your brain 
     answer: `Maybe 1,000 in a lifetime.
 
 Daily life was exclusively known faces. Now you encounter thousands daily. The [mismatch](/glossary#mismatch) is total.`,
-    imageUrl: imageMap[32]
+    imageUrls: imageMap[32]
   },
   {
     id: 33,
@@ -444,7 +1092,7 @@ Daily life was exclusively known faces. Now you encounter thousands daily. The [
     answer: `[Status](/glossary#status) competition [mismatch](/glossary#mismatch).
 
 You evolved to compete among 150. Now you're compared against 8 billion. Excellence that was exceptional locally is ordinary globally.`,
-    imageUrl: imageMap[33]
+    imageUrls: imageMap[33]
   },
   {
     id: 34,
@@ -452,7 +1100,7 @@ You evolved to compete among 150. Now you're compared against 8 billion. Excelle
     answer: `High [status](/glossary#status) meant survival. More resources, allies, mates, protection.
 
 The drive is [indirect fitness](/glossary#indirect-fitness). The problem is the comparison pool exploded.`,
-    imageUrl: imageMap[34]
+    imageUrls: imageMap[34]
   },
   {
     id: 35,
@@ -460,7 +1108,7 @@ The drive is [indirect fitness](/glossary#indirect-fitness). The problem is the 
     answer: `[Hyperstimuli](/glossary#hyperstimuli)—stimuli exceeding anything in nature.
 
 Porn, junk food, social media. They hijack drives by exaggerating what drives respond to. Real satisfactions become inadequate.`,
-    imageUrl: imageMap[35]
+    imageUrls: imageMap[35]
   },
   {
     id: 36,
@@ -468,7 +1116,7 @@ Porn, junk food, social media. They hijack drives by exaggerating what drives re
     answer: `[Parasocial relationships](/glossary#parasocial-relationships). One-way bonds.
 
 You know their face, voice, struggles. They've never heard your name. Every celebrity you track takes bandwidth from real relationships.`,
-    imageUrl: imageMap[36]
+    imageUrls: imageMap[36]
   },
   {
     id: 37,
@@ -476,7 +1124,7 @@ You know their face, voice, struggles. They've never heard your name. Every cele
     answer: `A satisfied human is a terrible customer.
 
 The [atomized individual](/glossary#atomized-individual)—severed from [tribe](/glossary#the-150-tribe), purpose, intimacy—is the ideal consumer. Your [mismatch](/glossary#mismatch) is the business model.`,
-    imageUrl: imageMap[37]
+    imageUrls: imageMap[37]
   },
   {
     id: 38,
@@ -484,7 +1132,7 @@ The [atomized individual](/glossary#atomized-individual)—severed from [tribe](
     answer: `The [exploitation formula](/glossary#exploitation-formula):
 
 Identify need → block satisfaction → offer [proxy](/glossary#proxy) → proxy doesn't satisfy → monetize return visits.`,
-    imageUrl: imageMap[38]
+    imageUrls: imageMap[38]
   },
   {
     id: 39,
@@ -492,7 +1140,7 @@ Identify need → block satisfaction → offer [proxy](/glossary#proxy) → prox
     answer: `The [atomized individual](/glossary#atomized-individual) has no counter-narrative.
 
 No community to say "you don't need that." No [tribe](/glossary#the-150-tribe) meeting needs for real. You're vulnerable because no one's watching out.`,
-    imageUrl: imageMap[39]
+    imageUrls: imageMap[39]
   },
   {
     id: 40,
@@ -500,7 +1148,7 @@ No community to say "you don't need that." No [tribe](/glossary#the-150-tribe) m
     answer: `[Variable ratio reinforcement](/glossary#variable-ratio-reinforcement)—the most addictive reward schedule.
 
 Unpredictable rewards for consistent behavior. Pull-to-refresh is literally a slot machine lever.`,
-    imageUrl: imageMap[40]
+    imageUrls: imageMap[40]
   },
   {
     id: 41,
@@ -508,7 +1156,7 @@ Unpredictable rewards for consistent behavior. Pull-to-refresh is literally a sl
     answer: `[Dopamine](/glossary#dopamine) drives reward-seeking. It spikes on anticipation, not receipt.
 
 Modern tech delivers triggers without effort or satisfaction. Chronic activation. Tolerance. Real satisfactions become inadequate.`,
-    imageUrl: imageMap[41]
+    imageUrls: imageMap[41]
   },
   {
     id: 42,
@@ -516,7 +1164,7 @@ Modern tech delivers triggers without effort or satisfaction. Chronic activation
     answer: `Profits from loneliness.
 
 [Variable ratio reinforcement](/glossary#variable-ratio-reinforcement) keeps you scrolling. [Parasocial bonds](/glossary#parasocial-relationships) fill your [Dunbar layers](/glossary#dunbars-numbers) with strangers. You're the product.`,
-    imageUrl: imageMap[42]
+    imageUrls: imageMap[42]
   },
   {
     id: 43,
@@ -524,7 +1172,7 @@ Modern tech delivers triggers without effort or satisfaction. Chronic activation
     answer: `The [serotonin hypothesis](/glossary#serotonin-hypothesis) has been debunked.
 
 2022 review: no consistent evidence. The narrative was marketing, not science. SSRIs are [signal override](/glossary#signal-override), not repair.`,
-    imageUrl: imageMap[43]
+    imageUrls: imageMap[43]
   },
   {
     id: 44,
@@ -532,7 +1180,7 @@ Modern tech delivers triggers without effort or satisfaction. Chronic activation
     answer: `[Signal override](/glossary#signal-override). Floods systems to suppress [signals](/glossary#signal-vs-symptom) without addressing what they're responding to.
 
 Sometimes necessary. As the whole intervention? [Oil light](/glossary#oil-light-metaphor) covered, engine degrading.`,
-    imageUrl: imageMap[44]
+    imageUrls: imageMap[44]
   },
   {
     id: 45,
@@ -540,7 +1188,7 @@ Sometimes necessary. As the whole intervention? [Oil light](/glossary#oil-light-
     answer: `Invented "chemical imbalance" to sell chemicals.
 
 [Ghostwritten studies](/glossary#ghostwritten-studies). Paid experts. 15-minute checks. Environment never discussed.`,
-    imageUrl: imageMap[45]
+    imageUrls: imageMap[45]
   },
   {
     id: 46,
@@ -548,7 +1196,7 @@ Sometimes necessary. As the whole intervention? [Oil light](/glossary#oil-light-
     answer: `Research papers written by pharma, published under academic names.
 
 Documented in litigation. The "scientific literature" is substantially marketing material.`,
-    imageUrl: imageMap[46]
+    imageUrls: imageMap[46]
   },
   {
     id: 47,
@@ -556,7 +1204,7 @@ Documented in litigation. The "scientific literature" is substantially marketing
     answer: `[Cortisol](/glossary#cortisol)—designed to spike briefly, then dissipate.
 
 Tiger appears, cortisol mobilizes. Tiger leaves, cortisol drops. Modern life: the tiger never leaves.`,
-    imageUrl: imageMap[47]
+    imageUrls: imageMap[47]
   },
   {
     id: 48,
@@ -564,7 +1212,7 @@ Tiger appears, cortisol mobilizes. Tiger leaves, cortisol drops. Modern life: th
     answer: `Profits from threat activation.
 
 [Open loops](/glossary#open-loop) that never close. [Cortisol](/glossary#cortisol) elevated for engagement. The business model keeps you worried about things you can't fix.`,
-    imageUrl: imageMap[48]
+    imageUrls: imageMap[48]
   },
   {
     id: 49,
@@ -572,7 +1220,7 @@ Tiger appears, cortisol mobilizes. Tiger leaves, cortisol drops. Modern life: th
     answer: `Engineers the [bliss point](/glossary#bliss-point)—sugar, fat, salt for maximum craving without satisfaction.
 
 Designed to be impossible to eat in moderation. Addiction is the feature.`,
-    imageUrl: imageMap[49]
+    imageUrls: imageMap[49]
   },
   {
     id: 50,
@@ -580,7 +1228,7 @@ Designed to be impossible to eat in moderation. Addiction is the feature.`,
     answer: `Business model requires failure.
 
 Successful match = lost user. [Variable ratio reinforcement](/glossary#variable-ratio-reinforcement) keeps you swiping. Designed for engagement, not outcomes.`,
-    imageUrl: imageMap[50]
+    imageUrls: imageMap[50]
   },
   {
     id: 51,
@@ -588,7 +1236,7 @@ Successful match = lost user. [Variable ratio reinforcement](/glossary#variable-
     answer: `[Hyperstimuli](/glossary#hyperstimuli) hijacking mating drive.
 
 Unlimited novelty. [Dopamine](/glossary#dopamine) overwhelmed. Real partners become inadequate. The [proxy](/glossary#proxy) destroys capacity for the real thing.`,
-    imageUrl: imageMap[51]
+    imageUrls: imageMap[51]
   },
   {
     id: 52,
@@ -596,7 +1244,7 @@ Unlimited novelty. [Dopamine](/glossary#dopamine) overwhelmed. Real partners bec
     answer: `Requires that self-help doesn't work.
 
 Individual solutions to systemic problems. If you were actually helped, you wouldn't buy the next book.`,
-    imageUrl: imageMap[52]
+    imageUrls: imageMap[52]
   },
   {
     id: 53,
@@ -604,7 +1252,7 @@ Individual solutions to systemic problems. If you were actually helped, you woul
     answer: `Fame is [hyperstimulus](/glossary#hyperstimuli) for status recognition.
 
 You form [parasocial bonds](/glossary#parasocial-relationships). They extract investment without reciprocity. Feels like connection. Actually displacement.`,
-    imageUrl: imageMap[53]
+    imageUrls: imageMap[53]
   },
   {
     id: 54,
@@ -612,7 +1260,7 @@ You form [parasocial bonds](/glossary#parasocial-relationships). They extract in
     answer: `Tribal belonging through [proxy](/glossary#proxy).
 
 Your team vs. their team. Shared goals, common enemies. Almost meets the need for [tribe](/glossary#the-150-tribe). Almost.`,
-    imageUrl: imageMap[54]
+    imageUrls: imageMap[54]
   },
   {
     id: 55,
@@ -620,7 +1268,7 @@ Your team vs. their team. Shared goals, common enemies. Almost meets the need fo
     answer: `Incentives. Not conspiracy—just money.
 
 Funding goes to drugs, not environmental intervention. [Ghostwritten studies](/glossary#ghostwritten-studies) shape literature. Truth isn't profitable.`,
-    imageUrl: imageMap[55]
+    imageUrls: imageMap[55]
   },
   {
     id: 56,
@@ -628,7 +1276,7 @@ Funding goes to drugs, not environmental intervention. [Ghostwritten studies](/g
     answer: `[Whales](/glossary#whales). Gambling term for vulnerable users who account for disproportionate revenue.
 
 Problem gamblers. Addictive tendencies. Your vulnerability is their profit center.`,
-    imageUrl: imageMap[56]
+    imageUrls: imageMap[56]
   },
   {
     id: 57,
@@ -636,7 +1284,7 @@ Problem gamblers. Addictive tendencies. Your vulnerability is their profit cente
     answer: `$700B+ annually weaponizing evolutionary psychology.
 
 Manufacturing inadequacy. Making you feel bad so you'll buy products to feel better. The inadequacy is created, not discovered.`,
-    imageUrl: imageMap[57]
+    imageUrls: imageMap[57]
   },
   {
     id: 58,
@@ -644,7 +1292,7 @@ Manufacturing inadequacy. Making you feel bad so you'll buy products to feel bet
     answer: `[Variable ratio reinforcement](/glossary#variable-ratio-reinforcement) perfected, then exported everywhere.
 
 Loot boxes. Gacha games. Engagement loops. [Whales](/glossary#whales) specifically targeted.`,
-    imageUrl: imageMap[58]
+    imageUrls: imageMap[58]
   },
   {
     id: 59,
@@ -652,7 +1300,7 @@ Loot boxes. Gacha games. Engagement loops. [Whales](/glossary#whales) specifical
     answer: `Loneliness. [Rat Park](/glossary#rat-park).
 
 Isolated rats self-administer to death. Rats in enriched environments largely ignore drugs. The variable is environment, not substance.`,
-    imageUrl: imageMap[59]
+    imageUrls: imageMap[59]
   },
   {
     id: 60,
@@ -660,7 +1308,7 @@ Isolated rats self-administer to death. Rats in enriched environments largely ig
     answer: `Drive-seeking redirected to [proxies](/glossary#proxy).
 
 Real satisfactions blocked, so you reach for substitutes. [Rat Park](/glossary#rat-park) showed this: matched environments don't self-medicate.`,
-    imageUrl: imageMap[60]
+    imageUrls: imageMap[60]
   },
   {
     id: 61,
@@ -668,7 +1316,7 @@ Real satisfactions blocked, so you reach for substitutes. [Rat Park](/glossary#r
     answer: `Hunter cognition in a farmer world.
 
 Scanning attention. Movement-seeking. Novelty-responsive. Adaptive in the [EEA](/glossary#eea). Then we built classrooms requiring stillness and called deviation disorder.`,
-    imageUrl: imageMap[61]
+    imageUrls: imageMap[61]
   },
   {
     id: 62,
@@ -676,7 +1324,7 @@ Scanning attention. Movement-seeking. Novelty-responsive. Adaptive in the [EEA](
     answer: `[Farmer brain](/glossary#farmer-brain) became the standard.
 
 One cognitive style—suited for agriculture and factories—became "well-adjusted." Everything else became pathology.`,
-    imageUrl: imageMap[62]
+    imageUrls: imageMap[62]
   },
   {
     id: 63,
@@ -684,7 +1332,7 @@ One cognitive style—suited for agriculture and factories—became "well-adjust
     answer: `Fear of the [internal audience](/glossary#internal-audience) projected onto real people.
 
 You assume strangers scrutinize with the intensity of your internal critics. They don't. They barely know you exist.`,
-    imageUrl: imageMap[63]
+    imageUrls: imageMap[63]
   },
   {
     id: 64,
@@ -692,7 +1340,7 @@ You assume strangers scrutinize with the intensity of your internal critics. The
     answer: `Work/purpose [mismatch](/glossary#mismatch).
 
 8-12 hours of effort with no [visible contribution](/glossary#visible-contribution). No [closed loops](/glossary#closed-loop). Your brain knows the work is actually meaningless.`,
-    imageUrl: imageMap[64]
+    imageUrls: imageMap[64]
   },
   {
     id: 65,
@@ -700,7 +1348,7 @@ You assume strangers scrutinize with the intensity of your internal critics. The
     answer: `Often: accurate recognition that your work doesn't visibly benefit anyone you know.
 
 Credentials without [visible contribution](/glossary#visible-contribution). The "syndrome" might be [signal](/glossary#signal-vs-symptom).`,
-    imageUrl: imageMap[65]
+    imageUrls: imageMap[65]
   },
   {
     id: 66,
@@ -708,7 +1356,7 @@ Credentials without [visible contribution](/glossary#visible-contribution). The 
     answer: `No biomarkers. No blood tests. Behavioral descriptions, not disease entities.
 
 The conditions are real. The suffering is real. Calling them diseases like cancer or diabetes? Category error.`,
-    imageUrl: imageMap[66]
+    imageUrls: imageMap[66]
   },
   {
     id: 67,
@@ -716,7 +1364,7 @@ The conditions are real. The suffering is real. Calling them diseases like cance
     answer: `So is height. Heritability doesn't make something disease.
 
 What's inherited: cognitive patterns that served different roles in the [EEA](/glossary#eea). Variations pathologized when the environment doesn't accommodate them.`,
-    imageUrl: imageMap[67]
+    imageUrls: imageMap[67]
   },
   {
     id: 68,
@@ -724,7 +1372,7 @@ What's inherited: cognitive patterns that served different roles in the [EEA](/g
     answer: `Musicians have different brains. Taxi drivers have different brains. Difference is not pathology.
 
 The "differences" might be consequences of [mismatch](/glossary#mismatch), not pre-existing conditions.`,
-    imageUrl: imageMap[68]
+    imageUrls: imageMap[68]
   },
   {
     id: 69,
@@ -732,7 +1380,7 @@ The "differences" might be consequences of [mismatch](/glossary#mismatch), not p
     answer: `The brain changes based on experience.
 
 "Brain differences" in psychiatric conditions might be effects, not causes. Chronic [mismatch](/glossary#mismatch) reshapes neural architecture.`,
-    imageUrl: imageMap[69]
+    imageUrls: imageMap[69]
   },
   {
     id: 70,
@@ -740,7 +1388,7 @@ The "differences" might be consequences of [mismatch](/glossary#mismatch), not p
     answer: `Nothing—if it's a bridge to environmental change.
 
 Problem: therapy as [proxy](/glossary#proxy). $200/hour paid intimacy substituting for [tribe](/glossary#the-150-tribe). Years of sessions, no environmental change.`,
-    imageUrl: imageMap[70]
+    imageUrls: imageMap[70]
   },
   {
     id: 71,
@@ -748,7 +1396,7 @@ Problem: therapy as [proxy](/glossary#proxy). $200/hour paid intimacy substituti
     answer: `Standard psychiatry visit. Enough time to adjust dosage. Not enough to understand context.
 
 Environment never discussed. There isn't time.`,
-    imageUrl: imageMap[71]
+    imageUrls: imageMap[71]
   },
   {
     id: 72,
@@ -756,7 +1404,7 @@ Environment never discussed. There isn't time.`,
     answer: `Medication becomes "necessary" because we've destroyed social structures that would otherwise manage these states.
 
 WHO studies: better outcomes in developing countries with less medication, more social support.`,
-    imageUrl: imageMap[72]
+    imageUrls: imageMap[72]
   },
   {
     id: 73,
@@ -764,7 +1412,7 @@ WHO studies: better outcomes in developing countries with less medication, more 
     answer: `Yes.
 
 Zoraya ter Beek, 29, euthanized after psychiatrists said "nothing more we can do." Without ever trying environmental intervention.`,
-    imageUrl: imageMap[73]
+    imageUrls: imageMap[73]
   },
   {
     id: 74,
@@ -772,7 +1420,7 @@ Zoraya ter Beek, 29, euthanized after psychiatrists said "nothing more we can do
     answer: `The [fire circle](/glossary#fire-circle). 2-4 hours. Every single night.
 
 Processing the day. Storytelling. Bonding. We replaced it with screens.`,
-    imageUrl: imageMap[74]
+    imageUrls: imageMap[74]
   },
   {
     id: 75,
@@ -780,7 +1428,7 @@ Processing the day. Storytelling. Bonding. We replaced it with screens.`,
     answer: `No. [Alloparenting](/glossary#alloparenting)—child-rearing by 20+ adults.
 
 The nuclear family is a historical aberration. Parental burnout isn't failure. It's asking two people to do what twenty did.`,
-    imageUrl: imageMap[75]
+    imageUrls: imageMap[75]
   },
   {
     id: 76,
@@ -788,7 +1436,7 @@ The nuclear family is a historical aberration. Parental burnout isn't failure. I
     answer: `Institutional convenience, not developmental necessity.
 
 Mixed-age play was the norm. Five-year-olds learning from ten-year-olds. Natural mentorship.`,
-    imageUrl: imageMap[76]
+    imageUrls: imageMap[76]
   },
   {
     id: 77,
@@ -796,7 +1444,7 @@ Mixed-age play was the norm. Five-year-olds learning from ten-year-olds. Natural
     answer: `Learning through observation and gradual participation. How humans learned everything for 300,000 years.
 
 [Visible contribution](/glossary#visible-contribution) from early age. Purpose built in.`,
-    imageUrl: imageMap[77]
+    imageUrls: imageMap[77]
   },
   {
     id: 78,
@@ -804,7 +1452,7 @@ Mixed-age play was the norm. Five-year-olds learning from ten-year-olds. Natural
     answer: `[Demand sharing](/glossary#demand-sharing). Those with surplus share when asked.
 
 If someone asks when you have extra, you give. Tomorrow you might be asking. Poverty impossible within the group.`,
-    imageUrl: imageMap[78]
+    imageUrls: imageMap[78]
   },
   {
     id: 79,
@@ -812,7 +1460,7 @@ If someone asks when you have extra, you give. Tomorrow you might be asking. Pov
     answer: `[Immediate-return](/glossary#immediate-return-economy). Resources consumed within hours.
 
 Hunt → eat. Gather → consume. 3-4 hours of effort. Tangible results. [Closed loops](/glossary#closed-loop).`,
-    imageUrl: imageMap[79]
+    imageUrls: imageMap[79]
   },
   {
     id: 80,
@@ -820,7 +1468,7 @@ Hunt → eat. Gather → consume. 3-4 hours of effort. Tangible results. [Closed
     answer: `No permanent leaders. Different experts for different domains.
 
 Best tracker led hunts. Best diplomat handled relations. Outside expertise: just a person.`,
-    imageUrl: imageMap[80]
+    imageUrls: imageMap[80]
   },
   {
     id: 81,
@@ -828,7 +1476,7 @@ Best tracker led hunts. Best diplomat handled relations. Outside expertise: just
     answer: `[Egalitarian enforcement](/glossary#egalitarian-enforcement). Active suppression of dominance.
 
 Boasting, hoarding, bossing triggered immediate coalition response. Christopher Boehm: "reverse dominance hierarchy."`,
-    imageUrl: imageMap[81]
+    imageUrls: imageMap[81]
   },
   {
     id: 82,
@@ -836,7 +1484,7 @@ Boasting, hoarding, bossing triggered immediate coalition response. Christopher 
     answer: `The [conflict resolution cascade](/glossary#conflict-resolution-cascade): humor → public discussion → ridicule → shunning → exile → violence (rare).
 
 Most resolved early through joking. Reputation was inescapable.`,
-    imageUrl: imageMap[82]
+    imageUrls: imageMap[82]
   },
   {
     id: 83,
@@ -844,7 +1492,7 @@ Most resolved early through joking. Reputation was inescapable.`,
     answer: `Wake with light. Active through morning. Rest, nap in afternoon. [Fire circle](/glossary#fire-circle) at evening. Sleep with darkness.
 
 No alarm clocks. No artificial light. [Circadian](/glossary#circadian-rhythm) regularity was automatic.`,
-    imageUrl: imageMap[83]
+    imageUrls: imageMap[83]
   },
   {
     id: 84,
@@ -852,7 +1500,7 @@ No alarm clocks. No artificial light. [Circadian](/glossary#circadian-rhythm) re
     answer: `3-4 years between children via extended breastfeeding.
 
 Parents not overwhelmed. Grandmothers crucial. Aka fathers hold infants 20%+ of daytime.`,
-    imageUrl: imageMap[84]
+    imageUrls: imageMap[84]
   },
   {
     id: 85,
@@ -860,7 +1508,7 @@ Parents not overwhelmed. Grandmothers crucial. Aka fathers hold infants 20%+ of 
     answer: `Constant. Babies rarely put down.
 
 Carried all day. Co-sleeping at night. No prolonged distress. The [mismatch](/glossary#mismatch) begins at birth.`,
-    imageUrl: imageMap[85]
+    imageUrls: imageMap[85]
   },
   {
     id: 86,
@@ -868,7 +1516,7 @@ Carried all day. Co-sleeping at night. No prolonged distress. The [mismatch](/gl
     answer: `Yes. [Fission-fusion](/glossary#fission-fusion)—natural social metabolism.
 
 When conflict became unresolvable, one faction left. This wasn't dysfunction. It was how healthy groups breathed.`,
-    imageUrl: imageMap[86]
+    imageUrls: imageMap[86]
   },
   {
     id: 87,
@@ -876,7 +1524,7 @@ When conflict became unresolvable, one faction left. This wasn't dysfunction. It
     answer: `The [metapopulation](/glossary#metapopulation). 500-1500 people across multiple tribes.
 
 Seasonal gatherings. Marriage exchanges. You knew your [tribe](/glossary#the-150-tribe) intimately; you knew *of* the broader network.`,
-    imageUrl: imageMap[87]
+    imageUrls: imageMap[87]
   },
   {
     id: 88,
@@ -884,7 +1532,7 @@ Seasonal gatherings. Marriage exchanges. You knew your [tribe](/glossary#the-150
     answer: `Because we're hierarchy-damaged.
 
 [EEA](/glossary#eea) mechanisms don't work automatically on people with corporate backgrounds. Explicit structures prevent recreating what we know.`,
-    imageUrl: imageMap[88]
+    imageUrls: imageMap[88]
   },
   {
     id: 89,
@@ -892,7 +1540,7 @@ Seasonal gatherings. Marriage exchanges. You knew your [tribe](/glossary#the-150
     answer: `Cult: charismatic leader, information control, isolation, punishment for leaving.
 
 Tribe: distributed authority, [transparency](/glossary#transparency), embedded in society, [viable exit](/glossary#viable-exit).`,
-    imageUrl: imageMap[89]
+    imageUrls: imageMap[89]
   },
   {
     id: 90,
@@ -900,7 +1548,7 @@ Tribe: distributed authority, [transparency](/glossary#transparency), embedded i
     answer: `[Rotation](/glossary#rotation). Power-accumulating roles rotate on schedule.
 
 No one occupies influence positions permanently. Trades efficiency for equality.`,
-    imageUrl: imageMap[90]
+    imageUrls: imageMap[90]
   },
   {
     id: 91,
@@ -908,7 +1556,7 @@ No one occupies influence positions permanently. Trades efficiency for equality.
     answer: `[Transparency](/glossary#transparency). Information asymmetry is proto-hierarchy.
 
 When some know things others don't, those members have power. No back-channels. No faction building.`,
-    imageUrl: imageMap[91]
+    imageUrls: imageMap[91]
   },
   {
     id: 92,
@@ -916,7 +1564,7 @@ When some know things others don't, those members have power. No back-channels. 
     answer: `[Domain separation](/glossary#domain-separation). Power concentration through role accumulation.
 
 Negotiator AND arbiter AND resource controller = dominance despite formal rules.`,
-    imageUrl: imageMap[92]
+    imageUrls: imageMap[92]
   },
   {
     id: 93,
@@ -924,7 +1572,7 @@ Negotiator AND arbiter AND resource controller = dominance despite formal rules.
     answer: `[Onboarding filter](/glossary#onboarding-filter). Trial period to surface dominance patterns before full inclusion.
 
 People shaped by corporations may unconsciously attempt hierarchy. Better to discover early.`,
-    imageUrl: imageMap[93]
+    imageUrls: imageMap[93]
   },
   {
     id: 94,
@@ -932,7 +1580,7 @@ People shaped by corporations may unconsciously attempt hierarchy. Better to dis
     answer: `[Viable exit](/glossary#viable-exit). You can. That's the point.
 
 Unlike the [EEA](/glossary#eea), leaving doesn't mean death. You're held by value, not by bars. This distinguishes tribe from cult.`,
-    imageUrl: imageMap[94]
+    imageUrls: imageMap[94]
   },
   {
     id: 95,
@@ -940,7 +1588,7 @@ Unlike the [EEA](/glossary#eea), leaving doesn't mean death. You're held by valu
     answer: `Scale without [Dunbar layers](/glossary#dunbars-numbers).
 
 Tried flat governance at 3,000+ people. Lesson: [band-scale](/glossary#the-50-band) (50-150) as operating unit.`,
-    imageUrl: imageMap[95]
+    imageUrls: imageMap[95]
   },
   {
     id: 96,
@@ -948,7 +1596,7 @@ Tried flat governance at 3,000+ people. Lesson: [band-scale](/glossary#the-50-ba
     answer: `[Demismatch](/glossary#demismatch). Conscious alignment of environment with biology.
 
 Not returning to caves. Building forward with the spec sheet. The intervention isn't fixing yourself—it's changing conditions.`,
-    imageUrl: imageMap[96]
+    imageUrls: imageMap[96]
   },
   {
     id: 97,
@@ -956,7 +1604,7 @@ Not returning to caves. Building forward with the spec sheet. The intervention i
     answer: `You can't [augment](/glossary#augment) broken.
 
 If already [mismatched](/glossary#mismatch)—isolated, purposeless, stressed—technology amplifies dysfunction. [Demismatch](/glossary#demismatch) first, then augment.`,
-    imageUrl: imageMap[97]
+    imageUrls: imageMap[97]
   },
   {
     id: 98,
@@ -964,7 +1612,7 @@ If already [mismatched](/glossary#mismatch)—isolated, purposeless, stressed—
     answer: `Yes. That's [augment](/glossary#augment).
 
 Communication coordinating actual [tribe](/glossary#the-150-tribe). AI extending capability, not replacing relationship. Foundation matters.`,
-    imageUrl: imageMap[98]
+    imageUrls: imageMap[98]
   },
   {
     id: 99,
@@ -972,7 +1620,7 @@ Communication coordinating actual [tribe](/glossary#the-150-tribe). AI extending
     answer: `Both. [Pharmakon](/glossary#pharmakon)—Greek for both poison and cure.
 
 Same tools creating [mismatch](/glossary#mismatch) can serve [demismatching](/glossary#demismatch). Implementation determines whether it heals or harms.`,
-    imageUrl: imageMap[99]
+    imageUrls: imageMap[99]
   },
   {
     id: 100,
@@ -980,7 +1628,7 @@ Same tools creating [mismatch](/glossary#mismatch) can serve [demismatching](/gl
     answer: `[Decay function](/glossary#decay-function). Technology designed to degrade without physical presence.
 
 Features that lock unless you've met recently. Success measured by *decreasing* use. Opposite of engagement optimization.`,
-    imageUrl: imageMap[100]
+    imageUrls: imageMap[100]
   },
   {
     id: 101,
@@ -988,7 +1636,7 @@ Features that lock unless you've met recently. Success measured by *decreasing* 
     answer: `Potentially. [Tribe formation AI](/glossary#tribe-formation-ai).
 
 Matching based on nervous system regulation, conflict styles, values. Discovery tool, not relationship substitute.`,
-    imageUrl: imageMap[101]
+    imageUrls: imageMap[101]
   },
   {
     id: 102,
@@ -996,7 +1644,7 @@ Matching based on nervous system regulation, conflict styles, values. Discovery 
     answer: `Yes. Does it serve your [150](/glossary#the-150-tribe) or substitute [parasocial](/glossary#parasocial-relationships) engagement?
 
 Video calls with actual tribe? Yes. Infinite scroll among strangers? [Proxy](/glossary#proxy). Know the difference.`,
-    imageUrl: imageMap[102]
+    imageUrls: imageMap[102]
   },
   {
     id: 103,
@@ -1004,7 +1652,7 @@ Video calls with actual tribe? Yes. Infinite scroll among strangers? [Proxy](/gl
     answer: `[Decay functions](/glossary#decay-function) are churn engines. VCs need engagement growth.
 
 Technology succeeding by reducing usage can't grow metrics. Misalignment is structural.`,
-    imageUrl: imageMap[103]
+    imageUrls: imageMap[103]
   },
   {
     id: 104,
@@ -1012,7 +1660,7 @@ Technology succeeding by reducing usage can't grow metrics. Misalignment is stru
     answer: `[The most human post-human](/glossary#the-most-human-post-human).
 
 Matched environments, enhanced by technology. Baseline thriving plus capability enhancement. Meeting needs fully, then [augmenting](/glossary#augment).`,
-    imageUrl: imageMap[104]
+    imageUrls: imageMap[104]
   },
   {
     id: 105,
@@ -1020,7 +1668,7 @@ Matched environments, enhanced by technology. Baseline thriving plus capability 
     answer: `Do you wake up with a role, in a group, with a goal?
 
 If yes, you've arrived. If no, you haven't. No credentials required.`,
-    imageUrl: imageMap[105]
+    imageUrls: imageMap[105]
   },
   {
     id: 106,
@@ -1028,7 +1676,7 @@ If yes, you've arrived. If no, you haven't. No credentials required.`,
     answer: `Better schizophrenia outcomes in developing countries with less medication, more social support.
 
 Environment matters more than pharmaceuticals.`,
-    imageUrl: imageMap[106]
+    imageUrls: imageMap[106]
   },
   {
     id: 107,
@@ -1036,7 +1684,7 @@ Environment matters more than pharmaceuticals.`,
     answer: `Chronic psychiatric conditions rare or absent in genuinely matched populations.
 
 Limited data, but directionally clear. [Mismatch](/glossary#mismatch) correlates with pathology.`,
-    imageUrl: imageMap[107]
+    imageUrls: imageMap[107]
   },
   {
     id: 108,
@@ -1044,7 +1692,7 @@ Limited data, but directionally clear. [Mismatch](/glossary#mismatch) correlates
     answer: `Nature exposure, co-living reduce symptoms independent of medication.
 
 Change the environment, symptoms decrease—even without changing brain chemistry.`,
-    imageUrl: imageMap[108]
+    imageUrls: imageMap[108]
   },
   {
     id: 109,
@@ -1052,7 +1700,7 @@ Change the environment, symptoms decrease—even without changing brain chemistr
     answer: `Long-term stability is possible with proper governance.
 
 Twin Oaks (58 years). East Wind (51 years). Convergent solutions arrived at independently.`,
-    imageUrl: imageMap[109]
+    imageUrls: imageMap[109]
   },
   {
     id: 110,
@@ -1060,7 +1708,7 @@ Twin Oaks (58 years). East Wind (51 years). Convergent solutions arrived at inde
     answer: `Intentional community since 1967. ~100 adults.
 
 Labor credits for [visible contribution](/glossary#visible-contribution). [Rotation](/glossary#rotation). [Transparency](/glossary#transparency). High life satisfaction.`,
-    imageUrl: imageMap[110]
+    imageUrls: imageMap[110]
   },
   {
     id: 111,
@@ -1068,7 +1716,7 @@ Labor credits for [visible contribution](/glossary#visible-contribution). [Rotat
     answer: `Intentional community since 1974. ~70 members.
 
 Nut butter business. Rotating coordinators. Full [transparency](/glossary#transparency). Reduced anxiety from belonging.`,
-    imageUrl: imageMap[111]
+    imageUrls: imageMap[111]
   },
   {
     id: 112,
@@ -1076,7 +1724,7 @@ Nut butter business. Rotating coordinators. Full [transparency](/glossary#transp
     answer: `Reduce [mismatch](/glossary#mismatch) load.
 
 Audit [parasocial relationships](/glossary#parasocial-relationships). Reduce [open loops](/glossary#open-loop). [Circadian](/glossary#circadian-rhythm) basics. Move your body. Don't build [tribe](/glossary#the-150-tribe) while maximally mismatched.`,
-    imageUrl: imageMap[112]
+    imageUrls: imageMap[112]
   },
   {
     id: 113,
@@ -1084,7 +1732,7 @@ Audit [parasocial relationships](/glossary#parasocial-relationships). Reduce [op
     answer: `Deepen, not broaden.
 
 Stop meeting new people temporarily. Invest in existing relationships. Identify your actual [5](/glossary#the-5). Depth over breadth.`,
-    imageUrl: imageMap[113]
+    imageUrls: imageMap[113]
   },
   {
     id: 114,
@@ -1092,7 +1740,7 @@ Stop meeting new people temporarily. Invest in existing relationships. Identify 
     answer: `Reduce [proxy](/glossary#proxy) dependence.
 
 Notice which [proxies](/glossary#proxy) you're using. Time-box their use while building real alternatives. Can't quit cold turkey without something real.`,
-    imageUrl: imageMap[114]
+    imageUrls: imageMap[114]
   },
   {
     id: 115,
@@ -1100,7 +1748,7 @@ Notice which [proxies](/glossary#proxy) you're using. Time-box their use while b
     answer: `Build.
 
 One dinner. One finished project. One person who sees your contribution. One [closed loop](/glossary#closed-loop). Understanding changes nothing.`,
-    imageUrl: imageMap[115]
+    imageUrls: imageMap[115]
   },
   {
     id: 116,
@@ -1108,7 +1756,7 @@ One dinner. One finished project. One person who sees your contribution. One [cl
     answer: `Identify your [5](/glossary#the-5). One shared meal per week. One [loop](/glossary#closed-loop) closed daily. Morning light. Movement.
 
 Minimum viable [demismatch](/glossary#demismatch).`,
-    imageUrl: imageMap[116]
+    imageUrls: imageMap[116]
   },
   {
     id: 117,
@@ -1116,7 +1764,7 @@ Minimum viable [demismatch](/glossary#demismatch).`,
     answer: `Reduce [mismatch](/glossary#mismatch) load first.
 
 [Circadian](/glossary#circadian-rhythm) alignment, nature exposure, reduced strangers. Move from 90% mismatched to 70%. Better positioned for later.`,
-    imageUrl: imageMap[117]
+    imageUrls: imageMap[117]
   },
   {
     id: 118,
@@ -1124,7 +1772,7 @@ Minimum viable [demismatch](/glossary#demismatch).`,
     answer: `Years, not weeks.
 
 The [double shift](/glossary#double-shift) makes it slow. Anyone promising quick fixes is selling another [proxy](/glossary#proxy).`,
-    imageUrl: imageMap[118]
+    imageUrls: imageMap[118]
   },
   {
     id: 119,
@@ -1132,7 +1780,7 @@ The [double shift](/glossary#double-shift) makes it slow. Anyone promising quick
     answer: `The [double shift](/glossary#double-shift).
 
 8 hours capitalist work + 2-3 hours tribal maintenance. Unsustainable long-term. Something has to give.`,
-    imageUrl: imageMap[119]
+    imageUrls: imageMap[119]
   },
   {
     id: 120,
@@ -1140,7 +1788,7 @@ The [double shift](/glossary#double-shift) makes it slow. Anyone promising quick
     answer: `The [great filter](/glossary#great-filter). [Double shift](/glossary#double-shift) burnout, resource constraints, emerging hierarchies.
 
 Not character failure. Predictable difficulty. [Fission-fusion](/glossary#fission-fusion) means "failure" might be one stage in a longer process.`,
-    imageUrl: imageMap[120]
+    imageUrls: imageMap[120]
   },
   {
     id: 121,
@@ -1148,7 +1796,7 @@ Not character failure. Predictable difficulty. [Fission-fusion](/glossary#fissio
     answer: `People with resources: flexibility, savings, existing relationships.
 
 Not fair, but realistic. First adopters create maps others follow.`,
-    imageUrl: imageMap[121]
+    imageUrls: imageMap[121]
   },
   {
     id: 122,
@@ -1156,7 +1804,7 @@ Not fair, but realistic. First adopters create maps others follow.`,
     answer: `[Fission-fusion](/glossary#fission-fusion) is normal.
 
 Even temporary tribes are valuable. Skills developed. Relationships persist. First attempt teaches. Second builds on it.`,
-    imageUrl: imageMap[122]
+    imageUrls: imageMap[122]
   },
   {
     id: 123,
@@ -1164,7 +1812,7 @@ Even temporary tribes are valuable. Skills developed. Relationships persist. Fir
     answer: `Reading about [mismatch](/glossary#mismatch) while sitting alone, scrolling, under artificial light.
 
 Understanding is not progress. Close this tab. Find your people. Build something.`,
-    imageUrl: imageMap[123]
+    imageUrls: imageMap[123]
   },
   {
     id: 124,
@@ -1172,7 +1820,7 @@ Understanding is not progress. Close this tab. Find your people. Build something
     answer: `Yes. Constructive scarcity remains.
 
 Challenges requiring effort, cooperation, skill. The [tribe](/glossary#the-150-tribe) still needs to raise children, resolve conflicts, create together. Meaning requires challenge, not suffering.`,
-    imageUrl: imageMap[124]
+    imageUrls: imageMap[124]
   },
   {
     id: 125,
@@ -1180,7 +1828,7 @@ Challenges requiring effort, cooperation, skill. The [tribe](/glossary#the-150-t
     answer: `Material deprivation? No—toxic scarcity. Challenge and effort? Yes—constructive scarcity.
 
 Toxic is imposed and traumatizing. Constructive is chosen and growth-producing.`,
-    imageUrl: imageMap[125]
+    imageUrls: imageMap[125]
   },
   {
     id: 126,
@@ -1188,7 +1836,7 @@ Toxic is imposed and traumatizing. Constructive is chosen and growth-producing.`
     answer: `Solves resource distribution, not meaning.
 
 Money without role, [tribe](/glossary#the-150-tribe), purpose. UBI + [atomized individual](/glossary#atomized-individual) = comfortable meaninglessness.`,
-    imageUrl: imageMap[126]
+    imageUrls: imageMap[126]
   },
   {
     id: 127,
@@ -1196,7 +1844,7 @@ Money without role, [tribe](/glossary#the-150-tribe), purpose. UBI + [atomized i
     answer: `Eliminates human roles in production.
 
 The [proxy](/glossary#proxy) purpose work provides is disappearing. Rebuild meaning through [tribe](/glossary#the-150-tribe), not jobs that won't exist.`,
-    imageUrl: imageMap[127]
+    imageUrls: imageMap[127]
   },
   {
     id: 128,
@@ -1204,7 +1852,7 @@ The [proxy](/glossary#proxy) purpose work provides is disappearing. Rebuild mean
     answer: `Survive and reproduce.
 
 [Direct fitness](/glossary#direct-fitness): hunger, fear, lust. [Indirect fitness](/glossary#indirect-fitness): status, reputation, coalition. No exceptions.`,
-    imageUrl: imageMap[128]
+    imageUrls: imageMap[128]
   },
   {
     id: 129,
@@ -1212,7 +1860,7 @@ The [proxy](/glossary#proxy) purpose work provides is disappearing. Rebuild mean
     answer: `[Direct fitness](/glossary#direct-fitness). Survival and reproduction mechanisms running automatically.
 
 The system isn't malfunctioning. It's doing exactly what it evolved to do.`,
-    imageUrl: imageMap[129]
+    imageUrls: imageMap[129]
   },
   {
     id: 130,
@@ -1220,7 +1868,7 @@ The system isn't malfunctioning. It's doing exactly what it evolved to do.`,
     answer: `[Indirect fitness](/glossary#indirect-fitness). Survival through social mechanisms.
 
 What people thought determined whether you ate, found mates, got protected. The drive isn't weakness—it's machinery.`,
-    imageUrl: imageMap[130]
+    imageUrls: imageMap[130]
   },
   {
     id: 131,
@@ -1228,7 +1876,7 @@ What people thought determined whether you ate, found mates, got protected. The 
     answer: `[Reciprocal altruism](/glossary#reciprocal-altruism). Foundation of cooperation beyond kinship.
 
 You help today, they help tomorrow. The feeling of obligation is evolved infrastructure.`,
-    imageUrl: imageMap[131]
+    imageUrls: imageMap[131]
   },
   {
     id: 132,
@@ -1236,7 +1884,7 @@ You help today, they help tomorrow. The feeling of obligation is evolved infrast
     answer: `Wants: fame, money, perfect life. Needs: small [tribe](/glossary#the-150-tribe), real connection, security.
 
 Wants are shaped by [mismatch](/glossary#mismatch). Chasing wants while needs go unmet = permanent dissatisfaction.`,
-    imageUrl: imageMap[132]
+    imageUrls: imageMap[132]
   },
   {
     id: 133,
@@ -1244,7 +1892,7 @@ Wants are shaped by [mismatch](/glossary#mismatch). Chasing wants while needs go
     answer: `No. The limit is biological.
 
 Finite neocortex. Finite time. You can have more followers. You can't have more friends. [Dunbar's numbers](/glossary#dunbars-numbers) aren't failure—they're architecture.`,
-    imageUrl: imageMap[133]
+    imageUrls: imageMap[133]
   },
   {
     id: 134,
@@ -1252,7 +1900,7 @@ Finite neocortex. Finite time. You can have more followers. You can't have more 
     answer: `The [band](/glossary#the-50-band): ~50 people. 5-8 families in daily interaction.
 
 Share meals. Work alongside. [Fire circle](/glossary#fire-circle) every night. This is what your hardware expects.`,
-    imageUrl: imageMap[134]
+    imageUrls: imageMap[134]
   },
   {
     id: 135,
@@ -1260,7 +1908,7 @@ Share meals. Work alongside. [Fire circle](/glossary#fire-circle) every night. T
     answer: `Because you are. Beyond [150](/glossary#the-150-tribe), everyone is a stranger.
 
 Millions of people, no one you know. [Dunbar's limit](/glossary#dunbars-numbers) in action.`,
-    imageUrl: imageMap[135]
+    imageUrls: imageMap[135]
   },
   {
     id: 136,
@@ -1268,7 +1916,7 @@ Millions of people, no one you know. [Dunbar's limit](/glossary#dunbars-numbers)
     answer: `Weak ties, yes. Strong ties, no.
 
 Technology lets you stay loosely connected to more people. Cannot make you capable of intimate relationship with more than [5](/glossary#the-5).`,
-    imageUrl: imageMap[136]
+    imageUrls: imageMap[136]
   },
   {
     id: 137,
@@ -1276,7 +1924,7 @@ Technology lets you stay loosely connected to more people. Cannot make you capab
     answer: `It's not lying—it's running outdated software.
 
 Calibrated for survival in the [EEA](/glossary#eea), not for truth. The dashboard was designed for different terrain.`,
-    imageUrl: imageMap[137]
+    imageUrls: imageMap[137]
   },
   {
     id: 138,
@@ -1284,7 +1932,7 @@ Calibrated for survival in the [EEA](/glossary#eea), not for truth. The dashboar
     answer: `No. You perceive a dashboard.
 
 Evolution optimized for survival, not accuracy. Truth was never the goal. Fitness was.`,
-    imageUrl: imageMap[138]
+    imageUrls: imageMap[138]
   },
   {
     id: 139,
@@ -1292,7 +1940,7 @@ Evolution optimized for survival, not accuracy. Truth was never the goal. Fitnes
     answer: `Killing strangers would be inconceivable in the [EEA](/glossary#eea).
 
 Everyone was known. [Stranger overload](/glossary#stranger-overload) makes strangers into categories. Categories are easier to kill.`,
-    imageUrl: imageMap[139]
+    imageUrls: imageMap[139]
   },
   {
     id: 140,
@@ -1300,7 +1948,7 @@ Everyone was known. [Stranger overload](/glossary#stranger-overload) makes stran
     answer: `Yes, but with 300,000 years of evidence and a specific spec sheet.
 
 Not nostalgia. Biology. The [EEA](/glossary#eea) is documented. The [mismatch](/glossary#mismatch) is measurable.`,
-    imageUrl: imageMap[140]
+    imageUrls: imageMap[140]
   },
   {
     id: 141,
@@ -1308,7 +1956,7 @@ Not nostalgia. Biology. The [EEA](/glossary#eea) is documented. The [mismatch](/
     answer: `No. Art isn't [proxy](/glossary#proxy).
 
 Art continues [fire circle](/glossary#fire-circle) function: processing, sense-making, truth-telling. [Proxies](/glossary#proxy) deplete. Art nourishes.`,
-    imageUrl: imageMap[141]
+    imageUrls: imageMap[141]
   },
   {
     id: 142,
@@ -1316,7 +1964,7 @@ Art continues [fire circle](/glossary#fire-circle) function: processing, sense-m
     answer: `Anti-misdiagnosis.
 
 Psychiatric conditions are real patterns. They're just not diseases—they're responses to [mismatch](/glossary#mismatch). Different diagnosis, different solutions.`,
-    imageUrl: imageMap[142]
+    imageUrls: imageMap[142]
   },
   {
     id: 143,
@@ -1324,7 +1972,7 @@ Psychiatric conditions are real patterns. They're just not diseases—they're re
     answer: `No. Technology is [pharmakon](/glossary#pharmakon)—both poison and cure.
 
 Same tools creating [mismatch](/glossary#mismatch) can serve [demismatching](/glossary#demismatch). Depends on design.`,
-    imageUrl: imageMap[143]
+    imageUrls: imageMap[143]
   },
   {
     id: 144,
@@ -1332,7 +1980,7 @@ Same tools creating [mismatch](/glossary#mismatch) can serve [demismatching](/gl
     answer: `A framework explaining why modern humans suffer and what conditions would let them thrive.
 
 Not therapy. Not self-help. A spec sheet for human nature.`,
-    imageUrl: imageMap[144]
+    imageUrls: imageMap[144]
   },
   {
     id: 145,
@@ -1340,7 +1988,7 @@ Not therapy. Not self-help. A spec sheet for human nature.`,
     answer: `Change how people understand suffering.
 
 It's not you. It's the environment. Once you see it, you can't unsee it.`,
-    imageUrl: imageMap[145]
+    imageUrls: imageMap[145]
   },
   {
     id: 146,
@@ -1348,7 +1996,7 @@ It's not you. It's the environment. Once you see it, you can't unsee it.`,
     answer: `Because you're probably suffering and blaming yourself.
 
 Because "solutions" haven't worked. Because understanding the problem is step one.`,
-    imageUrl: imageMap[146]
+    imageUrls: imageMap[146]
   },
   {
     id: 147,
@@ -1356,7 +2004,7 @@ Because "solutions" haven't worked. Because understanding the problem is step on
     answer: `Anyone who feels something is deeply wrong but can't name it.
 
 Therapists tired of band-aids. Technologists who want to build things that help. Parents watching kids struggle.`,
-    imageUrl: imageMap[147]
+    imageUrls: imageMap[147]
   },
   {
     id: 148,
@@ -1364,7 +2012,7 @@ Therapists tired of band-aids. Technologists who want to build things that help.
     answer: `Stop blaming yourself. Understand the pattern. Then build.
 
 Your own [tribe](/glossary#the-150-tribe). Your own closure. Your own [visible contribution](/glossary#visible-contribution). Understanding alone changes nothing.`,
-    imageUrl: imageMap[148]
+    imageUrls: imageMap[148]
   },
   {
     id: 149,
@@ -1372,7 +2020,7 @@ Your own [tribe](/glossary#the-150-tribe). Your own closure. Your own [visible c
     answer: `No one owns truth about human nature.
 
 Fork it, improve it, implement it. The point is not to profit—the point is for you to stop suffering.`,
-    imageUrl: imageMap[149]
+    imageUrls: imageMap[149]
   },
   {
     id: 150,
@@ -1380,7 +2028,7 @@ Fork it, improve it, implement it. The point is not to profit—the point is for
     answer: `2,500+ visuals in the library. Framework is dense. Images make it visceral.
 
 Use them. They're free too.`,
-    imageUrl: imageMap[150]
+    imageUrls: imageMap[150]
   },
   {
     id: 151,
@@ -1388,7 +2036,7 @@ Use them. They're free too.`,
     answer: `Self-help sells individual solutions to systemic problems.
 
 This framework says: problem is environmental, solution is collective, personal optimization is part of the problem.`,
-    imageUrl: imageMap[151]
+    imageUrls: imageMap[151]
   },
   {
     id: 152,
@@ -1396,7 +2044,7 @@ This framework says: problem is environmental, solution is collective, personal 
     answer: `Introversion = how you recover, not what you need.
 
 You need [tribe](/glossary#the-150-tribe) with a quieter role. The [EEA](/glossary#eea) had roles for every temperament. Introverts still need their [5](/glossary#the-5).`,
-    imageUrl: imageMap[152]
+    imageUrls: imageMap[152]
   },
   {
     id: 153,
@@ -1404,7 +2052,7 @@ You need [tribe](/glossary#the-150-tribe) with a quieter role. The [EEA](/glossa
     answer: `Surface variation exists. Deep structure is universal.
 
 No human thrives isolated, purposeless, surrounded by strangers, with permanent [open loops](/glossary#open-loop).`,
-    imageUrl: imageMap[153]
+    imageUrls: imageMap[153]
   },
   {
     id: 154,
@@ -1412,7 +2060,7 @@ No human thrives isolated, purposeless, surrounded by strangers, with permanent 
     answer: `27% infant mortality. 48% child death before 15. Violence, scarcity, disease.
 
 The framework claims the *social* environment matched hardware. You can have modern medicine AND social structures that work.`,
-    imageUrl: imageMap[154]
+    imageUrls: imageMap[154]
   },
   {
     id: 155,
@@ -1420,7 +2068,7 @@ The framework claims the *social* environment matched hardware. You can have mod
     answer: `Cults: charismatic leader, isolation, information control, punishment for leaving.
 
 Framework: no leader, [transparency](/glossary#transparency), embedded in society, [viable exit](/glossary#viable-exit). This is a document.`,
-    imageUrl: imageMap[155]
+    imageUrls: imageMap[155]
   },
   {
     id: 156,
@@ -1428,7 +2076,7 @@ Framework: no leader, [transparency](/glossary#transparency), embedded in societ
     answer: `Society doesn't need to. *You* need to build [tribe](/glossary#the-150-tribe) within existing society.
 
 Social layer, not replacement for civilization. You still have job, government. You also have your [50](/glossary#the-50-band).`,
-    imageUrl: imageMap[156]
+    imageUrls: imageMap[156]
   },
   {
     id: 157,
@@ -1436,7 +2084,7 @@ Social layer, not replacement for civilization. You still have job, government. 
     answer: `Partly true. First tribes from those who can experiment.
 
 Also: many "underprivileged" communities already have more tribal structure. Wealth often correlates with isolation.`,
-    imageUrl: imageMap[157]
+    imageUrls: imageMap[157]
   },
   {
     id: 158,
@@ -1444,7 +2092,7 @@ Also: many "underprivileged" communities already have more tribal structure. Wea
     answer: `Some neurological differences exist.
 
 Framework claims *most* suffering is environmental. For genuine difference: modified structures, different roles. Everyone needs their version of [tribe](/glossary#the-150-tribe).`,
-    imageUrl: imageMap[158]
+    imageUrls: imageMap[158]
   },
   {
     id: 159,
@@ -1452,7 +2100,7 @@ Framework claims *most* suffering is environmental. For genuine difference: modi
     answer: `Yes and no.
 
 "Touch grass" captures something real. Framework explains *why* and what else is needed. Touch grass is necessary but insufficient.`,
-    imageUrl: imageMap[159]
+    imageUrls: imageMap[159]
   },
   {
     id: 160,
@@ -1460,7 +2108,7 @@ Framework claims *most* suffering is environmental. For genuine difference: modi
     answer: `You're not broken. Your environment is [mismatched](/glossary#mismatch).
 
 Stop fixing yourself. Start building conditions that would let you thrive. The [fish](/glossary#fish-on-land) needs water.`,
-    imageUrl: imageMap[160]
+    imageUrls: imageMap[160]
   },
   {
     id: 161,
@@ -1468,7 +2116,7 @@ Stop fixing yourself. Start building conditions that would let you thrive. The [
     answer: `Close this tab.
 
 You've understood enough. Only building helps. Go find one person. Make one meal. Close one [loop](/glossary#closed-loop). Start.`,
-    imageUrl: imageMap[161]
+    imageUrls: imageMap[161]
   }
 ];
 
@@ -1584,7 +2232,7 @@ export default function HomepageFAQTile() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isRevealed, setIsRevealed] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [imagePopup, setImagePopup] = useState(false);
+  const [imagePopup, setImagePopup] = useState<number | null>(null);  // Index of image to show in popup, or null
   const [glossaryPopup, setGlossaryPopup] = useState<string | null>(null);
 
   // Persist progress in localStorage
@@ -1606,7 +2254,7 @@ export default function HomepageFAQTile() {
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setImagePopup(false);
+        setImagePopup(null);
         setGlossaryPopup(null);
       }
     };
@@ -1689,21 +2337,24 @@ export default function HomepageFAQTile() {
               {parseAnswer(currentQ.answer, handleGlossaryClick)}
             </div>
 
-            {/* Image thumbnail - centered below answer */}
-            <div className="px-8 pb-6 flex justify-center">
-              <button
-                onClick={() => setImagePopup(true)}
-                className="w-64 h-64 rounded-lg overflow-hidden cursor-pointer border border-gray-200 shadow-md hover:shadow-lg transition-shadow"
-                title="Click to view image"
-              >
-                <Image
-                  src={currentQ.imageUrl}
-                  alt={currentQ.question}
-                  width={256}
-                  height={256}
-                  className="object-cover w-full h-full"
-                />
-              </button>
+            {/* Image gallery - 3 images in horizontal row */}
+            <div className="px-8 pb-6 flex justify-center gap-3">
+              {currentQ.imageUrls.map((url, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setImagePopup(idx)}
+                  className="w-32 h-32 rounded-lg overflow-hidden cursor-pointer border border-gray-200 shadow-md hover:shadow-lg hover:scale-105 transition-all"
+                  title="Click to view image"
+                >
+                  <Image
+                    src={url}
+                    alt={`${currentQ.question} - image ${idx + 1}`}
+                    width={128}
+                    height={128}
+                    className="object-cover w-full h-full"
+                  />
+                </button>
+              ))}
             </div>
 
             {/* Divider */}
@@ -1765,32 +2416,67 @@ export default function HomepageFAQTile() {
       </div>
 
       {/* Image Popup Modal */}
-      {imagePopup && (
+      {imagePopup !== null && (
         <div
           className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
-          onClick={() => setImagePopup(false)}
+          onClick={() => setImagePopup(null)}
         >
           <div
             className="relative max-w-2xl w-full max-h-[90vh] bg-white rounded-xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              onClick={() => setImagePopup(false)}
+              onClick={() => setImagePopup(null)}
               className="absolute top-3 right-3 z-10 w-8 h-8 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-colors"
             >
               <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
+            {/* Navigation arrows for gallery */}
+            {currentQ.imageUrls.length > 1 && (
+              <>
+                <button
+                  onClick={() => setImagePopup(imagePopup > 0 ? imagePopup - 1 : currentQ.imageUrls.length - 1)}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-colors"
+                >
+                  <svg className="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => setImagePopup(imagePopup < currentQ.imageUrls.length - 1 ? imagePopup + 1 : 0)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-colors"
+                >
+                  <svg className="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </>
+            )}
             <div className="relative w-full aspect-square">
               <Image
-                src={currentQ.imageUrl}
-                alt={currentQ.question}
+                src={currentQ.imageUrls[imagePopup]}
+                alt={`${currentQ.question} - image ${imagePopup + 1}`}
                 fill
                 className="object-contain"
                 sizes="(max-width: 768px) 100vw, 672px"
               />
             </div>
+            {/* Image indicator dots */}
+            {currentQ.imageUrls.length > 1 && (
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                {currentQ.imageUrls.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setImagePopup(idx)}
+                    className={`w-2.5 h-2.5 rounded-full transition-colors ${
+                      idx === imagePopup ? 'bg-[#C75B39]' : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
