@@ -913,6 +913,22 @@ const faqCategories: FAQCategory[] = [
   }
 ];
 
+// Category colors for visual distinction
+const categoryColors: Record<string, string> = {
+  "WHAT IS THIS?": "#C75B39",
+  "EVER WONDER WHY?": "#2D4A3E",
+  "FEEL FAMILIAR?": "#C9A962",
+  "WHOSE FAULT?": "#6B5B95",
+  "THE BIG PICTURE": "#8B4513",
+  "EXPLOITED": "#C84C4C",
+  "THE MISDIAGNOSIS": "#4A7C59",
+  "EVIDENCE": "#5B7C99",
+  "THE SPEC SHEET": "#7C6B5B",
+  "THE DESTINATION": "#D97A5C",
+  "OBJECTIONS": "#6B6B6B",
+  "PRACTICAL FIRST STEPS": "#3D5A4E",
+};
+
 export default function FAQPage() {
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
@@ -925,81 +941,200 @@ export default function FAQPage() {
     setExpandedCategory(expandedCategory === title ? null : title);
   };
 
+  const getCategoryColor = (title: string) => categoryColors[title] || "#C75B39";
+
   return (
     <>
       <FAQStructuredData />
-      <div className="min-h-screen bg-[#FAF9F6] text-[#1a1a1a]">
+      <div className="min-h-screen bg-[#FAF9F6] text-[#1a1a1a] pt-20">
         <Navigation />
 
-        <main className="max-w-4xl mx-auto px-4 py-12">
-          <h1
-            className="text-4xl md:text-5xl font-bold text-center mb-4"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            FAQ
-          </h1>
-          <p className="text-center text-[#666] mb-12 text-lg">
-            160 questions. One framework.
-          </p>
-
-          <div className="space-y-8">
-            {faqCategories.map((category) => (
-              <div key={category.title} className="border-b border-[#e5e5e5] pb-6">
+        {/* Hero Header */}
+        <header className="relative overflow-hidden bg-[#0A0A0A] text-white">
+          <div className="absolute inset-0 bg-grid opacity-10" />
+          <div className="max-w-4xl mx-auto px-6 py-16 relative">
+            <div className="section-divider-thick mb-6" style={{ background: '#C75B39' }} />
+            <h1 className="headline-primary text-white mb-4">
+              Frequently Asked <span className="text-[#C75B39]">Questions</span>
+            </h1>
+            <p className="text-xl text-[#E5E0D8] mb-8">
+              160 questions. One framework. Everything you need to understand the mismatch.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {faqCategories.slice(0, 6).map((cat) => (
                 <button
-                  onClick={() => toggleCategory(category.title)}
-                  className="w-full text-left group"
+                  key={cat.title}
+                  onClick={() => {
+                    setExpandedCategory(cat.title);
+                    document.getElementById(cat.title.replace(/\s+/g, '-'))?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="px-3 py-1 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105"
+                  style={{
+                    backgroundColor: getCategoryColor(cat.title),
+                    color: '#fff'
+                  }}
                 >
-                  <div className="flex items-center justify-between py-4">
-                    <div>
-                      <h2
-                        className="text-2xl font-bold text-[#1a1a1a] group-hover:text-[#C75B39] transition-colors"
-                        style={{ fontFamily: "'Playfair Display', serif" }}
-                      >
-                        {category.title}
-                      </h2>
-                      {category.subtitle && (
-                        <p className="text-[#666] text-sm mt-1">{category.subtitle}</p>
-                      )}
-                    </div>
-                    <span className="text-2xl text-[#999] group-hover:text-[#C75B39] transition-colors">
-                      {expandedCategory === category.title ? '−' : '+'}
-                    </span>
-                  </div>
+                  {cat.title}
                 </button>
+              ))}
+            </div>
+          </div>
+        </header>
 
-                {expandedCategory === category.title && (
-                  <div className="space-y-2 mt-4 animate-fadeIn">
-                    {category.questions.map((item) => (
-                      <div
-                        key={item.id}
-                        className="border border-[#e5e5e5] rounded-lg overflow-hidden bg-white"
-                      >
-                        <button
-                          onClick={() => toggleQuestion(item.id)}
-                          className="w-full text-left p-4 flex items-start justify-between gap-4 hover:bg-[#f5f5f5] transition-colors"
+        <main className="max-w-4xl mx-auto px-6 py-12">
+          <div className="space-y-6">
+            {faqCategories.map((category, catIndex) => {
+              const color = getCategoryColor(category.title);
+              const isExpanded = expandedCategory === category.title;
+
+              return (
+                <div
+                  key={category.title}
+                  id={category.title.replace(/\s+/g, '-')}
+                  className="scroll-mt-24"
+                >
+                  <button
+                    onClick={() => toggleCategory(category.title)}
+                    className="w-full text-left group"
+                  >
+                    <div
+                      className="flex items-center justify-between p-6 transition-all duration-300"
+                      style={{
+                        backgroundColor: isExpanded ? color : 'transparent',
+                        borderLeft: `4px solid ${color}`,
+                      }}
+                    >
+                      <div className="flex items-center gap-4">
+                        {/* Category number */}
+                        <span
+                          className="w-10 h-10 flex items-center justify-center text-sm font-bold"
+                          style={{
+                            backgroundColor: isExpanded ? 'rgba(255,255,255,0.2)' : color,
+                            color: isExpanded ? '#fff' : '#fff'
+                          }}
                         >
-                          <span className="font-medium text-[#1a1a1a]">
-                            <span className="text-[#999] mr-2">{item.id}.</span>
-                            {item.question}
-                          </span>
-                          <span className="text-xl text-[#999] flex-shrink-0">
-                            {expandedId === item.id ? '−' : '+'}
-                          </span>
-                        </button>
-
-                        {expandedId === item.id && (
-                          <div className="px-4 pb-4 text-[#444] leading-relaxed whitespace-pre-line animate-fadeIn">
-                            {renderAnswer(item.answer)}
-                          </div>
-                        )}
+                          {String(catIndex + 1).padStart(2, '0')}
+                        </span>
+                        <div>
+                          <h2
+                            className="text-xl md:text-2xl font-bold transition-colors"
+                            style={{
+                              fontFamily: "'Playfair Display', serif",
+                              color: isExpanded ? '#fff' : '#1a1a1a'
+                            }}
+                          >
+                            {category.title}
+                          </h2>
+                          {category.subtitle && (
+                            <p
+                              className="text-sm mt-1"
+                              style={{ color: isExpanded ? 'rgba(255,255,255,0.8)' : '#666' }}
+                            >
+                              {category.subtitle}
+                            </p>
+                          )}
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+                      <div className="flex items-center gap-3">
+                        <span
+                          className="text-xs font-bold px-2 py-1"
+                          style={{
+                            backgroundColor: isExpanded ? 'rgba(255,255,255,0.2)' : `${color}20`,
+                            color: isExpanded ? '#fff' : color
+                          }}
+                        >
+                          {category.questions.length} Q
+                        </span>
+                        <span
+                          className="text-2xl transition-transform duration-300"
+                          style={{
+                            color: isExpanded ? '#fff' : color,
+                            transform: isExpanded ? 'rotate(45deg)' : 'rotate(0deg)'
+                          }}
+                        >
+                          +
+                        </span>
+                      </div>
+                    </div>
+                  </button>
+
+                  {isExpanded && (
+                    <div className="bg-white border-l-4 animate-fadeIn" style={{ borderColor: color }}>
+                      {category.questions.map((item, qIndex) => (
+                        <div
+                          key={item.id}
+                          className="border-b border-[#e5e5e5] last:border-b-0"
+                        >
+                          <button
+                            onClick={() => toggleQuestion(item.id)}
+                            className="w-full text-left p-5 flex items-start justify-between gap-4 hover:bg-[#f8f8f8] transition-colors"
+                          >
+                            <span className="font-medium text-[#1a1a1a]">
+                              <span
+                                className="inline-block w-8 h-8 text-center text-sm font-bold mr-3 flex-shrink-0"
+                                style={{
+                                  backgroundColor: expandedId === item.id ? color : `${color}15`,
+                                  color: expandedId === item.id ? '#fff' : color,
+                                  lineHeight: '2rem'
+                                }}
+                              >
+                                {qIndex + 1}
+                              </span>
+                              {item.question}
+                            </span>
+                            <span
+                              className="text-xl flex-shrink-0 transition-transform duration-300"
+                              style={{
+                                color: expandedId === item.id ? color : '#999',
+                                transform: expandedId === item.id ? 'rotate(45deg)' : 'rotate(0deg)'
+                              }}
+                            >
+                              +
+                            </span>
+                          </button>
+
+                          {expandedId === item.id && (
+                            <div
+                              className="px-5 pb-5 text-[#444] leading-relaxed whitespace-pre-line animate-fadeIn ml-11"
+                              style={{ borderTop: `2px solid ${color}20` }}
+                            >
+                              <div className="pt-4">
+                                {renderAnswer(item.answer)}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </main>
+
+        {/* Footer CTA */}
+        <footer className="bg-[#C75B39] py-12">
+          <div className="max-w-4xl mx-auto px-6 text-center">
+            <h3
+              className="text-2xl text-white mb-4"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              Still have questions?
+            </h3>
+            <p className="text-white/80 mb-6">
+              The fish doesn't need therapy. The fish needs water.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link href="/framework" className="btn-secondary !border-white/50 !text-white hover:!bg-white hover:!text-[#C75B39]">
+                Read the Framework
+              </Link>
+              <Link href="/glossary" className="btn-secondary !border-white/50 !text-white hover:!bg-white hover:!text-[#C75B39]">
+                Browse Glossary
+              </Link>
+            </div>
+          </div>
+        </footer>
       </div>
 
       <style jsx>{`
@@ -1008,7 +1143,7 @@ export default function FAQPage() {
           to { opacity: 1; transform: translateY(0); }
         }
         .animate-fadeIn {
-          animation: fadeIn 0.2s ease-out;
+          animation: fadeIn 0.3s ease-out;
         }
       `}</style>
     </>

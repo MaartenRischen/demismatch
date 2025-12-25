@@ -904,148 +904,213 @@ export default function GlossaryPage() {
     <main className="min-h-screen bg-[#faf9f6] pt-20">
       <Navigation />
 
-      {/* Header */}
-      <header className="px-8 py-12 max-w-4xl mx-auto">
-        <h1 className="text-5xl text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
-          Glossary
-        </h1>
-        <p className="text-lg text-gray-600 mb-8">
-          A comprehensive reference for all concepts in the DEMISMATCH framework.
-          Each term can be linked directly using <code className="bg-gray-100 px-2 py-1 rounded text-sm">/glossary#term-name</code> format.
-        </p>
+      {/* Hero Header */}
+      <header className="relative overflow-hidden bg-[#2D4A3E] text-white">
+        <div className="absolute inset-0 bg-diagonal-lines opacity-20" />
+        <div className="px-8 py-16 max-w-4xl mx-auto relative">
+          <div className="section-divider-thick mb-6" style={{ background: '#C75B39' }} />
+          <h1 className="headline-primary text-white mb-4">
+            Framework <span className="text-[#C9A962]">Glossary</span>
+          </h1>
+          <p className="text-xl text-white/80 mb-8">
+            {GLOSSARY_TERMS.length} concepts. Every term you need to understand the mismatch.
+          </p>
 
-        {/* Search */}
-        <div className="relative mb-6">
-          <input
-            type="text"
-            placeholder="Search terms..."
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setActiveLetter(null);
-            }}
-            className="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c75b3a]/50 focus:border-[#c75b3a]"
-          />
-          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
-
-        {/* Alphabet navigation */}
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => setActiveLetter(null)}
-            className={`px-3 py-1 rounded text-sm font-medium transition ${
-              activeLetter === null ? 'bg-[#c75b3a] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
-            All
-          </button>
-          {ALPHABET.map(letter => (
-            <button
-              key={letter}
-              onClick={() => {
-                setActiveLetter(letter);
-                setSearchQuery("");
+          {/* Search */}
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search terms..."
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setActiveLetter(null);
               }}
-              className={`px-3 py-1 rounded text-sm font-medium transition ${
-                activeLetter === letter ? 'bg-[#c75b3a] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              {letter}
-            </button>
-          ))}
+              className="input-field !bg-white/10 !border-white/20 !text-white placeholder:text-white/50 focus:!border-[#C9A962] focus:!ring-[#C9A962]/30"
+            />
+            <svg className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
         </div>
       </header>
 
-      {/* Terms count */}
-      <div className="px-8 max-w-4xl mx-auto mb-8">
-        <p className="text-sm text-gray-500">
-          Showing {filteredTerms.length} of {GLOSSARY_TERMS.length} terms
-        </p>
+      {/* Alphabet Navigation - Sticky */}
+      <div className="sticky top-16 z-40 bg-[#faf9f6]/95 backdrop-blur-sm border-b border-[#E5E0D8]">
+        <div className="px-8 py-4 max-w-4xl mx-auto">
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setActiveLetter(null)}
+              className={`w-10 h-10 flex items-center justify-center text-sm font-bold transition-all ${
+                activeLetter === null
+                  ? 'bg-[#C75B39] text-white'
+                  : 'bg-transparent text-[#4A4A4A] hover:bg-[#C75B39]/10 border border-[#E5E0D8]'
+              }`}
+            >
+              All
+            </button>
+            {ALPHABET.map(letter => (
+              <button
+                key={letter}
+                onClick={() => {
+                  setActiveLetter(letter);
+                  setSearchQuery("");
+                }}
+                className={`w-10 h-10 flex items-center justify-center text-sm font-bold transition-all ${
+                  activeLetter === letter
+                    ? 'bg-[#C75B39] text-white'
+                    : 'bg-transparent text-[#4A4A4A] hover:bg-[#C75B39]/10 border border-[#E5E0D8]'
+                }`}
+              >
+                {letter}
+              </button>
+            ))}
+          </div>
+
+          {/* Results count */}
+          <p className="text-sm text-[#8B8B8B] mt-4">
+            Showing <span className="font-bold text-[#0A0A0A]">{filteredTerms.length}</span> of {GLOSSARY_TERMS.length} terms
+            {activeLetter && <span> starting with <span className="font-bold text-[#C75B39]">{activeLetter}</span></span>}
+          </p>
+        </div>
       </div>
 
       {/* Terms list */}
-      <article className="px-8 pb-20 max-w-4xl mx-auto">
-        <div className="space-y-12">
-          {filteredTerms.map((term) => (
-            <div key={term.id} id={term.id} className="scroll-mt-24">
-              <h2
-                className="text-2xl text-gray-900 mb-4 pb-2 border-b border-gray-200"
-                style={{ fontFamily: 'Georgia, serif' }}
-              >
-                <a href={`#${term.id}`} className="hover:text-[#c75b3a] transition">
-                  {term.title}
-                </a>
-              </h2>
-
-              <div className="space-y-4 mb-4">
-                {term.definition.map((paragraph, idx) => (
-                  <p key={idx} className="text-lg text-gray-700 leading-relaxed">
-                    {formatText(paragraph)}
-                  </p>
-                ))}
-              </div>
-
-              {/* Cross-references */}
-              {term.crossReferences.length > 0 && (
-                <div className="mb-4">
-                  <p className="text-sm font-medium text-gray-500 mb-2">See also:</p>
-                  <div className="flex flex-wrap gap-2">
-                    {term.crossReferences.map(ref => (
+      <article className="px-8 py-12 max-w-4xl mx-auto">
+        <div className="space-y-8">
+          {filteredTerms.map((term, index) => (
+            <div
+              key={term.id}
+              id={term.id}
+              className="scroll-mt-40 group"
+            >
+              {/* Term card */}
+              <div className="bg-white border border-[#E5E0D8] hover:border-[#C75B39] transition-all duration-300 hover:shadow-lg">
+                {/* Term header */}
+                <div className="p-6 border-b border-[#E5E0D8]">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
                       <a
-                        key={ref}
-                        href={`#${ref}`}
-                        className="text-sm px-3 py-1 bg-gray-100 text-[#c75b3a] rounded-full hover:bg-[#c75b3a] hover:text-white transition"
+                        href={`#${term.id}`}
+                        className="inline-flex items-center gap-3"
                       >
-                        {getTermTitle(ref)}
+                        <span
+                          className="w-8 h-8 flex items-center justify-center text-xs font-bold bg-[#2D4A3E] text-white"
+                        >
+                          {term.title[0]}
+                        </span>
+                        <h2
+                          className="text-xl md:text-2xl font-bold text-[#0A0A0A] group-hover:text-[#C75B39] transition-colors"
+                          style={{ fontFamily: "'Playfair Display', serif" }}
+                        >
+                          {term.title}
+                        </h2>
                       </a>
-                    ))}
+                    </div>
+                    {/* Copy link button */}
+                    <button
+                      onClick={() => navigator.clipboard.writeText(`${window.location.origin}/glossary#${term.id}`)}
+                      className="p-2 text-[#8B8B8B] hover:text-[#C75B39] hover:bg-[#C75B39]/10 transition-all"
+                      title="Copy link to term"
+                    >
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
-              )}
 
-              {/* Sources */}
-              {term.sources.length > 0 && (
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                  <p className="text-sm font-medium text-gray-500 mb-2">Sources:</p>
-                  <ul className="text-sm text-gray-600 space-y-1">
-                    {term.sources.map((source, idx) => (
-                      <li key={idx}>{formatText(source)}</li>
-                    ))}
-                  </ul>
+                {/* Definition */}
+                <div className="p-6 space-y-4">
+                  {term.definition.map((paragraph, idx) => (
+                    <p key={idx} className="text-lg text-[#4A4A4A] leading-relaxed">
+                      {formatText(paragraph)}
+                    </p>
+                  ))}
                 </div>
-              )}
+
+                {/* Cross-references */}
+                {term.crossReferences.length > 0 && (
+                  <div className="px-6 pb-6">
+                    <p className="text-xs font-bold uppercase tracking-widest text-[#8B8B8B] mb-3">See also</p>
+                    <div className="flex flex-wrap gap-2">
+                      {term.crossReferences.map(ref => (
+                        <a
+                          key={ref}
+                          href={`#${ref}`}
+                          className="text-sm px-3 py-1 bg-[#2D4A3E]/10 text-[#2D4A3E] font-medium hover:bg-[#2D4A3E] hover:text-white transition-all"
+                        >
+                          {getTermTitle(ref)}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Sources */}
+                {term.sources.length > 0 && (
+                  <div className="px-6 py-4 bg-[#F0EDE6] border-t border-[#E5E0D8]">
+                    <p className="text-xs font-bold uppercase tracking-widest text-[#8B8B8B] mb-2">Sources</p>
+                    <ul className="text-sm text-[#4A4A4A] space-y-1">
+                      {term.sources.map((source, idx) => (
+                        <li key={idx}>{formatText(source)}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>
 
         {filteredTerms.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500">No terms found matching your search.</p>
+          <div className="text-center py-16">
+            <div className="w-16 h-16 mx-auto mb-6 bg-[#C75B39]/10 flex items-center justify-center">
+              <svg className="w-8 h-8 text-[#C75B39]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <p className="text-[#4A4A4A] text-lg mb-2">No terms found</p>
+            <p className="text-[#8B8B8B]">Try a different search or browse by letter</p>
           </div>
         )}
       </article>
 
-      {/* Footer note */}
-      <section className="px-8 py-12 max-w-4xl mx-auto border-t border-gray-200">
-        <p className="text-sm text-gray-500 italic">
-          This glossary is part of the DEMISMATCH framework. The framework is open source.
-          Fork it, improve it, implement it. No one owns truth about human nature.
-        </p>
+      {/* Footer CTA */}
+      <section className="bg-[#0A0A0A] py-16">
+        <div className="px-8 max-w-4xl mx-auto text-center">
+          <h3
+            className="text-2xl text-white mb-4"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            Ready to dive deeper?
+          </h3>
+          <p className="text-[#E5E0D8] mb-8">
+            The glossary is just the beginning. Explore the full framework.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link href="/framework" className="btn-primary">
+              Read the Framework
+            </Link>
+            <Link href="/faq" className="btn-secondary !border-white/30 !text-white hover:!bg-white hover:!text-[#0A0A0A]">
+              Browse FAQ
+            </Link>
+          </div>
+        </div>
       </section>
 
       {/* Footer */}
-      <footer className="px-8 py-12 border-t border-gray-200 max-w-6xl mx-auto">
-        <div className="flex flex-wrap gap-8 text-sm text-gray-600 mb-6">
-          <Link href="/framework" className="hover:text-gray-900">Framework</Link>
-          <Link href="/library" className="hover:text-gray-900">Library</Link>
-          <Link href="/projects" className="hover:text-gray-900">Projects</Link>
-          <Link href="/sources" className="hover:text-gray-900">Sources</Link>
-          <Link href="/faq" className="hover:text-gray-900">FAQ</Link>
-          <Link href="/glossary" className="hover:text-gray-900">Glossary</Link>
+      <footer className="bg-[#C75B39] py-8">
+        <div className="px-8 max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-4">
+          <p className="text-white/80 text-sm">
+            This framework is open. Fork it, improve it, implement it.
+          </p>
+          <nav className="flex gap-6 text-sm">
+            <Link href="/framework" className="text-white/80 hover:text-white transition">Framework</Link>
+            <Link href="/library" className="text-white/80 hover:text-white transition">Library</Link>
+            <Link href="/faq" className="text-white/80 hover:text-white transition">FAQ</Link>
+          </nav>
         </div>
-        <p className="text-sm text-gray-500">This framework is open. Fork it, improve it, implement it.</p>
       </footer>
     </main>
   );
