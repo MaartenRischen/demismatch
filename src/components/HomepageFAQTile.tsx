@@ -2467,119 +2467,117 @@ export default function HomepageFAQTile() {
   };
 
   return (
-    <section className="px-4 md:px-8 py-20 max-w-4xl mx-auto">
-      {/* Google Font for dramatic headlines */}
+    <section className="py-20 max-w-5xl mx-auto px-4 md:px-8">
+      {/* Animation styles */}
       <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap');
-
-        @keyframes pulse-line {
-          0%, 100% { transform: scaleX(1); opacity: 1; }
-          50% { transform: scaleX(1.02); opacity: 0.8; }
-        }
-
-        @keyframes reveal-slide {
+        @keyframes faq-reveal {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
-
         .faq-reveal-anim {
-          animation: reveal-slide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation: faq-reveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
       `}</style>
+
+      {/* Section Header */}
+      <div className="mb-8 flex items-end justify-between">
+        <div>
+          <div className="section-divider-thick mb-4" />
+          <h2 className="headline-secondary text-[#0A0A0A]">
+            Quick <span className="text-[#C75B39]">Answers</span>
+          </h2>
+        </div>
+        <Link
+          href="/faq"
+          className="text-sm font-bold uppercase tracking-widest text-[#C75B39] hover:text-[#A84A2D] transition-colors flex items-center gap-2"
+        >
+          <span>All 160</span>
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </Link>
+      </div>
 
       <div
         className={`transition-all duration-500 ${
           isTransitioning ? 'opacity-0 scale-[0.98]' : 'opacity-100 scale-100'
         }`}
       >
-        {/* THE QUESTION — Commanding, confrontational */}
+        {/* THE QUESTION — Using site's color-blocked style */}
         <div
-          className={`relative bg-[#0a0a0a] overflow-hidden ${!isRevealed ? 'cursor-pointer group' : ''}`}
+          className={`relative overflow-hidden ${!isRevealed ? 'cursor-pointer group' : ''}`}
           onClick={!isRevealed ? handleReveal : undefined}
+          style={{ backgroundColor: '#C75B39' }}
         >
-          {/* Subtle texture overlay */}
-          <div className="absolute inset-0 opacity-[0.03]" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          }} />
+          {/* Subtle grid pattern */}
+          <div className="absolute inset-0 bg-grid opacity-10" />
 
-          {/* Terracotta accent line — top */}
-          <div className={`h-1 bg-[#c75b3a] ${!isRevealed ? 'group-hover:h-2' : ''} transition-all duration-300`} />
-
-          <div className="relative p-8 md:p-12 lg:p-16">
-            {/* Question number — editorial style */}
-            <div className="flex items-center gap-3 mb-6">
-              <span className="text-[#c75b3a] text-sm font-bold tracking-[0.3em] uppercase" style={{ fontFamily: "'Crimson Pro', Georgia, serif" }}>
-                Question
+          <div className="relative p-8 md:p-12">
+            {/* Question number badge */}
+            <div className="flex items-center gap-4 mb-6">
+              <span className="w-12 h-12 flex items-center justify-center bg-white/20 text-white font-bold text-lg">
+                {String(currentIndex + 1).padStart(2, '0')}
               </span>
-              <span className="text-white/30 text-sm tracking-widest">
-                {String(currentIndex + 1).padStart(3, '0')}
+              <span className="text-white/60 text-xs font-bold uppercase tracking-[0.2em]">
+                of {tileData.length}
               </span>
             </div>
 
-            {/* THE HEADLINE — Massive, impactful */}
+            {/* THE HEADLINE — ALL CAPS for bold, brave, direct impact */}
             <h3
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[0.95] tracking-tight uppercase"
-              style={{ fontFamily: "'Anton', Impact, sans-serif", color: '#ffffff' }}
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-tight font-black uppercase tracking-wide"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               {currentQ.question}
             </h3>
 
-            {/* Reveal CTA — Minimal, intriguing */}
+            {/* Reveal CTA */}
             {!isRevealed && (
-              <div className="mt-10 flex items-center gap-4">
-                <div className="h-px bg-[#c75b3a] w-12 group-hover:w-20 transition-all duration-500" />
-                <span
-                  className="text-[#c75b3a] text-sm uppercase tracking-[0.25em] font-semibold group-hover:tracking-[0.35em] transition-all duration-300"
-                  style={{ fontFamily: "'Crimson Pro', Georgia, serif" }}
-                >
-                  Reveal Answer
+              <div className="mt-8 flex items-center gap-4">
+                <span className="text-white/80 text-sm font-bold uppercase tracking-widest group-hover:text-white transition-colors">
+                  Click to reveal
                 </span>
-                <svg className="w-4 h-4 text-[#c75b3a] group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <div className="h-px bg-white/30 w-8 group-hover:w-16 transition-all duration-500" />
+                <svg className="w-5 h-5 text-white/80 group-hover:text-white group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
             )}
           </div>
         </div>
 
-        {/* THE ANSWER — Editorial, refined */}
+        {/* THE ANSWER */}
         {isRevealed && (
           <div className="faq-reveal-anim">
-            {/* Answer content */}
-            <div className="bg-[#faf9f6] relative">
-              {/* Decorative corner accent */}
-              <div className="absolute top-0 left-0 w-16 h-16 border-l-4 border-t-4 border-[#c75b3a]/20" />
-
-              <div className="p-8 md:p-12 lg:p-16">
-                {/* Answer text — Serif, editorial */}
-                <div
-                  className="text-lg md:text-xl lg:text-2xl text-[#1a1a1a] leading-relaxed space-y-5 max-w-2xl"
-                  style={{ fontFamily: "'Crimson Pro', Georgia, serif" }}
-                >
+            {/* Answer content — White background */}
+            <div className="bg-white border-l-4 border-[#C75B39]">
+              <div className="p-8 md:p-12">
+                {/* Answer text */}
+                <div className="text-lg md:text-xl text-[#4A4A4A] leading-relaxed space-y-4 max-w-2xl">
                   {parseAnswer(currentQ.answer, handleGlossaryClick)}
                 </div>
 
-                {/* Image Gallery — 5 images in a row */}
-                <div className="mt-12">
-                  <div className="flex justify-center gap-3 flex-wrap">
+                {/* Image Gallery */}
+                <div className="mt-10">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#8B8B8B] mb-4">Related Images</p>
+                  <div className="flex gap-3 flex-wrap">
                     {currentQ.imageUrls.slice(0, 5).map((url, idx) => (
                       <button
                         key={idx}
                         onClick={() => setImagePopup(idx)}
-                        className="group/img relative flex-shrink-0"
+                        className="group/img relative flex-shrink-0 hover-tilt"
                         title="Click to enlarge"
                       >
-                        {/* Shadow layer */}
-                        <div className="absolute inset-0 bg-[#c75b3a]/20 translate-x-2 translate-y-2 group-hover/img:translate-x-3 group-hover/img:translate-y-3 transition-transform" />
-                        {/* Image container */}
-                        <div className="relative w-28 h-28 md:w-36 md:h-36 overflow-hidden border-2 border-[#1a1a1a] bg-white">
+                        <div className="relative w-24 h-24 md:w-32 md:h-32 overflow-hidden border border-[#E5E0D8] bg-[#F0EDE6]">
                           <Image
                             src={url}
                             alt={`${currentQ.question} - image ${idx + 1}`}
-                            width={144}
-                            height={144}
-                            className="object-cover w-full h-full grayscale-[20%] group-hover/img:grayscale-0 transition-all duration-500"
+                            width={128}
+                            height={128}
+                            className="object-cover w-full h-full group-hover/img:scale-110 transition-transform duration-500"
                           />
+                          {/* Hover overlay */}
+                          <div className="absolute inset-0 bg-[#C75B39]/0 group-hover/img:bg-[#C75B39]/20 transition-colors" />
                         </div>
                       </button>
                     ))}
@@ -2588,33 +2586,26 @@ export default function HomepageFAQTile() {
               </div>
             </div>
 
-            {/* NEXT QUESTION TEASER — Dark, enticing */}
+            {/* NEXT QUESTION TEASER — Dark section */}
             <div
-              className="bg-[#1a1a1a] cursor-pointer group/next relative overflow-hidden"
+              className="bg-[#0A0A0A] cursor-pointer group/next"
               onClick={handleNext}
             >
-              {/* Hover reveal bar */}
-              <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#c75b3a] group-hover/next:w-2 transition-all duration-300" />
-
-              <div className="p-8 md:p-12 lg:p-14 pl-10 md:pl-14 lg:pl-16">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-[#c75b3a]/60 text-xs uppercase tracking-[0.3em] group-hover/next:text-[#c75b3a] transition-colors" style={{ fontFamily: "'Crimson Pro', Georgia, serif" }}>
+              <div className="p-8 md:p-12 flex items-center justify-between gap-6">
+                <div className="flex-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#C75B39] mb-3">
                     Up Next
-                  </span>
-                  <div className="h-px bg-white/10 flex-1 max-w-[60px]" />
+                  </p>
+                  <p
+                    className="text-lg md:text-xl lg:text-2xl text-white/70 group-hover/next:text-white leading-tight font-bold uppercase tracking-wide transition-colors"
+                    style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                  >
+                    {nextQ.question}
+                  </p>
                 </div>
-                <p
-                  className="text-xl md:text-2xl lg:text-3xl group-hover/next:text-white uppercase leading-tight tracking-tight transition-colors duration-300"
-                  style={{ fontFamily: "'Anton', Impact, sans-serif", color: 'rgba(255,255,255,0.7)' }}
-                >
-                  {nextQ.question}
-                </p>
-
-                {/* Arrow indicator */}
-                <div className="mt-6 flex items-center gap-2 opacity-0 group-hover/next:opacity-100 transition-opacity">
-                  <span className="text-[#c75b3a] text-xs uppercase tracking-widest">Continue</span>
-                  <svg className="w-4 h-4 text-[#c75b3a]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <div className="w-12 h-12 flex items-center justify-center bg-[#C75B39] text-white group-hover/next:bg-white group-hover/next:text-[#C75B39] transition-all">
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                   </svg>
                 </div>
               </div>
@@ -2622,60 +2613,59 @@ export default function HomepageFAQTile() {
           </div>
         )}
 
-        {/* NAVIGATION BAR — Minimal, functional */}
-        <div className="bg-[#0a0a0a] border-t border-[#c75b3a]/30">
-          <div className="flex items-center justify-between px-6 md:px-8 py-4">
+        {/* NAVIGATION BAR */}
+        <div className="bg-[#F0EDE6] border-t border-[#E5E0D8]">
+          <div className="flex items-center justify-between px-6 py-4">
             {/* Nav controls */}
             <div className="flex items-center gap-1">
               <button
                 onClick={handleRewind}
-                className="w-10 h-10 flex items-center justify-center text-white/40 hover:text-[#c75b3a] hover:bg-white/5 transition-all text-lg"
+                className="w-10 h-10 flex items-center justify-center text-[#8B8B8B] hover:text-[#C75B39] hover:bg-white transition-all"
                 title="Back to first"
               >
-                ⟪
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+                </svg>
               </button>
               <button
                 onClick={handlePrev}
-                className="w-10 h-10 flex items-center justify-center text-white/40 hover:text-[#c75b3a] hover:bg-white/5 transition-all text-xl"
+                className="w-10 h-10 flex items-center justify-center text-[#8B8B8B] hover:text-[#C75B39] hover:bg-white transition-all"
                 title="Previous"
               >
-                ‹
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
               </button>
               <button
                 onClick={handleNext}
-                className="w-10 h-10 flex items-center justify-center text-white/40 hover:text-[#c75b3a] hover:bg-white/5 transition-all text-xl"
+                className="w-10 h-10 flex items-center justify-center text-[#8B8B8B] hover:text-[#C75B39] hover:bg-white transition-all"
                 title="Next"
               >
-                ›
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
               </button>
             </div>
 
-            {/* Progress indicator */}
-            <div className="flex items-center gap-3">
-              <span className="text-[#c75b3a] text-sm font-bold" style={{ fontFamily: "'Anton', Impact, sans-serif" }}>
-                {String(currentIndex + 1).padStart(3, '0')}
-              </span>
-              <div className="w-16 h-px bg-white/20 relative">
+            {/* Progress bar */}
+            <div className="flex items-center gap-3 flex-1 max-w-xs mx-4">
+              <div className="flex-1 h-1 bg-[#E5E0D8] relative">
                 <div
-                  className="absolute left-0 top-0 h-full bg-[#c75b3a] transition-all duration-300"
+                  className="absolute left-0 top-0 h-full bg-[#C75B39] transition-all duration-300"
                   style={{ width: `${((currentIndex + 1) / tileData.length) * 100}%` }}
                 />
               </div>
-              <span className="text-white/30 text-sm">
-                {String(tileData.length).padStart(3, '0')}
+              <span className="text-sm text-[#8B8B8B] font-bold tabular-nums">
+                {currentIndex + 1}/{tileData.length}
               </span>
             </div>
 
             {/* View all link */}
             <Link
               href="/faq"
-              className="flex items-center gap-2 text-white/40 hover:text-[#c75b3a] transition-colors text-sm uppercase tracking-wider"
-              style={{ fontFamily: "'Crimson Pro', Georgia, serif" }}
+              className="btn-secondary !py-2 !px-4 !text-xs"
             >
-              <span>All</span>
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-              </svg>
+              View All
             </Link>
           </div>
         </div>
@@ -2684,18 +2674,18 @@ export default function HomepageFAQTile() {
       {/* Image Popup Modal */}
       {imagePopup !== null && (
         <div
-          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+          className="modal-overlay"
           onClick={() => setImagePopup(null)}
         >
           <div
-            className="relative max-w-2xl w-full max-h-[90vh] bg-white rounded-xl overflow-hidden"
+            className="modal-content max-w-2xl w-full"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setImagePopup(null)}
-              className="absolute top-3 right-3 z-10 w-8 h-8 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-colors"
+              className="absolute top-4 right-4 z-10 w-10 h-10 bg-[#0A0A0A] text-white flex items-center justify-center hover:bg-[#C75B39] transition-colors"
             >
-              <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -2704,23 +2694,23 @@ export default function HomepageFAQTile() {
               <>
                 <button
                   onClick={() => setImagePopup(imagePopup > 0 ? imagePopup - 1 : currentQ.imageUrls.length - 1)}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-colors"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-[#0A0A0A] text-white flex items-center justify-center hover:bg-[#C75B39] transition-colors"
                 >
-                  <svg className="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
                 <button
                   onClick={() => setImagePopup(imagePopup < currentQ.imageUrls.length - 1 ? imagePopup + 1 : 0)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-[#0A0A0A] text-white flex items-center justify-center hover:bg-[#C75B39] transition-colors"
                 >
-                  <svg className="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
               </>
             )}
-            <div className="relative w-full aspect-square">
+            <div className="relative w-full aspect-square bg-[#F0EDE6]">
               <Image
                 src={currentQ.imageUrls[imagePopup]}
                 alt={`${currentQ.question} - image ${imagePopup + 1}`}
@@ -2736,8 +2726,8 @@ export default function HomepageFAQTile() {
                   <button
                     key={idx}
                     onClick={() => setImagePopup(idx)}
-                    className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                      idx === imagePopup ? 'bg-[#C75B39]' : 'bg-gray-300 hover:bg-gray-400'
+                    className={`w-3 h-3 transition-colors ${
+                      idx === imagePopup ? 'bg-[#C75B39]' : 'bg-white/50 hover:bg-white/80'
                     }`}
                   />
                 ))}
@@ -2750,28 +2740,29 @@ export default function HomepageFAQTile() {
       {/* Glossary Popup Modal */}
       {glossaryPopup && glossaryTerm && (
         <div
-          className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4"
+          className="modal-overlay"
           onClick={() => setGlossaryPopup(null)}
         >
           <div
-            className="relative max-w-lg w-full max-h-[80vh] bg-white rounded-xl overflow-hidden shadow-2xl flex flex-col"
+            className="modal-content max-w-lg w-full max-h-[80vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setGlossaryPopup(null)}
-              className="absolute top-3 right-3 z-10 w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+              className="absolute top-4 right-4 z-10 w-10 h-10 bg-[#0A0A0A] text-white flex items-center justify-center hover:bg-[#C75B39] transition-colors"
             >
-              <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <div className="p-6 overflow-y-auto">
-              <h3 className="text-xl font-bold text-gray-900 mb-4 pr-8" style={{ fontFamily: 'Georgia, serif' }}>
+            <div className="p-8 overflow-y-auto">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#C75B39] mb-2">Glossary</p>
+              <h3 className="headline-secondary text-[#0A0A0A] mb-6 pr-8">
                 {glossaryTerm.title}
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {glossaryTerm.definition.map((paragraph, idx) => (
-                  <p key={idx} className="text-gray-700 leading-relaxed">
+                  <p key={idx} className="text-[#4A4A4A] text-lg leading-relaxed">
                     {paragraph}
                   </p>
                 ))}

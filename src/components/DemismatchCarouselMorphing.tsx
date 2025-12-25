@@ -179,10 +179,10 @@ export default function DemismatchCarouselMorphing() {
 
   if (isLoading) {
     return (
-      <section className="bg-[#faf9f6] py-16 border-y border-gray-200">
+      <section className="bg-[#FAF9F6] py-16 border-y border-[#E5E0D8]">
         <div className="max-w-6xl mx-auto px-4">
           <div className="h-[400px] flex items-center justify-center">
-            <div className="text-gray-400">Loading...</div>
+            <div className="text-[#8B8B8B]">Loading...</div>
           </div>
         </div>
       </section>
@@ -191,10 +191,10 @@ export default function DemismatchCarouselMorphing() {
 
   if (error || concepts.length === 0) {
     return (
-      <section className="bg-[#faf9f6] py-16 border-y border-gray-200">
+      <section className="bg-[#FAF9F6] py-16 border-y border-[#E5E0D8]">
         <div className="max-w-6xl mx-auto px-4">
           <div className="h-[400px] flex items-center justify-center">
-            <div className="text-gray-400">{error || 'No images available'}</div>
+            <div className="text-[#8B8B8B]">{error || 'No images available'}</div>
           </div>
         </div>
       </section>
@@ -205,14 +205,14 @@ export default function DemismatchCarouselMorphing() {
   const revealPct = revealPercent;
 
   return (
-    <section className="bg-[#faf9f6] py-8 md:py-16 overflow-hidden border-y border-gray-200">
+    <section className="bg-[#FAF9F6] py-8 md:py-16 overflow-hidden border-y border-[#E5E0D8]">
       <div className="w-full max-w-[1400px] mx-auto px-4">
         {/* Section header */}
         <div className="text-center mb-10 max-w-3xl mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+          <h2 className="headline-secondary text-[#0A0A0A] mb-4">
             The Sequence Matters
           </h2>
-          <p className="text-gray-600 text-lg leading-relaxed">
+          <p className="text-[#4A4A4A] text-lg leading-relaxed">
             We're not anti-technology. We're pro-sequence. Fix the foundation before you build higher.
             Each concept below shows the progression: the current mismatch, the healthy baseline we evolved for,
             and the augmented future that builds on solid ground.
@@ -228,7 +228,7 @@ export default function DemismatchCarouselMorphing() {
           <div className="relative w-full max-w-4xl mx-auto">
             {/* Aspect ratio container - 3:1 for the panoramic strip */}
             <div
-              className="relative w-full overflow-hidden rounded-2xl shadow-2xl"
+              className="relative w-full overflow-hidden shadow-2xl"
               style={{ paddingBottom: '33.33%' }} // 3:1 aspect ratio
             >
               {/* Image container with all 3 images */}
@@ -296,14 +296,14 @@ export default function DemismatchCarouselMorphing() {
                     />
                   </div>
 
-                  {/* Reveal wipe overlay - animated golden glow that sweeps across */}
+                  {/* Reveal wipe overlay - animated terracotta glow that sweeps across */}
                   <div
                     className="absolute inset-0 pointer-events-none"
                     style={{
                       background: `linear-gradient(to right,
                         transparent 0%,
                         transparent ${Math.max(0, revealPct - 5)}%,
-                        rgba(234, 179, 8, 0.5) ${revealPct}%,
+                        rgba(199, 91, 57, 0.5) ${revealPct}%,
                         transparent ${Math.min(100, revealPct + 5)}%,
                         transparent 100%)`,
                     }}
@@ -312,10 +312,10 @@ export default function DemismatchCarouselMorphing() {
 
                 {/* Border/frame overlay */}
                 <div
-                  className="absolute inset-0 pointer-events-none rounded-2xl"
+                  className="absolute inset-0 pointer-events-none"
                   style={{
                     boxShadow: revealPct >= 95
-                      ? 'inset 0 0 0 4px rgba(234, 179, 8, 0.6), 0 0 40px rgba(234, 179, 8, 0.3)'
+                      ? 'inset 0 0 0 4px rgba(199, 91, 57, 0.6), 0 0 40px rgba(199, 91, 57, 0.3)'
                       : 'inset 0 0 0 2px rgba(0, 0, 0, 0.1)',
                     transition: 'box-shadow 0.5s ease',
                   }}
@@ -333,8 +333,8 @@ export default function DemismatchCarouselMorphing() {
                   transform: `translateY(${Math.max(0, 16 - (revealPct / 20) * 16)}px)`,
                 }}
               >
-                <div className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-1">Phase 1</div>
-                <div className="text-lg font-semibold text-gray-800" style={{ fontFamily: 'Georgia, serif' }}>
+                <div className="text-xs font-bold text-[#8B8B8B] uppercase tracking-widest mb-1">Phase 1</div>
+                <div className="text-lg font-bold text-[#0A0A0A]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                   The Mismatch
                 </div>
               </div>
@@ -348,17 +348,17 @@ export default function DemismatchCarouselMorphing() {
                 }}
               >
                 <div className="flex items-center justify-center gap-2 mb-1">
-                  <svg className="w-4 h-4 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg className="w-4 h-4 text-[#2D4A3E]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
-                  <span className="text-sm font-medium text-gray-500 uppercase tracking-wider">Demismatch</span>
-                  <svg className="w-4 h-4 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <span className="text-xs font-bold text-[#2D4A3E] uppercase tracking-widest">Demismatch</span>
+                  <svg className="w-4 h-4 text-[#2D4A3E]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </div>
                 <div
-                  className="text-lg font-semibold text-yellow-600"
-                  style={{ fontFamily: 'Georgia, serif' }}
+                  className="text-lg font-bold text-[#2D4A3E]"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   The Baseline
                 </div>
@@ -373,14 +373,14 @@ export default function DemismatchCarouselMorphing() {
                 }}
               >
                 <div className="flex items-center justify-center gap-2 mb-1">
-                  <svg className="w-4 h-4 text-[#c75b3a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg className="w-4 h-4 text-[#C75B39]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
-                  <span className="text-sm font-medium text-[#c75b3a] uppercase tracking-wider">Then Augment</span>
+                  <span className="text-xs font-bold text-[#C75B39] uppercase tracking-widest">Then Augment</span>
                 </div>
                 <div
-                  className="text-lg font-semibold bg-gradient-to-r from-[#c75b3a] to-[#ff9f7c] bg-clip-text text-transparent"
-                  style={{ fontFamily: 'Georgia, serif' }}
+                  className="text-lg font-bold text-[#C75B39]"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   The Future
                 </div>
@@ -388,9 +388,9 @@ export default function DemismatchCarouselMorphing() {
             </div>
 
             {/* Progress bar */}
-            <div className="mt-6 h-1 bg-gray-200 rounded-full overflow-hidden max-w-md mx-auto">
+            <div className="mt-6 h-1 bg-[#E5E0D8] overflow-hidden max-w-md mx-auto">
               <div
-                className="h-full bg-gradient-to-r from-gray-400 via-yellow-500 to-[#c75b3a] transition-all duration-1000 ease-out"
+                className="h-full bg-gradient-to-r from-[#8B8B8B] via-[#2D4A3E] to-[#C75B39] transition-all duration-1000 ease-out"
                 style={{ width: `${revealPct}%` }}
               />
             </div>
@@ -400,26 +400,26 @@ export default function DemismatchCarouselMorphing() {
           <div className="flex items-center justify-center gap-4 mt-8">
             <button
               onClick={handlePrevConcept}
-              className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
+              className="p-3 bg-[#F0EDE6] hover:bg-[#E5E0D8] transition-colors"
               aria-label="Previous concept"
             >
-              <svg className="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-6 h-6 text-[#4A4A4A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
             </button>
 
             <button
               onClick={handlePause}
-              className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
+              className="p-3 bg-[#F0EDE6] hover:bg-[#E5E0D8] transition-colors"
               aria-label={isPaused ? "Play" : "Pause"}
             >
               {isPaused ? (
-                <svg className="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-6 h-6 text-[#4A4A4A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               ) : (
-                <svg className="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-6 h-6 text-[#4A4A4A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               )}
@@ -427,10 +427,10 @@ export default function DemismatchCarouselMorphing() {
 
             <button
               onClick={handleNextConcept}
-              className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
+              className="p-3 bg-[#F0EDE6] hover:bg-[#E5E0D8] transition-colors"
               aria-label="Next concept"
             >
-              <svg className="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-6 h-6 text-[#4A4A4A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -448,17 +448,17 @@ export default function DemismatchCarouselMorphing() {
                   lastTimeRef.current = 0;
                   setCurrentConceptIndex(index);
                 }}
-                className={`w-2 h-2 rounded-full transition-all ${
+                className={`w-2 h-2 transition-all ${
                   index === currentConceptIndex
-                    ? 'bg-[#c75b3a] w-4'
-                    : 'bg-gray-300 hover:bg-gray-400'
+                    ? 'bg-[#C75B39] w-4'
+                    : 'bg-[#E5E0D8] hover:bg-[#D4CEC4]'
                 }`}
                 aria-label={`Go to concept ${index + 1}`}
               />
             ))}
           </div>
 
-          <p className="text-center text-gray-400 text-sm mt-6">
+          <p className="text-center text-[#8B8B8B] text-sm mt-6">
             Click anywhere to advance
           </p>
         </div>

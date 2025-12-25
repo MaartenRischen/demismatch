@@ -94,7 +94,7 @@ export default function Navigation() {
             </button>
 
             {dropdownOpen && (
-              <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+              <div className="absolute top-full left-0 mt-2 w-48 bg-[#FAF9F6] shadow-lg border border-[#E5E0D8] py-2 z-50">
                 {AUDIENCE_LINKS.map((link) => (
                   <Link
                     key={link.href}
@@ -102,8 +102,8 @@ export default function Navigation() {
                     onClick={() => setDropdownOpen(false)}
                     className={`block px-4 py-2 text-sm transition-colors ${
                       pathname === link.href
-                        ? "text-[#C75B39] bg-gray-50"
-                        : "text-[#4A4A4A] hover:text-[#1A1A1A] hover:bg-gray-50"
+                        ? "text-[#C75B39] bg-[#F0EDE6]"
+                        : "text-[#4A4A4A] hover:text-[#1A1A1A] hover:bg-[#F0EDE6]"
                     }`}
                   >
                     {link.label}
@@ -116,11 +116,7 @@ export default function Navigation() {
           {/* Analyzer - Standout CTA button */}
           <Link
             href="/app"
-            className={`text-sm font-medium px-4 py-2 rounded-lg transition-all ${
-              pathname === "/app"
-                ? "bg-[#C75B39] text-white"
-                : "bg-[#C75B39] text-white hover:bg-[#b54d2e]"
-            }`}
+            className="text-sm font-bold uppercase tracking-widest px-4 py-2 bg-[#C75B39] text-white hover:bg-[#A84A2D] transition-all"
           >
             Try Analyzer
           </Link>
@@ -171,7 +167,7 @@ export default function Navigation() {
               <Link
                 href="/app"
                 onClick={() => setMobileOpen(false)}
-                className="block w-full text-center py-3 mb-4 bg-[#C75B39] text-white rounded-lg font-medium"
+                className="block w-full text-center py-3 mb-4 bg-[#C75B39] text-white font-bold uppercase tracking-widest"
               >
                 Try Analyzer
               </Link>
@@ -194,7 +190,7 @@ export default function Navigation() {
 
               {/* Who It's For section */}
               <div className="py-4 border-b border-[#E5E0D8]">
-                <p className="text-xs uppercase tracking-wider text-gray-500 mb-3">Who It's For</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-[#8B8B8B] mb-3">Who It's For</p>
                 <div className="space-y-3">
                   {AUDIENCE_LINKS.map((link) => (
                     <Link
