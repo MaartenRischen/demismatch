@@ -2306,68 +2306,69 @@ export default function HomepageFAQTile() {
   };
 
   return (
-    <section className="px-8 py-16 max-w-3xl mx-auto">
+    <section className="px-4 md:px-8 py-16 max-w-3xl mx-auto">
       <div
-        className={`bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden transition-all duration-300 ${
+        className={`transition-all duration-300 ${
           isTransitioning ? 'opacity-50' : 'opacity-100'
         }`}
       >
-        {/* Question */}
+        {/* QUESTION - RED background, WHITE text, ultra clear */}
         <div
-          className={`p-8 ${!isRevealed ? 'cursor-pointer hover:bg-gray-50' : ''} transition-colors`}
+          className={`bg-[#DC2626] ${!isRevealed ? 'cursor-pointer' : ''}`}
           onClick={!isRevealed ? handleReveal : undefined}
         >
-          <h3
-            className="text-2xl md:text-3xl text-gray-900 leading-snug"
-            style={{ fontFamily: 'Georgia, serif' }}
-          >
-            {currentQ.question}
-          </h3>
+          <div className="p-10 md:p-14">
+            <h3
+              className="text-3xl md:text-4xl lg:text-5xl text-white font-bold leading-tight"
+              style={{ fontFamily: 'Georgia, serif' }}
+            >
+              {currentQ.question}
+            </h3>
 
-          {!isRevealed && (
-            <p className="text-gray-400 text-sm mt-4">Click to reveal answer</p>
-          )}
+            {!isRevealed && (
+              <p className="text-white/80 text-lg mt-6">
+                Click to reveal →
+              </p>
+            )}
+          </div>
         </div>
 
-        {/* Answer (when revealed) */}
+        {/* ANSWER - WHITE background, BLACK text, maximum readability */}
         {isRevealed && (
           <div className="animate-fadeIn">
-            {/* Answer content */}
-            <div className="px-8 pt-6 pb-4">
-              {parseAnswer(currentQ.answer, handleGlossaryClick)}
-            </div>
+            <div className="bg-white p-10 md:p-14">
+              <div className="text-xl md:text-2xl text-black leading-relaxed space-y-4 [&_a]:text-[#DC2626] [&_a]:font-semibold [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:bg-[#DC2626] [&_a:hover]:text-white [&_a]:transition-all">
+                {parseAnswer(currentQ.answer, handleGlossaryClick)}
+              </div>
 
-            {/* Image gallery - 3 images in horizontal row */}
-            <div className="px-8 pb-6 flex justify-center gap-3">
-              {currentQ.imageUrls.map((url, idx) => (
+              {/* Single image - clean, centered */}
+              <div className="mt-10 flex justify-center">
                 <button
-                  key={idx}
-                  onClick={() => setImagePopup(idx)}
-                  className="w-32 h-32 rounded-lg overflow-hidden cursor-pointer border border-gray-200 shadow-md hover:shadow-lg hover:scale-105 transition-all"
+                  onClick={() => setImagePopup(0)}
+                  className="w-48 h-48 md:w-64 md:h-64 overflow-hidden cursor-pointer border-4 border-[#DC2626] hover:scale-105 transition-transform"
                   title="Click to view image"
                 >
                   <Image
-                    src={url}
-                    alt={`${currentQ.question} - image ${idx + 1}`}
-                    width={128}
-                    height={128}
+                    src={currentQ.imageUrls[0]}
+                    alt={currentQ.question}
+                    width={256}
+                    height={256}
                     className="object-cover w-full h-full"
                   />
                 </button>
-              ))}
+              </div>
             </div>
 
-            {/* Divider */}
-            <div className="border-t border-gray-100 mx-8" />
-
-            {/* Next Question Teaser */}
+            {/* NEXT - BLACK background, simple */}
             <div
-              className="p-8 cursor-pointer hover:bg-gray-50 transition-colors group"
+              className="bg-black cursor-pointer group p-10 md:p-14"
               onClick={handleNext}
             >
-              <p className="text-sm text-gray-400 mb-2">Next question:</p>
+              <p className="text-white/50 text-sm uppercase tracking-widest mb-3">
+                Next
+              </p>
               <p
-                className="text-lg text-gray-600 group-hover:text-gray-900 italic transition-colors"
+                className="text-2xl md:text-3xl text-white group-hover:text-[#DC2626] transition-colors"
                 style={{ fontFamily: 'Georgia, serif' }}
               >
                 {nextQ.question}
@@ -2376,42 +2377,42 @@ export default function HomepageFAQTile() {
           </div>
         )}
 
-        {/* Navigation and framework link - always visible */}
-        <div className="px-8 py-4 bg-gray-50 border-t border-gray-100">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1">
-              <button
-                onClick={handleRewind}
-                className="px-2 py-1 text-gray-400 hover:text-gray-700 hover:bg-gray-200 rounded transition-colors text-sm font-mono"
-                title="Back to first question"
-              >
-                &lt;&lt;
-              </button>
-              <button
-                onClick={handlePrev}
-                className="px-2 py-1 text-gray-400 hover:text-gray-700 hover:bg-gray-200 rounded transition-colors text-sm font-mono"
-                title="Previous question"
-              >
-                &lt;
-              </button>
-              <button
-                onClick={handleNext}
-                className="px-2 py-1 text-gray-400 hover:text-gray-700 hover:bg-gray-200 rounded transition-colors text-sm font-mono"
-                title="Next question"
-              >
-                &gt;
-              </button>
-            </div>
-            <Link
-              href="/framework"
-              className="text-sm text-gray-500 hover:text-[#C75B39] transition-colors flex items-center gap-1"
+        {/* NAVIGATION - Minimal */}
+        <div className="bg-[#DC2626] px-6 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-1">
+            <button
+              onClick={handleRewind}
+              className="px-3 py-2 text-white/80 hover:text-white text-lg"
+              title="Back to first"
             >
-              Explore the framework
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
+              ««
+            </button>
+            <button
+              onClick={handlePrev}
+              className="px-3 py-2 text-white/80 hover:text-white text-lg"
+              title="Previous"
+            >
+              ‹
+            </button>
+            <button
+              onClick={handleNext}
+              className="px-3 py-2 text-white/80 hover:text-white text-lg"
+              title="Next"
+            >
+              ›
+            </button>
           </div>
+
+          <span className="text-white/80 text-sm">
+            {currentIndex + 1} / {tileData.length}
+          </span>
+
+          <Link
+            href="/faq"
+            className="text-white/80 hover:text-white text-sm"
+          >
+            See all →
+          </Link>
         </div>
       </div>
 

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Navigation from "@/components/Navigation";
-import DemismatchCarousel from "@/components/DemismatchCarousel";
+import DemismatchCarouselMorphing from "@/components/DemismatchCarouselMorphing";
 import CollapsibleAISection from "@/components/CollapsibleAISection";
 import HomepageFAQTile from "@/components/HomepageFAQTile";
 
@@ -32,16 +32,22 @@ export default function Home() {
           </div>
         </div>
 
-        <p className="text-3xl md:text-4xl text-gray-700 mb-8" style={{ fontFamily: 'Georgia, serif' }}>
+        <p className="text-3xl md:text-4xl text-gray-700 mb-6" style={{ fontFamily: 'Georgia, serif' }}>
           This world wasn't built for you.
         </p>
-        <p className="text-xl md:text-2xl text-gray-500 leading-relaxed" style={{ fontFamily: 'Georgia, serif' }}>
-          We're rushing to augment humans who haven't been allowed to be fully human for 10,000 years. Before we add anything, let's restore what's missing.
+        <p className="text-xl md:text-2xl text-gray-600 leading-relaxed mb-6" style={{ fontFamily: 'Georgia, serif' }}>
+          You evolved for one world, you live in another. Purpose became productivity. Touch became texting. Connection became content.
+        </p>
+        <p className="text-2xl md:text-3xl text-[#c75b3a] font-semibold mb-8" style={{ fontFamily: 'Georgia, serif' }}>
+          It's not you. It's the mismatch.
+        </p>
+        <p className="text-lg md:text-xl text-gray-500 leading-relaxed" style={{ fontFamily: 'Georgia, serif' }}>
+          We're rushing to augment humans who haven't been allowed to be fully human for thousands of years. Before we add anything, let's restore what's missing.
         </p>
       </section>
 
       {/* Demismatch First, Then Augment Carousel */}
-      <DemismatchCarousel />
+      <DemismatchCarouselMorphing />
 
       {/* Interactive FAQ Tile */}
       <HomepageFAQTile />
