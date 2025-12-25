@@ -2535,7 +2535,9 @@ export default function HomepageFAQTile() {
             {!isRevealed && (
               <div className="mt-8 flex items-center gap-4">
                 <span className="text-white/80 text-sm font-bold uppercase tracking-widest group-hover:text-white transition-colors">
-                  Click to reveal
+                  <span className="hidden md:inline">Click</span>
+                  <span className="md:hidden">Tap</span>
+                  {" "}to reveal
                 </span>
                 <div className="h-px bg-white/30 w-8 group-hover:w-16 transition-all duration-500" />
                 <svg className="w-5 h-5 text-white/80 group-hover:text-white group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

@@ -226,10 +226,10 @@ export default function DemismatchCarouselMorphing() {
         >
           {/* Morphing image strip */}
           <div className="relative w-full max-w-4xl mx-auto">
-            {/* Aspect ratio container - 3:1 for the panoramic strip */}
+            {/* Aspect ratio container - responsive: taller on mobile for visibility */}
             <div
-              className="relative w-full overflow-hidden shadow-2xl"
-              style={{ paddingBottom: '33.33%' }} // 3:1 aspect ratio
+              className="relative w-full overflow-hidden shadow-2xl aspect-[3/1] md:aspect-[3/1]"
+              style={{ minHeight: '140px' }} // Ensure minimum visibility on small screens
             >
               {/* Image container with all 3 images */}
               <div className="absolute inset-0">
@@ -323,8 +323,8 @@ export default function DemismatchCarouselMorphing() {
               </div>
             </div>
 
-            {/* Phase labels below the image */}
-            <div className="flex justify-between mt-6 px-4">
+            {/* Phase labels below the image - responsive sizing */}
+            <div className="flex justify-between mt-4 md:mt-6 px-2 md:px-4 gap-1 md:gap-4">
               {/* Phase 1 label */}
               <div
                 className="flex-1 text-center transition-all duration-500"
@@ -333,8 +333,8 @@ export default function DemismatchCarouselMorphing() {
                   transform: `translateY(${Math.max(0, 16 - (revealPct / 20) * 16)}px)`,
                 }}
               >
-                <div className="text-xs font-bold text-[#8B8B8B] uppercase tracking-widest mb-1">Phase 1</div>
-                <div className="text-lg font-bold text-[#0A0A0A]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                <div className="text-[10px] md:text-xs font-bold text-[#8B8B8B] uppercase tracking-wider md:tracking-widest mb-1">Phase 1</div>
+                <div className="text-sm md:text-lg font-bold text-[#0A0A0A]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                   The Mismatch
                 </div>
               </div>
@@ -347,17 +347,17 @@ export default function DemismatchCarouselMorphing() {
                   transform: `translateY(${revealPct < 25 ? 16 : Math.max(0, 16 - ((revealPct - 25) / 20) * 16)}px)`,
                 }}
               >
-                <div className="flex items-center justify-center gap-2 mb-1">
-                  <svg className="w-4 h-4 text-[#2D4A3E]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <div className="flex items-center justify-center gap-1 md:gap-2 mb-1">
+                  <svg className="hidden md:block w-4 h-4 text-[#2D4A3E]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
-                  <span className="text-xs font-bold text-[#2D4A3E] uppercase tracking-widest">Demismatch</span>
-                  <svg className="w-4 h-4 text-[#2D4A3E]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <span className="text-[10px] md:text-xs font-bold text-[#2D4A3E] uppercase tracking-wider md:tracking-widest">Demismatch</span>
+                  <svg className="hidden md:block w-4 h-4 text-[#2D4A3E]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </div>
                 <div
-                  className="text-lg font-bold text-[#2D4A3E]"
+                  className="text-sm md:text-lg font-bold text-[#2D4A3E]"
                   style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   The Baseline
@@ -372,14 +372,14 @@ export default function DemismatchCarouselMorphing() {
                   transform: `translateY(${revealPct < 55 ? 16 : Math.max(0, 16 - ((revealPct - 55) / 20) * 16)}px)`,
                 }}
               >
-                <div className="flex items-center justify-center gap-2 mb-1">
-                  <svg className="w-4 h-4 text-[#C75B39]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <div className="flex items-center justify-center gap-1 md:gap-2 mb-1">
+                  <svg className="hidden md:block w-4 h-4 text-[#C75B39]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
-                  <span className="text-xs font-bold text-[#C75B39] uppercase tracking-widest">Then Augment</span>
+                  <span className="text-[10px] md:text-xs font-bold text-[#C75B39] uppercase tracking-wider md:tracking-widest">Augment</span>
                 </div>
                 <div
-                  className="text-lg font-bold text-[#C75B39]"
+                  className="text-sm md:text-lg font-bold text-[#C75B39]"
                   style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   The Future
@@ -459,7 +459,9 @@ export default function DemismatchCarouselMorphing() {
           </div>
 
           <p className="text-center text-[#8B8B8B] text-sm mt-6">
-            Click anywhere to advance
+            <span className="hidden md:inline">Click</span>
+            <span className="md:hidden">Tap</span>
+            {" "}anywhere to advance
           </p>
         </div>
       </div>

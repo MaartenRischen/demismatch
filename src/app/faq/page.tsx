@@ -960,7 +960,7 @@ export default function FAQPage() {
             <p className="text-xl text-[#E5E0D8] mb-8">
               160 questions. One framework. Everything you need to understand the mismatch.
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2 md:gap-3">
               {faqCategories.slice(0, 6).map((cat) => (
                 <button
                   key={cat.title}
@@ -968,7 +968,7 @@ export default function FAQPage() {
                     setExpandedCategory(cat.title);
                     document.getElementById(cat.title.replace(/\s+/g, '-'))?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="px-3 py-1 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105"
+                  className="touch-target px-3 py-2 md:px-3 md:py-1 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105 active:scale-95"
                   style={{
                     backgroundColor: getCategoryColor(cat.title),
                     color: '#fff'

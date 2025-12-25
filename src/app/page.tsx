@@ -144,9 +144,9 @@ export default function Home() {
             {/* Hero Image - Takes 5 columns, offset right */}
             <div className="md:col-span-5 animate-fade-in-up delay-300">
               <div className="relative layout-offset-right">
-                {/* Decorative frame */}
-                <div className="absolute -inset-4 border-2 border-[#C75B39]/20 -rotate-3" />
-                <div className="absolute -inset-4 border-2 border-[#C75B39]/10 rotate-2 translate-x-2 translate-y-2" />
+                {/* Decorative frame - hidden on mobile to prevent overflow */}
+                <div className="hidden md:block absolute -inset-4 border-2 border-[#C75B39]/20 -rotate-3" />
+                <div className="hidden md:block absolute -inset-4 border-2 border-[#C75B39]/10 rotate-2 translate-x-2 translate-y-2" />
 
                 {/* Main image */}
                 <div className="relative overflow-hidden shadow-2xl">
@@ -162,8 +162,8 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/30 via-transparent to-transparent" />
                 </div>
 
-                {/* Caption badge */}
-                <div className="absolute -bottom-6 -left-6 bg-[#0A0A0A] text-white px-6 py-3">
+                {/* Caption badge - constrained position on mobile */}
+                <div className="absolute -bottom-4 left-0 md:-bottom-6 md:-left-6 bg-[#0A0A0A] text-white px-4 py-2 md:px-6 md:py-3">
                   <p className="text-xs font-bold uppercase tracking-widest">The Modern Condition</p>
                 </div>
               </div>
@@ -361,20 +361,20 @@ export default function Home() {
 
             {/* Right - Navigation */}
             <div className="flex flex-wrap gap-x-12 gap-y-4 md:justify-end">
-              <div className="space-y-3">
-                <p className="text-xs font-bold uppercase tracking-widest text-white/50">Explore</p>
-                <nav className="flex flex-col gap-2">
-                  <Link href="/framework" className="text-white/80 hover:text-white transition">Framework</Link>
-                  <Link href="/library" className="text-white/80 hover:text-white transition">Library</Link>
-                  <Link href="/glossary" className="text-white/80 hover:text-white transition">Glossary</Link>
+              <div className="space-y-1">
+                <p className="text-xs font-bold uppercase tracking-widest text-white/50 mb-2">Explore</p>
+                <nav className="flex flex-col">
+                  <Link href="/framework" className="touch-link text-white/80 hover:text-white transition">Framework</Link>
+                  <Link href="/library" className="touch-link text-white/80 hover:text-white transition">Library</Link>
+                  <Link href="/glossary" className="touch-link text-white/80 hover:text-white transition">Glossary</Link>
                 </nav>
               </div>
-              <div className="space-y-3">
-                <p className="text-xs font-bold uppercase tracking-widest text-white/50">Learn</p>
-                <nav className="flex flex-col gap-2">
-                  <Link href="/faq" className="text-white/80 hover:text-white transition">FAQ</Link>
-                  <Link href="/sources" className="text-white/80 hover:text-white transition">Sources</Link>
-                  <Link href="/projects" className="text-white/80 hover:text-white transition">Projects</Link>
+              <div className="space-y-1">
+                <p className="text-xs font-bold uppercase tracking-widest text-white/50 mb-2">Learn</p>
+                <nav className="flex flex-col">
+                  <Link href="/faq" className="touch-link text-white/80 hover:text-white transition">FAQ</Link>
+                  <Link href="/sources" className="touch-link text-white/80 hover:text-white transition">Sources</Link>
+                  <Link href="/projects" className="touch-link text-white/80 hover:text-white transition">Projects</Link>
                 </nav>
               </div>
             </div>
