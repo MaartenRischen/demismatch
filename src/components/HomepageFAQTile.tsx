@@ -9,7 +9,7 @@ interface TileData {
   id: number;
   question: string;
   answer: string;
-  imageUrls: string[];  // Array of 3 image URLs for gallery
+  imageUrls: string[];  // Array of 5 image URLs for gallery
 }
 
 // Image mappings for each question - Auto-generated from valid folders only
@@ -17,813 +17,974 @@ interface TileData {
 // the_trap_recognized, utopia_100_prompts, dashboard_calibrated_series, the_bridge_series, the_lies_we_tell,
 // the_mismatch_answer_100_demismatch_tech_vol6, the_mismatch_answer_100_real_thing_vol7, the_mismatch_answer_100_vol3,
 // dystopia_100_prompts, money_consumption_status_100_prompts, the_mismatch_actually_100_everyone_wrong_vol11
-// imageMap now holds arrays of 3 URLs for gallery display
-// Initially using placeholders - run the image selector tool to pick 3 unique images per question
-const imageMap: Record<number, string[]> = {
-  1: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/36_THE_MISMATCH_DIAGNOSTIC.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/36_THE_MISMATCH_DIAGNOSTIC.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/36_THE_MISMATCH_DIAGNOSTIC.png'
-  ],
-  2: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png'
-  ],
-  3: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/12_THE_OVERTHINKING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/12_THE_OVERTHINKING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/12_THE_OVERTHINKING.png'
-  ],
-  4: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png'
-  ],
-  5: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png'
-  ],
-  6: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png'
-  ],
-  7: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/23_THE_FOLLOWER_COUNT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/23_THE_FOLLOWER_COUNT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/23_THE_FOLLOWER_COUNT.png'
-  ],
-  8: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/15_THE_BEAUTY_PROXY.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/15_THE_BEAUTY_PROXY.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/15_THE_BEAUTY_PROXY.png'
-  ],
-  9: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png'
-  ],
-  10: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/64_THE_NEVER_ENOUGH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/64_THE_NEVER_ENOUGH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/64_THE_NEVER_ENOUGH.png'
-  ],
-  11: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/45_THE_EMOTION_PROGRAMS.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/45_THE_EMOTION_PROGRAMS.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/45_THE_EMOTION_PROGRAMS.png'
-  ],
-  12: [
+// imageMap now holds arrays of 5 URLs for gallery display
+// Initially using placeholders - run the image selector tool to pick 5 unique images per question
+const imageMap: Record<number, string[]> = {   1: [
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
-  ],
-  13: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/42_THE_SYMPTOM_SPIRAL.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/42_THE_SYMPTOM_SPIRAL.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/42_THE_SYMPTOM_SPIRAL.png'
-  ],
-  14: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png'
-  ],
-  15: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/19_THE_ANXIETY.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/19_THE_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/2_THE_LONELY_APARTMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/19_THE_ANXIETY.png'
-  ],
-  16: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png'
-  ],
-  17: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/11_THE_BEETLE_S_MISTAKE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/11_THE_BEETLE_S_MISTAKE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/11_THE_BEETLE_S_MISTAKE.png'
-  ],
-  18: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png'
-  ],
-  19: [
+  ],   2: [
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
-  ],
-  20: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/10_THE_SINGING_TOGETHER.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/10_THE_SINGING_TOGETHER.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/10_THE_SINGING_TOGETHER.png'
-  ],
-  21: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/100_THE_MODERN_CONDITION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/10_THE_COMMUTE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png'
+  ],   3: [
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/90_THE_RUMINATION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/90_THE_RUMINATION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/90_THE_RUMINATION.png'
-  ],
-  22: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/22_THE_AUDIENCE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/22_THE_AUDIENCE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/22_THE_AUDIENCE.png'
-  ],
-  23: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/88_THE_CATASTROPHE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/88_THE_CATASTROPHE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/88_THE_CATASTROPHE.png'
-  ],
-  24: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/30_THE_PERFECTIONISM.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/30_THE_PERFECTIONISM.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/30_THE_PERFECTIONISM.png'
-  ],
-  25: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/76_THE_CHECKING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/76_THE_CHECKING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/76_THE_CHECKING.png'
-  ],
-  26: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/12_THE_OVERTHINKING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/22_THE_NEWS_ADDICTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/53_THE_FEAR_FEED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/38_THE_GLOBAL_THREAT.png'
+  ],   4: [
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/36_THE_COMPLETION_CEREMONY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/32_THE_MEANINGFUL_PROJECT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/21_THE_VISIBLE_CONTRIBUTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png'
+  ],   5: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/20_THE_SOCIAL_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/22_THE_AUDIENCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/23_THE_JUDGMENT.png'
+  ],   6: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/11_THE_150.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/14_THE_STRANGER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/22_THE_TRIBE_THAT_ISN_T.png'
+  ],   7: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/91_THE_REAL_TRIBE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/84_THE_BRAND_TRIBE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/20_THE_PARASOCIAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png'
+  ],   8: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/11_THE_SOCIAL_MEDIA_COMPARISON.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/30_THE_PARASOCIAL_RELATIONSHIP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/58_THE_PARASOCIAL_BLOCK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_demismatch_tech_vol6/92_THE_RUNNING_APP_SOCIAL.png'
+  ],   9: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/74_THE_BELONGING_SIGNALS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/63_THE_BUSINESS_VERIFIED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/56_THE_BOREDOM_INTOLERANCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/43_THE_BOREDOM_TOLERANCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dating_mating_100_prompts_final2/69_THE_BUSINESS_TRIP.png'
+  ],   10: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100/23_THE_MONEY_TALK_AVOIDANCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/39_THE_SMALL_GAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/30_THE_SMALL_TALK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/30_THE_PERFECTIONISM.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/35_THE_MONEY_ABSTRACTION.png'
+  ],   11: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/16_THE_DEPRESSION_SIGNAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/74_THE_BURNOUT_SIGNAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/17_THE_ANXIETY_SIGNAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/74_THE_BELONGING_SIGNALS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/2_THE_SIGNAL.png'
+  ],   12: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/74_THE_ENVIRONMENT_DESIGN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/97_THE_ENVIRONMENT_ENGINEERING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/68_THE_ANXIETY_MEDICATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/5_THE_STATUS_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/70_THE_GROUP_TEXT_ANXIETY.png'
+  ],   13: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/74_THE_BELONGING_SIGNALS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/20__IT_S_DIFFERENT_FOR_YOU_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/46_THE_STATUS_DIFFERENTIAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/59_THE_FERTILITY_TREATMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/38_THE_ANXIETY_DIAGNOSIS.png'
+  ],   14: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/9_THE_PROCESSED_ENGINEERING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_demismatch_tech_vol6/37_THE_THERAPY_LIGHT_GLASSES.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/42_THE_MICROBIOME_ENGINEERING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/32_THE_ENGINEERING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/6_THE_FLIGHT.png'
+  ],   15: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/68_THE_ANXIETY_MEDICATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/5_THE_STATUS_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/72_THE_STATUS_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/70_THE_GROUP_TEXT_ANXIETY.png'
+  ],   16: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/53_THE_MEANINGLESS_JOB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/32_THE_MEANINGFUL_PROJECT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/21_THE_VISIBLE_CONTRIBUTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/21_THE_CONTRIBUTION_VISIBLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/26_THE_WORK_VISIBLE.png'
+  ],   17: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/74_THE_ENVIRONMENT_DESIGN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/97_THE_ENVIRONMENT_ENGINEERING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/72_THE_WATER_SECURED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/17_THE_WATER_SWIMMING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/67_THE_WATER_IMMERSION.png'
+  ],   18: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/74_THE_ENVIRONMENT_DESIGN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/91_THE_WRONG_PATH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/97_THE_ENVIRONMENT_ENGINEERING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/68_THE_ANXIETY_MEDICATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png'
+  ],   19: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/98_THE_WALK_WITHOUT_DESTINATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/10_THE_MORNING_WITHOUT_BREAKFAST.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/53_THE_MEANINGLESS_JOB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/32_THE_MEANINGFUL_PROJECT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/21_THE_VISIBLE_CONTRIBUTION.png'
+  ],   20: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/58_THE_GATHERING_OF_BANDS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/22_THE_SHARED_MEAL_WARMTH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/91_THE_LANGUAGE_SHARED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/58_THE_SHARED_GRIEF.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/39_THE_SMALL_GAME.png'
+  ],   21: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/98_THE_WALK_WITHOUT_DESTINATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/10_THE_MORNING_WITHOUT_BREAKFAST.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/42_THE_OBJECT_DISSOLVES.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/115_THE_PUZZLE_SOLVED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/36_THE_PROBLEM_SOLVED.png'
+  ],   22: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/68_THE_ANXIETY_MEDICATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/5_THE_STATUS_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/72_THE_STATUS_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/22_THE_AUDIENCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/70_THE_GROUP_TEXT_ANXIETY.png'
+  ],   23: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/16_THE_MISSING_SQUAT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/26_THE_MISSING_TOUCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/61_THE_PARENTING_SUPPORT_NETWORK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/81_THE_ALWAYS-ON.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/82_THE_DISTANT_THREAT.png'
+  ],   24: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/8_THE_NEVER_ENOUGH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/64_THE_NEVER_ENOUGH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/82_THE_GRANDMOTHER_HOLDS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/3_THE_RELATIVE_POSITION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/100_THE_ENOUGH.png'
+  ],   25: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/68_THE_ANXIETY_MEDICATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/5_THE_STATUS_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/70_THE_GROUP_TEXT_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/20_THE_SOCIAL_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/15_THE_FERTILITY_ANXIETY.png'
+  ],   26: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/17_THE_PEOPLE_DREAD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/2_THE_KITCHEN_FULL_OF_PEOPLE.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png'
-  ],
-  27: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/128_THE_FUNERAL_ATTENDED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/128_THE_FUNERAL_ATTENDED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/128_THE_FUNERAL_ATTENDED.png'
-  ],
-  28: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/94_THE_PEOPLE_PLEASING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/8_THE_PEOPLE_WHO_MATTER.png'
+  ],   27: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/94_THE_PEOPLE_PLEASING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/2_THE_KITCHEN_FULL_OF_PEOPLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/17_THE_PEOPLE_DREAD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/8_THE_PEOPLE_WHO_MATTER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/32_THE_MEANINGFUL_PROJECT.png'
+  ],  28: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/44_THE_ACHIEVEMENT_HOLLOW.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/44_THE_ACHIEVEMENT_HOLLOW.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/44_THE_ACHIEVEMENT_HOLLOW.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/44_THE_ACHIEVEMENT_HOLLOW.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/44_THE_ACHIEVEMENT_HOLLOW.png'
-  ],
-  29: [
+  ],   29: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/100_THE_MODERN_CONDITION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/53_THE_MEANINGLESS_JOB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/24_THE_INVISIBLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/59_THE_INVISIBLE_CHAINS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/17_THE_ELDER_RECONNECT.png'
+  ],   30: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/26_THE_BULLSHIT_JOB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/76_THE_BULLSHIT_JOB.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/39_THE_BULLSHIT_JOB.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/39_THE_BULLSHIT_JOB.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/39_THE_BULLSHIT_JOB.png'
-  ],
-  30: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/39_THE_BULLSHIT_JOB.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/39_THE_BULLSHIT_JOB.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/39_THE_BULLSHIT_JOB.png'
-  ],
-  31: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/21_THE_VISIBLE_CONTRIBUTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/21_THE_CONTRIBUTION_VISIBLE.png'
+  ],   31: [
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/14_THE_STRANGER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/87_THE_NEIGHBORHOOD_STRANGER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/15_THE_STRANGER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/11_THE_STRANGER_DANGER.png'
+  ],   32: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/31_THE_DAILY_NECESSITY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/66_THE_ANIMAL_ENCOUNTER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/45_THE_DAILY_PRACTICE.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png'
-  ],
-  32: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/6_THE_KNOWN_BY_ALL.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/6_THE_KNOWN_BY_ALL.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/6_THE_KNOWN_BY_ALL.png'
-  ],
-  33: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_comparison_trap.jpeg',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_comparison_trap.jpeg',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_comparison_trap.jpeg'
-  ],
-  34: [
+  ],   33: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/50__YOU_JUST_NEED_TO_LOVE_YOURSELF_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/2_THE_KITCHEN_FULL_OF_PEOPLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dystopia_100_prompts/1_THE_EIGHT_BILLION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/17_THE_PEOPLE_DREAD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/71_THE__70_BILLION.png'
+  ],   34: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/86_THE_FITNESS_INFLUENCER_COMPARISON.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/97_THE_LOCAL_STATUS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/23_THE_STATUS_LOCAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/72_THE_STATUS_RECOGNITION.png'
+  ],   35: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/11_THE_SOCIAL_MEDIA_COMPARISON.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/52_THE_SOCIAL_TOUCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_demismatch_tech_vol6/83_THE_VIRTUAL_REALITY_NATURE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_demismatch_tech_vol6/92_THE_RUNNING_APP_SOCIAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/2_THE_SUGAR_HIJACK.png'
+  ],   36: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/86_THE_VOICE_HEARD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/20_THE_PARASOCIAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/30_THE_PARASOCIAL_RELATIONSHIP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/58_THE_PARASOCIAL_BLOCK.png'
+  ],   37: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/41_THE_PURPOSE_VACANCY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/45_THE_PURPOSE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/90_THE_PURPOSE_CLARIFICATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/8_THE_PURPOSE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/30_THE_PURPOSE_CLEAR.png'
+  ],   38: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/66_THE_APP_BLOCKED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/26__MONEY_CAN_T_BUY_HAPPINESS_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_demismatch_tech_vol6/41_THE_APP_BLOCKER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/87_THE_HEALTH_PROXY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/47__TIME_IS_MONEY_.png'
+  ],   39: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/59_THE_COMMUNITY_CURRENCY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/91_THE_EATING_ALONE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/3_THE_COMMUNITY_LAND_TRUST.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_real_thing_vol7/48_THE_CHURCH_COMMUNITY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_demismatch_tech_vol6/15_THE_COMMUNITY_GARDEN.png'
+  ],   40: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/11_THE_SOCIAL_MEDIA_COMPARISON.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/60_THE_PHANTOM_VIBRATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/9_THE_PHANTOM_VIBRATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/46_THE_NOTIFICATION_CURATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_demismatch_tech_vol6/92_THE_RUNNING_APP_SOCIAL.png'
+  ],   41: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/61_THE_DOPAMINE_EXHAUSTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/60_THE_CHRONIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/17_THE_CHRONIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100/80_THE_ANTICIPATION_EXHAUSTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/60_THE_CHRONIC_ILLNESS_GUILT.png'
+  ],   42: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/30_THE_PARASOCIAL_RELATIONSHIP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/58_THE_PARASOCIAL_BLOCK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/20_THE_PARASOCIAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/11_THE_SOCIAL_MEDIA_COMPARISON.png'
+  ],   43: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_psychiatry_vol10/1_THE_CHEMICAL_IMBALANCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/16_THE_DEPRESSION_SIGNAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_everyone_wrong_vol11%20%281%29/94_THE_CHEMICAL_IMBALANCE__FOLK_VERSION_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/83_THE_DEPRESSION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/55_THE_CHRISTMAS_DEPRESSION.png'
+  ],   44: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/68_THE_ANXIETY_MEDICATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/74_THE_BELONGING_SIGNALS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/42_THE_MICROBIOME_ENGINEERING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/2_THE_SIGNAL.png'
+  ],   45: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_psychiatry_vol10/1_THE_CHEMICAL_IMBALANCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_everyone_wrong_vol11%20%281%29/94_THE_CHEMICAL_IMBALANCE__FOLK_VERSION_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/37_THE_CHEMICAL_HACK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_everyone_wrong_vol11%20%281%29/60_THE_CHEMICAL_CURE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_psychiatry_vol10/50_THE_CHEMICAL_CRUTCH.png'
+  ],   46: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/28_THE_WEATHER_UNDERSTOOD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/59_THE_LETTER_WRITTEN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/1_THE_UNDERSTANDING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/6_THE_UNDERSTOOD_FEELING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_real_thing_vol7/81_THE_SONG_WRITTEN.png'
+  ],   47: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/51_THE_CORTISOL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/62_THE_CORTISOL_DRIP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/99_THE_NOTIFICATION_STRESS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/38_THE_STRESS_RESPONSE_MODULATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/100_THE_MODERN_CONDITION.png'
+  ],   48: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/75_THE_BODY_KEEPS_SCORE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/63_THE_CLOSET.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/8_THE_NEVER_ENOUGH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/95_THE_ENCLOSED.png'
+  ],   49: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/23_THE_SUGAR_CRAVING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_sugar_craving.jpeg',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/31_THE_BLISS_POINT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/3_THE_CRAVING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_pregnancy_craving.jpeg'
+  ],   50: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/49_THE_MULTIGENERATIONAL_DESIGNED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/7_THE_DATING_APP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/4_THE_DATING_APP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/60_THE_PHANTOM_VIBRATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/9_THE_PHANTOM_VIBRATION.png'
+  ],   51: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dating_mating_100_prompts_final2/23_THE_NOVELTY_DRIVE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_dual_mating_strategy.jpeg',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/52_THE_LONG_PARTNERSHIP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/86_THE_PARTNERSHIP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/61_THE_PARTNERSHIP_REAL.png'
+  ],   52: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/70_THE_SABBATH_PRACTICE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/59_THE_EYE_CONTACT_HELD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/74_THE_BELONGING_SIGNALS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/67_THE_MUTUAL_AID_COORDINATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/12_THE_ALLIANCE_DISPLAY.png'
+  ],   53: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/72_THE_STATUS_RECOGNITION.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png'
-  ],
-  35: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/9_THE_PROCESSED_ENGINEERING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/9_THE_PROCESSED_ENGINEERING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/9_THE_PROCESSED_ENGINEERING.png'
-  ],
-  36: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/97_THE_LOCAL_STATUS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/20_THE_PARASOCIAL.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png'
-  ],
-  37: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png'
-  ],
-  38: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/28_THE_ATTENTION_ENGINE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/28_THE_ATTENTION_ENGINE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/28_THE_ATTENTION_ENGINE.png'
-  ],
-  39: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png'
-  ],
-  40: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png'
-  ],
-  41: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/61_THE_DOPAMINE_EXHAUSTION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/61_THE_DOPAMINE_EXHAUSTION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/61_THE_DOPAMINE_EXHAUSTION.png'
-  ],
-  42: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png'
-  ],
-  43: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png'
-  ],
-  44: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png'
-  ],
-  45: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png'
-  ],
-  46: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/41_THE_WEBMD.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/41_THE_WEBMD.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/41_THE_WEBMD.png'
-  ],
-  47: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/62_THE_CORTISOL_DRIP.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/62_THE_CORTISOL_DRIP.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/62_THE_CORTISOL_DRIP.png'
-  ],
-  48: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/22_THE_NEWS_ADDICTION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/22_THE_NEWS_ADDICTION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/22_THE_NEWS_ADDICTION.png'
-  ],
-  49: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/9_THE_PROCESSED_ENGINEERING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/9_THE_PROCESSED_ENGINEERING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/9_THE_PROCESSED_ENGINEERING.png'
-  ],
-  50: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/4_THE_DATING_APP.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/4_THE_DATING_APP.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/4_THE_DATING_APP.png'
-  ],
-  51: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dating_mating_100_prompts_final2/22_THE_COOLIDGE_EFFECT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dating_mating_100_prompts_final2/22_THE_COOLIDGE_EFFECT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dating_mating_100_prompts_final2/22_THE_COOLIDGE_EFFECT.png'
-  ],
-  52: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png'
-  ],
-  53: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png'
-  ],
-  54: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/17_THE_US_AND_THEM.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/17_THE_US_AND_THEM.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/17_THE_US_AND_THEM.png'
-  ],
-  55: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/41_THE_WEBMD.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/41_THE_WEBMD.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/41_THE_WEBMD.png'
-  ],
-  56: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png'
-  ],
-  57: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_comparison_trap.jpeg',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_comparison_trap.jpeg',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_comparison_trap.jpeg'
-  ],
-  58: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png'
-  ],
-  59: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png'
-  ],
-  60: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/74_THE_ADDICTION_PATTERN.png'
-  ],
-  61: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/56_THE_BOREDOM_INTOLERANCE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/56_THE_BOREDOM_INTOLERANCE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/56_THE_BOREDOM_INTOLERANCE.png'
-  ],
-  62: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
-  ],
-  63: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/20_THE_SOCIAL_ANXIETY.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/20_THE_SOCIAL_ANXIETY.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/20_THE_SOCIAL_ANXIETY.png'
-  ],
-  64: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png'
-  ],
-  65: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/17_THE_IMPOSTER_SYNDROME.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/17_THE_IMPOSTER_SYNDROME.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/17_THE_IMPOSTER_SYNDROME.png'
-  ],
-  66: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png'
-  ],
-  67: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
-  ],
-  68: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
-  ],
-  69: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
-  ],
-  70: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png'
-  ],
-  71: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png'
-  ],
-  72: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png'
-  ],
-  73: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/68_THE_SUICIDAL_THOUGHTS.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/68_THE_SUICIDAL_THOUGHTS.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/68_THE_SUICIDAL_THOUGHTS.png'
-  ],
-  74: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/121_THE_FIRE_LIT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/121_THE_FIRE_LIT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/121_THE_FIRE_LIT.png'
-  ],
-  75: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/14_THE_CHILDREN_S_PACK.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/14_THE_CHILDREN_S_PACK.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/14_THE_CHILDREN_S_PACK.png'
-  ],
-  76: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/11_THE_CHILD_ON_IPAD.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/11_THE_CHILD_ON_IPAD.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/11_THE_CHILD_ON_IPAD.png'
-  ],
-  77: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/106_THE_SKILL_PRACTICED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/106_THE_SKILL_PRACTICED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/106_THE_SKILL_PRACTICED.png'
-  ],
-  78: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/37_THE_POTLATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/37_THE_POTLATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/37_THE_POTLATCH.png'
-  ],
-  79: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/31_THE_DIGGING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/31_THE_DIGGING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/31_THE_DIGGING.png'
-  ],
-  80: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png'
-  ],
-  81: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png'
-  ],
-  82: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/84_THE_DISPUTE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/84_THE_DISPUTE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/84_THE_DISPUTE.png'
-  ],
-  83: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/34_THE_SUNSET_MARKING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/34_THE_SUNSET_MARKING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/34_THE_SUNSET_MARKING.png'
-  ],
-  84: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/78_THE_NURSING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/78_THE_NURSING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/78_THE_NURSING.png'
-  ],
-  85: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/38_THE_CARRYING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/38_THE_CARRYING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/38_THE_CARRYING.png'
-  ],
-  86: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/47_THE_OTHER_BAND.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/47_THE_OTHER_BAND.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/47_THE_OTHER_BAND.png'
-  ],
-  87: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/47_THE_OTHER_BAND.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/47_THE_OTHER_BAND.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/47_THE_OTHER_BAND.png'
-  ],
-  88: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png'
-  ],
-  89: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png'
-  ],
-  90: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png'
-  ],
-  91: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/26_THE_WHISPER_NETWORK.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/26_THE_WHISPER_NETWORK.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/26_THE_WHISPER_NETWORK.png'
-  ],
-  92: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png'
-  ],
-  93: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/35_THE_CHEATER_BLIND_SPOT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/35_THE_CHEATER_BLIND_SPOT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/35_THE_CHEATER_BLIND_SPOT.png'
-  ],
-  94: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/38_THE_OUT-GROUP.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/38_THE_OUT-GROUP.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/38_THE_OUT-GROUP.png'
-  ],
-  95: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/98_THE_CROWD.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/98_THE_CROWD.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/98_THE_CROWD.png'
-  ],
-  96: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png'
-  ],
-  97: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png'
-  ],
-  98: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png'
-  ],
-  99: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png'
-  ],
-  100: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/35_THE_PHYSICAL_GREETING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/35_THE_PHYSICAL_GREETING.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/35_THE_PHYSICAL_GREETING.png'
-  ],
-  101: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png'
-  ],
-  102: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/28_THE_PHONE_CALL.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/28_THE_PHONE_CALL.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/28_THE_PHONE_CALL.png'
-  ],
-  103: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/82_THE_STARTUP_GRIND.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/82_THE_STARTUP_GRIND.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/82_THE_STARTUP_GRIND.png'
-  ],
-  104: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png'
-  ],
-  105: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/51_THE_BELONGING_CONFIRMED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/51_THE_BELONGING_CONFIRMED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/51_THE_BELONGING_CONFIRMED.png'
-  ],
-  106: [
+  ],   54: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/91_THE_LANGUAGE_SHARED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/58_THE_SHARED_GRIEF.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_real_thing_vol7/56_THE_SHARED_HOUSE.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/43_THE_SHARED_BURDEN.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/43_THE_SHARED_BURDEN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/63_THE_JOY_SHARED.png'
+  ],   55: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/47_THE_MONEY_SHAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/35_THE_MONEY_ABSTRACTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/24_THE_KNOWLEDGE_DOWNLOAD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/19_THE_COMMON_ENEMY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/74_THE_KNOWLEDGE_BACKED_UP.png'
+  ],   56: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_demismatch_tech_vol6/60_THE_ACCOUNTABILITY_PARTNER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/99_THE_ACCOUNT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/36_THE_PROBLEM_SOLVED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_vol3/4_THE_FINISHING_PROBLEM.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/10_THE_ANGER_PROBLEM.png'
+  ],   57: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/55_THE_MATCHMAKING_ALGORITHM.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/99_THE_MAKING_FOR_FUN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/28__THERE_S_NEVER_BEEN_A_BETTER_TIME_TO_BE_ALIVE_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/63_THE_FIRE_MAKING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/64_THE_TOOL_MAKING.png'
+  ],   58: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_psychiatry_vol10/7_THE_IRRATIONAL_FEAR.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/56_THE_ANXIETY_AS_PREPARATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/62_THE_ELDER_INTEGRATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/64_THE_CELEBRATION_COORDINATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/43_THE_ASPIRATION.png'
+  ],   59: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/51_THE_LONELINESS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/78_THE_MALE_LONELINESS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100/33_THE_CROWDED_LONELINESS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/70_THE_LONELINESS_STIGMA.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/91_THE_DEATH_AWARENESS.png'
+  ],   60: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/43_THE_GAMING_ADDICTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/8_THE_INTEREST_MATCHED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/22_THE_NEWS_ADDICTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/19_THE_PORN_ADDICTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/39_THE_MENTOR_MATCHED.png'
+  ],   61: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/72_THE_ANXIETY_DISORDER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/84_THE_CLEAN_EATING_DISORDER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/82_THE_FIRE_BUILT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/48_THE_EATING_DISORDER_THOUGHTS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_psychiatry_vol10/14_THE_PERSONALITY_DISORDER.png'
+  ],  62: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
+  ],   63: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/20_THE_SOCIAL_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_social_anxiety.jpeg',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/68_THE_ANXIETY_MEDICATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/5_THE_STATUS_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png'
+  ],   64: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/53_THE_MEANINGLESS_JOB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/21_THE_VISIBLE_CONTRIBUTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/21_THE_CONTRIBUTION_VISIBLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/26_THE_WORK_VISIBLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/24_THE_INVISIBLE.png'
+  ],   65: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/17_THE_IMPOSTER_SYNDROME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_imposter_syndrome.jpeg',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/21_THE_VISIBLE_CONTRIBUTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/21_THE_CONTRIBUTION_VISIBLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/26_THE_WORK_VISIBLE.png'
+  ],   66: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_everyone_wrong_vol11%20%281%29/13_THE_SUFFERING_VIRTUE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/71_THE_TERROR.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/20_THE_MEDICAL_ERROR.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/48_THE_RARE_DISEASE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/13_THE_TERRORISM.png'
+  ],   67: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/91_THE_HEIGHTS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/70_THE_INHERITED_FEAR.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/48_THE_RARE_DISEASE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/18_THE_HEART_DISEASE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/73_THE_FOOD_PRESERVED.png'
+  ],   68: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/46_THE_STATUS_DIFFERENTIAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/20__IT_S_DIFFERENT_FOR_YOU_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/97_THE_CONTENT_BRAIN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dating_mating_100_prompts_final2/97_THE_PORN_BRAIN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_vol3/74_THE_ANGER_AT_SLOW_DRIVERS.png'
+  ],   69: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/17_THE_BRAIN-COMPUTER_INTERFACE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/97_THE_CONTENT_BRAIN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dating_mating_100_prompts_final2/97_THE_PORN_BRAIN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_everyone_wrong_vol11%20%281%29/14_THE_GENDER_BRAIN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/24_THE_COST-BENEFIT_BRAIN.png'
+  ],   70: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/86_THE_THERAPY_SPEAK_BREAKUP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/77_THE_PSYCHEDELIC_THERAPY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/42_THE_THERAPY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/24_THE_COUPLES_THERAPY.png'
+  ],   71: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/8_THE_NEVER_ENOUGH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/64_THE_NEVER_ENOUGH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/100_THE_ENOUGH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/80_THE_ENOUGH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/13__YOU_RE_NOT_TRYING_HARD_ENOUGH_.png'
+  ],   72: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/68_THE_ANXIETY_MEDICATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/6_THE_SOCIAL_PREDICTION_AI.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/20_THE_PARASOCIAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/47_THE_SOCIAL_PROOF.png'
+  ],   73: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/47_THE_BEFORE_AFTER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/96_THE_BODY_AFTER_BABY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/94_THE_PEOPLE_PLEASING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/6_THE_BUY_NOTHING_GROUP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/98_THE_WALK_WITHOUT_DESTINATION.png'
+  ],   74: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/1_THE_MIDNIGHT_SCROLL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/37__EVERYTHING_HAPPENS_FOR_A_REASON_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/1_THE_MIDNIGHT_SCROLL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/100_THE_EVERYTHING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_midnight_snack.jpeg'
+  ],   75: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/61_THE_PARENTAL_LOVE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dating_mating_100_prompts_final2/4_THE_PARENTAL_INVESTMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/74_THE_HOBBY_BURNOUT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/78_THE_MILLENNIAL_BURNOUT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/63_THE_DATING_BURNOUT.png'
+  ],   76: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/11_THE_CHILDREN_S_BIRTHDAY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/83_THE_CHILDREN_S_SCREEN_TIME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/77_THE_LEARNING_FROM_ELDER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/17_THE_CHILDREN_UNDERFOOT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/87_THE_CHILDREN.png'
+  ],   77: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/21_THE_VISIBLE_CONTRIBUTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/21_THE_CONTRIBUTION_VISIBLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/26_THE_WORK_VISIBLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/24_THE_INVISIBLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/36_THE_YOUTUBE_APPRENTICESHIP.png'
+  ],   78: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/91_THE_LANGUAGE_SHARED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/9_THE_SHARED_PLATE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/58_THE_SHARED_GRIEF.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_real_thing_vol7/56_THE_SHARED_HOUSE.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/43_THE_SHARED_BURDEN.png'
-  ],
-  107: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png'
-  ],
-  108: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png'
-  ],
-  109: [
+  ],   79: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_everyone_wrong_vol11%20%281%29/20_THE_TEN_THOUSAND_HOURS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/3_THE_HUNGER_BEFORE_THE_MEAL.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/47_THE_BEFORE_AFTER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/16_THE_EFFORT.png'
+  ],   80: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/31_THE_LEADERSHIP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/20__IT_S_DIFFERENT_FOR_YOU_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_everyone_wrong_vol11%20%281%29/77_THE_LEADERSHIP_TRAITS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/46_THE_STATUS_DIFFERENTIAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/19_THE_PERSONAL_AI_ASSISTANT.png'
+  ],   81: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_50_status_game_vol9/6_THE_DOMINANCE_GAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/6_THE_DOMINANCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/59_THE_DOMINANCE_DISPLAY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/14_THE_DOMINANCE_PATH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png'
+  ],   82: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/54_THE_CONFLICT_RESOLUTION_AI.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/38_THE_CONFLICT_AVOIDANCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_in_law_conflict.jpeg',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/18_THE_CONFLICT_REPAIR.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/53_THE_REPUTATION_SYSTEM.png'
+  ],   83: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/1_THE_MORNING_LIGHT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/6_THE_FLIGHT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/18_THE_BLUE_LIGHT_BATH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/124_THE_LIGHT_DIMMED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/51_THE_SUNLIGHT_DOSE.png'
+  ],   84: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/11_THE_CHILDREN_S_BIRTHDAY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100/6_THE_BIRTHDAY_DREAD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/28_THE_BIRTH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/126_THE_BIRTHDAY_SUNG.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/83_THE_CHILDREN_S_SCREEN_TIME.png'
+  ],   85: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/11_THE_CHILDREN_S_BIRTHDAY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/28_THE_BIRTH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/126_THE_BIRTHDAY_SUNG.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/24_THE_BIRTH_WITNESSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_real_thing_vol7/31_THE_BIRTH_WITNESSED.png'
+  ],   86: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/52_THE_SLEEP_SATISFACTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/54_THE_CONFLICT_RESOLUTION_AI.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/32_THE_METABOLISM_CONTROL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/6_THE_SOCIAL_PREDICTION_AI.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/46_THE_PROMISE_BREAKER.png'
+  ],   87: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/33_THE_SEXLESS_MARRIAGE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/51_THE_MUTUAL_AID_NETWORK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/16_THE_ALLOPARENT_NETWORK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/73_THE_AVOIDANCE_RELIEF.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100/85_THE_NEWS_AVOIDANCE.png'
+  ],   88: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/100_THE_MODERN_CONDITION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/2_THE_KITCHEN_FULL_OF_PEOPLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/17_THE_PEOPLE_DREAD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/68_THE_COLLECTIVE_GOVERNANCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/94_THE_PEOPLE_PLEASING.png'
+  ],   89: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/91_THE_REAL_TRIBE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/84_THE_BRAND_TRIBE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/22_THE_TRIBE_THAT_ISN_T.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/35__FIND_YOUR_TRIBE_ONLINE_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dystopia_100_prompts/5_THE_TRIBE_SIMULATED.png'
+  ],   90: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/86_THE_FITNESS_INFLUENCER_COMPARISON.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/47_THE_INFLUENCER_ENVY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/46_THE_INFLUENCER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/79_THE_INFLUENCER_DIET.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/67_THE_FITNESS_INFLUENCER.png'
+  ],   91: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/9_THE_INFORMATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/32__THERE_S_SOMEONE_FOR_EVERYONE_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/16_THE_BUILDING_TOGETHER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/23_THE_COOKING_FOR_OTHERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_real_thing_vol7/6_THE_BLOCK_WHERE_EVERYONE_KNOWS_YOU.png'
+  ],   92: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/19_THE_PERSONAL_AI_ASSISTANT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/10_THE_PERSONALIZED_LEARNING_AI.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/69_THE_RESOURCE_SHARING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/6_THE_DOMINANCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/43_THE_WILLPOWER.png'
+  ],   93: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/1_THE_HIERARCHY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/31_THE_INFINITE_HIERARCHY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/15_THE_HIERARCHY_READING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/2_THE_KITCHEN_FULL_OF_PEOPLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_vol3/11_THE_LEAVING_PARTY_EARLY.png'
+  ],   94: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/91_THE_DEATH_AWARENESS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/96_THE_FACE_DEATH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/76_THE_HIDDEN_DEATH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/91_THE_REAL_TRIBE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/84_THE_BRAND_TRIBE.png'
+  ],   95: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/17_THE_PEOPLE_DREAD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/11_THE_DUNBAR_ENFORCEMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/38_THE_VILLAGE_SCALE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/98_THE_WALK_WITHOUT_DESTINATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/2_THE_KITCHEN_FULL_OF_PEOPLE.png'
+  ],   96: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/19_THE_BUILDING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/41_THE_CONSCIOUSNESS_ICON.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/74_THE_ENVIRONMENT_DESIGN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/16_THE_BUILDING_TOGETHER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/89_THE_RETURNING.png'
+  ],   97: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/111_THE_LANGUAGE_BROKEN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/87_THE_PURPOSELESS_DRIFT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_everyone_wrong_vol11%20%281%29/96_THE_BROKEN_HOME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/8_THE_CREATIVITY_AUGMENTATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/13_THE_LOCAL_FIRST.png'
+  ],   98: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/52_THE_COMMUNICATION_ENHANCEMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/30_THE_PARASOCIAL_RELATIONSHIP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/5_THE_ATTENTION_ENHANCEMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/111_THE_LANGUAGE_BROKEN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_everyone_wrong_vol11%20%281%29/96_THE_BROKEN_HOME.png'
+  ],   99: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/73_THE_FOOD_PRESERVED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/64_THE_CREATING_SOMETHING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/84_THE_FOOD_PRESERVED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/81_THE_CLIENT_SERVED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/8_THE_PRESERVED_HARVEST.png'
+  ],   100: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/83_THE_ONLINE_PERSONA.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/40_THE_CIRCADIAN_OPTIMIZATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/11_THE_SLEEP_OPTIMIZATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/41_THE_MOVEMENT_REQUIRED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_vol3/32_THE_SLEEP_PERSONALITY.png'
+  ],   101: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/91_THE_REAL_TRIBE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/84_THE_BRAND_TRIBE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/22_THE_TRIBE_THAT_ISN_T.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/35__FIND_YOUR_TRIBE_ONLINE_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dystopia_100_prompts/5_THE_TRIBE_SIMULATED.png'
+  ],   102: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/5_THE_INFINITE_SCROLL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/32_THE_DOOMSCROLL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_doomscroll.jpeg',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/35__FIND_YOUR_TRIBE_ONLINE_.png'
+  ],   103: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/70_THE_ENGAGEMENT_BAIT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/30_THE_METRICS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/43_THE_STUDENT_SUCCEEDING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/94_THE_GROWTH_RECOGNITION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_everyone_wrong_vol11%20%281%29/75_THE_GROWTH_MINDSET_CURE.png'
+  ],   104: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/5_THE_ATTENTION_ENHANCEMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/78_THE_DREAM_ENHANCEMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/34_THE_VISION_ENHANCEMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/47_THE_RESPIRATORY_ENHANCEMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/52_THE_COMMUNICATION_ENHANCEMENT.png'
+  ],   105: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/70_THE_GROUP_TEXT_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/3_THE_FRIEND_GROUP_ENVY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/91_THE_FAMILY_GROUP_CHAT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/6_THE_BUY_NOTHING_GROUP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/16_THE_SMALL_GROUP.png'
+  ],   106: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/68_THE_ANXIETY_MEDICATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/63_THE_GRIEF_SUPPORT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/15_THE_DECISION_SUPPORT_AI.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/6_THE_SOCIAL_PREDICTION_AI.png'
+  ],   107: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/17_THE_NUCLEAR.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/34_THE_LIMITED_TIME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/60_THE_CHRONIC.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/39_THE_MENTOR_MATCHED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/8_THE_INTEREST_MATCHED.png'
+  ],   108: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/68_THE_ANXIETY_MEDICATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/2_THE_COLIVING_MATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/69_THE_NATURE_BELONGING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/58_THE_MEDICATION_SHAME.png'
+  ],   109: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/68_THE_COLLECTIVE_GOVERNANCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/95_THE_GOODBYE_PROPER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_50_status_game_vol9/49_THE_IMPOSSIBLE_DREAM.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/70_THE_SABBATH_PRACTICE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/59_THE_EYE_CONTACT_HELD.png'
+  ],   110: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/21_THE_VISIBLE_CONTRIBUTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/21_THE_CONTRIBUTION_VISIBLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/26_THE_WORK_VISIBLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/24_THE_INVISIBLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/59_THE_INVISIBLE_CHAINS.png'
+  ],   111: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/68_THE_ANXIETY_MEDICATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/5_THE_STATUS_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/72_THE_STATUS_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/70_THE_GROUP_TEXT_ANXIETY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/20_THE_SOCIAL_ANXIETY.png'
+  ],   112: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/20_THE_PARASOCIAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/30_THE_PARASOCIAL_BOND.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/30_THE_PARASOCIAL_RELATIONSHIP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/58_THE_PARASOCIAL_BLOCK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/82_THE_PARASOCIAL_BOND.png'
+  ],   113: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/86_THE_ACCEPTANCE_DEEPENING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/58_THE_MEETING_EXHAUSTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/94_THE_PEOPLE_PLEASING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/30_THE_INVESTMENT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/36_THE_MEETING_ABOUT_MEETINGS.png'
+  ],   114: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/50_THE_COHOUSING_FOUND.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_real_thing_vol7/44_THE_COHOUSING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/19_THE_BUILDING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/98_THE_WALK_WITHOUT_DESTINATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/10_THE_MORNING_WITHOUT_BREAKFAST.png'
+  ],   115: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/32_THE_MEANINGFUL_PROJECT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/21_THE_VISIBLE_CONTRIBUTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/21_THE_CONTRIBUTION_VISIBLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/70_THE_COLLECTIVE_PROJECTS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/22_THE_CONTRIBUTION.png'
+  ],   116: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/1_THE_MORNING_LIGHT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/45_THE_DAILY_PRACTICE.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png'
-  ],
-  110: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png'
-  ],
-  111: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png'
-  ],
-  112: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/47_THE_CLEAN_SPACE_CALM.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/47_THE_CLEAN_SPACE_CALM.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/47_THE_CLEAN_SPACE_CALM.png'
-  ],
-  113: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/69_THE_BEING_TRULY_SEEN.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/69_THE_BEING_TRULY_SEEN.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/69_THE_BEING_TRULY_SEEN.png'
-  ],
-  114: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/24_THE_PHONE_SEPARATION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/24_THE_PHONE_SEPARATION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/24_THE_PHONE_SEPARATION.png'
-  ],
-  115: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png'
-  ],
-  116: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/28_THE_PHONE_CALL.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/28_THE_PHONE_CALL.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/28_THE_PHONE_CALL.png'
-  ],
-  117: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png'
-  ],
-  118: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/45_THE_DAILY_PRACTICE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/45_THE_DAILY_PRACTICE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/45_THE_DAILY_PRACTICE.png'
-  ],
-  119: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png'
-  ],
-  120: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png'
-  ],
-  121: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/79_THE_COLLABORATION.png'
-  ],
-  122: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/95_THE_GOODBYE_PROPER.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/95_THE_GOODBYE_PROPER.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/95_THE_GOODBYE_PROPER.png'
-  ],
-  123: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png'
-  ],
-  124: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/22_THE_SHARED_MEAL_WARMTH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/70_THE_MOVEMENT_DEBT.png'
+  ],   117: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/91_THE_REAL_TRIBE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/84_THE_BRAND_TRIBE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/22_THE_TRIBE_THAT_ISN_T.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/35__FIND_YOUR_TRIBE_ONLINE_.png'
+  ],   118: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/71_THE_SELLING_TIME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/70_THE_SABBATH_PRACTICE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/59_THE_EYE_CONTACT_HELD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/74_THE_BELONGING_SIGNALS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/67_THE_MUTUAL_AID_COORDINATION.png'
+  ],   119: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_everyone_wrong_vol11%20%281%29/20_THE_TEN_THOUSAND_HOURS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/19_THE_BUILDING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/16_THE_BUILDING_TOGETHER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/65_THE_SHOWING_SOMEONE_SOMETHING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/93_THE_SURVIVING_SOMETHING.png'
+  ],   120: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/48_THE_MORAL_FAILURE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/73_THE_BREASTFEEDING_FAILURE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/12_THE_GYM_FAILURE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/107_THE_FAILURE_SURVIVED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100/94_THE_GRATITUDE_FAILURE.png'
+  ],   121: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/7_THE_FIRST_CLASS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/100_THE_FIRST_STEP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_first_impression.jpeg',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/55_THE_FIRST_KILL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/13_THE_LOCAL_FIRST.png'
+  ],   122: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/91_THE_REAL_TRIBE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/84_THE_BRAND_TRIBE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/22_THE_TRIBE_THAT_ISN_T.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/35__FIND_YOUR_TRIBE_ONLINE_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dystopia_100_prompts/5_THE_TRIBE_SIMULATED.png'
+  ],   123: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/94_THE_PEOPLE_PLEASING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/1_THE_UNDERSTANDING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/2_THE_KITCHEN_FULL_OF_PEOPLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/17_THE_PEOPLE_DREAD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/8_THE_PEOPLE_WHO_MATTER.png'
+  ],   124: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/32_THE_MEANINGFUL_PROJECT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/6_THE_MEANINGFUL_GOAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/11_THE_CHILDREN_S_BIRTHDAY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/53_THE_MEANINGLESS_JOB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/87_THE_CHILDREN.png'
+  ],   125: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/98_THE_SCARCITY_MINDSET.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_everyone_wrong_vol11%20%281%29/13_THE_SUFFERING_VIRTUE.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/16_THE_EFFORT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/16_THE_EFFORT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/16_THE_EFFORT.png'
-  ],
-  125: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/16_THE_EFFORT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/16_THE_EFFORT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/16_THE_EFFORT.png'
-  ],
-  126: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/41_THE_PURPOSE_VACANCY.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/41_THE_PURPOSE_VACANCY.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/41_THE_PURPOSE_VACANCY.png'
-  ],
-  127: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/40_THE_AUTOMATION_SHADOW.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/40_THE_AUTOMATION_SHADOW.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/40_THE_AUTOMATION_SHADOW.png'
-  ],
-  128: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/1_THE_HUNGER.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/1_THE_HUNGER.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/1_THE_HUNGER.png'
-  ],
-  129: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/1_THE_HUNGER.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/1_THE_HUNGER.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/1_THE_HUNGER.png'
-  ],
-  130: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/60_THE_TOXIC_POSITIVITY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_sleep_deprivation.jpeg'
+  ],   126: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/53_THE_MEANINGLESS_JOB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/32_THE_MEANINGFUL_PROJECT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/45_THE_PURPOSE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/90_THE_PURPOSE_CLARIFICATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/95_THE_MEANING_PERCEPTION.png'
+  ],   127: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/32_THE_MEANINGFUL_PROJECT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/53_THE_MEANINGLESS_JOB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/52_THE_PLAY_WITH_NO_PURPOSE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/6_THE_MEANINGFUL_GOAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/25_THE_SYNTHETIC_MEANING.png'
+  ],   128: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/53_THE_REPUTATION_SYSTEM.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/2_THE_STATUS_SCAN.png'
-  ],
-  131: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/33_THE_TIT_FOR_TAT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/33_THE_TIT_FOR_TAT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/33_THE_TIT_FOR_TAT.png'
-  ],
-  132: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/64_THE_NEVER_ENOUGH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/64_THE_NEVER_ENOUGH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/64_THE_NEVER_ENOUGH.png'
-  ],
-  133: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/32_THE_SOCIAL_OVERLOAD.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/32_THE_SOCIAL_OVERLOAD.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/32_THE_SOCIAL_OVERLOAD.png'
-  ],
-  134: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/33_THE_CELEBRATION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/33_THE_CELEBRATION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/33_THE_CELEBRATION.png'
-  ],
-  135: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/97_THE_LOCAL_STATUS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/29_THE_REPUTATION_REALITY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/38_THE_REPUTATION_EARNED.png'
+  ],   129: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/32_THE_METABOLISM_CONTROL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/53_THE_REPUTATION_SYSTEM.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/36_THE_FERTILITY_CONTROL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/9_THE_DIRECT_SALE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/29_THE_PRODUCTIVITY_SYSTEM.png'
+  ],   130: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/55_THE_DRIVE-THROUGH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/52_THE_SOCIAL_TOUCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_demismatch_tech_vol6/92_THE_RUNNING_APP_SOCIAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dating_mating_100_prompts_final2/60_THE_ROOMMATES.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_real_thing_vol7/42_THE_ROOMMATES_WHO_BECAME_FAMILY.png'
+  ],   131: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/40_THE_RETURN_GATHERING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/38_THE_SCHOOL_DEBT_RETURN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/26_THE_RETURN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/89_THE_RETURNING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/79_THE_CEREMONY_FEELING.png'
+  ],   132: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100/23_THE_MONEY_TALK_AVOIDANCE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/39_THE_SMALL_GAME.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/30_THE_SMALL_TALK.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/30_THE_PERFECTIONISM.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/35_THE_MONEY_ABSTRACTION.png'
+  ],   133: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/31_THE_INFINITE_HIERARCHY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/93_THE_INFINITE_BROWSE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/98_THE_INFINITE_CHOICE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/5_THE_INFINITE_SCROLL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dystopia_100_prompts/6_THE_INFINITE_NETWORK.png'
+  ],   134: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/91_THE_LANGUAGE_SHARED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/9_THE_SHARED_PLATE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/58_THE_SHARED_GRIEF.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_real_thing_vol7/56_THE_SHARED_HOUSE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/43_THE_SHARED_BURDEN.png'
+  ],   135: [
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/14_THE_STRANGER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/87_THE_NEIGHBORHOOD_STRANGER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/15_THE_STRANGER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/11_THE_STRANGER_DANGER.png'
+  ],   136: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/30_THE_PARASOCIAL_RELATIONSHIP.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/23__STAY_CONNECTED_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/51_THE_NUMBER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/94_THE_PEOPLE_PLEASING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/80_THE_RELATIONSHIP_AS_CONTENT.png'
+  ],   137: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/17_THE_BRAIN-COMPUTER_INTERFACE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/20_THE_KITCHEN_GARDEN_DESIGNED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/49_THE_MULTIGENERATIONAL_DESIGNED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/13_THE_COST_OF_TRUTH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/92_THE_TRUTH_SPOKEN.png'
+  ],   138: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/86_THE_FITNESS_INFLUENCER_COMPARISON.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/29_THE_REPUTATION_REALITY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/67_THE_FITNESS_INFLUENCER.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/16_THE_VIRTUAL_REALITY_IMMERSION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/13_THE_FITNESS_AUGMENTATION.png'
+  ],   139: [
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png'
-  ],
-  136: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_scale_matters/14_THE_SOCIAL_NETWORK.png'
-  ],
-  137: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/27_THE_ARGUMENT_WITH_STRANGERS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_suspicion_of_strangers_a93bfb.jpeg',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/basics_of_the_mismatched_human/the_suspicion_of_strangers.jpeg',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/27_THE_FEAR_CATEGORIES.png'
+  ],  140: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
-  ],
-  138: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/1_THE_DESKTOP_OF_PERCEPTION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/1_THE_DESKTOP_OF_PERCEPTION.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/1_THE_DESKTOP_OF_PERCEPTION.png'
-  ],
-  139: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png'
-  ],
-  140: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
-  ],
-  141: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/10_THE_SINGING_TOGETHER.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/10_THE_SINGING_TOGETHER.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/10_THE_SINGING_TOGETHER.png'
-  ],
-  142: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png'
-  ],
-  143: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/51_THE_SCROLL_HOLE.png'
-  ],
-  144: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
-  ],
-  145: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
-  ],
-  146: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
-  ],
-  147: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/17_THE_CHRONIC.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/17_THE_CHRONIC.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/17_THE_CHRONIC.png'
-  ],
-  148: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png'
-  ],
-  149: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/36_THE_GIFT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/36_THE_GIFT.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/36_THE_GIFT.png'
-  ],
-  150: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/111_THE_LANGUAGE_BROKEN.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/111_THE_LANGUAGE_BROKEN.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/111_THE_LANGUAGE_BROKEN.png'
-  ],
-  151: [
+  ],   141: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/4_THE_FUNCTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/49_THE_ERECTILE_DYSFUNCTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/32_THE_FUNCTIONAL_DOCTOR.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/37_THE_PROCESSING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/72_THE_FUNCTIONING_COLLAPSE.png'
+  ],   142: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/20__IT_S_DIFFERENT_FOR_YOU_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/46_THE_STATUS_DIFFERENTIAL.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/38_THE_ANXIETY_DIAGNOSIS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_psychiatry_vol10/66_THE_CHECKLIST_DIAGNOSIS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_psychiatry_vol10/51_THE_DIAGNOSIS_SHOPPING.png'
+  ],   143: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/73_THE_FOOD_PRESERVED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/64_THE_CREATING_SOMETHING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/84_THE_FOOD_PRESERVED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/20_THE_KITCHEN_GARDEN_DESIGNED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/33_THE_NURSERY_DESIGN.png'
+  ],   144: [
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/32_THE_THERAPY_TREADMILL.png'
-  ],
-  152: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/77_THE_PSYCHEDELIC_THERAPY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/88_THE_THERAPY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/31_THE_RETAIL_THERAPY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/61_THE_THERAPY_SHOPPING.png'
+  ],   145: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/90_THE_CAREER_CHANGE_FEAR.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/17_THE_PEOPLE_DREAD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_everyone_wrong_vol11%20%281%29/13_THE_SUFFERING_VIRTUE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/94_THE_PEOPLE_PLEASING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/25__TRAVEL_WILL_CHANGE_YOU_.png'
+  ],   146: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_everyone_wrong_vol11%20%281%29/13_THE_SUFFERING_VIRTUE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/70_THE_MESH_NETWORKED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/38__TREAT_YOURSELF_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_lies_we_tell/50__YOU_JUST_NEED_TO_LOVE_YOURSELF_.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/36_THE_PROBLEM_SOLVED.png'
+  ],   147: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/83_THE_STEP-PARENT_STRUGGLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/53_THE_PARENT_WATCHING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/55_THE_SHARED_STRUGGLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/48_THE_COALITION_BUILDING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/60_THE_CONSTANT_TIREDNESS.png'
+  ],   148: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/1_THE_UNDERSTANDING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/21_THE_VISIBLE_CONTRIBUTION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/21_THE_CONTRIBUTION_VISIBLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/utopia_100_prompts/26_THE_WORK_VISIBLE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dating_mating_100_prompts_final2/39_THE_INVISIBLE_MAN.png'
+  ],   149: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/31_THE_BLISS_POINT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/85_THE_SET_POINT_DEFENSE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/food_body_appetite_100_prompts/22_THE_SET_POINT.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_everyone_wrong_vol11%20%281%29/13_THE_SUFFERING_VIRTUE.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/13_THE_COST_OF_TRUTH.png'
+  ],   150: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/52_THE_TOOL_LIBRARY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_demismatch_tech_vol6/63_THE_TOOL_LIBRARY.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/68_THE_ANXIETY_MEDICATION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100/33_THE_CROWDED_LONELINESS.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/5_THE_STATUS_ANXIETY.png'
+  ],   151: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/36_THE_PROBLEM_SOLVED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_vol3/4_THE_FINISHING_PROBLEM.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/10_THE_ANGER_PROBLEM.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_positive_vol4/26_THE_PROBLEM_SOLVED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/39_THE_PROBLEM_SOLVING_TOGETHER.png'
+  ],  152: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/17_THE_PEOPLE_DREAD.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/17_THE_PEOPLE_DREAD.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/17_THE_PEOPLE_DREAD.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/17_THE_PEOPLE_DREAD.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/17_THE_PEOPLE_DREAD.png'
-  ],
-  153: [
+  ],  153: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png'
-  ],
-  154: [
+  ],  154: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png'
-  ],
-  155: [
+  ],  155: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/11_THE_COALITION.png'
-  ],
-  156: [
+  ],  156: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png'
-  ],
-  157: [
+  ],  157: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/eea_100_v2/5_THE_BAOBAB.png'
-  ],
-  158: [
+  ],  158: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
-  ],
-  159: [
+  ],  159: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png',
     'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/67_THE_NATURE_IMMERSION.png'
-  ],
-  160: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png'
-  ],
-  161: [
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/87_THE_DOOR_KNOCKED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/87_THE_DOOR_KNOCKED.png',
-    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/87_THE_DOOR_KNOCKED.png'
+  ],   160: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/111_THE_LANGUAGE_BROKEN.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/83_THE_THING_SHIPPED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/17_THE_WATER_SWIMMING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/74_THE_DOING_NOTHING.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/7_THE_DOING_NOTHING_TOGETHER.png'
+  ],   161: [
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/63_THE_CLOSET.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/95_THE_ENCLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_part2%20%281%29/116_THE_DOOR_CLOSED.png',
+    'https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_sequencing/19_THE_PERSONAL_AI_ASSISTANT.png'
   ],
 };
 
@@ -2306,113 +2467,217 @@ export default function HomepageFAQTile() {
   };
 
   return (
-    <section className="px-4 md:px-8 py-16 max-w-3xl mx-auto">
+    <section className="px-4 md:px-8 py-20 max-w-4xl mx-auto">
+      {/* Google Font for dramatic headlines */}
+      <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap');
+
+        @keyframes pulse-line {
+          0%, 100% { transform: scaleX(1); opacity: 1; }
+          50% { transform: scaleX(1.02); opacity: 0.8; }
+        }
+
+        @keyframes reveal-slide {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .faq-reveal-anim {
+          animation: reveal-slide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+      `}</style>
+
       <div
-        className={`transition-all duration-300 ${
-          isTransitioning ? 'opacity-50' : 'opacity-100'
+        className={`transition-all duration-500 ${
+          isTransitioning ? 'opacity-0 scale-[0.98]' : 'opacity-100 scale-100'
         }`}
       >
-        {/* QUESTION - RED background, WHITE text, ultra clear */}
+        {/* THE QUESTION — Commanding, confrontational */}
         <div
-          className={`bg-[#DC2626] ${!isRevealed ? 'cursor-pointer' : ''}`}
+          className={`relative bg-[#0a0a0a] overflow-hidden ${!isRevealed ? 'cursor-pointer group' : ''}`}
           onClick={!isRevealed ? handleReveal : undefined}
         >
-          <div className="p-10 md:p-14">
+          {/* Subtle texture overlay */}
+          <div className="absolute inset-0 opacity-[0.03]" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          }} />
+
+          {/* Terracotta accent line — top */}
+          <div className={`h-1 bg-[#c75b3a] ${!isRevealed ? 'group-hover:h-2' : ''} transition-all duration-300`} />
+
+          <div className="relative p-8 md:p-12 lg:p-16">
+            {/* Question number — editorial style */}
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-[#c75b3a] text-sm font-bold tracking-[0.3em] uppercase" style={{ fontFamily: "'Crimson Pro', Georgia, serif" }}>
+                Question
+              </span>
+              <span className="text-white/30 text-sm tracking-widest">
+                {String(currentIndex + 1).padStart(3, '0')}
+              </span>
+            </div>
+
+            {/* THE HEADLINE — Massive, impactful */}
             <h3
-              className="text-3xl md:text-4xl lg:text-5xl text-white font-bold leading-tight"
-              style={{ fontFamily: 'Georgia, serif' }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[0.95] tracking-tight uppercase"
+              style={{ fontFamily: "'Anton', Impact, sans-serif", color: '#ffffff' }}
             >
               {currentQ.question}
             </h3>
 
+            {/* Reveal CTA — Minimal, intriguing */}
             {!isRevealed && (
-              <p className="text-white/80 text-lg mt-6">
-                Click to reveal →
-              </p>
+              <div className="mt-10 flex items-center gap-4">
+                <div className="h-px bg-[#c75b3a] w-12 group-hover:w-20 transition-all duration-500" />
+                <span
+                  className="text-[#c75b3a] text-sm uppercase tracking-[0.25em] font-semibold group-hover:tracking-[0.35em] transition-all duration-300"
+                  style={{ fontFamily: "'Crimson Pro', Georgia, serif" }}
+                >
+                  Reveal Answer
+                </span>
+                <svg className="w-4 h-4 text-[#c75b3a] group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </div>
             )}
           </div>
         </div>
 
-        {/* ANSWER - WHITE background, BLACK text, maximum readability */}
+        {/* THE ANSWER — Editorial, refined */}
         {isRevealed && (
-          <div className="animate-fadeIn">
-            <div className="bg-white p-10 md:p-14">
-              <div className="text-xl md:text-2xl text-black leading-relaxed space-y-4 [&_a]:text-[#DC2626] [&_a]:font-semibold [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:bg-[#DC2626] [&_a:hover]:text-white [&_a]:transition-all">
-                {parseAnswer(currentQ.answer, handleGlossaryClick)}
-              </div>
+          <div className="faq-reveal-anim">
+            {/* Answer content */}
+            <div className="bg-[#faf9f6] relative">
+              {/* Decorative corner accent */}
+              <div className="absolute top-0 left-0 w-16 h-16 border-l-4 border-t-4 border-[#c75b3a]/20" />
 
-              {/* Single image - clean, centered */}
-              <div className="mt-10 flex justify-center">
-                <button
-                  onClick={() => setImagePopup(0)}
-                  className="w-48 h-48 md:w-64 md:h-64 overflow-hidden cursor-pointer border-4 border-[#DC2626] hover:scale-105 transition-transform"
-                  title="Click to view image"
+              <div className="p-8 md:p-12 lg:p-16">
+                {/* Answer text — Serif, editorial */}
+                <div
+                  className="text-lg md:text-xl lg:text-2xl text-[#1a1a1a] leading-relaxed space-y-5 max-w-2xl"
+                  style={{ fontFamily: "'Crimson Pro', Georgia, serif" }}
                 >
-                  <Image
-                    src={currentQ.imageUrls[0]}
-                    alt={currentQ.question}
-                    width={256}
-                    height={256}
-                    className="object-cover w-full h-full"
-                  />
-                </button>
+                  {parseAnswer(currentQ.answer, handleGlossaryClick)}
+                </div>
+
+                {/* Image Gallery — 5 images in a row */}
+                <div className="mt-12">
+                  <div className="flex justify-center gap-3 flex-wrap">
+                    {currentQ.imageUrls.slice(0, 5).map((url, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setImagePopup(idx)}
+                        className="group/img relative flex-shrink-0"
+                        title="Click to enlarge"
+                      >
+                        {/* Shadow layer */}
+                        <div className="absolute inset-0 bg-[#c75b3a]/20 translate-x-2 translate-y-2 group-hover/img:translate-x-3 group-hover/img:translate-y-3 transition-transform" />
+                        {/* Image container */}
+                        <div className="relative w-28 h-28 md:w-36 md:h-36 overflow-hidden border-2 border-[#1a1a1a] bg-white">
+                          <Image
+                            src={url}
+                            alt={`${currentQ.question} - image ${idx + 1}`}
+                            width={144}
+                            height={144}
+                            className="object-cover w-full h-full grayscale-[20%] group-hover/img:grayscale-0 transition-all duration-500"
+                          />
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* NEXT - BLACK background, simple */}
+            {/* NEXT QUESTION TEASER — Dark, enticing */}
             <div
-              className="bg-black cursor-pointer group p-10 md:p-14"
+              className="bg-[#1a1a1a] cursor-pointer group/next relative overflow-hidden"
               onClick={handleNext}
             >
-              <p className="text-white/50 text-sm uppercase tracking-widest mb-3">
-                Next
-              </p>
-              <p
-                className="text-2xl md:text-3xl text-white group-hover:text-[#DC2626] transition-colors"
-                style={{ fontFamily: 'Georgia, serif' }}
-              >
-                {nextQ.question}
-              </p>
+              {/* Hover reveal bar */}
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#c75b3a] group-hover/next:w-2 transition-all duration-300" />
+
+              <div className="p-8 md:p-12 lg:p-14 pl-10 md:pl-14 lg:pl-16">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-[#c75b3a]/60 text-xs uppercase tracking-[0.3em] group-hover/next:text-[#c75b3a] transition-colors" style={{ fontFamily: "'Crimson Pro', Georgia, serif" }}>
+                    Up Next
+                  </span>
+                  <div className="h-px bg-white/10 flex-1 max-w-[60px]" />
+                </div>
+                <p
+                  className="text-xl md:text-2xl lg:text-3xl group-hover/next:text-white uppercase leading-tight tracking-tight transition-colors duration-300"
+                  style={{ fontFamily: "'Anton', Impact, sans-serif", color: 'rgba(255,255,255,0.7)' }}
+                >
+                  {nextQ.question}
+                </p>
+
+                {/* Arrow indicator */}
+                <div className="mt-6 flex items-center gap-2 opacity-0 group-hover/next:opacity-100 transition-opacity">
+                  <span className="text-[#c75b3a] text-xs uppercase tracking-widest">Continue</span>
+                  <svg className="w-4 h-4 text-[#c75b3a]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </div>
+              </div>
             </div>
           </div>
         )}
 
-        {/* NAVIGATION - Minimal */}
-        <div className="bg-[#DC2626] px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-1">
-            <button
-              onClick={handleRewind}
-              className="px-3 py-2 text-white/80 hover:text-white text-lg"
-              title="Back to first"
+        {/* NAVIGATION BAR — Minimal, functional */}
+        <div className="bg-[#0a0a0a] border-t border-[#c75b3a]/30">
+          <div className="flex items-center justify-between px-6 md:px-8 py-4">
+            {/* Nav controls */}
+            <div className="flex items-center gap-1">
+              <button
+                onClick={handleRewind}
+                className="w-10 h-10 flex items-center justify-center text-white/40 hover:text-[#c75b3a] hover:bg-white/5 transition-all text-lg"
+                title="Back to first"
+              >
+                ⟪
+              </button>
+              <button
+                onClick={handlePrev}
+                className="w-10 h-10 flex items-center justify-center text-white/40 hover:text-[#c75b3a] hover:bg-white/5 transition-all text-xl"
+                title="Previous"
+              >
+                ‹
+              </button>
+              <button
+                onClick={handleNext}
+                className="w-10 h-10 flex items-center justify-center text-white/40 hover:text-[#c75b3a] hover:bg-white/5 transition-all text-xl"
+                title="Next"
+              >
+                ›
+              </button>
+            </div>
+
+            {/* Progress indicator */}
+            <div className="flex items-center gap-3">
+              <span className="text-[#c75b3a] text-sm font-bold" style={{ fontFamily: "'Anton', Impact, sans-serif" }}>
+                {String(currentIndex + 1).padStart(3, '0')}
+              </span>
+              <div className="w-16 h-px bg-white/20 relative">
+                <div
+                  className="absolute left-0 top-0 h-full bg-[#c75b3a] transition-all duration-300"
+                  style={{ width: `${((currentIndex + 1) / tileData.length) * 100}%` }}
+                />
+              </div>
+              <span className="text-white/30 text-sm">
+                {String(tileData.length).padStart(3, '0')}
+              </span>
+            </div>
+
+            {/* View all link */}
+            <Link
+              href="/faq"
+              className="flex items-center gap-2 text-white/40 hover:text-[#c75b3a] transition-colors text-sm uppercase tracking-wider"
+              style={{ fontFamily: "'Crimson Pro', Georgia, serif" }}
             >
-              ««
-            </button>
-            <button
-              onClick={handlePrev}
-              className="px-3 py-2 text-white/80 hover:text-white text-lg"
-              title="Previous"
-            >
-              ‹
-            </button>
-            <button
-              onClick={handleNext}
-              className="px-3 py-2 text-white/80 hover:text-white text-lg"
-              title="Next"
-            >
-              ›
-            </button>
+              <span>All</span>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+              </svg>
+            </Link>
           </div>
-
-          <span className="text-white/80 text-sm">
-            {currentIndex + 1} / {tileData.length}
-          </span>
-
-          <Link
-            href="/faq"
-            className="text-white/80 hover:text-white text-sm"
-          >
-            See all →
-          </Link>
         </div>
       </div>
 
