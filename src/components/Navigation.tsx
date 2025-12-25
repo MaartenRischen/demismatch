@@ -157,8 +157,9 @@ export default function Navigation() {
       {/* Mobile nav */}
       {mobileOpen && (
         <>
+          {/* Overlay - starts below header so hamburger stays clickable */}
           <div
-            className="fixed inset-0 bg-black/20 z-40 md:hidden"
+            className="fixed top-[73px] left-0 right-0 bottom-0 bg-black/20 z-40 md:hidden"
             onClick={() => setMobileOpen(false)}
           />
           <div className="md:hidden fixed top-[73px] left-0 right-0 bottom-0 bg-[#FAF9F6] border-t border-[#E5E0D8] z-50 overflow-y-auto">
