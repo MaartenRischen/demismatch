@@ -9,8 +9,8 @@ interface HeroImage {
   displayName: string;
 }
 
-const SLIDE_DURATION = 5; // 5ms - very fast
-const TRANSITION_DURATION = 0; // No transition delay for speed
+const SLIDE_DURATION = 5000; // 5 seconds between slides
+const TRANSITION_DURATION = 1000; // 1 second crossfade
 
 // Fisher-Yates shuffle for truly random order
 function shuffleArray<T>(array: T[]): T[] {
@@ -25,6 +25,8 @@ function shuffleArray<T>(array: T[]): T[] {
 export default function HeroCarousel() {
   const [images, setImages] = useState<HeroImage[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [prevIndex, setPrevIndex] = useState<number | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const preloadedImages = useRef<Set<string>>(new Set());
@@ -64,24 +66,42 @@ export default function HeroCarousel() {
     images.forEach(img => preloadImage(img.url));
   }, [images, preloadImage]);
 
+  // Transition to a new slide with crossfade
+  const transitionTo = useCallback((newIndex: number) => {
+    if (isTransitioning || images.length === 0) return;
+
+    setPrevIndex(currentIndex);
+    setIsTransitioning(true);
+    setCurrentIndex(newIndex);
+
+    // Clear transition state after animation completes
+    setTimeout(() => {
+      setIsTransitioning(false);
+      setPrevIndex(null);
+    }, TRANSITION_DURATION);
+  }, [currentIndex, isTransitioning, images.length]);
+
   // Auto-advance timer
   useEffect(() => {
-    if (isPaused || images.length <= 1) return;
+    if (isPaused || images.length <= 1 || isTransitioning) return;
 
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
+    const timer = setTimeout(() => {
+      const nextIndex = (currentIndex + 1) % images.length;
+      transitionTo(nextIndex);
     }, SLIDE_DURATION);
 
-    return () => clearInterval(timer);
-  }, [isPaused, images.length]);
+    return () => clearTimeout(timer);
+  }, [isPaused, images.length, currentIndex, isTransitioning, transitionTo]);
 
   // Manual navigation
   const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
+    const nextIndex = (currentIndex + 1) % images.length;
+    transitionTo(nextIndex);
   };
 
   const goToPrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    const prevIdx = (currentIndex - 1 + images.length) % images.length;
+    transitionTo(prevIdx);
   };
 
   if (isLoading) {
@@ -105,20 +125,60 @@ export default function HeroCarousel() {
   }
 
   const currentImage = images[currentIndex];
+  const previousImage = prevIndex !== null ? images[prevIndex] : null;
 
   return (
     <div className="relative">
-      {/* Main image container */}
+      {/* Main image container with Ken Burns effect */}
       <div className="relative overflow-hidden shadow-2xl aspect-square">
-        <Image
-          src={currentImage.url}
-          alt="Hero image"
-          fill
-          className="object-cover"
-          priority
-          sizes="(max-width: 768px) 100vw, 500px"
-        />
+        {/* Previous image (fading out) */}
+        {previousImage && isTransitioning && (
+          <div
+            className="absolute inset-0 z-10"
+            style={{
+              animation: `fadeOut ${TRANSITION_DURATION}ms ease-out forwards`,
+            }}
+          >
+            <Image
+              src={previousImage.url}
+              alt="Previous hero image"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 500px"
+            />
+          </div>
+        )}
+
+        {/* Current image with Ken Burns zoom effect */}
+        <div
+          key={currentIndex}
+          className="absolute inset-0"
+          style={{
+            animation: `kenBurns ${SLIDE_DURATION + TRANSITION_DURATION}ms ease-out forwards`,
+          }}
+        >
+          <Image
+            src={currentImage.url}
+            alt="Hero image"
+            fill
+            className="object-cover"
+            priority
+            sizes="(max-width: 768px) 100vw, 500px"
+          />
+        </div>
       </div>
+
+      {/* CSS Keyframe animations */}
+      <style jsx>{`
+        @keyframes fadeOut {
+          from { opacity: 1; }
+          to { opacity: 0; }
+        }
+        @keyframes kenBurns {
+          from { transform: scale(1); }
+          to { transform: scale(1.08); }
+        }
+      `}</style>
 
       {/* Controls bar below image */}
       <div className="mt-4 flex items-center gap-2">

@@ -213,9 +213,8 @@ export default function DemismatchCarouselMorphing() {
             The Sequence Matters
           </h2>
           <p className="text-[#4A4A4A] text-lg leading-relaxed">
-            We're not anti-technology. We're pro-sequence. Fix the foundation before you build higher.
-            Each concept below shows the progression: the current mismatch, the healthy baseline we evolved for,
-            and the augmented future that builds on solid ground.
+            We're not anti-technology. We're pro-sequence. Put the fish back in the water before augmenting it.
+            Fix the foundation before you build higher.
           </p>
         </div>
 

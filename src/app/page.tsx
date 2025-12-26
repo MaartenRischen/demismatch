@@ -127,7 +127,7 @@ export default function Home() {
                 This world wasn't built for you.
               </p>
 
-              <div className="space-y-4 animate-fade-in-up delay-300">
+              <div className="space-y-2 animate-fade-in-up delay-300">
                 <p className="text-body-lg text-[#4A4A4A]">
                   You evolved for one world, you live in another. Purpose became productivity.
                   Touch became texting. Connection became content.
@@ -135,15 +135,6 @@ export default function Home() {
                 <p className="text-xl md:text-2xl text-[#C75B39] font-semibold" style={{ fontFamily: "'Playfair Display', serif" }}>
                   It's not you. It's the mismatch.
                 </p>
-              </div>
-
-              <div className="flex flex-wrap gap-4 animate-fade-in-up delay-400">
-                <Link href="/framework" className="btn-primary">
-                  Explore Framework
-                </Link>
-                <Link href="/foryou" className="btn-secondary">
-                  Start Here
-                </Link>
               </div>
             </div>
 
@@ -167,8 +158,7 @@ export default function Home() {
         <div className="bg-[#F0EDE6] py-12 mt-12">
           <div className="max-w-4xl mx-auto px-8 text-center">
             <p className="text-body-lg text-[#4A4A4A] italic" style={{ fontFamily: "'Playfair Display', serif" }}>
-              "We're rushing to augment humans who haven't been allowed to be fully human
-              for thousands of years. Before we add anything, let's restore what's missing."
+              Before rushing to technologically augment, let's first allow humans to be fully human again.
             </p>
           </div>
         </div>
