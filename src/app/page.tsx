@@ -7,6 +7,7 @@ import Navigation from "@/components/Navigation";
 import DemismatchCarouselMorphing from "@/components/DemismatchCarouselMorphing";
 import CollapsibleAISection from "@/components/CollapsibleAISection";
 import HomepageFAQTile from "@/components/HomepageFAQTile";
+import HeroCarousel from "@/components/HeroCarousel";
 
 // Scroll animation hook
 function useScrollAnimation() {
@@ -141,30 +142,16 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Hero Image - Takes 5 columns, offset right */}
+            {/* Hero Image Carousel - Takes 5 columns, offset right */}
             <div className="md:col-span-5 animate-fade-in-up delay-300">
               <div className="relative layout-offset-right">
                 {/* Decorative frame - hidden on mobile to prevent overflow */}
-                <div className="hidden md:block absolute -inset-4 border-2 border-[#C75B39]/20 -rotate-3" />
-                <div className="hidden md:block absolute -inset-4 border-2 border-[#C75B39]/10 rotate-2 translate-x-2 translate-y-2" />
+                <div className="hidden md:block absolute -inset-4 border-2 border-[#C75B39]/20 -rotate-3 z-0" />
+                <div className="hidden md:block absolute -inset-4 border-2 border-[#C75B39]/10 rotate-2 translate-x-2 translate-y-2 z-0" />
 
-                {/* Main image */}
-                <div className="relative overflow-hidden shadow-2xl">
-                  <Image
-                    src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/new_images/1_The_Cubicle_Worker.png"
-                    alt="The Cubicle Worker - Modern mismatch"
-                    width={500}
-                    height={500}
-                    className="object-cover w-full aspect-square"
-                    priority
-                  />
-                  {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/30 via-transparent to-transparent" />
-                </div>
-
-                {/* Caption badge - constrained position on mobile */}
-                <div className="absolute -bottom-4 left-0 md:-bottom-6 md:-left-6 bg-[#0A0A0A] text-white px-4 py-2 md:px-6 md:py-3">
-                  <p className="text-xs font-bold uppercase tracking-widest">The Modern Condition</p>
+                {/* Hero Carousel - auto-syncs with Supabase bucket */}
+                <div className="relative z-10">
+                  <HeroCarousel />
                 </div>
               </div>
             </div>
