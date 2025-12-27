@@ -2395,6 +2395,7 @@ export default function HomepageFAQTile() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [imagePopup, setImagePopup] = useState<number | null>(null);  // Index of image to show in popup, or null
   const [glossaryPopup, setGlossaryPopup] = useState<string | null>(null);
+  const [glossaryImages, setGlossaryImages] = useState<string[]>([]);
 
   // Persist progress in localStorage
   useEffect(() => {
@@ -2431,6 +2432,106 @@ export default function HomepageFAQTile() {
   };
 
   const glossaryTerm = glossaryPopup ? glossaryById[glossaryPopup] : null;
+
+  // Fetch images for glossary term using deep semantic search
+  useEffect(() => {
+    if (!glossaryPopup || !glossaryTerm) {
+      setGlossaryImages([]);
+      return;
+    }
+
+    async function fetchGlossaryImages() {
+      try {
+        const response = await fetch('/api/images');
+        const data = await response.json();
+        if (!data.images) return;
+
+        // Extract search terms from glossary title and definition
+        const extractKeywords = (text: string): string[] => {
+          // Remove common words and extract meaningful terms
+          const stopWords = new Set(['the', 'a', 'an', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
+            'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might',
+            'must', 'can', 'to', 'of', 'in', 'for', 'on', 'with', 'at', 'by', 'from', 'as', 'into', 'through',
+            'during', 'before', 'after', 'above', 'below', 'between', 'under', 'again', 'further', 'then',
+            'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'each', 'few', 'more', 'most',
+            'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very',
+            'just', 'and', 'but', 'if', 'or', 'because', 'until', 'while', 'about', 'against', 'this', 'that',
+            'these', 'those', 'what', 'which', 'who', 'whom', 'its', 'it', 'you', 'your', 'they', 'them',
+            'their', 'we', 'our', 'he', 'him', 'his', 'she', 'her', 'my', 'me', 'i', 'dont', 'cant', 'wont',
+            'isnt', 'arent', 'wasnt', 'werent', 'hasnt', 'havent', 'hadnt', 'doesnt', 'didnt', 'whos', 'whats']);
+
+          return text.toLowerCase()
+            .replace(/[^\w\s]/g, ' ')
+            .split(/\s+/)
+            .filter(word => word.length > 3 && !stopWords.has(word));
+        };
+
+        // Get keywords from title and all definition paragraphs
+        if (!glossaryTerm) return;
+        const titleKeywords = extractKeywords(glossaryTerm.title);
+        const definitionKeywords = glossaryTerm.definition.flatMap(p => extractKeywords(p));
+        const allKeywords = [...new Set([...titleKeywords, ...definitionKeywords])];
+
+        // Score each image based on keyword matches across all fields
+        interface ImageWithScore {
+          url: string;
+          score: number;
+        }
+
+        const scoredImages: ImageWithScore[] = data.images.map((img: {
+          title?: string;
+          body_text?: string;
+          tags?: string[];
+          framework_concepts?: string[];
+          categories?: string[];
+          image_url: string;
+        }) => {
+          let score = 0;
+          const searchableText = [
+            img.title || '',
+            img.body_text || '',
+            (img.tags || []).join(' '),
+            (img.framework_concepts || []).join(' '),
+            (img.categories || []).join(' ')
+          ].join(' ').toLowerCase();
+
+          // Score based on keyword matches
+          for (const keyword of allKeywords) {
+            if (searchableText.includes(keyword)) {
+              score += 1;
+              // Bonus for title match
+              if ((img.title || '').toLowerCase().includes(keyword)) {
+                score += 2;
+              }
+            }
+          }
+
+          // Bonus for exact framework_concepts match
+          const termNormalized = glossaryPopup!.toLowerCase().replace(/[_\s-]+/g, '');
+          if (img.framework_concepts?.some((c: string) =>
+            c.toLowerCase().replace(/[_\s-]+/g, '') === termNormalized
+          )) {
+            score += 10;
+          }
+
+          return { url: img.image_url, score };
+        });
+
+        // Sort by score and take top 4
+        const topImages = scoredImages
+          .filter((img: ImageWithScore) => img.score > 0)
+          .sort((a: ImageWithScore, b: ImageWithScore) => b.score - a.score)
+          .slice(0, 4)
+          .map((img: ImageWithScore) => img.url);
+
+        setGlossaryImages(topImages);
+      } catch (err) {
+        console.error('Error fetching glossary images:', err);
+      }
+    }
+
+    fetchGlossaryImages();
+  }, [glossaryPopup, glossaryTerm]);
 
   const handleReveal = () => {
     setIsRevealed(true);
@@ -2552,31 +2653,30 @@ export default function HomepageFAQTile() {
         {isRevealed && (
           <div className="faq-reveal-anim">
             {/* Answer content — White background */}
-            <div className="bg-white border-l-4 border-[#C75B39]">
-              <div className="p-8 md:p-12">
+            <div className="bg-white">
+              <div className="p-8 md:p-12 flex flex-col items-center text-center">
                 {/* Answer text */}
                 <div className="text-lg md:text-xl text-[#4A4A4A] leading-relaxed space-y-4 max-w-2xl">
                   {parseAnswer(currentQ.answer, handleGlossaryClick)}
                 </div>
 
-                {/* Image Gallery */}
-                <div className="mt-10">
+                {/* Image Gallery - 2x2 grid */}
+                <div className="mt-10 w-full max-w-2xl">
                   <p className="text-xs font-bold uppercase tracking-widest text-[#8B8B8B] mb-4">Related Images</p>
-                  <div className="flex gap-3 flex-wrap">
-                    {currentQ.imageUrls.slice(0, 5).map((url, idx) => (
+                  <div className="grid grid-cols-2 gap-3">
+                    {currentQ.imageUrls.slice(0, 4).map((url, idx) => (
                       <button
                         key={idx}
                         onClick={() => setImagePopup(idx)}
-                        className="group/img relative flex-shrink-0 hover-tilt"
+                        className="group/img relative hover-tilt"
                         title="Click to enlarge"
                       >
-                        <div className="relative w-24 h-24 md:w-32 md:h-32 overflow-hidden border border-[#E5E0D8] bg-[#F0EDE6]">
+                        <div className="relative aspect-square overflow-hidden border border-[#E5E0D8] bg-[#F0EDE6]">
                           <Image
                             src={url}
                             alt={`${currentQ.question} - image ${idx + 1}`}
-                            width={128}
-                            height={128}
-                            className="object-cover w-full h-full group-hover/img:scale-110 transition-transform duration-500"
+                            fill
+                            className="object-cover group-hover/img:scale-110 transition-transform duration-500"
                           />
                           {/* Hover overlay */}
                           <div className="absolute inset-0 bg-[#C75B39]/0 group-hover/img:bg-[#C75B39]/20 transition-colors" />
@@ -2769,6 +2869,25 @@ export default function HomepageFAQTile() {
                   </p>
                 ))}
               </div>
+
+              {/* Related Images - 2x2 grid */}
+              {glossaryImages.length > 0 && (
+                <div className="mt-8">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#8B8B8B] mb-4">Related Images</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    {glossaryImages.map((url, idx) => (
+                      <div key={idx} className="relative aspect-square overflow-hidden border border-[#E5E0D8] bg-[#F0EDE6]">
+                        <Image
+                          src={url}
+                          alt={`${glossaryTerm.title} - image ${idx + 1}`}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
