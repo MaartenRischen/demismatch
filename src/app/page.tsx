@@ -113,28 +113,32 @@ export default function Home() {
         <div className="px-8 py-16 md:py-24 max-w-6xl mx-auto">
           <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-center">
             {/* Text Content - Takes 7 columns */}
-            <div className="md:col-span-7 space-y-8">
+            <div className="md:col-span-7 flex flex-col">
+              {/* Headline unit - headline and subheadline tightly connected */}
               <div className="animate-fade-in-up">
-                <h1 className="headline-hero text-[#0A0A0A] mb-6">
-                  You're not broken.
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-[#0A0A0A] uppercase" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  YOU'RE NOT BROKEN.
                 </h1>
-                <h1 className="headline-hero">
-                  <span className="underline-thick text-[#C75B39]">You're mismatched.</span>
-                </h1>
+                <p className="text-xl md:text-2xl text-[#C75B39] mt-2" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  You evolved for one world. You live in another.
+                </p>
               </div>
 
-              <p className="text-statement text-[#4A4A4A] animate-fade-in-up delay-200">
-                This world wasn't built for you.
+              {/* Body text - moderate spacing above */}
+              <p className="text-body-lg text-[#4A4A4A] mt-8 animate-fade-in-up delay-200">
+                Purpose became productivity. Touch became texting. Connection became content.
               </p>
 
-              <div className="space-y-2 animate-fade-in-up delay-300">
-                <p className="text-body-lg text-[#4A4A4A]">
-                  You evolved for one world, you live in another. Purpose became productivity.
-                  Touch became texting. Connection became content.
-                </p>
-                <p className="text-xl md:text-2xl text-[#C75B39] font-semibold" style={{ fontFamily: "'Playfair Display', serif" }}>
-                  It's not you. It's the mismatch.
-                </p>
+              {/* Closing line - orange, moderate spacing above */}
+              <p className="text-xl md:text-2xl text-[#C75B39] font-semibold mt-8 animate-fade-in-up delay-300" style={{ fontFamily: "'Playfair Display', serif" }}>
+                It's not you. It's the mismatch.
+              </p>
+
+              {/* CTA Button */}
+              <div className="mt-10 animate-fade-in-up delay-400">
+                <Link href="/framework" className="btn-primary inline-block">
+                  Understand Your Mismatch
+                </Link>
               </div>
             </div>
 
@@ -155,10 +159,11 @@ export default function Home() {
         </div>
 
         {/* Bottom statement */}
-        <div className="bg-[#F0EDE6] py-12 mt-12">
+        <div className="bg-[#1A1A1A] py-12 mt-12">
           <div className="max-w-4xl mx-auto px-8 text-center">
-            <p className="text-body-lg text-[#4A4A4A] italic" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Before rushing to technologically augment, let's first allow humans to be fully human again.
+            <p className="text-body-lg text-[#FAF9F6]" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <span className="italic">Before we augment humans, let's first allow them to be fully human.</span>{" "}
+              <span className="font-semibold">De-mismatch first. Then augment.</span>
             </p>
           </div>
         </div>

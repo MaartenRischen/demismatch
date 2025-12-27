@@ -27,7 +27,7 @@ export default function ProjectsPage() {
           </h1>
           <div className="hidden md:flex items-center gap-2 text-sm text-gray-400 pb-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>2 Live • 1 Beta • 4 In Development</span>
+            <span>2 Live • 1 Beta • 1 Research • 4 In Development</span>
           </div>
         </div>
         <p className="text-lg text-gray-400 max-w-xl">
@@ -35,10 +35,89 @@ export default function ProjectsPage() {
         </p>
       </header>
 
+      {/* Early Research Section - Flagship */}
+      <section className="px-6 md:px-8 pb-8 max-w-7xl mx-auto">
+        <div className="flex items-center gap-3 mb-6">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-purple-400">Early Research</h2>
+          <div className="flex-1 h-px bg-purple-400/20"></div>
+        </div>
+
+        {/* AI Tribe Matcher - Flagship */}
+        <div className="group relative rounded-2xl overflow-hidden bg-gradient-to-br from-[#2d1f4e] via-[#1a1a2e] to-[#0d0d1a] border border-purple-500/30 hover:border-purple-400/50 transition-all">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl"></div>
+
+          <div className="relative z-10 grid md:grid-cols-12 gap-6 p-6 md:p-8">
+            {/* Left - Logo & Badges */}
+            <div className="md:col-span-3 flex flex-col items-center md:items-start">
+              <div className="relative mb-4">
+                <img
+                  src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/icons/tribematcherlogo.png"
+                  alt="AI Tribe Matcher"
+                  className="w-24 h-24 md:w-32 md:h-32 rounded-2xl object-cover shadow-lg shadow-purple-500/20"
+                />
+                <span className="absolute -top-2 -right-2 px-2 py-0.5 bg-gradient-to-r from-purple-500 to-indigo-500 text-white text-[10px] font-bold rounded-full uppercase tracking-wider animate-pulse">
+                  New
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs font-bold rounded-full uppercase tracking-wider">
+                  Early Research
+                </span>
+              </div>
+            </div>
+
+            {/* Right - Content */}
+            <div className="md:col-span-9">
+              <h3 className="text-2xl md:text-3xl text-white mb-2" style={{ fontFamily: 'Georgia, serif' }}>
+                AI Tribe Matcher
+              </h3>
+              <p className="text-lg text-purple-300 mb-4" style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic' }}>
+                Your LLM knows you. Let it find your tribe.
+              </p>
+              <p className="text-gray-300 mb-6 leading-relaxed">
+                The first matching system designed for tribe formation, not dating. Your AI has years of intimate conversation data—who you actually are, not who you perform on profiles. With consent, LLMs communicate to find people who would form functional tribes together.
+              </p>
+
+              <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2 mb-6 text-sm">
+                <li className="flex items-center gap-2 text-gray-300">
+                  <span className="text-purple-400">✓</span> Matches tribes, not pairs
+                </li>
+                <li className="flex items-center gap-2 text-gray-300">
+                  <span className="text-purple-400">✓</span> Pair bonds search merged or not at all
+                </li>
+                <li className="flex items-center gap-2 text-gray-300">
+                  <span className="text-purple-400">✓</span> Cross-platform from day one
+                </li>
+                <li className="flex items-center gap-2 text-gray-300">
+                  <span className="text-purple-400">✓</span> Language barriers dissolved
+                </li>
+                <li className="flex items-center gap-2 text-gray-300 sm:col-span-2">
+                  <span className="text-purple-400">✓</span> Optimizes for EEA-spec tribal function
+                </li>
+              </ul>
+
+              <div className="flex flex-wrap gap-3">
+                <button className="bg-purple-500 hover:bg-purple-400 text-white px-5 py-2.5 rounded-lg font-medium transition">
+                  Read Working Document →
+                </button>
+                <button className="bg-white/10 hover:bg-white/20 text-white px-5 py-2.5 rounded-lg font-medium transition border border-white/20">
+                  Get notified →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Bento Grid */}
       <section className="px-6 md:px-8 pb-16 max-w-7xl mx-auto">
+        <div className="flex items-center gap-3 mb-6">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-gray-400">Live & In Development</h2>
+          <div className="flex-1 h-px bg-gray-700"></div>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[minmax(180px,auto)]">
-          
+
           {/* The Mismatch Analyzer - Featured */}
           <Link 
             href="/app" 
