@@ -138,9 +138,9 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Hero Image Carousel - Takes 5 columns, offset right */}
+            {/* Hero Image Carousel - Takes 5 columns */}
             <div className="md:col-span-5 animate-fade-in-up delay-300">
-              <div className="relative layout-offset-right">
+              <div className="relative max-w-[500px] mx-auto md:mx-0 md:ml-auto">
                 {/* Decorative frame - hidden on mobile to prevent overflow */}
                 <div className="hidden md:block absolute -inset-4 border-2 border-[#C75B39]/20 -rotate-3 z-0" />
                 <div className="hidden md:block absolute -inset-4 border-2 border-[#C75B39]/10 rotate-2 translate-x-2 translate-y-2 z-0" />

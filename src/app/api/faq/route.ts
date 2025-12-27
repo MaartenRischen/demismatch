@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server';
 
 // FAQ data for the portal site
-// This is a simplified version of the tile data from HomepageFAQTile
+// This matches the tile data from HomepageFAQTile with imageUrls arrays
 interface FAQItem {
   id: number;
   question: string;
   answer: string;
-  imageUrl: string;
+  imageUrls: string[];
 }
 
-// We export the first image from each question's gallery
+// Export first 4 images from each question's gallery for 2x2 grid display
 const faqData: FAQItem[] = [
   {
     id: 1,
@@ -17,7 +17,12 @@ const faqData: FAQItem[] = [
     answer: `You're not broken. Your environment is [mismatched](/glossary#mismatch).
 
 Your brain was built for conditions that no longer exist. The suffering isn't malfunction—it's accurate signal.`,
-    imageUrl: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/hoffman_interface_theory_series/36_THE_MISMATCH_DIAGNOSTIC.png"
+    imageUrls: [
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_same_scene_two_eyes/2_THE_LONELY_APARTMENT.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/5_THE_BURNOUT.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png"
+    ]
   },
   {
     id: 2,
@@ -25,7 +30,12 @@ Your brain was built for conditions that no longer exist. The suffering isn't ma
     answer: `The environment.
 
 A [fish on land](/glossary#fish-on-land) flops. Its gills work perfectly—designed for water. You wouldn't medicate the flopping. You'd put it back.`,
-    imageUrl: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png"
+    imageUrls: [
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/74_THE_ENVIRONMENT_DESIGN.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/97_THE_ENVIRONMENT_ENGINEERING.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_bridge_series/72_THE_WATER_SECURED.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/17_THE_WATER_SWIMMING.png"
+    ]
   },
   {
     id: 3,
@@ -33,7 +43,12 @@ A [fish on land](/glossary#fish-on-land) flops. Its gills work perfectly—desig
     answer: `[Rumination](/glossary#rumination) is planning without anything to plan.
 
 It evolved to solve problems. Now it runs on unsolvable ones. The machinery churns without producing output.`,
-    imageUrl: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/12_THE_OVERTHINKING.png"
+    imageUrls: [
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/90_THE_RUMINATION.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_vol2/12_THE_OVERTHINKING.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/22_THE_NEWS_ADDICTION.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/53_THE_FEAR_FEED.png"
+    ]
   },
   {
     id: 4,
@@ -41,7 +56,12 @@ It evolved to solve problems. Now it runs on unsolvable ones. The machinery chur
     answer: `Accurate threat detection.
 
 [Open loops](/glossary#open-loop) everywhere. Strangers everywhere. The alarm is working. The environment is actually dangerous.`,
-    imageUrl: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/19_THE_ANXIETY.png"
+    imageUrls: [
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/68_THE_ANXIETY_MEDICATION.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/social_dynamics_100_prompts%20%281%29/5_THE_STATUS_ANXIETY.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/19_THE_ANXIETY.png"
+    ]
   },
   {
     id: 5,
@@ -49,7 +69,12 @@ It evolved to solve problems. Now it runs on unsolvable ones. The machinery chur
     answer: `Accurate meaning assessment.
 
 No [tribe](/glossary#the-150-tribe). No [visible purpose](/glossary#visible-contribution). [Loops](/glossary#open-loop) that never close. The [signal](/glossary#signal-vs-symptom) is correct.`,
-    imageUrl: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png"
+    imageUrls: [
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/53_THE_MEANINGLESS_JOB.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/32_THE_MEANINGFUL_PROJECT.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/21_THE_VISIBLE_CONTRIBUTION.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/73_THE_DEPRESSION_DIAGNOSTIC.png"
+    ]
   },
   {
     id: 6,
@@ -57,7 +82,12 @@ No [tribe](/glossary#the-150-tribe). No [visible purpose](/glossary#visible-cont
     answer: `A satisfied human is a terrible customer.
 
 The [atomized individual](/glossary#atomized-individual)—severed from [tribe](/glossary#the-150-tribe), purpose, intimacy—is the ideal consumer. Your [mismatch](/glossary#mismatch) is the business model.`,
-    imageUrl: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png"
+    imageUrls: [
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/41_THE_PURPOSE_VACANCY.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/45_THE_PURPOSE.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/2_THE_LONELY_APARTMENT.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/8_THE_PURPOSE.png"
+    ]
   },
   {
     id: 7,
@@ -65,7 +95,12 @@ The [atomized individual](/glossary#atomized-individual)—severed from [tribe](
     answer: `The [internal audience](/glossary#internal-audience). Imaginary critics generating real anxiety.
 
 Your brain evolved being watched by 150. Now it simulates an audience. Harsher than any real one.`,
-    imageUrl: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/22_THE_AUDIENCE.png"
+    imageUrls: [
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/22_THE_AUDIENCE.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/fear_anxiety_100_prompts/23_THE_JUDGMENT.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/21_THE_CROWD_OF_STRANGERS.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/14_THE_STRANGER.png"
+    ]
   },
   {
     id: 8,
@@ -73,7 +108,12 @@ Your brain evolved being watched by 150. Now it simulates an audience. Harsher t
     answer: `[Five](/glossary#the-5). People you'd call at 3am. Complete vulnerability.
 
 If that circle has fewer than 5, that's the problem. Most modern people have 0-2.`,
-    imageUrl: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png"
+    imageUrls: [
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/100_THE_CIRCLE_CLOSED.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/2_THE_KITCHEN_FULL_OF_PEOPLE.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/91_THE_REAL_TRIBE.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_answer_100_esteem_dynamics_vol8/8_THE_PEOPLE_WHO_MATTER.png"
+    ]
   },
   {
     id: 9,
@@ -81,7 +121,12 @@ If that circle has fewer than 5, that's the problem. Most modern people have 0-2
     answer: `[Immediate-return](/glossary#immediate-return-economy) vs. delayed-return.
 
 Ancestral work: hunt → eat. Modern work: 8 hours of abstraction for invisible shareholders. Your meaning-making systems can't connect effort to survival.`,
-    imageUrl: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/39_THE_BULLSHIT_JOB.png"
+    imageUrls: [
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/meaning_purpose_sacred_100_prompts_v2/26_THE_BULLSHIT_JOB.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/money_consumption_status_100_prompts/76_THE_BULLSHIT_JOB.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_overload_series/39_THE_BULLSHIT_JOB.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/21_THE_VISIBLE_CONTRIBUTION.png"
+    ]
   },
   {
     id: 10,
@@ -89,7 +134,12 @@ Ancestral work: hunt → eat. Modern work: 8 hours of abstraction for invisible 
     answer: `Reduce [mismatch](/glossary#mismatch) load.
 
 Audit [parasocial relationships](/glossary#parasocial-relationships). Reduce [open loops](/glossary#open-loop). [Circadian](/glossary#circadian-rhythm) basics. Move your body. Don't build [tribe](/glossary#the-150-tribe) while maximally mismatched.`,
-    imageUrl: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/6_THE_KNOWN_BY_ALL.png"
+    imageUrls: [
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100_matched_vol5/6_THE_KNOWN_BY_ALL.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/74_THE_ENVIRONMENT_DESIGN.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_trap_recognized/100_THE_FIRST_STEP.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/1_THE_MORNING_LIGHT.png"
+    ]
   },
   {
     id: 11,
@@ -97,7 +147,12 @@ Audit [parasocial relationships](/glossary#parasocial-relationships). Reduce [op
     answer: `You're not broken. Your environment is [mismatched](/glossary#mismatch).
 
 Stop fixing yourself. Start building conditions that would let you thrive. The [fish](/glossary#fish-on-land) needs water.`,
-    imageUrl: "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png"
+    imageUrls: [
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/emotions_100_prompts/10_THE_MISMATCH.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_mismatch_actually_100/100_THE_MODERN_CONDITION.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/the_real_thing_series/67_THE_WATER_IMMERSION.png",
+      "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/dashboard_calibrated_series/74_THE_ENVIRONMENT_DESIGN.png"
+    ]
   }
 ];
 
