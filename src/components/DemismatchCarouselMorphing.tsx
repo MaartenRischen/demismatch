@@ -207,16 +207,6 @@ export default function DemismatchCarouselMorphing() {
   return (
     <section className="bg-[#FAF9F6] py-8 md:py-16 overflow-hidden border-y border-[#E5E0D8]">
       <div className="w-full max-w-[1400px] mx-auto px-4">
-        {/* Section header */}
-        <div className="text-center mb-10 max-w-3xl mx-auto px-4">
-          <h2 className="headline-secondary text-[#0A0A0A] mb-4">
-            The Sequence Matters
-          </h2>
-          <p className="text-[#4A4A4A] text-lg leading-relaxed">
-            We're not anti-technology. We're pro-sequence. Before we augment humans, let's first allow them to be fully human. Put the fish back in the water before augmenting it.
-          </p>
-        </div>
-
         {/* Main morphing carousel container */}
         <div
           className="relative cursor-pointer select-none"

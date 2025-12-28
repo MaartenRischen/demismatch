@@ -149,13 +149,10 @@ export default function HeroCarousel() {
           </div>
         )}
 
-        {/* Current image with Ken Burns zoom effect */}
+        {/* Current image - no zoom */}
         <div
           key={currentIndex}
           className="absolute inset-0"
-          style={{
-            animation: `kenBurns ${SLIDE_DURATION + TRANSITION_DURATION}ms ease-out forwards`,
-          }}
         >
           <Image
             src={currentImage.url}
@@ -173,10 +170,6 @@ export default function HeroCarousel() {
         @keyframes fadeOut {
           from { opacity: 1; }
           to { opacity: 0; }
-        }
-        @keyframes kenBurns {
-          from { transform: scale(1); }
-          to { transform: scale(1.08); }
         }
       `}</style>
 

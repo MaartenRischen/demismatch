@@ -57,7 +57,7 @@ export default function Navigation() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#FAF9F6]/95 backdrop-blur-sm border-b border-[#E5E0D8]">
+      <nav className="fixed top-0 left-0 right-0 z-50 nav-glass border-b border-[#E5E0D8]/50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             href="/"
@@ -69,12 +69,12 @@ export default function Navigation() {
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-6">
-            {/* Main links */}
+            {/* Main links with animated underlines */}
             {MAIN_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-colors ${
+                className={`text-sm font-medium transition-colors nav-link-animated ${
                   pathname === link.href
                     ? "text-[#C75B39]"
                     : "text-[#4A4A4A] hover:text-[#1A1A1A]"
@@ -126,10 +126,10 @@ export default function Navigation() {
               )}
             </div>
 
-            {/* Analyzer - Standout CTA button */}
+            {/* Analyzer - Standout CTA button with shimmer */}
             <Link
               href="/app"
-              className="text-sm font-bold uppercase tracking-widest px-4 py-2 bg-[#C75B39] text-white hover:bg-[#A84A2D] transition-all"
+              className="text-sm font-bold uppercase tracking-widest px-4 py-2 bg-[#C75B39] text-white hover:bg-[#A84A2D] transition-all btn-shimmer btn-press"
             >
               Try Analyzer
             </Link>

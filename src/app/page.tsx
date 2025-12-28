@@ -6,7 +6,6 @@ import { useEffect, useRef } from "react";
 import Navigation from "@/components/Navigation";
 import DemismatchCarouselMorphing from "@/components/DemismatchCarouselMorphing";
 import CollapsibleAISection from "@/components/CollapsibleAISection";
-import HomepageFAQTile from "@/components/HomepageFAQTile";
 import HeroCarousel from "@/components/HeroCarousel";
 
 // Scroll animation hook
@@ -105,108 +104,225 @@ export default function Home() {
     <main ref={scrollRef} className="min-h-screen bg-[#faf9f6] pt-20 relative">
       <Navigation />
 
-      {/* Hero Section - Simplified & Spacious */}
-      <section className="relative overflow-hidden">
-        {/* Subtle diagonal background accent */}
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-[#C75B39]/5 to-transparent -skew-x-12 origin-top-right" />
-
-        <div className="px-8 py-20 md:py-32 lg:py-40 max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-12 gap-12 md:gap-16 items-center">
-            {/* Text Content - Takes 7 columns, vertically centered */}
-            <div className="md:col-span-7 flex flex-col justify-center">
-              {/* Headline - THE dominant visual element */}
-              <h1
-                className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight text-[#0A0A0A] uppercase leading-[0.9] animate-fade-in-up"
-                style={{ fontFamily: "'Playfair Display', serif" }}
+      {/* Hero Section - Three Column Layout with Central Image */}
+      <section className="relative overflow-hidden bg-[#faf9f6] wave-divider">
+        <div className="px-6 md:px-8 py-16 md:py-20 lg:py-24 max-w-7xl mx-auto">
+          {/* Desktop Layout: Cards with Image row */}
+          <div className="hidden lg:block">
+            {/* Cards + Image Row */}
+            <div className="grid grid-cols-[1fr_auto_1fr] gap-6 items-center mb-12 relative">
+              {/* LEFT - Signal Card */}
+              <div
+                className="relative p-8 overflow-hidden rounded-2xl border-2 border-[#E8DFD4] h-full card-connected-left"
+                style={{
+                  background: 'linear-gradient(135deg, #FAF7F2 0%, #F5EDE3 50%, #FDF9F5 100%)'
+                }}
               >
-                YOU'RE NOT BROKEN.
-              </h1>
-
-              {/* Subheadline - Orange, substantial but smaller */}
-              <p
-                className="text-xl sm:text-2xl md:text-3xl text-[#C75B39] mt-6 md:mt-8 animate-fade-in-up delay-100"
-                style={{ fontFamily: "'Playfair Display', serif" }}
-              >
-                You evolved for one world. You live in another.
-              </p>
-
-              {/* CTA Button - Comfortable spacing */}
-              <div className="mt-10 md:mt-14 animate-fade-in-up delay-200">
-                <Link href="/framework" className="btn-primary inline-block">
-                  Understand Your Mismatch
-                </Link>
-              </div>
-            </div>
-
-            {/* Hero Image Carousel - Takes 5 columns */}
-            <div className="md:col-span-5 animate-fade-in-up delay-300">
-              <div className="relative max-w-[500px] mx-auto md:mx-0 md:ml-auto">
-                {/* Decorative frame - hidden on mobile to prevent overflow */}
-                <div className="hidden md:block absolute -inset-4 border-2 border-[#C75B39]/20 -rotate-3 z-0" />
-                <div className="hidden md:block absolute -inset-4 border-2 border-[#C75B39]/10 rotate-2 translate-x-2 translate-y-2 z-0" />
-
-                {/* Hero Carousel - auto-syncs with Supabase bucket */}
+                <div className="absolute inset-0 opacity-30">
+                  <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-amber-200/40 to-transparent rounded-full blur-3xl" />
+                  <div className="absolute bottom-0 right-0 w-48 h-48 bg-gradient-to-tl from-orange-200/30 to-transparent rounded-full blur-2xl" />
+                </div>
+                {/* Ambient light from eye - warm glow on right edge */}
+                <div
+                  className="absolute top-0 right-0 w-32 h-full pointer-events-none card-inner-glow-left"
+                  style={{
+                    background: 'linear-gradient(to left, rgba(199, 91, 57, 0.4), rgba(199, 91, 57, 0.15) 50%, transparent)',
+                  }}
+                />
                 <div className="relative z-10">
-                  <HeroCarousel />
+                  <h1
+                    className="text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight text-[#0A0A0A] leading-[1.1] mb-6"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                  >
+                    We evolved for a world that no longer exists.
+                  </h1>
+                  <p className="text-base lg:text-lg text-[#3A3A3A] leading-relaxed" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                    That's why you feel the way you feel — and why society is fracturing. Depression, anxiety, addiction, loneliness: these aren't malfunctions. They're your <strong>biology correctly signaling that something is wrong with your environment, not with you.</strong>
+                  </p>
+                </div>
+              </div>
+
+              {/* CENTER - Eye Image with Feathered Edges, Slow Zoom, and Glow */}
+              <div className="relative w-64 xl:w-80 eye-glow-pulse self-stretch flex items-center">
+                {/* Fixed mask wrapper - stays locked */}
+                <div
+                  className="relative overflow-hidden"
+                  style={{
+                    WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+                    maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+                    WebkitMaskComposite: 'destination-in',
+                    maskComposite: 'intersect'
+                  }}
+                >
+                  {/* Image zooms inside the fixed mask */}
+                  <img
+                    src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png"
+                    alt="Human eye - bridging signal and stakes"
+                    className="w-full h-auto object-contain animate-[slow-zoom_4s_ease-in-out_infinite_alternate]"
+                  />
+                </div>
+              </div>
+
+              {/* RIGHT - Stakes Card */}
+              <div
+                className="relative p-8 overflow-hidden rounded-2xl h-full card-connected-right"
+                style={{
+                  background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f1a 100%)'
+                }}
+              >
+                <div className="absolute inset-0 opacity-10">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-blue-500/30 to-transparent rounded-full blur-3xl" />
+                  <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-purple-500/20 to-transparent rounded-full blur-2xl" />
+                </div>
+                {/* Ambient light from eye - cool glow on left edge */}
+                <div
+                  className="absolute top-0 left-0 w-32 h-full pointer-events-none card-inner-glow-right"
+                  style={{
+                    background: 'linear-gradient(to right, rgba(120, 160, 220, 0.5), rgba(100, 150, 200, 0.2) 50%, transparent)',
+                  }}
+                />
+                <div className="relative z-10">
+                  <h2
+                    className="text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight leading-[1.1] mb-6"
+                    style={{ fontFamily: "'Playfair Display', serif", color: '#FFFFFF', textShadow: '0 2px 20px rgba(0,0,0,0.3)' }}
+                  >
+                    The most powerful technologies in history are arriving.
+                  </h2>
+                  <p className="text-base lg:text-lg text-white/90 leading-relaxed font-medium">
+                    AI and total immersion will either <strong>exploit human nature</strong> harder than anything before — <strong>or finally meet it.</strong> This is the framework for knowing the difference.
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* The Substitution - Recognition Section */}
-      <section className="bg-[#F5F3EF] py-16 md:py-24">
-        <div className="max-w-3xl mx-auto px-8 text-center">
-          {/* Three substitutions - each on its own line */}
-          <div className="space-y-4 md:space-y-6 mb-10 md:mb-14">
-            <p
-              className="text-xl md:text-2xl lg:text-3xl text-[#2A2A2A] font-medium"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              Purpose became productivity.
-            </p>
-            <p
-              className="text-xl md:text-2xl lg:text-3xl text-[#2A2A2A] font-medium"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              Touch became texting.
-            </p>
-            <p
-              className="text-xl md:text-2xl lg:text-3xl text-[#2A2A2A] font-medium"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              Connection became content.
-            </p>
+          {/* Mobile/Tablet Layout: Stacked */}
+          <div className="lg:hidden">
+            {/* Signal Section */}
+            <div className="mb-8 animate-fade-in-up">
+              <div
+                className="relative p-6 sm:p-8 overflow-hidden rounded-2xl border-2 border-[#E8DFD4]"
+                style={{
+                  background: 'linear-gradient(135deg, #FAF7F2 0%, #F5EDE3 50%, #FDF9F5 100%)',
+                  boxShadow: '0 25px 50px -12px rgba(166, 124, 82, 0.15)'
+                }}
+              >
+                <div className="absolute inset-0 opacity-30">
+                  <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-amber-200/40 to-transparent rounded-full blur-3xl" />
+                </div>
+                <div className="relative z-10">
+                  <h1
+                    className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0A0A0A] leading-[1.15] mb-5"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                  >
+                    We evolved for a world that no longer exists.
+                  </h1>
+                  <p className="text-base sm:text-lg text-[#3A3A3A] leading-relaxed" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                    That's why you feel the way you feel — and why society is fracturing. Depression, anxiety, addiction, loneliness: these aren't malfunctions. They're your <strong>biology correctly signaling that something is wrong with your environment, not with you.</strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Eye Image - Mobile */}
+            <div className="flex justify-center my-8">
+              <div className="relative w-48 sm:w-64 eye-glow-pulse">
+                {/* Fixed mask wrapper - stays locked */}
+                <div
+                  className="relative overflow-hidden"
+                  style={{
+                    WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+                    maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+                    WebkitMaskComposite: 'destination-in',
+                    maskComposite: 'intersect'
+                  }}
+                >
+                  {/* Image zooms inside the fixed mask */}
+                  <img
+                    src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png"
+                    alt="Human eye - bridging signal and stakes"
+                    className="w-full h-auto object-contain animate-[slow-zoom_4s_ease-in-out_infinite_alternate]"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Stakes Section */}
+            <div className="mb-8 animate-fade-in-up delay-200">
+              <div
+                className="relative p-6 sm:p-8 overflow-hidden rounded-2xl"
+                style={{
+                  background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f1a 100%)',
+                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.4)'
+                }}
+              >
+                <div className="absolute inset-0 opacity-10">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-blue-500/30 to-transparent rounded-full blur-3xl" />
+                </div>
+                <div className="relative z-10">
+                  <h2
+                    className="text-3xl sm:text-4xl font-bold tracking-tight leading-[1.15] mb-5"
+                    style={{ fontFamily: "'Playfair Display', serif", color: '#FFFFFF', textShadow: '0 2px 20px rgba(0,0,0,0.3)' }}
+                  >
+                    The most powerful technologies in history are arriving.
+                  </h2>
+                  <p className="text-base sm:text-lg text-white/90 leading-relaxed font-medium">
+                    AI and total immersion will either <strong>exploit human nature</strong> harder than anything before — <strong>or finally meet it.</strong> This is the framework for knowing the difference.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Payoff line - Orange, larger */}
-          <p
-            className="text-2xl md:text-3xl lg:text-4xl text-[#C75B39] font-semibold"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            It's not you. It's the mismatch.
-          </p>
+          {/* CTA Button - Centered */}
+          <div className="text-center animate-fade-in-up delay-300">
+            <Link href="/framework" className="btn-primary btn-shimmer btn-press inline-block text-lg px-8 py-4">
+              Understand the Framework
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Dark Bar - The Principle */}
-      <section className="bg-[#1A1A1A] py-12 md:py-16">
-        <div className="max-w-4xl mx-auto px-8 text-center">
-          <p
-            className="text-2xl md:text-3xl lg:text-4xl text-[#FAF9F6] font-semibold italic"
+      {/* The Reframe Section - Emotional Validation */}
+      <section className="bg-[#F5F3EF] py-16 md:py-24">
+        <div className="max-w-6xl mx-auto px-6 md:px-8">
+          {/* Headline */}
+          <h2
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#0A0A0A] text-center mb-12 md:mb-16"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            You're not broken. You're mismatched.
+          </h2>
+
+          {/* Carousel */}
+          <div className="max-w-4xl mx-auto">
+            <div className="relative">
+              {/* Decorative frame */}
+              <div className="hidden md:block absolute -inset-4 border-2 border-[#C75B39]/20 -rotate-1 z-0" />
+              <div className="hidden md:block absolute -inset-4 border-2 border-[#C75B39]/10 rotate-1 translate-x-2 translate-y-2 z-0" />
+
+              <div className="relative z-10">
+                <HeroCarousel />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* The Principle Section with Carousel */}
+      <section className="bg-[#faf9f6] py-8 md:py-12">
+        <div className="max-w-6xl mx-auto px-6 md:px-8 text-center mb-8">
+          <h2
+            className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#0A0A0A]"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             De-mismatch first. Then augment.
-          </p>
+          </h2>
         </div>
       </section>
 
-      {/* Demismatch First, Then Augment Carousel */}
+      {/* Demismatch Carousel - Visualizes the principle */}
       <DemismatchCarouselMorphing />
-
-      {/* Interactive FAQ Tile */}
-      <HomepageFAQTile />
 
       {/* The Call Section - Asymmetric Cards with Color Tints */}
       <section className="py-24 bg-diagonal-lines">
@@ -229,7 +345,7 @@ export default function Home() {
                 key={card.title}
                 href={card.href}
                 className={`
-                  card-base ${card.tint} hover-lift scroll-animate block
+                  card-base ${card.tint} card-3d-tilt card-gradient-hover scroll-animate block
                   ${index === 0 ? 'lg:col-span-2 lg:row-span-1' : ''}
                 `}
                 style={{
@@ -292,6 +408,9 @@ export default function Home() {
         {/* Background pattern */}
         <div className="absolute inset-0 bg-grid opacity-10" />
 
+        {/* Watermark Roman Numeral */}
+        <div className="roman-numeral-watermark roman-numeral-animate hidden md:block">II</div>
+
         <div className="px-8 max-w-5xl mx-auto relative">
           <div className="grid md:grid-cols-12 gap-12">
             {/* Large number indicator */}
@@ -329,10 +448,10 @@ export default function Home() {
               </div>
 
               <div className="mt-12 flex flex-wrap gap-4">
-                <Link href="/framework" className="btn-primary">
+                <Link href="/framework" className="btn-primary btn-shimmer btn-press">
                   Read the Framework
                 </Link>
-                <Link href="/glossary" className="btn-secondary !border-[#FAF9F6]/30 !text-[#FAF9F6] hover:!bg-[#FAF9F6] hover:!text-[#0A0A0A]">
+                <Link href="/glossary" className="btn-secondary btn-press !border-[#FAF9F6]/30 !text-[#FAF9F6] hover:!bg-[#FAF9F6] hover:!text-[#0A0A0A]">
                   Browse Glossary
                 </Link>
               </div>
@@ -401,13 +520,13 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Bottom bar */}
-          <div className="mt-12 pt-8 border-t border-white/20 flex flex-wrap justify-between items-center gap-4">
-            <p className="text-white/60 text-sm">
-              demismatch.com — Understanding human nature
-            </p>
-            <p className="text-white/60 text-sm">
+          {/* Elevated Tagline */}
+          <div className="mt-12 pt-8 border-t border-white/20">
+            <p className="tagline-elevated mb-8">
               The fish doesn't need therapy. The fish needs water.
+            </p>
+            <p className="text-white/50 text-sm text-center">
+              demismatch.com — Understanding human nature
             </p>
           </div>
         </div>

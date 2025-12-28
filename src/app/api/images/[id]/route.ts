@@ -1,6 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { removeImageFromAll, updateImageMetadata } from '@/lib/masterlist-sync';
 
+// CORS headers for cross-origin requests
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+
+// Handle preflight requests
+export async function OPTIONS() {
+  return NextResponse.json({}, { headers: corsHeaders });
+}
+
 // DELETE /api/images/[id] - Delete an image from masterlist, database, and storage
 export async function DELETE(
   request: NextRequest,
@@ -11,21 +23,21 @@ export async function DELETE(
     const imageId = parseInt(id);
 
     if (isNaN(imageId)) {
-      return NextResponse.json({ error: 'Invalid image ID' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid image ID' }, { status: 400, headers: corsHeaders });
     }
 
     // Check for service role key
     if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      return NextResponse.json({ 
-        error: 'Missing SUPABASE_SERVICE_ROLE_KEY - required for delete operations' 
-      }, { status: 500 });
+      return NextResponse.json({
+        error: 'Missing SUPABASE_SERVICE_ROLE_KEY - required for delete operations'
+      }, { status: 500, headers: corsHeaders });
     }
 
     // Remove from all locations (masterlist, database, storage)
     const result = await removeImageFromAll(imageId);
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       deleted: imageId,
       details: {
         masterlistRemoved: result.masterlistRemoved,
@@ -33,12 +45,12 @@ export async function DELETE(
         storageRemoved: result.storageRemoved,
         imagePath: result.imagePath
       }
-    });
+    }, { headers: corsHeaders });
   } catch (error) {
     console.error('Delete error:', error);
-    return NextResponse.json({ 
-      error: error instanceof Error ? error.message : 'Failed to delete image' 
-    }, { status: 500 });
+    return NextResponse.json({
+      error: error instanceof Error ? error.message : 'Failed to delete image'
+    }, { status: 500, headers: corsHeaders });
   }
 }
 

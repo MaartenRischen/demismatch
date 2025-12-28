@@ -256,6 +256,15 @@ h1, h2, h3, h4, h5, h6 {
   50% { box-shadow: 0 0 20px 5px rgba(199, 91, 57, 0.2); }
 }
 
+@keyframes slow-zoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(2); }
+}
+
+.animate-slow-zoom {
+  animation: slow-zoom 18s ease-in-out infinite alternate;
+}
+
 /* Animation utilities */
 .animate-fade-in-up {
   animation: fadeInUp 0.6s ease forwards;
@@ -997,4 +1006,375 @@ h1, h2, h3, h4, h5, h6 {
   .carousel-mobile-tall {
     padding-bottom: 50% !important; /* Taller on mobile */
   }
+}
+
+/* ============================================
+   DESIGN ENHANCEMENTS - Premium Effects
+   ============================================ */
+
+/* Alternating Card Breathing - Synced with eye zoom phases */
+/* Card 1 breathes in during eye zoom IN, Card 2 breathes in during eye zoom OUT */
+@keyframes card-breathe-left {
+  0% {
+    transform: perspective(800px) rotateY(4deg) scale(0.97);
+    box-shadow: 0 15px 30px -12px rgba(166, 124, 82, 0.1);
+  }
+  100% {
+    transform: perspective(800px) rotateY(4deg) scale(1.05);
+    box-shadow: 0 35px 70px -12px rgba(199, 91, 57, 0.35), inset -30px 0 50px -20px rgba(199, 91, 57, 0.2);
+  }
+}
+
+@keyframes card-breathe-right {
+  0% {
+    transform: perspective(800px) rotateY(-4deg) scale(0.97);
+    box-shadow: 0 15px 30px -12px rgba(0, 0, 0, 0.3);
+  }
+  100% {
+    transform: perspective(800px) rotateY(-4deg) scale(1.05);
+    box-shadow: 0 35px 70px -12px rgba(0, 0, 0, 0.6), inset 30px 0 50px -20px rgba(100, 150, 220, 0.3);
+  }
+}
+
+@keyframes inner-glow-pulse-in {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.7; }
+}
+
+.card-connected-left {
+  animation: card-breathe-left 4s ease-in-out 0s infinite alternate !important;
+  transform-origin: left center;
+}
+
+.card-connected-right {
+  animation: card-breathe-right 4s ease-in-out -4s infinite alternate !important;
+  transform-origin: right center;
+}
+
+.card-inner-glow-left {
+  animation: inner-glow-pulse-in 4s ease-in-out 0s infinite alternate;
+}
+
+.card-inner-glow-right {
+  animation: inner-glow-pulse-in 4s ease-in-out -4s infinite alternate;
+}
+
+/* Eye Glow Pulse Animation */
+@keyframes eye-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 15px rgba(199, 91, 57, 0.2)) drop-shadow(0 0 30px rgba(199, 91, 57, 0.1));
+  }
+  50% {
+    filter: drop-shadow(0 0 25px rgba(199, 91, 57, 0.4)) drop-shadow(0 0 50px rgba(199, 91, 57, 0.2));
+  }
+}
+
+.eye-glow-pulse {
+  animation: eye-glow 4s ease-in-out infinite;
+}
+
+/* Paper Texture Overlay for Sections */
+.paper-texture {
+  position: relative;
+}
+
+.paper-texture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+}
+
+/* ============================================
+   NAVIGATION ENHANCEMENTS
+   ============================================ */
+
+/* Glassmorphism Nav on Scroll */
+.nav-glass {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(250, 249, 246, 0.85);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Animated Underline Links */
+.nav-link-animated {
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-link-animated::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--terracotta);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link-animated:hover::after {
+  width: 100%;
+}
+
+/* CTA Button Shimmer Effect */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+  transform: translateX(-100%);
+}
+
+.btn-shimmer:hover::after {
+  animation: shimmer 0.8s ease-out;
+}
+
+/* ============================================
+   ENHANCED 3D CARD EFFECTS
+   ============================================ */
+
+/* Premium 3D Tilt Card */
+.card-3d-tilt {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.card-3d-tilt:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(-3deg) translateY(-8px) scale(1.02);
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(199, 91, 57, 0.1);
+}
+
+/* Card gradient overlay on hover */
+.card-gradient-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-gradient-hover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(199, 91, 57, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.card-gradient-hover:hover::before {
+  opacity: 1;
+}
+
+/* ============================================
+   SECTION TRANSITIONS & DIVIDERS
+   ============================================ */
+
+/* Organic Wave Divider */
+.wave-divider {
+  position: relative;
+}
+
+.wave-divider::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60'%3E%3Cpath fill='%23F5F3EF' d='M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z'/%3E%3C/svg%3E") no-repeat;
+  background-size: cover;
+}
+
+/* Diagonal Section Transition */
+.diagonal-top {
+  position: relative;
+  margin-top: -40px;
+  padding-top: 80px;
+}
+
+.diagonal-top::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: inherit;
+  transform: skewY(-2deg);
+  transform-origin: top left;
+}
+
+/* ============================================
+   FOUNDATION SECTION ENHANCEMENTS
+   ============================================ */
+
+/* Large Watermark Roman Numeral */
+.roman-numeral-watermark {
+  font-family: var(--font-display);
+  font-size: clamp(150px, 20vw, 250px);
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(199, 91, 57, 0.15);
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+@keyframes stroke-draw {
+  0% {
+    -webkit-text-stroke-color: rgba(199, 91, 57, 0);
+    opacity: 0;
+  }
+  100% {
+    -webkit-text-stroke-color: rgba(199, 91, 57, 0.2);
+    opacity: 1;
+  }
+}
+
+.roman-numeral-animate {
+  animation: stroke-draw 1.5s ease-out forwards;
+}
+
+/* ============================================
+   FOOTER ENHANCEMENTS
+   ============================================ */
+
+/* Elevated Tagline */
+.tagline-elevated {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.95);
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.tagline-elevated::before,
+.tagline-elevated::after {
+  content: '~';
+  display: inline-block;
+  margin: 0 1rem;
+  opacity: 0.5;
+}
+
+/* ============================================
+   MICRO-INTERACTIONS
+   ============================================ */
+
+/* Custom Cursor for Interactive Elements */
+.cursor-pointer-custom {
+  cursor: pointer;
+}
+
+/* Enhanced Button Press States */
+.btn-press {
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.btn-press:active {
+  transform: scale(0.97) translateY(1px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Organic Link Transitions */
+.link-organic {
+  color: var(--terracotta);
+  text-decoration: none;
+  transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.link-organic::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.link-organic:hover {
+  color: var(--terracotta-dark);
+}
+
+.link-organic:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Staggered Card Entrance */
+@keyframes card-entrance {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.card-stagger-enter {
+  opacity: 0;
+}
+
+.card-stagger-enter.visible {
+  animation: card-entrance 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.card-stagger-enter:nth-child(1) { animation-delay: 0ms; }
+.card-stagger-enter:nth-child(2) { animation-delay: 100ms; }
+.card-stagger-enter:nth-child(3) { animation-delay: 200ms; }
+.card-stagger-enter:nth-child(4) { animation-delay: 300ms; }
+.card-stagger-enter:nth-child(5) { animation-delay: 400ms; }
+
+/* Focus States - Accessible but Stylish */
+.focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(199, 91, 57, 0.4);
+}
+
+/* Scroll-triggered fade for sections */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
