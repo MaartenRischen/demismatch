@@ -213,8 +213,7 @@ export default function DemismatchCarouselMorphing() {
             The Sequence Matters
           </h2>
           <p className="text-[#4A4A4A] text-lg leading-relaxed">
-            We're not anti-technology. We're pro-sequence. Put the fish back in the water before augmenting it.
-            Fix the foundation before you build higher.
+            We're not anti-technology. We're pro-sequence. Before we augment humans, let's first allow them to be fully human. Put the fish back in the water before augmenting it.
           </p>
         </div>
 

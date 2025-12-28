@@ -105,37 +105,33 @@ export default function Home() {
     <main ref={scrollRef} className="min-h-screen bg-[#faf9f6] pt-20 relative">
       <Navigation />
 
-      {/* Hero Section - BOLD & Asymmetric */}
+      {/* Hero Section - Simplified & Spacious */}
       <section className="relative overflow-hidden">
-        {/* Diagonal background accent */}
+        {/* Subtle diagonal background accent */}
         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-[#C75B39]/5 to-transparent -skew-x-12 origin-top-right" />
 
-        <div className="px-8 py-16 md:py-24 max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-center">
-            {/* Text Content - Takes 7 columns */}
-            <div className="md:col-span-7 flex flex-col">
-              {/* Headline unit - headline and subheadline tightly connected */}
-              <div className="animate-fade-in-up">
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-[#0A0A0A] uppercase" style={{ fontFamily: "'Playfair Display', serif" }}>
-                  YOU'RE NOT BROKEN.
-                </h1>
-                <p className="text-xl md:text-2xl text-[#C75B39] mt-2" style={{ fontFamily: "'Playfair Display', serif" }}>
-                  You evolved for one world. You live in another.
-                </p>
-              </div>
+        <div className="px-8 py-20 md:py-32 lg:py-40 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-12 gap-12 md:gap-16 items-center">
+            {/* Text Content - Takes 7 columns, vertically centered */}
+            <div className="md:col-span-7 flex flex-col justify-center">
+              {/* Headline - THE dominant visual element */}
+              <h1
+                className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight text-[#0A0A0A] uppercase leading-[0.9] animate-fade-in-up"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                YOU'RE NOT BROKEN.
+              </h1>
 
-              {/* Body text - moderate spacing above */}
-              <p className="text-body-lg text-[#4A4A4A] mt-8 animate-fade-in-up delay-200">
-                Purpose became productivity. Touch became texting. Connection became content.
+              {/* Subheadline - Orange, substantial but smaller */}
+              <p
+                className="text-xl sm:text-2xl md:text-3xl text-[#C75B39] mt-6 md:mt-8 animate-fade-in-up delay-100"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                You evolved for one world. You live in another.
               </p>
 
-              {/* Closing line - orange, moderate spacing above */}
-              <p className="text-xl md:text-2xl text-[#C75B39] font-semibold mt-8 animate-fade-in-up delay-300" style={{ fontFamily: "'Playfair Display', serif" }}>
-                It's not you. It's the mismatch.
-              </p>
-
-              {/* CTA Button */}
-              <div className="mt-10 animate-fade-in-up delay-400">
+              {/* CTA Button - Comfortable spacing */}
+              <div className="mt-10 md:mt-14 animate-fade-in-up delay-200">
                 <Link href="/framework" className="btn-primary inline-block">
                   Understand Your Mismatch
                 </Link>
@@ -157,15 +153,52 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Bottom statement */}
-        <div className="bg-[#1A1A1A] py-12 mt-12">
-          <div className="max-w-4xl mx-auto px-8 text-center">
-            <p className="text-body-lg text-[#FAF9F6]" style={{ fontFamily: "'Playfair Display', serif" }}>
-              <span className="italic">Before we augment humans, let's first allow them to be fully human.</span>{" "}
-              <span className="font-semibold">De-mismatch first. Then augment.</span>
+      {/* The Substitution - Recognition Section */}
+      <section className="bg-[#F5F3EF] py-16 md:py-24">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          {/* Three substitutions - each on its own line */}
+          <div className="space-y-4 md:space-y-6 mb-10 md:mb-14">
+            <p
+              className="text-xl md:text-2xl lg:text-3xl text-[#2A2A2A] font-medium"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              Purpose became productivity.
+            </p>
+            <p
+              className="text-xl md:text-2xl lg:text-3xl text-[#2A2A2A] font-medium"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              Touch became texting.
+            </p>
+            <p
+              className="text-xl md:text-2xl lg:text-3xl text-[#2A2A2A] font-medium"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              Connection became content.
             </p>
           </div>
+
+          {/* Payoff line - Orange, larger */}
+          <p
+            className="text-2xl md:text-3xl lg:text-4xl text-[#C75B39] font-semibold"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            It's not you. It's the mismatch.
+          </p>
+        </div>
+      </section>
+
+      {/* Dark Bar - The Principle */}
+      <section className="bg-[#1A1A1A] py-12 md:py-16">
+        <div className="max-w-4xl mx-auto px-8 text-center">
+          <p
+            className="text-2xl md:text-3xl lg:text-4xl text-[#FAF9F6] font-semibold italic"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            De-mismatch first. Then augment.
+          </p>
         </div>
       </section>
 
