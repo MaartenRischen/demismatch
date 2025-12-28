@@ -196,79 +196,105 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Mobile/Tablet Layout: Stacked */}
+          {/* Mobile/Tablet Layout: The Convergence */}
           <div className="lg:hidden">
-            {/* Signal Section */}
-            <div className="mb-8 animate-fade-in-up">
-              <div
-                className="relative p-6 sm:p-8 overflow-hidden rounded-2xl border-2 border-[#E8DFD4]"
-                style={{
-                  background: 'linear-gradient(135deg, #FAF7F2 0%, #F5EDE3 50%, #FDF9F5 100%)',
-                  boxShadow: '0 25px 50px -12px rgba(166, 124, 82, 0.15)'
-                }}
-              >
-                <div className="absolute inset-0 opacity-30">
-                  <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-amber-200/40 to-transparent rounded-full blur-3xl" />
-                </div>
-                <div className="relative z-10">
-                  <h1
-                    className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0A0A0A] leading-[1.15] mb-5"
-                    style={{ fontFamily: "'Playfair Display', serif" }}
+            {/* Eye as Central Anchor with Split Background */}
+            <div className="relative mb-4">
+              {/* Split gradient background - warm/cool duality */}
+              <div className="absolute inset-0 flex overflow-hidden">
+                <div className="w-1/2 bg-gradient-to-br from-amber-100/60 via-orange-50/40 to-transparent" />
+                <div className="w-1/2 bg-gradient-to-bl from-slate-800/20 via-indigo-900/10 to-transparent" />
+              </div>
+
+              {/* Eye Image - Prominent, commanding */}
+              <div className="relative flex justify-center py-6 sm:py-8">
+                <div className="relative w-52 sm:w-64 eye-glow-pulse">
+                  <div
+                    className="relative overflow-hidden"
+                    style={{
+                      WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)',
+                      maskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)',
+                      WebkitMaskComposite: 'destination-in',
+                      maskComposite: 'intersect'
+                    }}
                   >
-                    We evolved for a world that no longer exists.
-                  </h1>
-                  <p className="text-base sm:text-lg text-[#3A3A3A] leading-relaxed" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-                    That's why you feel the way you feel — and why society is fracturing. Depression, anxiety, addiction, loneliness: these aren't malfunctions. They're your <strong>biology correctly signaling that something is wrong with your environment, not with you.</strong>
-                  </p>
+                    <img
+                      src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png"
+                      alt="Human eye - bridging signal and stakes"
+                      className="w-full h-auto object-contain animate-[slow-zoom_4s_ease-in-out_infinite_alternate]"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Eye Image - Mobile */}
-            <div className="flex justify-center my-8">
-              <div className="relative w-48 sm:w-64 eye-glow-pulse">
-                {/* Fixed mask wrapper - stays locked */}
+            {/* Converging Cards - Overlapping at collision point */}
+            <div className="relative px-3 sm:px-4">
+              {/* Signal Card - Warm, tilted slightly */}
+              <div
+                className="relative z-10 transform -rotate-[0.5deg] origin-bottom-right"
+                style={{ marginBottom: '-24px' }}
+              >
                 <div
-                  className="relative overflow-hidden"
+                  className="relative p-5 sm:p-6 overflow-hidden border-2 border-[#E8DFD4]"
                   style={{
-                    WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
-                    maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
-                    WebkitMaskComposite: 'destination-in',
-                    maskComposite: 'intersect'
+                    background: 'linear-gradient(135deg, #FAF7F2 0%, #F5EDE3 50%, #FDF9F5 100%)',
+                    boxShadow: '0 15px 40px -12px rgba(166, 124, 82, 0.2)',
+                    clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 20px), 0 100%)'
                   }}
                 >
-                  {/* Image zooms inside the fixed mask */}
-                  <img
-                    src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png"
-                    alt="Human eye - bridging signal and stakes"
-                    className="w-full h-auto object-contain animate-[slow-zoom_4s_ease-in-out_infinite_alternate]"
+                  <div className="absolute inset-0 opacity-30">
+                    <div className="absolute top-0 left-0 w-48 h-48 bg-gradient-to-br from-amber-200/50 to-transparent rounded-full blur-2xl" />
+                  </div>
+                  {/* Warm glow on bottom edge */}
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
+                    style={{ background: 'linear-gradient(to top, rgba(199, 91, 57, 0.15), transparent)' }}
                   />
+                  <div className="relative z-10 pb-4">
+                    <h1
+                      className="text-2xl sm:text-3xl font-bold tracking-tight text-[#0A0A0A] leading-[1.15] mb-3"
+                      style={{ fontFamily: "'Playfair Display', serif" }}
+                    >
+                      We evolved for a world that no longer exists.
+                    </h1>
+                    <p className="text-sm sm:text-base text-[#3A3A3A] leading-relaxed" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                      That's why you feel the way you feel. Depression, anxiety, addiction — these aren't malfunctions. They're your <strong>biology correctly signaling that something is wrong with your environment, not with you.</strong>
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Stakes Section */}
-            <div className="mb-8 animate-fade-in-up delay-200">
-              <div
-                className="relative p-6 sm:p-8 overflow-hidden rounded-2xl"
-                style={{
-                  background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f1a 100%)',
-                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.4)'
-                }}
-              >
-                <div className="absolute inset-0 opacity-10">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-blue-500/30 to-transparent rounded-full blur-3xl" />
-                </div>
-                <div className="relative z-10">
-                  <h2
-                    className="text-3xl sm:text-4xl font-bold tracking-tight leading-[1.15] mb-5"
-                    style={{ fontFamily: "'Playfair Display', serif", color: '#FFFFFF', textShadow: '0 2px 20px rgba(0,0,0,0.3)' }}
-                  >
-                    The most powerful technologies in history are arriving.
-                  </h2>
-                  <p className="text-base sm:text-lg text-white/90 leading-relaxed font-medium">
-                    AI and total immersion will either <strong>exploit human nature</strong> harder than anything before — <strong>or finally meet it.</strong> This is the framework for knowing the difference.
-                  </p>
+              {/* Stakes Card - Cool, counter-tilted, overlapping */}
+              <div className="relative z-20 transform rotate-[0.5deg] origin-top-left">
+                <div
+                  className="relative p-5 sm:p-6 overflow-hidden"
+                  style={{
+                    background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f1a 100%)',
+                    boxShadow: '0 20px 50px -12px rgba(0, 0, 0, 0.5)',
+                    clipPath: 'polygon(0 20px, 100% 0, 100% 100%, 0 100%)'
+                  }}
+                >
+                  <div className="absolute inset-0 opacity-15">
+                    <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-blue-400/40 to-transparent rounded-full blur-2xl" />
+                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-purple-500/30 to-transparent rounded-full blur-xl" />
+                  </div>
+                  {/* Cool glow on top edge */}
+                  <div
+                    className="absolute top-0 left-0 right-0 h-16 pointer-events-none"
+                    style={{ background: 'linear-gradient(to bottom, rgba(100, 150, 220, 0.2), transparent)' }}
+                  />
+                  <div className="relative z-10 pt-3">
+                    <h2
+                      className="text-2xl sm:text-3xl font-bold tracking-tight leading-[1.15] mb-3"
+                      style={{ fontFamily: "'Playfair Display', serif", color: '#FFFFFF', textShadow: '0 2px 15px rgba(0,0,0,0.4)' }}
+                    >
+                      The most powerful technologies in history are arriving.
+                    </h2>
+                    <p className="text-sm sm:text-base text-white/90 leading-relaxed font-medium">
+                      AI and total immersion will either <strong>exploit human nature</strong> harder than anything before — <strong>or finally meet it.</strong> This is the framework for knowing the difference.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
