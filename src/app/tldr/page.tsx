@@ -5,12 +5,24 @@ import Navigation from "@/components/Navigation";
 import HeroCarousel from "@/components/HeroCarousel";
 import DemismatchCarouselMorphing from "@/components/DemismatchCarouselMorphing";
 
+// Helper component for glossary links
+function G({ term, children }: { term: string; children: React.ReactNode }) {
+  return (
+    <Link
+      href={`/glossary#${term}`}
+      className="text-[#C75B39] hover:text-[#A84A2D] underline decoration-[#C75B39]/30 hover:decoration-[#C75B39] transition-colors"
+    >
+      {children}
+    </Link>
+  );
+}
+
 export default function TLDR() {
   return (
     <main className="min-h-screen bg-[#FDFCFA] pt-20">
       <Navigation />
 
-      {/* Hero - Compact, understated */}
+      {/* Header */}
       <header className="py-10 md:py-12">
         <div className="max-w-3xl mx-auto px-6 md:px-8 text-center">
           <h1
@@ -43,27 +55,65 @@ export default function TLDR() {
         </div>
       </header>
 
-      {/* Section 1: The Problem - Text left, large image right */}
+      {/* TL;DR of the TL;DR - NEW */}
+      <section className="bg-[#292524] py-20 md:py-28 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C75B39] to-transparent" />
+
+        <div className="max-w-6xl mx-auto px-6 md:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div>
+              <p className="text-[#C75B39] text-xs font-bold uppercase tracking-[0.25em] mb-6">TL;DR of the TL;DR</p>
+              <div className="space-y-6 text-lg text-[#D6D3D1] leading-[1.9]" style={{ fontFamily: "Georgia, serif" }}>
+                <p>
+                  <strong className="text-white"><G term="mismatch">Mismatch</G></strong>: the gap between what your biology expects and what modern life provides. It's why you're struggling. It's why society is fracturing.
+                </p>
+                <p>
+                  And the next wave of technology — superintelligent AI, full-immersion VR, brain-computer interfaces — will either exploit that gap harder than anything before, or... finally close it.
+                </p>
+                <p className="text-xl text-white pt-2" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                  One principle: <G term="demismatch">de-mismatch</G> first, then augment.
+                </p>
+              </div>
+            </div>
+
+            <figure>
+              <img
+                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/MAIN%20presentation%20graphic.png"
+                alt="The whole picture: from ancestral baseline through modern mismatch to the technological fork ahead"
+                className="w-full rounded-xl shadow-lg"
+              />
+              <figcaption
+                className="mt-4 text-center text-[0.9em] italic text-[#78716C] leading-[1.6]"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                The whole picture: from ancestral baseline through modern mismatch to the technological fork ahead.
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 01: The Problem */}
       <section className="bg-white py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-20 items-center">
             <div>
               <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">01</p>
               <h2
-                className="text-3xl md:text-4xl text-[#1A1A1A] mb-8 leading-tight"
+                className="text-2xl md:text-3xl lg:text-4xl text-[#C75B39] mb-8 leading-tight"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
-                The Problem
+                300,000+ years of one world. Then everything changed in an evolutionary instant.
               </h2>
               <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
                 <p>
-                  For 300,000 years, humans lived in conditions that remained remarkably consistent. Small bands of people who knew each other deeply. Daily movement through natural environments. Clear roles, real stakes, immediate feedback from the physical world.
+                  For 300,000+ years, humans lived in conditions that remained remarkably consistent. <G term="band">Bands</G> of 30-50 people who knew each other completely. <G term="tribe">Tribes</G> of around 150 — the maximum number your brain can track as individuals. <G term="fire-circle">Fire circles</G> every night where the whole group processed the day together. Children raised by 20+ adults, not two exhausted parents alone. Work that produced visible results for people you loved.
                 </p>
                 <p>
-                  Then everything changed — agriculture 12,000 years ago, industrialization 250 years ago, the internet 30 years ago, smartphones 18 years ago. On an evolutionary timescale, this is the blink of an eye.
+                  Then everything changed — agriculture 12,000 years ago, industrialization 250 years ago, smartphones 18 years ago. Evolution works on timescales of tens of thousands of years. It hasn't even begun to catch up.
                 </p>
                 <p>
-                  Our biology evolved for one world. We now live in a completely different one. This gap — between what our bodies and minds expect and what they actually encounter — is <em>mismatch</em>.
+                  The gap between the environment your biology expects and the environment you actually inhabit is called <G term="mismatch">mismatch</G>. You're running ancient hardware in an operating system it was never designed for.
                 </p>
               </div>
             </div>
@@ -77,14 +127,14 @@ export default function TLDR() {
                 className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6]"
                 style={{ fontFamily: "Georgia, serif" }}
               >
-                300,000 years of consistency, then everything changed in an evolutionary blink. We're running ancient hardware in an environment it was never designed for.
+                300,000+ years of consistency, then everything changed in an evolutionary blink. We're running ancient hardware in an environment it was never designed for.
               </figcaption>
             </figure>
           </div>
         </div>
       </section>
 
-      {/* Section 2: The Signal - Image left, text right */}
+      {/* Section 02: The Signal */}
       <section className="bg-[#F8F6F2] py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -100,20 +150,20 @@ export default function TLDR() {
             <div>
               <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">02</p>
               <h2
-                className="text-3xl md:text-4xl text-[#1A1A1A] mb-8 leading-tight"
+                className="text-2xl md:text-3xl lg:text-4xl text-[#C75B39] mb-8 leading-tight"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
-                The Signal
+                What we call disorders are often signals. The signal isn't broken — the environment is.
               </h2>
               <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
                 <p>
-                  When we label something a "disorder," we imply the system is malfunctioning. But what if the system is working exactly as designed — just in the wrong environment?
+                  When we label something a "disorder," we imply the system is malfunctioning. But what if the system is working exactly as designed — just receiving inputs it was never calibrated for?
                 </p>
                 <p>
-                  Depression often functions as a withdrawal response when social bonds are absent or goals seem unreachable. Anxiety spikes when we face threats we can't fight or flee. Addiction fills voids left by missing tribe, purpose, or genuine reward. Loneliness is a biological alarm telling us our social needs are unmet.
+                  Depression often functions as a withdrawal response when <G term="tribe">tribal bonds</G> are absent or goals seem unreachable. Anxiety spikes when you face <G term="open-loops">open loops</G> — threats you can't fight, flee, or resolve. Addiction fills voids left by missing tribe, purpose, or genuine reward, offering <G term="proxy">proxies</G> that trigger the drive without meeting the need. Loneliness is a biological alarm telling you you've been cut off from the group — which, for 300,000 years, meant you were about to die.
                 </p>
                 <p>
-                  These signals aren't errors. They're accurate readings of a bad environment. The problem isn't the dashboard warning light — it's what the light is detecting.
+                  The framework calls this distinction <G term="signal">signal</G> vs <G term="symptom">symptom</G>. A signal is information requiring environmental response. A symptom is a malfunction requiring suppression. Psychiatry often treats signals as symptoms — medicating the dashboard warning light instead of checking what it's detecting.
                 </p>
               </div>
             </div>
@@ -121,50 +171,53 @@ export default function TLDR() {
         </div>
       </section>
 
-      {/* Section 3: What We Evolved For - Title updated, text right, image left */}
+      {/* Section 03: Economy of Mismatch */}
       <section className="bg-white py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="grid lg:grid-cols-[1.4fr_1fr] gap-12 lg:gap-20 items-center">
+          <div className="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-20 items-center">
+            <div>
+              <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">03</p>
+              <h2
+                className="text-2xl md:text-3xl lg:text-4xl text-[#C75B39] mb-8 leading-tight"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                Every unmet human need is a market.
+              </h2>
+              <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
+                <p>
+                  This isn't conspiracy — it's documented business strategy. It's called the <G term="exploitation-formula">exploitation formula</G>: identify a real human need, block or degrade genuine satisfaction, offer a <G term="proxy">proxy</G> that mimics the signal without meeting the need, monetize the repeat visits.
+                </p>
+                <p>
+                  Social media exploits your need for <G term="tribe">tribe</G> — likes and followers trigger belonging circuits without providing actual belonging. <G term="parasocial-relationships">Parasocial relationships</G> with influencers fill slots in your <G term="dunbar-layers">Dunbar layers</G> that could hold real friends. Porn exploits sexual drives with <G term="hyperstimuli">hyperstimuli</G> that make real intimacy feel inadequate. Junk food hits <G term="bliss-points">bliss points</G> engineered to maximize craving without satisfaction. Dating apps profit most from users who never find lasting partners.
+                </p>
+                <p>
+                  The <G term="atomized-individual">atomized individual</G> — severed from tribe, purpose, and genuine intimacy — is the ideal consumer. A fully satisfied human embedded in a functioning tribe is a terrible customer. They don't need retail therapy, dating apps, or antidepressants to cope with isolation.
+                </p>
+                <p className="font-medium">
+                  The systems aren't failing. They're succeeding at what they're designed for. The problem is that their goals aren't aligned with human flourishing.
+                </p>
+              </div>
+            </div>
+
             <figure>
               <img
-                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/MAIN%20presentation%20graphic.png"
-                alt="What we evolved for versus modern substitutes"
+                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/38_The_Exploitation_Players.png"
+                alt="The exploitation economy players"
                 className="w-full rounded-xl shadow-lg"
               />
               <figcaption
                 className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6]"
                 style={{ fontFamily: "Georgia, serif" }}
               >
-                The full map: what we evolved for, what we got instead, and the technological layer being built on top. That layer forks into two futures — one exploits human nature harder than ever, the other finally meets it.
+                Every unmet human need is a market. The players, the playbook, the profit.
               </figcaption>
             </figure>
-            <div>
-              <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">03</p>
-              <h2
-                className="text-3xl md:text-4xl text-[#1A1A1A] mb-8 leading-tight"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-              >
-                What We Evolved For, What We Got, and What Comes Next
-              </h2>
-              <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
-                <p>
-                  Every domain of human life has been transformed in ways that trigger the same receptors but don't deliver the same outcomes.
-                </p>
-                <p>
-                  We evolved for movement through varied terrain — we got sitting at desks and running on treadmills. We evolved for deep bonds with a stable group — we got thousands of shallow connections and algorithmic feeds. We evolved for natural light cycles — we got screens at midnight. We evolved for real stakes and tangible goals — we got abstract metrics and infinite scroll.
-                </p>
-                <p>
-                  The substitutes feel similar enough to be accepted by our biology, but different enough to leave us depleted rather than fulfilled.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Section 4: The Stakes - Dark section about AI/VR futures */}
+      {/* Section 04: The Stakes - Dark section */}
       <section className="bg-[#292524] py-28 md:py-36 relative overflow-hidden">
-        {/* Top accent line */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C75B39] to-transparent" />
 
         <div className="max-w-6xl mx-auto px-6 md:px-8 relative">
@@ -172,26 +225,26 @@ export default function TLDR() {
             <div>
               <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">04</p>
               <h2
-                className="text-3xl md:text-4xl mb-10 leading-tight"
+                className="text-2xl md:text-3xl lg:text-4xl mb-10 leading-tight"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "#C75B39" }}
               >
-                The Stakes
+                AI and VR will either exploit human nature harder than ever, or finally meet it.
               </h2>
               <div className="space-y-6 text-lg text-[#D6D3D1] leading-[1.9]" style={{ fontFamily: "Georgia, serif" }}>
                 <p>
-                  Understanding mismatch has always mattered, but it's about to matter much more.
+                  Understanding mismatch has always mattered. It's about to matter much more.
                 </p>
                 <p>
-                  Social media exploited human nature somewhat accidentally — engineers optimizing for engagement discovered what hooks attention. AI and immersive VR are different. These technologies will understand human psychology better than we understand ourselves, and they'll be able to simulate anything.
+                  Social media exploited human nature somewhat accidentally — engineers optimizing for engagement discovered what hooks attention. They stumbled onto <G term="variable-ratio-reinforcement">variable ratio reinforcement</G>, the most addictive reward schedule known to psychology. Infinite scroll removes all stopping points. The exploitation was emergent, not designed.
                 </p>
                 <p className="text-[#FAFAF9]">
-                  They could exploit every vulnerability we have, or they could be designed to actually meet human needs — real tribe, real purpose, real presence. The difference depends entirely on whether the people building these technologies understand mismatch.
+                  AI and immersive VR are different. These technologies will understand human psychology better than we understand ourselves. They'll know your <G term="dunbar-layers">Dunbar layers</G>, your status anxieties, your <G term="open-loops">open loops</G>, your unmet needs — and they'll be able to simulate anything.
                 </p>
-                <p
-                  className="text-xl text-white pt-4"
-                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-                >
-                  This framework is an attempt to make sure they do.
+                <p>
+                  They could run the <G term="exploitation-formula">exploitation formula</G> at a scale and precision we've never seen. Or they could be designed as <G term="pharmakon">pharmakon</G> — technology that actually meets human needs instead of hijacking them. AI that helps form real tribes. VR that provides genuine <G term="fire-circle">fire circle</G> experiences for the geographically scattered. <G term="decay-functions">Decay functions</G> that push you toward real connection rather than substituting for it.
+                </p>
+                <p className="text-xl text-white pt-2" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                  The difference depends entirely on whether the people building these technologies understand mismatch. This framework exists to make sure they do.
                 </p>
               </div>
             </div>
@@ -199,64 +252,31 @@ export default function TLDR() {
             <figure className="hidden lg:block">
               <img
                 src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/2_Exploitation_Loop_Diagram.png"
-                alt="The exploitation loop - how unmet needs create markets that profit from keeping needs unmet"
-                className="w-full rounded-xl opacity-60"
+                alt="The exploitation loop diagram"
+                className="w-full rounded-xl opacity-70"
               />
               <figcaption
                 className="mt-4 text-center text-[0.9em] italic text-[#78716C] leading-[1.6]"
                 style={{ fontFamily: "Georgia, serif" }}
               >
-                The exploitation loop. AI could run this cycle faster than ever — or break it entirely.
+                The fork: one path deepens mismatch, the other finally meets human nature.
               </figcaption>
             </figure>
           </div>
         </div>
       </section>
 
-      {/* Section 5: The Economy of Mismatch - Text first, image below */}
+      {/* Section 05: The Principle */}
       <section className="bg-[#F8F6F2] py-24 md:py-32">
-        <div className="max-w-4xl mx-auto px-6 md:px-8">
-          <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">05</p>
-          <h2
-            className="text-3xl md:text-4xl text-[#1A1A1A] mb-8 leading-tight"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-          >
-            The Economy of Mismatch
-          </h2>
-
-          <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8] mb-12" style={{ fontFamily: "Georgia, serif" }}>
-            <p>
-              This isn't conspiracy — it's documented business strategy.
-            </p>
-            <p>
-              Internal Facebook research showed Instagram harms teen mental health. Pharmaceutical companies market signal-suppression for conditions with environmental roots. Food scientists optimize for "bliss points" that override satiety. Dating apps profit most from users who never find lasting partners. Social platforms are designed for engagement, not wellbeing.
-            </p>
-            <p>
-              Every unmet human need is a market. The systems aren't failing — they're succeeding at what they're designed for. The problem is that their goals aren't aligned with human flourishing.
-            </p>
-          </div>
-
-          <figure>
-            <img
-              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/38_The_Exploitation_Players.png"
-              alt="The exploitation economy"
-              className="w-full rounded-xl shadow-lg"
-            />
-            <figcaption
-              className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6]"
-              style={{ fontFamily: "Georgia, serif" }}
-            >
-              Every unmet human need is a market. The players, the playbook, the profit.
-            </figcaption>
-          </figure>
-        </div>
-      </section>
-
-      {/* Section 6: The Principle - Demismatch First, Then Augment */}
-      <section className="bg-white py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <div className="text-center mb-16">
-            <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">06</p>
+          <div className="mb-12">
+            <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">05</p>
+            <h2
+              className="text-2xl md:text-3xl lg:text-4xl text-[#C75B39] leading-tight max-w-4xl"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            >
+              We're not anti-tech. We're all for integrating with technology. But the order matters.
+            </h2>
           </div>
 
           <div className="grid lg:grid-cols-[1fr_280px] gap-12 lg:gap-16 items-stretch">
@@ -264,48 +284,48 @@ export default function TLDR() {
             <div className="space-y-16">
               {/* Part 1: Demismatch First */}
               <div>
-                <h2
-                  className="text-3xl md:text-4xl text-[#1A1A1A] mb-6 leading-tight"
+                <h3
+                  className="text-2xl md:text-3xl text-[#1A1A1A] mb-6 leading-tight"
                   style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   Demismatch First
-                </h2>
+                </h3>
                 <div className="space-y-4 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
                   <p>
                     Before reaching for any intervention — pharmaceutical, technological, therapeutic — ask which ancestral needs are going unmet.
                   </p>
                   <p>
-                    Does this person have genuine community? Daily movement? Exposure to nature? A sense of purpose? Adequate sleep in sync with light cycles?
+                    Does this person have genuine <G term="tribe">tribe</G>? Not followers — actual 5-15-50 relationships with depth and reciprocity. Daily movement? Exposure to nature? <G term="circadian-alignment">Circadian alignment</G> — sleep synced to light cycles? Work with visible contribution? A sense of purpose? <G term="closed-loops">Closed loops</G> — problems that resolve through action?
                   </p>
                   <p>
-                    Address those foundations first. You can't optimize a system that's missing its basic inputs.
+                    Address those foundations first. You can't optimize a system that's missing its basic inputs. Medication that overrides the <G term="signal">signal</G> while the environment stays mismatched isn't healing — it's the <G term="oil-light-metaphor">oil light metaphor</G>: covering the dashboard warning instead of checking the engine.
                   </p>
                 </div>
               </div>
 
               {/* Part 2: Then Augment */}
               <div>
-                <h2
-                  className="text-3xl md:text-4xl text-[#1A1A1A] mb-6 leading-tight"
+                <h3
+                  className="text-2xl md:text-3xl text-[#1A1A1A] mb-6 leading-tight"
                   style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   Then Augment
-                </h2>
+                </h3>
                 <div className="space-y-4 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
                   <p>
-                    Once the baseline is established — real tribe, real movement, real purpose — technology becomes a force multiplier rather than a substitute.
+                    Once the baseline is established — real tribe, real movement, real purpose — technology becomes a force multiplier rather than a <G term="proxy">proxy</G>.
                   </p>
                   <p>
-                    AI that extends capability. Communication tools that coordinate an actual tribe. Productivity systems that amplify meaningful work.
+                    AI that extends capability while you're embedded in real community. Communication tools that coordinate an actual <G term="band">band</G>. Productivity systems that amplify meaningful work. Health tech that supports an already-healthy baseline.
                   </p>
                   <p>
-                    You can't augment broken. Technology applied to a thriving human extends what's already working.
+                    The sequence matters. Augmentation applied to a thriving human extends what's already working. Augmentation applied to a depleted human just creates new ways to compensate for what's missing. You can't augment broken.
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Right: Vertical Carousel - stretches to match text height */}
+            {/* Right: Vertical Carousel */}
             <div className="hidden lg:block">
               <DemismatchCarouselMorphing minimal vertical />
             </div>
@@ -315,59 +335,48 @@ export default function TLDR() {
           <div className="lg:hidden mt-12">
             <DemismatchCarouselMorphing minimal />
           </div>
+
+          <figcaption
+            className="mt-8 text-center text-[0.9em] italic text-[#666] leading-[1.6]"
+            style={{ fontFamily: "Georgia, serif" }}
+          >
+            The sequence matters: establish the baseline before you augment.
+          </figcaption>
         </div>
       </section>
 
-      {/* Section 7: The Vision - Warmer background, visual separator */}
-      <section className="bg-[#F5F3EF] py-24 md:py-32 border-t border-[#E5E0D8]">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+      {/* Section 06: The Vision - LIGHT background */}
+      <section className="bg-white py-24 md:py-32 border-t border-[#E5E0D8]">
+        <div className="max-w-4xl mx-auto px-6 md:px-8">
           <div className="text-center mb-12">
-            <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">07</p>
+            <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">06</p>
+            <h2
+              className="text-2xl md:text-3xl lg:text-4xl text-[#C75B39] leading-tight"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            >
+              Not a return to caves. A future built with human nature in mind.
+            </h2>
           </div>
 
-          <div className="grid lg:grid-cols-[1fr_300px] gap-12 lg:gap-16 items-center">
-            {/* Left: Text */}
-            <div>
-              <h2
-                className="text-3xl md:text-4xl text-[#1A1A1A] mb-8 leading-tight"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-              >
-                The Vision
-              </h2>
-              <div className="space-y-6 text-lg text-[#3A3A3A] leading-[1.9]" style={{ fontFamily: "Georgia, serif" }}>
-                <p>
-                  This isn't a call to abandon modernity or return to prehistoric conditions. That's neither possible nor desirable.
-                </p>
-                <p>
-                  The vision is conscious alignment — designing environments, technologies, and social structures that work with human nature rather than against it. Understanding what our biology actually needs, and building systems that deliver it in modern form.
-                </p>
-                <p
-                  className="text-[#1A1A1A] text-xl md:text-2xl font-medium pt-4"
-                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-                >
-                  We can have connection without exploitation, technology without addiction, progress without self-destruction. But only if we understand the hardware we're working with.
-                </p>
-              </div>
-            </div>
-
-            {/* Right: Eye Image with Animation */}
-            <div className="hidden lg:flex justify-center">
-              <div className="relative w-64 eye-glow-pulse">
-                <div
-                  className="relative overflow-hidden"
-                  style={{
-                    maskImage: 'radial-gradient(ellipse 100% 100% at center, black 50%, transparent 75%)',
-                    WebkitMaskImage: 'radial-gradient(ellipse 100% 100% at center, black 50%, transparent 75%)',
-                  }}
-                >
-                  <img
-                    src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png"
-                    alt="Human eye - understanding the hardware"
-                    className="w-full h-auto object-contain animate-[slow-zoom_4s_ease-in-out_infinite_alternate]"
-                  />
-                </div>
-              </div>
-            </div>
+          <div className="space-y-6 text-lg text-[#3A3A3A] leading-[1.9] max-w-3xl mx-auto" style={{ fontFamily: "Georgia, serif" }}>
+            <p>
+              This isn't a call to abandon modernity or return to prehistoric conditions. That's neither possible nor desirable. The <G term="eea">EEA</G> had 27% infant mortality, violence, scarcity, disease. We don't want to go back.
+            </p>
+            <p>
+              But we can go forward with the spec sheet in hand.
+            </p>
+            <p>
+              The vision is conscious alignment — designing environments, technologies, and social structures that work with human nature rather than against it. Understanding what your biology actually requires: <G term="tribe">tribe</G>, <G term="fire-circle">fire circle</G>, visible contribution, <G term="closed-loops">closed loops</G>, <G term="circadian-alignment">circadian alignment</G>. Building systems that deliver these in modern form.
+            </p>
+            <p>
+              The most human post-human isn't someone who has transcended human needs through technology. It's someone who has met those needs fully and then augmented from that foundation. Baseline plus enhancement, not bypass.
+            </p>
+            <p
+              className="text-xl md:text-2xl text-[#1A1A1A] font-medium pt-6 text-center"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            >
+              We can have connection without exploitation, technology without addiction, progress without self-destruction. But only if we understand the hardware we're working with.
+            </p>
           </div>
         </div>
       </section>
