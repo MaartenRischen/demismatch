@@ -6,6 +6,8 @@ import { useSearchParams } from "next/navigation";
 import Navigation from "@/components/Navigation";
 import TTSPlayer from "@/components/TTSPlayer";
 import { FrameworkStructuredData } from "@/components/StructuredData";
+import HeroCarousel from "@/components/HeroCarousel";
+import DemismatchCarouselMorphing from "@/components/DemismatchCarouselMorphing";
 
 // Framework sections for navigation
 const SECTIONS = [
@@ -484,114 +486,119 @@ export default function FrameworkPage() {
         </div>
       </div>
 
-      {/* TL;DR Section */}
-      <div className="lg:ml-64 bg-gradient-to-b from-[#faf9f6] to-white border-b border-gray-200">
-        <div className="px-8 py-12 max-w-4xl mx-auto">
-          <div className="text-center mb-8">
-            <p className="text-[#c75b3a] text-sm uppercase tracking-widest mb-2">TL;DR</p>
-            <h2 className="text-3xl text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>
-              The Framework in 2 Minutes
-            </h2>
-          </div>
-
-          {/* The Problem */}
-          <div className="mb-12">
-            <h3 className="text-2xl text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>The Problem</h3>
-            <p className="text-lg text-gray-700 mb-4 leading-relaxed">
-              For 300,000 years, humans lived in conditions that remained remarkably consistent. Small bands. Known faces. Visible contribution. Daily closure. The hardware was built for this.
-            </p>
-            <p className="text-lg text-gray-700 mb-4 leading-relaxed">
-              10,000 years of agriculture. 200 years of industry. 15 years of smartphones. The hardware hasn't changed. The operating environment is unrecognizable.
-            </p>
-            <figure className="my-8">
-              <img
-                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/15_Fire_Circle_vs_Modern_Evening.png"
-                alt="Fire circle vs modern evening"
-                className="rounded-lg w-full max-w-xl mx-auto shadow-sm"
-              />
-            </figure>
-            <p className="text-lg text-gray-700 mb-4 leading-relaxed">
-              What we call anxiety, depression, addiction, loneliness - these aren't malfunctions. They're accurate signals from systems that work exactly as designed, reporting that the environment doesn't meet spec.
-            </p>
-            <p className="text-xl text-gray-900 font-medium" style={{ fontFamily: 'Georgia, serif' }}>
-              The signals aren't broken. The environment is.
-            </p>
-          </div>
-
-          {/* The Timeline */}
-          <div className="mb-12">
-            <h3 className="text-2xl text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>The Timeline</h3>
-            <figure className="my-6">
-              <img
-                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/18_Timeline_Compression.png"
-                alt="Timeline compression"
-                className="rounded-lg w-full max-w-xl mx-auto shadow-sm"
-              />
-            </figure>
-            <div className="font-mono text-lg text-gray-700 space-y-2 my-6 bg-white p-6 rounded-lg border border-gray-200 max-w-md mx-auto">
-              <p>300,000 years - consistent conditions</p>
-              <p>10,000 years - agriculture</p>
-              <p>200 years - industrialization</p>
-              <p>15 years - smartphones</p>
+      {/* TL;DR Section - The Complete Story */}
+      <div className="lg:ml-64 border-b border-gray-200">
+        {/* Section 1: You're Not Broken */}
+        <div className="bg-[#F5F3EF] py-16 md:py-20">
+          <div className="max-w-5xl mx-auto px-6 md:px-8">
+            <div className="text-center mb-4">
+              <p className="text-[#c75b3a] text-sm uppercase tracking-widest mb-3">TL;DR</p>
             </div>
-            <p className="text-xl text-gray-900 font-medium text-center" style={{ fontFamily: 'Georgia, serif' }}>
-              Four numbers. The entire story.
+            <h2
+              className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#0A0A0A] text-center mb-12"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            >
+              You're not broken. You're mismatched.
+            </h2>
+            <div className="max-w-4xl mx-auto">
+              <HeroCarousel />
+            </div>
+          </div>
+        </div>
+
+        {/* Section 2: What We Evolved For vs What We Got */}
+        <div className="bg-gradient-to-b from-[#F5F3EF] via-white to-[#faf9f6] py-16 md:py-20">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
+            <div className="text-center mb-10">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-[#C75B39] mb-3">
+                The Big Picture
+              </p>
+              <h3
+                className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0A0A0A] max-w-3xl mx-auto"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                What we evolved for vs. what we got
+              </h3>
+            </div>
+            <div className="relative max-w-4xl mx-auto">
+              {/* Decorative corner accents */}
+              <div className="hidden md:block absolute -top-3 -left-3 w-12 h-12 border-l-2 border-t-2 border-[#C75B39]/30" />
+              <div className="hidden md:block absolute -top-3 -right-3 w-12 h-12 border-r-2 border-t-2 border-[#C75B39]/30" />
+              <div className="hidden md:block absolute -bottom-3 -left-3 w-12 h-12 border-l-2 border-b-2 border-[#C75B39]/30" />
+              <div className="hidden md:block absolute -bottom-3 -right-3 w-12 h-12 border-r-2 border-b-2 border-[#C75B39]/30" />
+              <div
+                className="relative bg-white rounded-lg overflow-hidden"
+                style={{ boxShadow: '0 25px 80px -20px rgba(0, 0, 0, 0.15)' }}
+              >
+                <img
+                  src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/MAIN%20presentation%20graphic.png"
+                  alt="The Demismatch Framework: What we evolved for versus modern substitutes"
+                  className="w-full h-auto"
+                />
+              </div>
+            </div>
+            <p className="text-center text-base text-gray-600 mt-8 max-w-2xl mx-auto italic">
+              Our biology was shaped by millions of years of evolution. Technology changed our environment in mere decades.
             </p>
           </div>
+        </div>
 
-          {/* The Economy */}
-          <div className="mb-12">
-            <h3 className="text-2xl text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>The Economy of Mismatch</h3>
-            <p className="text-lg text-gray-700 mb-4">
-              This isn't conspiracy. It's documented business strategy.
-            </p>
-            <figure className="my-6">
-              <img
-                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/38_The_Exploitation_Players.png"
-                alt="The exploitation economy players"
-                className="rounded-lg w-full max-w-xl mx-auto shadow-sm"
-              />
-            </figure>
-            <p className="text-lg text-gray-700 mb-4 leading-relaxed">
-              Internal Facebook research showed Instagram harms teen mental health. Nothing changed. Pharmaceutical companies market signal-override for conditions with no biomarkers. Food scientists optimize for "bliss points" that override satiety. Dating apps profit most from users who never find partners.
-            </p>
-            <p className="text-lg text-gray-700 leading-relaxed">
-              Every unmet human need is a market. The systems aren't failing - they're working exactly as designed. Just not for you.
+        {/* Section 3: How Every Domain Has Shifted */}
+        <div className="bg-gradient-to-b from-[#faf9f6] to-[#F5F3EF] py-16 md:py-20">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
+            <div className="text-center mb-10">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-[#C75B39] mb-3">
+                The Evidence
+              </p>
+              <h3
+                className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0A0A0A] max-w-2xl mx-auto"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                How every domain of life has shifted
+              </h3>
+            </div>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-b from-amber-100/20 via-transparent to-blue-100/20 blur-3xl -z-10" />
+              <div
+                className="relative bg-white rounded-xl overflow-hidden mx-auto"
+                style={{ boxShadow: '0 30px 100px -20px rgba(0, 0, 0, 0.2)' }}
+              >
+                <img
+                  src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/timelines.png"
+                  alt="The Human Evolution: Organic vs Digital"
+                  className="w-full h-auto"
+                />
+              </div>
+            </div>
+            <p className="text-center text-base text-gray-600 mt-8 max-w-xl mx-auto">
+              For 99% of human existence, we lived one way. The last 1% changed everything.
             </p>
           </div>
+        </div>
 
-          {/* The Vision */}
-          <div className="mb-8">
-            <h3 className="text-2xl text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>The Vision</h3>
-            <p className="text-xl text-gray-900 font-medium mb-4" style={{ fontFamily: 'Georgia, serif' }}>
-              Demismatch first. Then augment.
+        {/* Section 4: De-mismatch First, Then Augment */}
+        <div className="bg-[#faf9f6] py-8 md:py-12">
+          <div className="max-w-6xl mx-auto px-6 md:px-8 text-center">
+            <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-[#C75B39] mb-3">
+              The Path Forward
             </p>
-            <p className="text-lg text-gray-700 mb-4 leading-relaxed">
-              Not return to the past. Conscious alignment of environment with biology - enhanced by technology, chosen deliberately. The path forward isn't backward. It's through.
-            </p>
-            <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-              Build environments that fit the hardware. Then extend what humans can do and be, without breaking what we are.
-            </p>
-            <figure className="my-6">
-              <img
-                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/Demismatch_Augment.png"
-                alt="The progression: EEA → MISMATCH → DEMISMATCH → AUGMENTED"
-                className="rounded-lg w-full max-w-2xl mx-auto shadow-sm"
-              />
-              <figcaption className="text-center text-sm text-gray-500 mt-3">
-                EEA → MISMATCH → DEMISMATCH → AUGMENTED
-              </figcaption>
-            </figure>
-            <p className="text-xl text-gray-900 italic text-center mt-6" style={{ fontFamily: 'Georgia, serif' }}>
-              The most human post-human.
-            </p>
+            <h3
+              className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#0A0A0A]"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            >
+              De-mismatch first. Then augment.
+            </h3>
           </div>
+        </div>
+        <DemismatchCarouselMorphing />
 
-          <div className="text-center pt-6 border-t border-gray-200">
-            <p className="text-gray-600 mb-4">Ready for the full specification?</p>
-            <a href="#part-i" className="inline-flex items-center text-[#c75b3a] font-medium hover:underline">
+        {/* CTA to Full Framework */}
+        <div className="bg-[#faf9f6] py-12 border-t border-gray-200">
+          <div className="max-w-4xl mx-auto px-8 text-center">
+            <p className="text-gray-600 mb-4 text-lg">Ready for the full specification?</p>
+            <a href="#part-i" className="inline-flex items-center text-[#c75b3a] font-semibold text-lg hover:underline">
               Start reading the framework
-              <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </a>

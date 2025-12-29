@@ -302,8 +302,9 @@ export default function Home() {
 
           {/* CTA Button - Centered */}
           <div className="text-center animate-fade-in-up delay-300">
-            <Link href="/framework" className="btn-primary btn-shimmer btn-press inline-block text-lg px-8 py-4">
-              Understand the Framework
+            <Link href="/framework" className="btn-primary btn-shimmer btn-press inline-flex flex-col items-center text-center px-10 py-5">
+              <span className="text-lg font-bold tracking-wide">SO NOW WHAT?</span>
+              <span className="text-xs font-normal opacity-80 mt-1">(Understand the framework)</span>
             </Link>
           </div>
         </div>
