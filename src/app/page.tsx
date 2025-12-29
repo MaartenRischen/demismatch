@@ -388,6 +388,49 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Timelines Infographic - Organic vs Digital */}
+      <section className="bg-gradient-to-b from-[#F5F3EF] to-[#faf9f6] py-16 md:py-24">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
+          {/* Section header */}
+          <div className="text-center mb-10 md:mb-14">
+            <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-[#C75B39] mb-3">
+              The Evidence
+            </p>
+            <h2
+              className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0A0A0A] max-w-2xl mx-auto leading-tight"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              How every domain of life has shifted
+            </h2>
+          </div>
+
+          {/* The Infographic */}
+          <div className="relative">
+            {/* Subtle glow behind */}
+            <div className="absolute inset-0 bg-gradient-to-b from-amber-100/20 via-transparent to-blue-100/20 blur-3xl -z-10" />
+
+            {/* Image with elegant shadow */}
+            <div
+              className="relative bg-white rounded-xl overflow-hidden mx-auto"
+              style={{
+                boxShadow: '0 30px 100px -20px rgba(0, 0, 0, 0.2), 0 15px 40px -15px rgba(0, 0, 0, 0.1)'
+              }}
+            >
+              <img
+                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/timelines.png"
+                alt="The Human Evolution: Organic vs Digital - comparing social connection, food, movement, circadian rhythms, community, and economics across evolutionary and modern times"
+                className="w-full h-auto"
+              />
+            </div>
+          </div>
+
+          {/* Caption */}
+          <p className="text-center text-sm sm:text-base text-[#6B6B6B] mt-8 max-w-xl mx-auto">
+            For 99% of human existence, we lived one way. The last 1% changed everything.
+          </p>
+        </div>
+      </section>
+
       {/* The Principle Section with Carousel */}
       <section className="bg-[#faf9f6] py-8 md:py-12">
         <div className="max-w-6xl mx-auto px-6 md:px-8 text-center mb-8">
