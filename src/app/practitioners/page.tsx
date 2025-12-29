@@ -395,9 +395,18 @@ export default function PractitionersPage() {
           </li>
         </ul>
 
-        <p className="text-xl text-[#1A1A1A] font-medium mb-8">
+        <p className="text-xl text-[#1A1A1A] font-medium mb-6">
           You're not crazy for sensing this. Your voice matters.
         </p>
+        <p className="text-lg text-[#4A4A4A] leading-relaxed mb-4">
+          The goal isn't just reducing suffering. It's building the foundation for human thriving — and then the technology that extends it.
+        </p>
+        <Link href="/future" className="text-emerald-500 hover:underline text-lg inline-flex items-center gap-2 mb-8">
+          See the destination
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </Link>
 
         <figure className="my-12">
           <img

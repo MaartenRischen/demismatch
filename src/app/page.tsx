@@ -34,6 +34,18 @@ function useScrollAnimation() {
 // The Call card data with tint colors and links
 const callCards = [
   {
+    title: "The Future",
+    description: "AI, VR, and neural interfaces will either exploit human nature or finally meet it. See what we're building toward.",
+    href: "/future",
+    icon: (
+      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+      </svg>
+    ),
+    tint: "card-tint-terracotta",
+    accentColor: "#C75B39"
+  },
+  {
     title: "Systems Changers",
     description: "Policy makers, researchers, journalists shifting the paradigm",
     href: "/systems",
@@ -42,8 +54,8 @@ const callCards = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
       </svg>
     ),
-    tint: "card-tint-terracotta",
-    accentColor: "#C75B39"
+    tint: "card-tint-slate",
+    accentColor: "#4A5568"
   },
   {
     title: "Builders",
@@ -335,11 +347,17 @@ export default function Home() {
       <section className="bg-[#faf9f6] py-12 md:py-16">
         <div className="max-w-6xl mx-auto px-6 md:px-8 text-center mb-8">
           <h2
-            className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#0A0A0A]"
+            className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#0A0A0A] mb-2"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
-            The Mission: De-mismatch first, then augment.
+            De-mismatch first. Then augment.
           </h2>
+          <p
+            className="text-xl md:text-2xl text-[#C75B39] font-medium"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            The most human post-human.
+          </p>
         </div>
         <DemismatchCarouselMorphing />
       </section>
@@ -460,10 +478,13 @@ export default function Home() {
 
               <div className="mt-12 pt-8 border-t border-[#FAF9F6]/20">
                 <p
-                  className="text-2xl md:text-3xl text-[#C75B39] font-medium"
+                  className="text-2xl md:text-3xl text-[#C75B39] font-medium mb-6"
                   style={{ fontFamily: "'Playfair Display', serif" }}
                 >
                   Once you see it, you can't unsee it.
+                </p>
+                <p className="text-lg text-[#E5E0D8] leading-relaxed">
+                  The evolutionary psychology is the spec sheet. The exploitation is the warning. The augmented future is the destination.
                 </p>
               </div>
 

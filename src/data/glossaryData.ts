@@ -3,6 +3,7 @@ export interface GlossaryTerm {
   id: string;
   title: string;
   definition: string[];
+  seeAlso?: string[];
 }
 
 export const glossaryTerms: GlossaryTerm[] = [
@@ -29,11 +30,14 @@ export const glossaryTerms: GlossaryTerm[] = [
     id: "augment",
     title: "Augment",
     definition: [
-      "Extending human capability through technology—but only from a foundation of thriving.",
-      "The premise: you can't augment broken. If a human is already mismatched—isolated, purposeless, chronically stressed—then adding technology just amplifies dysfunction. AI assistants become substitutes for human connection. Productivity tools accelerate burnout. Social media deepens loneliness.",
-      "But technology applied to a thriving human is different. Communication tools that coordinate an actual tribe. AI that extends capability rather than replacing relationship. Health monitoring that supports an already-healthy baseline.",
-      "The sequence matters: demismatch first, then augment. Get the human thriving in a matched environment, then enhance from there. We're talking about augmenting humans with technology, but we haven't established what a thriving human baseline even looks like. What exactly are we augmenting?"
-    ]
+      "Extending human capability through technology. We've been doing this forever.",
+      "Writing externalized memory—you no longer need to hold everything in your head. Glasses corrected vision. Telescopes and microscopes extended perception beyond biological limits. Phones collapsed distance. Cars extended range. The internet externalized vast knowledge stores. Each augmentation let humans do something they couldn't do before, or do it better.",
+      "Current augmentations are already profound. Your smartphone is a cognitive prosthetic—calculator, calendar, navigator, encyclopedia, communication device. You offload tasks your brain would otherwise handle. This isn't cheating. It's what humans have always done.",
+      "What's coming is more radical. AI assistants that think alongside you. Brain-computer interfaces that bypass speech entirely. Full-immersion VR that simulates any environment. Genetic editing. Neural enhancement. The line between human and tool blurs further with each generation.",
+      "The framework's position isn't anti-augmentation—it's pro-sequence. Augmentation applied to a thriving human extends what's already working. Augmentation applied to a depleted human often compensates for what's missing, creating dependency rather than extension. AI companions for the isolated aren't enhancement—they're proxies. The same technology, applied to someone with real tribe, becomes coordination infrastructure rather than substitution.",
+      "The question isn't whether to augment. We're already cyborgs. The question is: what are we augmenting? A baseline of thriving, or a baseline of depletion?"
+    ],
+    seeAlso: ["demismatch", "pharmakon", "the-most-human-post-human", "proxy"]
   },
   {
     id: "bliss-point",
@@ -90,6 +94,16 @@ export const glossaryTerms: GlossaryTerm[] = [
     ]
   },
   {
+    id: "constructive-scarcity",
+    title: "Constructive Scarcity",
+    definition: [
+      "Challenges that remain regardless of material abundance: time limits, skill mastery, relationship depth, creative problems, coordination needs, contribution uniqueness. These create conditions for meaning — your effort matters, your contribution is needed.",
+      "Distinguished from toxic scarcity (material deprivation that creates desperation). Automation eliminates toxic scarcity; constructive scarcity remains.",
+      "This is why billionaires are miserable and lottery winners report decreased happiness. The tribe collectively overcomes meaningful challenges. Effort is real. Your contribution matters because it's actually needed."
+    ],
+    seeAlso: ["toxic-scarcity", "visible-contribution"]
+  },
+  {
     id: "cortisol",
     title: "Cortisol",
     definition: [
@@ -142,6 +156,16 @@ export const glossaryTerms: GlossaryTerm[] = [
       "You can override them temporarily—fasting, celibacy, walking on hot coals—but you can't eliminate them. They're running in the background, always, shaping your experience and pushing you toward behaviors that historically promoted survival and reproduction.",
       "Understanding direct fitness explains why willpower approaches fail. You're not fighting bad habits—you're fighting drives that kept your ancestors alive. The system isn't malfunctioning when you crave sugar, feel fear, or want sex. It's doing exactly what it evolved to do. The problem is that the modern environment has divorced these drives from the outcomes they were calibrated for."
     ]
+  },
+  {
+    id: "digital-tribe",
+    title: "Digital Tribe",
+    definition: [
+      "A tribe that uses technology for coordination and distance-bridging while maintaining physical presence as the foundation. Technology serves the tribe rather than substituting for it.",
+      "Coordination tools, shared calendars, video calls between in-person gatherings — these extend capability. But the relationships are real, the presence is physical, and the technology degrades without real-world contact.",
+      "The test: Does the technology push toward physical gathering or away from it? Does it make itself less necessary over time?"
+    ],
+    seeAlso: ["tribe", "decay-function", "tribe-formation-ai"]
   },
   {
     id: "domain-separation",
@@ -232,6 +256,17 @@ export const glossaryTerms: GlossaryTerm[] = [
       "Studies of contemporary hunter-gatherers show fire-circle conversation is qualitatively different from daytime talk. Daytime is logistics, work, complaints. Firelight conversation is stories, meaning-making, emotional processing. The flickering light, the darkness beyond, the physical proximity—something shifts.",
       "Your ancestors spent more time in relaxed communion each evening than most modern people spend per month. The fire circle was where culture was transmitted, where belonging was maintained, where meaning was made. We've replaced it with screens."
     ]
+  },
+  {
+    id: "the-fork",
+    title: "The Fork",
+    definition: [
+      "The approaching divergence in technological futures.",
+      "One path: AI, VR, and neural interfaces exploit human nature harder than ever, running the exploitation formula at unprecedented scale. Loneliness monetized by AI companions. Attention captured by infinite personalized content. Every vulnerability mapped and targeted.",
+      "The other path: These same technologies finally meet human needs. AI that forms tribes instead of replacing them. VR that creates genuine presence. Interfaces that extend capability from a foundation of thriving.",
+      "Which path we take depends on whether builders understand the spec sheet. The DEMISMATCH framework exists to ensure the good fork."
+    ],
+    seeAlso: ["pharmakon", "the-most-human-post-human", "augment"]
   },
   {
     id: "fish-on-land",
@@ -364,13 +399,26 @@ export const glossaryTerms: GlossaryTerm[] = [
   },
   {
     id: "the-most-human-post-human",
-    title: "Most Human Post-Human",
+    title: "The Most Human Post-Human",
     definition: [
-      "The destination: humans with matched environments, enhanced by technology. Not replacement but extension.",
-      "The transhumanist vision typically starts from broken humans and asks how technology can fix them. Better focus drugs for attention problems. VR for loneliness. AI companions for isolation. The assumption is that humans are the problem to be engineered around.",
-      "The DEMISMATCH vision starts from thriving humans and asks how technology can extend them. AI that amplifies your capability while you're embedded in real community. Communication tools that coordinate an actual tribe. Health tech that supports an already-healthy baseline. Technology as extension of a fully human life, not substitute for one.",
-      "The most human post-human isn't someone who has transcended human needs through technology. It's someone who has met those needs fully and then augmented from that foundation. Baseline plus enhancement, not bypass."
-    ]
+      "The destination.",
+      "Conscious alignment of environment with biology, enhanced by technology, chosen deliberately. Not a return to caves. Not uncritical embrace of every new technology. The synthesis: understand human nature first, establish baseline thriving, then augment from that foundation.",
+      "For the first time in hundreds of generations, technology may make full de-mismatch achievable — and then extend beyond what was previously possible.",
+      "The first humans to achieve this will feel something their ancestors could not articulate: the anxiety dissolves because there's nothing to be anxious about, the loneliness evaporates because you're actually not alone.",
+      "We've always been cyborgs — writing externalized memory, glasses corrected vision, phones collapsed distance. The question was never whether to augment. The question is: what are we augmenting? A baseline of thriving, or a baseline of depletion?",
+      "The most human post-human: fully de-mismatched, then enhanced. Not less human through technology, but more human than was previously possible."
+    ],
+    seeAlso: ["augment", "demismatch", "the-fork", "singularity"]
+  },
+  {
+    id: "toxic-scarcity",
+    title: "Toxic Scarcity",
+    definition: [
+      "Material deprivation that creates desperation and breaks cooperation: food insecurity, shelter insecurity, healthcare access, resource competition.",
+      "This scarcity produces suffering without purpose. It should be eliminated. Automation and abundance can eliminate toxic scarcity entirely.",
+      "Distinguished from constructive scarcity, which creates meaning and remains regardless of material abundance. UBI addresses toxic scarcity but not the meaning crisis — that requires tribe."
+    ],
+    seeAlso: ["constructive-scarcity"]
   },
   {
     id: "negativity-bias",
@@ -380,6 +428,17 @@ export const glossaryTerms: GlossaryTerm[] = [
       "In ancestral conditions, missing a threat could be fatal. Missing an opportunity was usually recoverable. Evolution thus made threat detection hypersensitive. Better to assume the rustle in the grass is a snake than to assume it isn't. The cost of false positives (unnecessary fear) was lower than the cost of false negatives (being eaten).",
       "Now negativity bias runs on phantoms. You assume rejection when acceptance is more likely. You remember the one criticism among ten compliments. You anticipate disaster when evidence suggests otherwise. The machinery is working correctly—it's just calibrated for an environment where threats were real and immediate, not imagined and chronic."
     ]
+  },
+  {
+    id: "neural-enhancement",
+    title: "Neural Enhancement",
+    definition: [
+      "Technology that augments cognitive and perceptual capability — brain-computer interfaces, cognitive prosthetics, neural implants.",
+      "Part of the augmentation trajectory humans have always been on: writing externalized memory, glasses corrected vision, phones collapsed distance, internet externalized knowledge. Neural enhancement is the next step, not a category break.",
+      "The question isn't whether to enhance but what you're enhancing: a baseline of thriving, or a baseline of depletion?",
+      "Neural enhancement applied to a de-mismatched human extends capability. Applied to a mismatched human, it often compensates for what's missing, creating dependency rather than extension."
+    ],
+    seeAlso: ["augment", "the-most-human-post-human"]
   },
   {
     id: "oil-light-metaphor",
@@ -535,6 +594,17 @@ export const glossaryTerms: GlossaryTerm[] = [
     ]
   },
   {
+    id: "singularity",
+    title: "Singularity",
+    definition: [
+      "The approaching point where technological change becomes so rapid and profound that human life is fundamentally transformed. AI that exceeds human intelligence. Technology that merges with biology. The end of life as we've known it — for better or worse.",
+      "In the DEMISMATCH framing, the singularity will be either utopian or dystopian depending on whether it's built with understanding of human nature.",
+      "Superintelligent AI that doesn't understand human needs will optimize for metrics that harm us — engagement, not wellbeing; profit, not thriving. AI that does understand can finally create environments that match our biology.",
+      "The framework is the spec sheet for building the good singularity."
+    ],
+    seeAlso: ["the-fork", "augment", "the-most-human-post-human"]
+  },
+  {
     id: "social-anxiety",
     title: "Social Anxiety",
     definition: [
@@ -665,6 +735,17 @@ export const glossaryTerms: GlossaryTerm[] = [
       "Modern abstracted labor severs this connection. You move information, attend meetings, produce reports. At the end of the day, you cannot point to anything that exists because of your work. The contribution is invisible. The beneficiaries are shareholders you'll never meet. The meaning-making systems that connect effort to purpose have nothing to work with.",
       "This is why \"bullshit jobs\" feel like bullshit even when they pay well. It's why meaningful work is meaningful regardless of pay. The variable isn't compensation—it's visibility of contribution. Work that produces nothing tangible, benefits no one you know, and exists primarily to perpetuate itself cannot satisfy the drive that work was supposed to satisfy."
     ]
+  },
+  {
+    id: "vr-fire-circle",
+    title: "VR Fire Circle",
+    definition: [
+      "Full-immersion virtual reality designed for the fire circle function — processing experience, collective sense-making, bonding, conflict resolution.",
+      "At sufficient fidelity, virtual presence stops being \"virtual\" and becomes a different form of presence. A VR fire circle would enable geographically distributed tribes to gather nightly as their ancestors did — 2-4 hours of shared processing, storytelling, connection.",
+      "Not a replacement for physical presence but an extension when physical presence is impossible.",
+      "Design constraints: Must push toward physical gathering when possible. Must respect Dunbar limits. Must enable genuine processing rather than performance. Success measured by strengthening real relationships, not substituting for them."
+    ],
+    seeAlso: ["fire-circle", "decay-function", "digital-tribe"]
   },
   {
     id: "whales",

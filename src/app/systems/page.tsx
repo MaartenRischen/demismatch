@@ -444,9 +444,18 @@ export default function SystemsPage() {
         <p className="text-lg text-[#4A4A4A] leading-relaxed mb-4">
           Technology built on broken humans creates broken outcomes. Fix the foundation first. Then build beyond.
         </p>
-        <p className="text-xl text-[#1A1A1A] italic mt-8 mb-12" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+        <p className="text-xl text-[#1A1A1A] italic mt-8 mb-4" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
           The most human post-human.
         </p>
+        <p className="text-lg text-[#4A4A4A] leading-relaxed mb-4">
+          This is the destination. Everything else is foundation.
+        </p>
+        <Link href="/future" className="text-[#C75B39] hover:underline text-lg inline-flex items-center gap-2 mb-12">
+          See the full vision
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </Link>
 
         <figure className="my-12">
           <img

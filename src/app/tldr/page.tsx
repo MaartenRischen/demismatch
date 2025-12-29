@@ -98,7 +98,7 @@ export default function TLDR() {
               className="text-2xl md:text-3xl text-white pt-4"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
-              One principle: <G term="demismatch">de-mismatch</G> first, then <G term="augment">augment</G>.
+              One principle: <G term="demismatch">de-mismatch</G> first, <Link href="/future" className="text-[#C75B39] hover:text-[#A84A2D] underline decoration-[#C75B39]/30 hover:decoration-[#C75B39] transition-colors">then augment</Link>.
             </p>
           </div>
         </div>

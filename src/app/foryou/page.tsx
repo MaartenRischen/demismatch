@@ -520,9 +520,18 @@ export default function ForYouPage() {
         <p className="text-lg text-[#4A4A4A] leading-relaxed mb-4">
           You're somewhere in MISMATCH. The path is through DEMISMATCH (returning to baseline) toward something even better.
         </p>
-        <p className="text-xl text-[#1A1A1A] font-medium mb-12">
+        <p className="text-xl text-[#1A1A1A] font-medium mb-8">
           You can't skip steps. You can't augment from broken. But you can start moving. Today.
         </p>
+        <p className="text-lg text-[#4A4A4A] leading-relaxed mb-4">
+          This isn't the end. It's the foundation for something better.
+        </p>
+        <Link href="/future" className="text-[#C75B39] hover:underline text-lg inline-flex items-center gap-2 mb-12">
+          See what we're building toward
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </Link>
 
         <figure className="my-12">
           <img

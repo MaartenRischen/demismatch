@@ -19,19 +19,22 @@ export default function ProjectsPage() {
       {/* Hero Header */}
       <header className="px-6 md:px-8 pt-12 pb-8 max-w-7xl mx-auto">
         <div className="flex items-end justify-between gap-6 mb-2">
-          <h1 
-            className="text-5xl md:text-7xl tracking-tight" 
-            style={{ fontFamily: 'Georgia, serif' }}
+          <h1
+            className="text-4xl md:text-6xl lg:text-7xl tracking-tight"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
-            Projects
+            Building the Good Singularity
           </h1>
           <div className="hidden md:flex items-center gap-2 text-sm text-gray-400 pb-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <span>2 Live • 1 Beta • 1 Research • 4 In Development</span>
           </div>
         </div>
-        <p className="text-lg text-gray-400 max-w-xl">
-          Tools built on the framework. Use them, learn from them, build better ones.
+        <p className="text-lg text-gray-400 max-w-xl mb-6">
+          Technology that serves human nature. Use these, learn from them, build better ones.
+        </p>
+        <p className="text-gray-300 max-w-3xl leading-relaxed" style={{ fontFamily: 'Georgia, serif' }}>
+          The same capabilities creating mismatch can serve de-mismatching when designed against the constraints. These projects are prototypes for the technological future — AI that forms tribes instead of exploiting loneliness, tools that create closure instead of infinite scroll, systems that enhance human capability from a foundation of thriving.
         </p>
       </header>
 
@@ -140,8 +143,8 @@ export default function ProjectsPage() {
                 <h2 className="text-3xl md:text-4xl text-white mb-3" style={{ fontFamily: 'Georgia, serif' }}>
                   The Mismatch Analyzer
                 </h2>
-                <p className="text-white/80 text-lg max-w-md">
-                  AI that's internalized the entire framework. Paste any situation - see it through the evolutionary lens.
+                <p className="text-white/80 text-lg max-w-lg">
+                  AI that's internalized the spec sheet for human nature. Analyze any situation, design, or technology through the evolutionary lens. See exploitation patterns. Find intervention points. The first step toward AI that understands humans.
                 </p>
               </div>
               <div className="flex items-end justify-between">
@@ -199,7 +202,7 @@ export default function ProjectsPage() {
                   Image Library
                 </h3>
                 <p className="text-gray-400 text-sm mb-4 leading-relaxed">
-                  Evolutionary psychology visualized. Searchable, tagged, free to use.
+                  2,500+ visualizations of evolutionary psychology concepts. Use them to explain mismatch, design presentations, build understanding. Visual language for the framework.
                 </p>
                 <span className="text-[#c75b3a] text-sm font-medium group-hover:translate-x-1 inline-block transition-transform">
                   Browse Library →
@@ -222,7 +225,7 @@ export default function ProjectsPage() {
                   Evolutionary HUD
                 </h3>
                 <p className="text-gray-400 text-sm">
-                  Upload any image. See what your brain is computing - threat, resource, opportunity.
+                  Upload any image. See what your brain is computing beneath conscious awareness — threat assessment, resource detection, status calculation. Making the invisible visible.
                 </p>
               </div>
               <div className="flex items-center justify-between mt-4">
@@ -252,7 +255,7 @@ export default function ProjectsPage() {
                   Environment Audit
                 </h3>
                 <p className="text-gray-500 text-sm">
-                  Systematic assessment against the EEA spec sheet. Find your biggest mismatches.
+                  Systematic assessment against the EEA spec sheet. Score your environment on tribal structure, visible purpose, closed loops, circadian alignment. Find your biggest mismatches. Prioritize interventions.
                 </p>
               </div>
             </div>
@@ -271,7 +274,7 @@ export default function ProjectsPage() {
                   Tribe Formation
                 </h3>
                 <p className="text-gray-500 text-sm">
-                  Infrastructure for Dunbar-scale communities. Matching, coordination, maintenance.
+                  Infrastructure for Dunbar-scale communities. Compatibility matching based on nervous system regulation, conflict styles, values. Coordination tools. The village matchmaker, digitized — then it gets out of the way.
                 </p>
               </div>
               <div className="flex -space-x-2 mt-4">
@@ -298,7 +301,7 @@ export default function ProjectsPage() {
                   Builder Templates
                 </h3>
                 <p className="text-gray-500 text-sm">
-                  Design patterns and checklists for spec-aligned technology, spaces, institutions.
+                  Design patterns and checklists for building spec-aligned technology, spaces, and institutions. What does a social platform look like with hard Dunbar limits? A workspace designed for visible contribution? A neighborhood built for fire circles?
                 </p>
               </div>
               <div className="flex gap-2 mt-4 flex-wrap">
@@ -322,7 +325,7 @@ export default function ProjectsPage() {
                   Case Study Database
                 </h3>
                 <p className="text-gray-500 text-sm">
-                  Documented examples of successful and failed de-mismatch interventions.
+                  Documented examples of de-mismatch interventions — what worked, what failed, and why. Learn from attempts. Don't reinvent mistakes.
                 </p>
               </div>
               <div className="flex items-center gap-4 mt-4 text-gray-600">
@@ -347,12 +350,11 @@ export default function ProjectsPage() {
           </div>
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 p-8 md:p-10">
             <div>
-              <h2 className="text-2xl md:text-3xl text-white mb-2" style={{ fontFamily: 'Georgia, serif' }}>
+              <h2 className="text-2xl md:text-3xl text-white mb-2" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                 Build With Us
               </h2>
-              <p className="text-gray-400 max-w-lg">
-                The framework is open. If you're building something that helps humans de-mismatch - 
-                we want to know about it.
+              <p className="text-gray-400 max-w-lg" style={{ fontFamily: 'Georgia, serif' }}>
+                The future is being built now. If you're creating technology, spaces, or institutions that serve human nature — we want to know about it. If you need the framework to make the case — use it.
               </p>
             </div>
             <Link 
@@ -366,16 +368,19 @@ export default function ProjectsPage() {
       </section>
 
       {/* Footer */}
-      <footer className="px-6 md:px-8 py-12 border-t border-gray-800 max-w-7xl mx-auto">
-        <div className="flex flex-wrap gap-8 text-sm text-gray-500 mb-6">
-          <Link href="/framework" className="hover:text-white transition">Framework</Link>
-          <Link href="/systems" className="hover:text-white transition">For Systems</Link>
-          <Link href="/practitioners" className="hover:text-white transition">For Practitioners</Link>
-          <Link href="/foryou" className="hover:text-white transition">For You</Link>
-          <Link href="/projects" className="hover:text-white transition">Projects</Link>
-          <Link href="/sources" className="hover:text-white transition">Sources</Link>
+      <footer className="bg-[#C75B39] py-16">
+        <div className="max-w-3xl mx-auto px-6 md:px-8 text-center">
+          <p
+            className="text-2xl md:text-3xl text-white mb-6 leading-snug"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            The fish doesn't need therapy.<br />
+            The fish needs water.
+          </p>
+          <p className="text-white/60 text-sm">
+            demismatch.com
+          </p>
         </div>
-        <p className="text-sm text-gray-600">This framework is open. Fork it, improve it, implement it.</p>
       </footer>
     </main>
   );

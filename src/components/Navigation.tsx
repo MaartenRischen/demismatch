@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from "react";
 // Main navigation links - Cases→Case Studies, Stats→Evidence per critique
 const MAIN_LINKS = [
   { href: "/tldr", label: "TL;DR" },
+  { href: "/future", label: "The Future" },
   { href: "/framework", label: "Framework" },
   { href: "/cases", label: "Case Studies" },
   { href: "/stats", label: "Evidence" },
