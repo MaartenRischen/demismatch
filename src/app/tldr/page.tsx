@@ -237,48 +237,69 @@ export default function TLDR() {
         </div>
       </section>
 
-      {/* Section 6: The Principle - Hero pull-quote style */}
-      <section className="bg-white py-28 md:py-36">
-        <div className="max-w-5xl mx-auto px-6 md:px-8">
+      {/* Section 6: The Principle - Demismatch First, Then Augment */}
+      <section className="bg-white py-24 md:py-32">
+        <div className="max-w-6xl mx-auto px-6 md:px-8">
           <div className="text-center mb-16">
-            <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-6">06</p>
-            <h2
-              className="text-3xl md:text-4xl text-[#1A1A1A] mb-12 leading-tight"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-            >
-              The Principle
-            </h2>
-
-            {/* Hero pull-quote */}
-            <p
-              className="text-4xl md:text-5xl lg:text-6xl text-[#1A1A1A] font-medium leading-[1.15] mb-16"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-            >
-              De-mismatch first,<br />then augment.
-            </p>
+            <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">06</p>
           </div>
 
-          <div className="max-w-3xl mx-auto">
-            <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8] text-center" style={{ fontFamily: "Georgia, serif" }}>
-              <p>
-                Before reaching for any intervention — pharmaceutical, technological, therapeutic — ask which ancestral needs are going unmet. Does this person have genuine community? Daily movement? Exposure to nature? A sense of purpose and contribution? Adequate sleep in sync with light cycles?
-              </p>
-              <p>
-                Address those foundations first. Then, once the baseline is established, use technology and modern tools to extend human capability. The sequence matters. You can't optimize a system that's missing its basic inputs.
-              </p>
+          <div className="grid lg:grid-cols-[1fr_280px] gap-12 lg:gap-16 items-stretch">
+            {/* Left: Text blocks stacked with spacing */}
+            <div className="space-y-16">
+              {/* Part 1: Demismatch First */}
+              <div>
+                <h2
+                  className="text-3xl md:text-4xl text-[#1A1A1A] mb-6 leading-tight"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                >
+                  Demismatch First
+                </h2>
+                <div className="space-y-4 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
+                  <p>
+                    Before reaching for any intervention — pharmaceutical, technological, therapeutic — ask which ancestral needs are going unmet.
+                  </p>
+                  <p>
+                    Does this person have genuine community? Daily movement? Exposure to nature? A sense of purpose? Adequate sleep in sync with light cycles?
+                  </p>
+                  <p>
+                    Address those foundations first. You can't optimize a system that's missing its basic inputs.
+                  </p>
+                </div>
+              </div>
+
+              {/* Part 2: Then Augment */}
+              <div>
+                <h2
+                  className="text-3xl md:text-4xl text-[#1A1A1A] mb-6 leading-tight"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                >
+                  Then Augment
+                </h2>
+                <div className="space-y-4 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
+                  <p>
+                    Once the baseline is established — real tribe, real movement, real purpose — technology becomes a force multiplier rather than a substitute.
+                  </p>
+                  <p>
+                    AI that extends capability. Communication tools that coordinate an actual tribe. Productivity systems that amplify meaningful work.
+                  </p>
+                  <p>
+                    You can't augment broken. Technology applied to a thriving human extends what's already working.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Vertical Carousel - stretches to match text height */}
+            <div className="hidden lg:block">
+              <DemismatchCarouselMorphing minimal vertical />
             </div>
           </div>
 
-          {/* Carousel */}
-          <figure className="mt-16">
-            <DemismatchCarouselMorphing />
-            <figcaption
-              className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6] max-w-3xl mx-auto"
-              style={{ fontFamily: "Georgia, serif" }}
-            >
-              The sequence matters: establish the baseline before you augment.
-            </figcaption>
-          </figure>
+          {/* Mobile: Show horizontal carousel below */}
+          <div className="lg:hidden mt-12">
+            <DemismatchCarouselMorphing minimal />
+          </div>
         </div>
       </section>
 
