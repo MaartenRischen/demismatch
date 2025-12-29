@@ -33,16 +33,6 @@ export default function TLDR() {
 
       {/* Section 1: The Problem */}
       <section className="bg-white py-20 md:py-28">
-        {/* Full-width image */}
-        <figure className="mb-16">
-          <img
-            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/timeline.png"
-            alt="Timeline showing the compression of human history"
-            className="w-full"
-          />
-        </figure>
-
-        {/* Full-width text */}
         <div className="max-w-4xl mx-auto px-6 md:px-8">
           <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">01</p>
           <h2
@@ -51,6 +41,16 @@ export default function TLDR() {
           >
             The Problem
           </h2>
+
+          {/* Image underneath title */}
+          <figure className="mb-10">
+            <img
+              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/timeline.png"
+              alt="Timeline showing the compression of human history"
+              className="w-full rounded-xl shadow-sm"
+            />
+          </figure>
+
           <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
             <p>
               For 300,000 years, humans lived in conditions that remained remarkably consistent. Small bands of people who knew each other deeply. Daily movement through natural environments. Clear roles, real stakes, immediate feedback from the physical world.
