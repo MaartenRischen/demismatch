@@ -309,6 +309,59 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Main Presentation Graphic - The Core Visual */}
+      <section className="relative bg-gradient-to-b from-[#faf9f6] via-white to-[#F5F3EF] py-12 md:py-20 overflow-hidden">
+        {/* Subtle background texture */}
+        <div className="absolute inset-0 opacity-[0.02]">
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 400 400%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')]" />
+        </div>
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
+          {/* Section intro */}
+          <div className="text-center mb-8 md:mb-12">
+            <p
+              className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-[#C75B39] mb-3"
+            >
+              The Demismatch Framework
+            </p>
+            <h2
+              className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0A0A0A] max-w-3xl mx-auto leading-tight"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              What we evolved for vs. what we got
+            </h2>
+          </div>
+
+          {/* The Graphic - with elegant frame */}
+          <div className="relative max-w-5xl mx-auto">
+            {/* Decorative corner accents */}
+            <div className="hidden md:block absolute -top-3 -left-3 w-12 h-12 border-l-2 border-t-2 border-[#C75B39]/30" />
+            <div className="hidden md:block absolute -top-3 -right-3 w-12 h-12 border-r-2 border-t-2 border-[#C75B39]/30" />
+            <div className="hidden md:block absolute -bottom-3 -left-3 w-12 h-12 border-l-2 border-b-2 border-[#C75B39]/30" />
+            <div className="hidden md:block absolute -bottom-3 -right-3 w-12 h-12 border-r-2 border-b-2 border-[#C75B39]/30" />
+
+            {/* Image container with shadow */}
+            <div
+              className="relative bg-white rounded-lg overflow-hidden"
+              style={{
+                boxShadow: '0 25px 80px -20px rgba(0, 0, 0, 0.15), 0 10px 30px -10px rgba(0, 0, 0, 0.1)'
+              }}
+            >
+              <img
+                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/MAIN%20presentation%20graphic.png"
+                alt="The Demismatch Framework: What we evolved for versus modern substitutes, showing paths to thriving or suffering"
+                className="w-full h-auto"
+              />
+            </div>
+          </div>
+
+          {/* Caption */}
+          <p className="text-center text-sm sm:text-base text-[#6B6B6B] mt-6 md:mt-8 max-w-2xl mx-auto italic">
+            Our biology was shaped by millions of years of evolution. Technology changed our environment in mere decades.
+          </p>
+        </div>
+      </section>
+
       {/* The Reframe Section - Emotional Validation */}
       <section className="bg-[#F5F3EF] py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
