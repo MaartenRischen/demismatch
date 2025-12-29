@@ -61,17 +61,11 @@ export default function TLDR() {
 
         <div className="max-w-5xl mx-auto px-6 md:px-8">
           <h2
-            className="text-4xl md:text-5xl lg:text-6xl text-[#C75B39] font-bold uppercase tracking-[0.15em] mb-8"
+            className="text-4xl md:text-5xl lg:text-6xl text-[#C75B39] font-bold uppercase tracking-[0.15em] mb-12"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             TL;DR of the TL;DR
           </h2>
-          <p
-            className="text-2xl md:text-3xl lg:text-4xl text-[#C75B39] leading-[1.3] mb-12"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-          >
-            <G term="mismatch">Mismatch</G>: the gap between what your biology expects and what modern life provides.
-          </p>
 
           <figure className="mb-12">
             <img
@@ -89,10 +83,10 @@ export default function TLDR() {
 
           <div className="space-y-6 max-w-4xl">
             <p
-              className="text-xl md:text-2xl text-[#D6D3D1] leading-[1.6]"
+              className="text-xl md:text-2xl text-white leading-[1.6]"
               style={{ fontFamily: "Georgia, serif" }}
             >
-              It's why you're struggling. It's why society is fracturing.
+              <G term="mismatch">Mismatch</G>: the gap between what your biology expects and what modern life provides. It's why you're struggling. It's why society is fracturing.
             </p>
             <p
               className="text-xl md:text-2xl text-[#D6D3D1] leading-[1.6]"
