@@ -100,75 +100,66 @@ export default function TLDR() {
 
       {/* Section 3: What We Evolved For vs. What We Got */}
       <section className="bg-white py-20 md:py-28">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div className="order-2 lg:order-1">
-              <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">03</p>
-              <h2
-                className="text-3xl md:text-4xl text-[#1A1A1A] mb-8 leading-tight"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-              >
-                What We Evolved For vs. What We Got
-              </h2>
-              <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
-                <p>
-                  Every domain of human life has been transformed in ways that trigger the same receptors but don't deliver the same outcomes.
-                </p>
-                <p>
-                  We evolved for movement through varied terrain — we got sitting at desks and running on treadmills. We evolved for deep bonds with a stable group — we got thousands of shallow connections and algorithmic feeds. We evolved for natural light cycles — we got screens at midnight. We evolved for real stakes and tangible goals — we got abstract metrics and infinite scroll.
-                </p>
-                <p>
-                  The substitutes feel similar enough to be accepted by our biology, but different enough to leave us depleted rather than fulfilled.
-                </p>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2">
-              <figure className="relative">
-                <div className="absolute inset-0 bg-gradient-to-bl from-[#C75B39]/10 to-transparent rotate-1 scale-105 rounded-2xl" />
-                <img
-                  src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/MAIN%20presentation%20graphic.png"
-                  alt="What we evolved for versus modern substitutes"
-                  className="relative rounded-xl shadow-lg w-full"
-                />
-              </figure>
-            </div>
+        <div className="max-w-4xl mx-auto px-6 md:px-8">
+          <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">03</p>
+          <h2
+            className="text-3xl md:text-4xl text-[#1A1A1A] mb-8 leading-tight"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            What We Evolved For vs. What We Got
+          </h2>
+
+          <figure className="mb-10">
+            <img
+              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/MAIN%20presentation%20graphic.png"
+              alt="What we evolved for versus modern substitutes"
+              className="w-full rounded-xl shadow-sm"
+            />
+          </figure>
+
+          <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
+            <p>
+              Every domain of human life has been transformed in ways that trigger the same receptors but don't deliver the same outcomes.
+            </p>
+            <p>
+              We evolved for movement through varied terrain — we got sitting at desks and running on treadmills. We evolved for deep bonds with a stable group — we got thousands of shallow connections and algorithmic feeds. We evolved for natural light cycles — we got screens at midnight. We evolved for real stakes and tangible goals — we got abstract metrics and infinite scroll.
+            </p>
+            <p>
+              The substitutes feel similar enough to be accepted by our biology, but different enough to leave us depleted rather than fulfilled.
+            </p>
           </div>
         </div>
       </section>
 
       {/* Section 4: The Economy of Mismatch */}
       <section className="bg-[#F8F6F2] py-20 md:py-28">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div>
-              <figure className="relative">
-                <img
-                  src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/38_The_Exploitation_Players.png"
-                  alt="The exploitation economy"
-                  className="rounded-xl shadow-lg w-full max-w-md mx-auto lg:max-w-none"
-                />
-              </figure>
-            </div>
-            <div>
-              <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">04</p>
-              <h2
-                className="text-3xl md:text-4xl text-[#1A1A1A] mb-8 leading-tight"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-              >
-                The Economy of Mismatch
-              </h2>
-              <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
-                <p>
-                  This isn't conspiracy — it's documented business strategy.
-                </p>
-                <p>
-                  Internal Facebook research showed Instagram harms teen mental health. Pharmaceutical companies market signal-suppression for conditions with environmental roots. Food scientists optimize for "bliss points" that override satiety. Dating apps profit most from users who never find lasting partners. Social platforms are designed for engagement, not wellbeing.
-                </p>
-                <p>
-                  Every unmet human need is a market. The systems aren't failing — they're succeeding at what they're designed for. The problem is that their goals aren't aligned with human flourishing.
-                </p>
-              </div>
-            </div>
+        <div className="max-w-4xl mx-auto px-6 md:px-8">
+          <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">04</p>
+          <h2
+            className="text-3xl md:text-4xl text-[#1A1A1A] mb-8 leading-tight"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            The Economy of Mismatch
+          </h2>
+
+          <figure className="mb-10">
+            <img
+              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/38_The_Exploitation_Players.png"
+              alt="The exploitation economy"
+              className="w-full rounded-xl shadow-sm"
+            />
+          </figure>
+
+          <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
+            <p>
+              This isn't conspiracy — it's documented business strategy.
+            </p>
+            <p>
+              Internal Facebook research showed Instagram harms teen mental health. Pharmaceutical companies market signal-suppression for conditions with environmental roots. Food scientists optimize for "bliss points" that override satiety. Dating apps profit most from users who never find lasting partners. Social platforms are designed for engagement, not wellbeing.
+            </p>
+            <p>
+              Every unmet human need is a market. The systems aren't failing — they're succeeding at what they're designed for. The problem is that their goals aren't aligned with human flourishing.
+            </p>
           </div>
         </div>
       </section>
