@@ -33,38 +33,34 @@ export default function TLDR() {
 
       {/* Section 1: The Problem */}
       <section className="bg-white py-20 md:py-28">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div className="order-2 lg:order-1">
-              <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">01</p>
-              <h2
-                className="text-3xl md:text-4xl text-[#1A1A1A] mb-8 leading-tight"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-              >
-                The Problem
-              </h2>
-              <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
-                <p>
-                  For 300,000 years, humans lived in conditions that remained remarkably consistent. Small bands of people who knew each other deeply. Daily movement through natural environments. Clear roles, real stakes, immediate feedback from the physical world.
-                </p>
-                <p>
-                  Then everything changed — agriculture 10,000 years ago, industrialization 200 years ago, digital technology 30 years ago, smartphones 15 years ago. On an evolutionary timescale, this is the blink of an eye.
-                </p>
-                <p>
-                  Our biology evolved for one world. We now live in a completely different one. This gap — between what our bodies and minds expect and what they actually encounter — is <em>mismatch</em>.
-                </p>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2">
-              <figure className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-100/40 to-transparent -rotate-2 scale-105 rounded-2xl" />
-                <img
-                  src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/timeline.png"
-                  alt="Timeline showing the compression of human history"
-                  className="relative rounded-xl shadow-lg w-full"
-                />
-              </figure>
-            </div>
+        {/* Full-width image */}
+        <figure className="mb-16">
+          <img
+            src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/timeline.png"
+            alt="Timeline showing the compression of human history"
+            className="w-full"
+          />
+        </figure>
+
+        {/* Full-width text */}
+        <div className="max-w-4xl mx-auto px-6 md:px-8">
+          <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">01</p>
+          <h2
+            className="text-3xl md:text-4xl text-[#1A1A1A] mb-8 leading-tight"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            The Problem
+          </h2>
+          <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
+            <p>
+              For 300,000 years, humans lived in conditions that remained remarkably consistent. Small bands of people who knew each other deeply. Daily movement through natural environments. Clear roles, real stakes, immediate feedback from the physical world.
+            </p>
+            <p>
+              Then everything changed — agriculture 10,000 years ago, industrialization 200 years ago, digital technology 30 years ago, smartphones 15 years ago. On an evolutionary timescale, this is the blink of an eye.
+            </p>
+            <p>
+              Our biology evolved for one world. We now live in a completely different one. This gap — between what our bodies and minds expect and what they actually encounter — is <em>mismatch</em>.
+            </p>
           </div>
         </div>
       </section>
