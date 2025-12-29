@@ -60,13 +60,18 @@ export default function TLDR() {
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C75B39] to-transparent" />
 
         <div className="max-w-5xl mx-auto px-6 md:px-8">
-          <p className="text-[#C75B39] text-xs font-bold uppercase tracking-[0.25em] mb-6">TL;DR of the TL;DR</p>
           <h2
+            className="text-4xl md:text-5xl lg:text-6xl text-[#C75B39] font-bold uppercase tracking-[0.15em] mb-8"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            TL;DR of the TL;DR
+          </h2>
+          <p
             className="text-2xl md:text-3xl lg:text-4xl text-[#C75B39] leading-[1.3] mb-12"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             <G term="mismatch">Mismatch</G>: the gap between what your biology expects and what modern life provides.
-          </h2>
+          </p>
 
           <figure className="mb-12">
             <img
