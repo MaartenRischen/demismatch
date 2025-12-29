@@ -48,12 +48,14 @@ const GLOSSARY_TERMS: GlossaryTerm[] = [
     id: "augment",
     title: "Augment",
     definition: [
-      "Extending human capability through technology—but only from a foundation of thriving.",
-      "The premise: you can't augment broken. If a human is already mismatched—isolated, purposeless, chronically stressed—then adding technology just amplifies dysfunction. AI assistants become substitutes for human connection. Productivity tools accelerate burnout. Social media deepens loneliness.",
-      "But technology applied to a thriving human is different. Communication tools that coordinate an actual tribe. AI that extends capability rather than replacing relationship. Health monitoring that supports an already-healthy baseline.",
-      "The sequence matters: demismatch first, then augment. Get the human thriving in a matched environment, then enhance from there. We're talking about augmenting humans with technology, but we haven't established what a thriving human baseline even looks like. What exactly are we augmenting?"
+      "Extending human capability through technology. We've been doing this forever.",
+      "Writing externalized memory—you no longer need to hold everything in your head. Glasses corrected vision. Telescopes and microscopes extended perception beyond biological limits. Phones collapsed distance. Cars extended range. The internet externalized vast knowledge stores. Each augmentation let humans do something they couldn't do before, or do it better.",
+      "Current augmentations are already profound. Your smartphone is a cognitive prosthetic—calculator, calendar, navigator, encyclopedia, communication device. You offload tasks your brain would otherwise handle. This isn't cheating. It's what humans have always done.",
+      "What's coming is more radical. AI assistants that think alongside you. Brain-computer interfaces that bypass speech entirely. Full-immersion VR that simulates any environment. Genetic editing. Neural enhancement. The line between human and tool blurs further with each generation.",
+      "The framework's position isn't anti-augmentation—it's pro-sequence. Augmentation applied to a thriving human extends what's already working. Augmentation applied to a depleted human often compensates for what's missing, creating dependency rather than extension. AI companions for the isolated aren't enhancement—they're proxies. The same technology, applied to someone with real tribe, becomes coordination infrastructure rather than substitution.",
+      "The question isn't whether to augment. We're already cyborgs. The question is: what are we augmenting? A baseline of thriving, or a baseline of depletion?"
     ],
-    crossReferences: ["demismatch", "pharmakon", "the-most-human-post-human"],
+    crossReferences: ["demismatch", "pharmakon", "the-most-human-post-human", "proxy"],
     sources: []
   },
   {
@@ -510,12 +512,14 @@ const GLOSSARY_TERMS: GlossaryTerm[] = [
     id: "the-most-human-post-human",
     title: "The Most Human Post-Human",
     definition: [
-      "The destination: humans with matched environments, enhanced by technology. Not replacement but extension.",
-      "The transhumanist vision typically starts from broken humans and asks how technology can fix them. Better focus drugs for attention problems. VR for loneliness. AI companions for isolation. The assumption is that humans are the problem to be engineered around.",
-      "The DEMISMATCH vision starts from thriving humans and asks how technology can extend them. AI that amplifies your capability while you're embedded in real community. Communication tools that coordinate an actual tribe. Health tech that supports an already-healthy baseline. Technology as extension of a fully human life, not substitute for one.",
-      "The most human post-human isn't someone who has transcended human needs through technology. It's someone who has met those needs fully and then augmented from that foundation. Baseline plus enhancement, not bypass."
+      "The destination.",
+      "Conscious alignment of environment with biology, enhanced by technology, chosen deliberately. Not a return to caves. Not uncritical embrace of every new technology. The synthesis: understand human nature first, establish baseline thriving, then augment from that foundation.",
+      "For the first time in hundreds of generations, technology may make full de-mismatch achievable — and then extend beyond what was previously possible.",
+      "The first humans to achieve this will feel something their ancestors could not articulate: the anxiety dissolves because there's nothing to be anxious about, the loneliness evaporates because you're actually not alone.",
+      "We've always been cyborgs — writing externalized memory, glasses corrected vision, phones collapsed distance. The question was never whether to augment. The question is: what are we augmenting? A baseline of thriving, or a baseline of depletion?",
+      "The most human post-human: fully de-mismatched, then enhanced. Not less human through technology, but more human than was previously possible."
     ],
-    crossReferences: ["augment", "demismatch", "pharmakon"],
+    crossReferences: ["augment", "demismatch", "the-fork", "singularity"],
     sources: []
   },
   {
