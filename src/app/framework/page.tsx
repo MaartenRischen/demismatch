@@ -526,14 +526,11 @@ export default function FrameworkPage() {
                 className="rounded-lg w-full max-w-2xl mx-auto shadow-sm"
               />
             </figure>
-            <div className="font-mono text-lg text-gray-700 space-y-2 my-6 bg-white p-6 rounded-lg border border-gray-200 max-w-md mx-auto">
-              <p>300,000 years - consistent conditions</p>
-              <p>10,000 years - agriculture</p>
-              <p>200 years - industrialization</p>
-              <p>15 years - smartphones</p>
-            </div>
-            <p className="text-xl text-gray-900 font-medium text-center" style={{ fontFamily: 'Georgia, serif' }}>
-              Four numbers. The entire story.
+            <p className="text-lg text-gray-700 leading-relaxed">
+              For 300,000 years, our ancestors lived in small bands of known faces. The rules didn't change. Then agriculture arrived 10,000 years ago — a blink in evolutionary time. Industrialization followed just 200 years ago. Smartphones? Fifteen years.
+            </p>
+            <p className="text-lg text-gray-700 mt-4 leading-relaxed">
+              Your body is running software optimized for a world that vanished before your great-grandparents were born. The hardware hasn't had time to update. It never will.
             </p>
           </div>
 
