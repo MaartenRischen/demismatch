@@ -310,6 +310,29 @@ export default function Home() {
         </div>
       </section>
 
+      {/* The Core Statement - Bold, Unmissable */}
+      <section className="relative bg-[#0A0A0A] py-16 md:py-20 overflow-hidden">
+        {/* Subtle gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#C75B39]/10 via-transparent to-indigo-900/10" />
+
+        <div className="relative max-w-4xl mx-auto px-6 md:px-8 text-center">
+          <p
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white leading-relaxed md:leading-relaxed font-medium"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            <span className="text-[#C75B39]">We're Stone Age minds</span> entering an age of superintelligent AI and total immersion. These technologies will either{" "}
+            <span className="italic">exploit human nature</span> harder than anything before — or{" "}
+            <span className="italic">finally meet it.</span>
+          </p>
+          <p
+            className="mt-6 text-lg sm:text-xl md:text-2xl text-white/90 font-semibold tracking-wide"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            This is the framework for knowing the difference.
+          </p>
+        </div>
+      </section>
+
       {/* Main Presentation Graphic - The Core Visual */}
       <section className="relative bg-gradient-to-b from-[#faf9f6] via-white to-[#F5F3EF] py-12 md:py-20 overflow-hidden">
         {/* Subtle background texture */}
