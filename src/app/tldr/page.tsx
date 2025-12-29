@@ -283,8 +283,8 @@ export default function TLDR() {
               className="text-3xl md:text-4xl lg:text-5xl text-[#C75B39] leading-[1.2] max-w-4xl"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
-              We're not anti-tech. We're all for integrating with technology.<br className="hidden lg:block" />
-              But the order matters.
+              We're building the technological future.<br className="hidden lg:block" />
+              But the sequence matters.
             </h2>
           </div>
 
@@ -325,12 +325,27 @@ export default function TLDR() {
                     Once the baseline is established — real tribe, real movement, real purpose — technology becomes a force multiplier rather than a <G term="proxy">proxy</G>.
                   </p>
                   <p>
-                    AI that extends capability while you're embedded in real community. Communication tools that coordinate an actual <G term="band">band</G>. Productivity systems that amplify meaningful work. Health tech that supports an already-healthy baseline.
+                    We've always been cyborgs. Writing externalized memory. Glasses corrected vision. Phones collapsed distance. The internet externalized knowledge. Each <G term="augment">augmentation</G> let humans do something they couldn't do before.
                   </p>
                   <p>
-                    The sequence matters. Augmentation applied to a thriving human extends what's already working. Augmentation applied to a depleted human just creates new ways to compensate for what's missing. You can't augment broken.
+                    What's coming is more radical. AI that thinks alongside you. Full-immersion VR that simulates presence. Brain-computer interfaces. The question isn't whether to augment — we're already augmenting. The question is: what are we augmenting?
+                  </p>
+                  <p>
+                    Technology applied to a thriving human extends capability. Technology applied to a depleted human creates dependency, not extension. AI companions for the isolated aren't enhancement — they're <G term="proxy">proxies</G>.
+                  </p>
+                  <p>
+                    The same technology that exploits can serve. Mixed reality for genuine presence. AI that forms <G term="tribe">tribes</G> instead of replacing them. Coordination tools for real communities.
+                  </p>
+                  <p className="font-medium">
+                    The difference is the foundation.
                   </p>
                 </div>
+                <Link href="/future" className="text-[#C75B39] hover:underline text-lg inline-flex items-center gap-2 mt-6">
+                  See what we're building
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
               </div>
             </div>
 
