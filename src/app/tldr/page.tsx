@@ -55,22 +55,37 @@ export default function TLDR() {
         </div>
       </header>
 
-      {/* TL;DR of the TL;DR - NEW */}
-      <section className="bg-[#292524] py-20 md:py-28 relative overflow-hidden">
+      {/* TL;DR of the TL;DR - Hero hook */}
+      <section className="bg-[#292524] py-24 md:py-36 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C75B39] to-transparent" />
 
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div>
-              <p className="text-[#C75B39] text-xs font-bold uppercase tracking-[0.25em] mb-6">TL;DR of the TL;DR</p>
-              <div className="space-y-6 text-lg text-[#D6D3D1] leading-[1.9]" style={{ fontFamily: "Georgia, serif" }}>
-                <p>
-                  <strong className="text-white"><G term="mismatch">Mismatch</G></strong>: the gap between what your biology expects and what modern life provides. It's why you're struggling. It's why society is fracturing.
+              <p className="text-[#C75B39] text-xs font-bold uppercase tracking-[0.25em] mb-8">TL;DR of the TL;DR</p>
+              <div className="space-y-8">
+                <p
+                  className="text-2xl md:text-3xl lg:text-4xl text-white leading-[1.4]"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                >
+                  <G term="mismatch">Mismatch</G>: the gap between what your biology expects and what modern life provides.
                 </p>
-                <p>
+                <p
+                  className="text-xl md:text-2xl text-[#D6D3D1] leading-[1.6]"
+                  style={{ fontFamily: "Georgia, serif" }}
+                >
+                  It's why you're struggling. It's why society is fracturing.
+                </p>
+                <p
+                  className="text-xl md:text-2xl text-[#D6D3D1] leading-[1.6]"
+                  style={{ fontFamily: "Georgia, serif" }}
+                >
                   And the next wave of technology — superintelligent AI, full-immersion VR, brain-computer interfaces — will either exploit that gap harder than anything before, or... finally close it.
                 </p>
-                <p className="text-xl text-white pt-2" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                <p
+                  className="text-2xl md:text-3xl text-white pt-4"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                >
                   One principle: <G term="demismatch">de-mismatch</G> first, then augment.
                 </p>
               </div>
@@ -93,48 +108,45 @@ export default function TLDR() {
         </div>
       </section>
 
-      {/* Section 01: The Problem */}
+      {/* Section 01: The Problem - Text above, image below */}
       <section className="bg-white py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-20 items-center">
-            <div>
-              <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">01</p>
-              <h2
-                className="text-2xl md:text-3xl lg:text-4xl text-[#C75B39] mb-8 leading-tight"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-              >
-                300,000+ years of one world. Then everything changed in an evolutionary instant.
-              </h2>
-              <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
-                <p>
-                  For 300,000+ years, humans lived in conditions that remained remarkably consistent. <G term="band">Bands</G> of 30-50 people who knew each other completely. <G term="tribe">Tribes</G> of around 150 — the maximum number your brain can track as individuals. <G term="fire-circle">Fire circles</G> every night where the whole group processed the day together. Children raised by 20+ adults, not two exhausted parents alone. Work that produced visible results for people you loved.
-                </p>
-                <p>
-                  Then everything changed — agriculture 12,000 years ago, industrialization 250 years ago, smartphones 18 years ago. Evolution works on timescales of tens of thousands of years. It hasn't even begun to catch up.
-                </p>
-                <p>
-                  The gap between the environment your biology expects and the environment you actually inhabit is called <G term="mismatch">mismatch</G>. You're running ancient hardware in an operating system it was never designed for.
-                </p>
-              </div>
-            </div>
-            <figure className="relative">
-              <img
-                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/timeline.png"
-                alt="Timeline showing the compression of human history"
-                className="w-full rounded-xl shadow-lg"
-              />
-              <figcaption
-                className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6]"
-                style={{ fontFamily: "Georgia, serif" }}
-              >
-                300,000+ years of consistency, then everything changed in an evolutionary blink. We're running ancient hardware in an environment it was never designed for.
-              </figcaption>
-            </figure>
+        <div className="max-w-5xl mx-auto px-6 md:px-8">
+          <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">01</p>
+          <h2
+            className="text-3xl md:text-4xl lg:text-5xl text-[#1A1A1A] mb-10 leading-[1.2]"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            300,000+ years of one world.<br className="hidden md:block" />
+            Then everything changed in an evolutionary instant.
+          </h2>
+          <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8] max-w-4xl mb-16" style={{ fontFamily: "Georgia, serif" }}>
+            <p>
+              For 300,000+ years, humans lived in conditions that remained remarkably consistent. <G term="band">Bands</G> of 30-50 people who knew each other completely. <G term="tribe">Tribes</G> of around 150 — the maximum number your brain can track as individuals. <G term="fire-circle">Fire circles</G> every night where the whole group processed the day together. Children raised by 20+ adults, not two exhausted parents alone. Work that produced visible results for people you loved.
+            </p>
+            <p>
+              Then everything changed — agriculture 12,000 years ago, industrialization 250 years ago, smartphones 18 years ago. Evolution works on timescales of tens of thousands of years. It hasn't even begun to catch up.
+            </p>
+            <p>
+              The gap between the environment your biology expects and the environment you actually inhabit is called <G term="mismatch">mismatch</G>. You're running ancient hardware in an operating system it was never designed for.
+            </p>
           </div>
+          <figure>
+            <img
+              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/timeline.png"
+              alt="Timeline showing the compression of human history"
+              className="w-full rounded-xl shadow-lg"
+            />
+            <figcaption
+              className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6]"
+              style={{ fontFamily: "Georgia, serif" }}
+            >
+              300,000+ years of consistency, then everything changed in an evolutionary blink.
+            </figcaption>
+          </figure>
         </div>
       </section>
 
-      {/* Section 02: The Signal */}
+      {/* Section 02: The Signal - Side by side */}
       <section className="bg-[#F8F6F2] py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -150,10 +162,11 @@ export default function TLDR() {
             <div>
               <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">02</p>
               <h2
-                className="text-2xl md:text-3xl lg:text-4xl text-[#C75B39] mb-8 leading-tight"
+                className="text-3xl md:text-4xl text-[#1A1A1A] mb-8 leading-[1.2]"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
-                What we call disorders are often signals. The signal isn't broken — the environment is.
+                What we call disorders are often signals.<br className="hidden md:block" />
+                The signal isn't broken — the environment is.
               </h2>
               <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
                 <p>
@@ -171,52 +184,47 @@ export default function TLDR() {
         </div>
       </section>
 
-      {/* Section 03: Economy of Mismatch */}
+      {/* Section 03: Economy of Mismatch - Text above, image below */}
       <section className="bg-white py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-20 items-center">
-            <div>
-              <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">03</p>
-              <h2
-                className="text-2xl md:text-3xl lg:text-4xl text-[#C75B39] mb-8 leading-tight"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-              >
-                Every unmet human need is a market.
-              </h2>
-              <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
-                <p>
-                  This isn't conspiracy — it's documented business strategy. It's called the <G term="exploitation-formula">exploitation formula</G>: identify a real human need, block or degrade genuine satisfaction, offer a <G term="proxy">proxy</G> that mimics the signal without meeting the need, monetize the repeat visits.
-                </p>
-                <p>
-                  Social media exploits your need for <G term="tribe">tribe</G> — likes and followers trigger belonging circuits without providing actual belonging. <G term="parasocial-relationships">Parasocial relationships</G> with influencers fill slots in your <G term="dunbar-layers">Dunbar layers</G> that could hold real friends. Porn exploits sexual drives with <G term="hyperstimuli">hyperstimuli</G> that make real intimacy feel inadequate. Junk food hits <G term="bliss-points">bliss points</G> engineered to maximize craving without satisfaction. Dating apps profit most from users who never find lasting partners.
-                </p>
-                <p>
-                  The <G term="atomized-individual">atomized individual</G> — severed from tribe, purpose, and genuine intimacy — is the ideal consumer. A fully satisfied human embedded in a functioning tribe is a terrible customer. They don't need retail therapy, dating apps, or antidepressants to cope with isolation.
-                </p>
-                <p className="font-medium">
-                  The systems aren't failing. They're succeeding at what they're designed for. The problem is that their goals aren't aligned with human flourishing.
-                </p>
-              </div>
-            </div>
-
-            <figure>
-              <img
-                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/38_The_Exploitation_Players.png"
-                alt="The exploitation economy players"
-                className="w-full rounded-xl shadow-lg"
-              />
-              <figcaption
-                className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6]"
-                style={{ fontFamily: "Georgia, serif" }}
-              >
-                Every unmet human need is a market. The players, the playbook, the profit.
-              </figcaption>
-            </figure>
+        <div className="max-w-5xl mx-auto px-6 md:px-8">
+          <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">03</p>
+          <h2
+            className="text-3xl md:text-4xl lg:text-5xl text-[#1A1A1A] mb-10 leading-[1.2]"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            Every unmet human need is a market.
+          </h2>
+          <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8] max-w-4xl mb-16" style={{ fontFamily: "Georgia, serif" }}>
+            <p>
+              This isn't conspiracy — it's documented business strategy. It's called the <G term="exploitation-formula">exploitation formula</G>: identify a real human need, block or degrade genuine satisfaction, offer a <G term="proxy">proxy</G> that mimics the signal without meeting the need, monetize the repeat visits.
+            </p>
+            <p>
+              Social media exploits your need for <G term="tribe">tribe</G> — likes and followers trigger belonging circuits without providing actual belonging. <G term="parasocial-relationships">Parasocial relationships</G> with influencers fill slots in your <G term="dunbar-layers">Dunbar layers</G> that could hold real friends. Porn exploits sexual drives with <G term="hyperstimuli">hyperstimuli</G> that make real intimacy feel inadequate. Junk food hits <G term="bliss-points">bliss points</G> engineered to maximize craving without satisfaction. Dating apps profit most from users who never find lasting partners.
+            </p>
+            <p>
+              The <G term="atomized-individual">atomized individual</G> — severed from tribe, purpose, and genuine intimacy — is the ideal consumer. A fully satisfied human embedded in a functioning tribe is a terrible customer. They don't need retail therapy, dating apps, or antidepressants to cope with isolation.
+            </p>
+            <p className="font-medium">
+              The systems aren't failing. They're succeeding at what they're designed for. The problem is that their goals aren't aligned with human flourishing.
+            </p>
           </div>
+          <figure>
+            <img
+              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/38_The_Exploitation_Players.png"
+              alt="The exploitation economy players"
+              className="w-full rounded-xl shadow-lg"
+            />
+            <figcaption
+              className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6]"
+              style={{ fontFamily: "Georgia, serif" }}
+            >
+              Every unmet human need is a market. The players, the playbook, the profit.
+            </figcaption>
+          </figure>
         </div>
       </section>
 
-      {/* Section 04: The Stakes - Dark section */}
+      {/* Section 04: The Stakes - Dark section, side by side */}
       <section className="bg-[#292524] py-28 md:py-36 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C75B39] to-transparent" />
 
@@ -225,8 +233,8 @@ export default function TLDR() {
             <div>
               <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">04</p>
               <h2
-                className="text-2xl md:text-3xl lg:text-4xl mb-10 leading-tight"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "#C75B39" }}
+                className="text-3xl md:text-4xl text-white mb-10 leading-[1.2]"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
                 AI and VR will either exploit human nature harder than ever, or finally meet it.
               </h2>
@@ -272,10 +280,11 @@ export default function TLDR() {
           <div className="mb-12">
             <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">05</p>
             <h2
-              className="text-2xl md:text-3xl lg:text-4xl text-[#C75B39] leading-tight max-w-4xl"
+              className="text-3xl md:text-4xl lg:text-5xl text-[#1A1A1A] leading-[1.2] max-w-4xl"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
-              We're not anti-tech. We're all for integrating with technology. But the order matters.
+              We're not anti-tech. We're all for integrating with technology.<br className="hidden lg:block" />
+              But the order matters.
             </h2>
           </div>
 
@@ -351,10 +360,11 @@ export default function TLDR() {
           <div className="text-center mb-12">
             <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">06</p>
             <h2
-              className="text-2xl md:text-3xl lg:text-4xl text-[#C75B39] leading-tight"
+              className="text-3xl md:text-4xl lg:text-5xl text-[#1A1A1A] leading-[1.2]"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
-              Not a return to caves. A future built with human nature in mind.
+              Not a return to caves.<br className="hidden md:block" />
+              A future built with human nature in mind.
             </h2>
           </div>
 
