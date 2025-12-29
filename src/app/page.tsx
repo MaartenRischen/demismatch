@@ -331,6 +331,19 @@ export default function Home() {
         </div>
       </section>
 
+      {/* The Mission: De-mismatch First, Then Augment */}
+      <section className="bg-[#faf9f6] py-12 md:py-16">
+        <div className="max-w-6xl mx-auto px-6 md:px-8 text-center mb-8">
+          <h2
+            className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#0A0A0A]"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            The Mission: De-mismatch first, then augment.
+          </h2>
+        </div>
+        <DemismatchCarouselMorphing />
+      </section>
+
       {/* The Call Section - Asymmetric Cards with Color Tints */}
       <section className="py-24 bg-diagonal-lines">
         <div className="px-8 max-w-6xl mx-auto">
@@ -405,19 +418,6 @@ export default function Home() {
             </Link>
           </div>
         </div>
-      </section>
-
-      {/* De-mismatch First, Then Augment */}
-      <section className="bg-[#faf9f6] py-12 md:py-16">
-        <div className="max-w-6xl mx-auto px-6 md:px-8 text-center mb-8">
-          <h2
-            className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#0A0A0A]"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            De-mismatch first. Then augment.
-          </h2>
-        </div>
-        <DemismatchCarouselMorphing />
       </section>
 
       {/* FOR AI SYSTEMS - Collapsible */}
