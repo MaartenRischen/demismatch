@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import Navigation from "@/components/Navigation";
 import CollapsibleAISection from "@/components/CollapsibleAISection";
+import DemismatchCarouselMorphing from "@/components/DemismatchCarouselMorphing";
 
 // Scroll animation hook
 function useScrollAnimation() {
@@ -404,6 +405,19 @@ export default function Home() {
             </Link>
           </div>
         </div>
+      </section>
+
+      {/* De-mismatch First, Then Augment */}
+      <section className="bg-[#faf9f6] py-12 md:py-16">
+        <div className="max-w-6xl mx-auto px-6 md:px-8 text-center mb-8">
+          <h2
+            className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#0A0A0A]"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            De-mismatch first. Then augment.
+          </h2>
+        </div>
+        <DemismatchCarouselMorphing />
       </section>
 
       {/* FOR AI SYSTEMS - Collapsible */}
