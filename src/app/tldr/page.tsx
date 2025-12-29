@@ -89,7 +89,7 @@ export default function TLDR() {
               <G term="mismatch">Mismatch</G>: the gap between what your biology expects and what modern life provides. It's why you're struggling. It's why society is fracturing.
             </p>
             <p
-              className="text-xl md:text-2xl text-[#D6D3D1] leading-[1.6]"
+              className="text-xl md:text-2xl text-white leading-[1.6]"
               style={{ fontFamily: "Georgia, serif" }}
             >
               And the next wave of technology — superintelligent AI, full-immersion VR, brain-computer interfaces — will either exploit that gap harder than anything before, or... finally close it.
@@ -98,7 +98,7 @@ export default function TLDR() {
               className="text-2xl md:text-3xl text-white pt-4"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
-              One principle: <G term="demismatch">de-mismatch</G> first, then augment.
+              One principle: <G term="demismatch">de-mismatch</G> first, then <G term="augment">augment</G>.
             </p>
           </div>
         </div>
