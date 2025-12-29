@@ -45,7 +45,7 @@ export default function TLDR() {
                   For 300,000 years, humans lived in conditions that remained remarkably consistent. Small bands of people who knew each other deeply. Daily movement through natural environments. Clear roles, real stakes, immediate feedback from the physical world.
                 </p>
                 <p>
-                  Then everything changed — agriculture 10,000 years ago, industrialization 200 years ago, digital technology 30 years ago, smartphones 15 years ago. On an evolutionary timescale, this is the blink of an eye.
+                  Then everything changed — agriculture 12,000 years ago, industrialization 250 years ago, the internet 30 years ago, smartphones 18 years ago. On an evolutionary timescale, this is the blink of an eye.
                 </p>
                 <p>
                   Our biology evolved for one world. We now live in a completely different one. This gap — between what our bodies and minds expect and what they actually encounter — is <em>mismatch</em>.
@@ -194,8 +194,8 @@ export default function TLDR() {
         <div className="max-w-3xl mx-auto px-6 md:px-8 relative">
           <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">05</p>
           <h2
-            className="text-3xl md:text-4xl text-[#C75B39] mb-10 leading-tight"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            className="text-3xl md:text-4xl mb-10 leading-tight"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "#C75B39" }}
           >
             The Stakes
           </h2>
