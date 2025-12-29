@@ -110,7 +110,7 @@ export default function TLDR() {
         <div className="max-w-5xl mx-auto px-6 md:px-8">
           <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">01</p>
           <h2
-            className="text-3xl md:text-4xl lg:text-5xl text-[#1A1A1A] mb-12 leading-[1.2]"
+            className="text-3xl md:text-4xl lg:text-5xl text-[#C75B39] mb-12 leading-[1.2]"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             300,000+ years of one world.<br className="hidden md:block" />
@@ -161,7 +161,7 @@ export default function TLDR() {
             <div>
               <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">02</p>
               <h2
-                className="text-3xl md:text-4xl text-[#1A1A1A] mb-8 leading-[1.2]"
+                className="text-3xl md:text-4xl text-[#C75B39] mb-8 leading-[1.2]"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
                 What we call disorders are often signals.<br className="hidden md:block" />
@@ -188,7 +188,7 @@ export default function TLDR() {
         <div className="max-w-5xl mx-auto px-6 md:px-8">
           <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">03</p>
           <h2
-            className="text-3xl md:text-4xl lg:text-5xl text-[#1A1A1A] mb-12 leading-[1.2]"
+            className="text-3xl md:text-4xl lg:text-5xl text-[#C75B39] mb-12 leading-[1.2]"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             Every unmet human need is a market.
@@ -281,7 +281,7 @@ export default function TLDR() {
           <div className="mb-12">
             <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">05</p>
             <h2
-              className="text-3xl md:text-4xl lg:text-5xl text-[#1A1A1A] leading-[1.2] max-w-4xl"
+              className="text-3xl md:text-4xl lg:text-5xl text-[#C75B39] leading-[1.2] max-w-4xl"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               We're not anti-tech. We're all for integrating with technology.<br className="hidden lg:block" />
@@ -361,7 +361,7 @@ export default function TLDR() {
           <div className="text-center mb-12">
             <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">06</p>
             <h2
-              className="text-3xl md:text-4xl lg:text-5xl text-[#1A1A1A] leading-[1.2]"
+              className="text-3xl md:text-4xl lg:text-5xl text-[#C75B39] leading-[1.2]"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               Not a return to caves.<br className="hidden md:block" />
