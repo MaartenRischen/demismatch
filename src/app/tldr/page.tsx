@@ -20,11 +20,26 @@ export default function TLDR() {
             The Framework in 2 Minutes
           </h1>
           <p
-            className="text-base text-[#6A6A6A] leading-relaxed max-w-xl mx-auto"
+            className="text-base text-[#6A6A6A] leading-relaxed max-w-xl mx-auto mb-4"
             style={{ fontFamily: "Georgia, serif" }}
           >
             Everything you need to understand the Demismatch framework, without reading the full specification.
           </p>
+          <p
+            className="text-sm text-[#8A8A8A] mb-3"
+            style={{ fontFamily: "Georgia, serif" }}
+          >
+            The complete framework, with evidence, mechanisms, and implications.
+          </p>
+          <Link
+            href="/framework"
+            className="inline-flex items-center gap-2 text-[#C75B39] hover:text-[#A84A2D] text-sm font-medium transition-colors"
+          >
+            Read the Full Framework
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </Link>
         </div>
       </header>
 
@@ -305,42 +320,55 @@ export default function TLDR() {
 
       {/* Section 7: The Vision - Warmer background, visual separator */}
       <section className="bg-[#F5F3EF] py-24 md:py-32 border-t border-[#E5E0D8]">
-        <div className="max-w-3xl mx-auto px-6 md:px-8 text-center">
-          <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-6">07</p>
-          <h2
-            className="text-3xl md:text-4xl text-[#1A1A1A] mb-12 leading-tight"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-          >
-            The Vision
-          </h2>
-          <div className="space-y-8 text-lg md:text-xl text-[#3A3A3A] leading-[1.9]" style={{ fontFamily: "Georgia, serif" }}>
-            <p>
-              This isn't a call to abandon modernity or return to prehistoric conditions. That's neither possible nor desirable.
-            </p>
-            <p>
-              The vision is conscious alignment — designing environments, technologies, and social structures that work with human nature rather than against it. Understanding what our biology actually needs, and building systems that deliver it in modern form.
-            </p>
-            <p
-              className="text-[#1A1A1A] text-xl md:text-2xl font-medium pt-4"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-            >
-              We can have connection without exploitation, technology without addiction, progress without self-destruction. But only if we understand the hardware we're working with.
-            </p>
+        <div className="max-w-6xl mx-auto px-6 md:px-8">
+          <div className="text-center mb-12">
+            <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">07</p>
           </div>
 
-          <figure className="mt-16 max-w-2xl mx-auto">
-            <img
-              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/15_Fire_Circle_vs_Modern_Evening.png"
-              alt="Fire circle gathering alongside modern evening - showing connection is possible in both contexts"
-              className="w-full rounded-xl shadow-lg"
-            />
-            <figcaption
-              className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6]"
-              style={{ fontFamily: "Georgia, serif" }}
-            >
-              The fire circle and the modern evening. Both can work — if we design for human nature.
-            </figcaption>
-          </figure>
+          <div className="grid lg:grid-cols-[1fr_300px] gap-12 lg:gap-16 items-center">
+            {/* Left: Text */}
+            <div>
+              <h2
+                className="text-3xl md:text-4xl text-[#1A1A1A] mb-8 leading-tight"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                The Vision
+              </h2>
+              <div className="space-y-6 text-lg text-[#3A3A3A] leading-[1.9]" style={{ fontFamily: "Georgia, serif" }}>
+                <p>
+                  This isn't a call to abandon modernity or return to prehistoric conditions. That's neither possible nor desirable.
+                </p>
+                <p>
+                  The vision is conscious alignment — designing environments, technologies, and social structures that work with human nature rather than against it. Understanding what our biology actually needs, and building systems that deliver it in modern form.
+                </p>
+                <p
+                  className="text-[#1A1A1A] text-xl md:text-2xl font-medium pt-4"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                >
+                  We can have connection without exploitation, technology without addiction, progress without self-destruction. But only if we understand the hardware we're working with.
+                </p>
+              </div>
+            </div>
+
+            {/* Right: Eye Image with Animation */}
+            <div className="hidden lg:flex justify-center">
+              <div className="relative w-64 eye-glow-pulse">
+                <div
+                  className="relative overflow-hidden"
+                  style={{
+                    maskImage: 'radial-gradient(ellipse 100% 100% at center, black 50%, transparent 75%)',
+                    WebkitMaskImage: 'radial-gradient(ellipse 100% 100% at center, black 50%, transparent 75%)',
+                  }}
+                >
+                  <img
+                    src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png"
+                    alt="Human eye - understanding the hardware"
+                    className="w-full h-auto object-contain animate-[slow-zoom_4s_ease-in-out_infinite_alternate]"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
