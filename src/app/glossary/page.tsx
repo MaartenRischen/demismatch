@@ -132,6 +132,18 @@ const GLOSSARY_TERMS: GlossaryTerm[] = [
     ]
   },
   {
+    id: "constructive-scarcity",
+    title: "Constructive Scarcity",
+    definition: [
+      "Limitations that create meaning rather than suffering. Time, attention, skill mastery, relationship depth, creative challenges, contribution uniqueness, coordination problems.",
+      "Unlike toxic scarcity (food insecurity, shelter insecurity, material resource competition), constructive scarcity remains regardless of automation or abundance. You still have only 24 hours. You still must prioritize. Skills still require effort. Trust still takes time to build.",
+      "This is why billionaires are often miserable: no constructive scarcity. Lottery winners report decreased happiness: sudden removal of challenge. Retirement without purpose kills: nothing left to overcome together.",
+      "The tribe collectively overcomes meaningful challenges. Effort is real. Interdependence is real. Your contribution matters because it's actually needed."
+    ],
+    crossReferences: ["toxic-scarcity", "visible-contribution"],
+    sources: []
+  },
+  {
     id: "cortisol",
     title: "Cortisol",
     definition: [
@@ -185,6 +197,18 @@ const GLOSSARY_TERMS: GlossaryTerm[] = [
       "The framework claims this must come before technological augmentation. You can't enhance a dysregulated system and expect good outcomes. Get the human thriving first, then amplify."
     ],
     crossReferences: ["augment", "mismatch", "eea"],
+    sources: []
+  },
+  {
+    id: "digital-tribe",
+    title: "Digital Tribe",
+    definition: [
+      "A geographically distributed group that maintains genuine tribal bonds through technology. Not followers, not an audience—actual reciprocal relationships with the depth and commitment of ancestral bands.",
+      "The key distinction: digital tribes use technology to coordinate and maintain connection across distance, but the relationships themselves have real stakes, real reciprocity, real history. You know each other. You've been through things together. You'd show up.",
+      "This is different from online communities, which are typically collections of strangers with shared interests. A digital tribe is 5-15-50-150 specific people who happen to be geographically scattered but maintain the relationship density of co-located groups.",
+      "Technology serves the tribe rather than substituting for it. Video calls with actual tribe members. Coordination tools for real collaboration. The digital layer enables what geography would otherwise prevent."
+    ],
+    crossReferences: ["the-5", "the-50-band", "tribe-formation-ai", "decay-function"],
     sources: []
   },
   {
@@ -471,8 +495,20 @@ const GLOSSARY_TERMS: GlossaryTerm[] = [
     sources: []
   },
   {
+    id: "neural-enhancement",
+    title: "Neural Enhancement",
+    definition: [
+      "Technology that extends cognitive capability: AI assistants, brain-computer interfaces, memory augmentation, learning acceleration.",
+      "The framework's position: neural enhancement is potentially transformative, but sequence matters. Enhancement applied to a mismatched human amplifies the mismatch. Enhancement applied to a thriving human extends genuine capability.",
+      "An AI assistant for someone with no tribe helps them cope with isolation more efficiently. An AI assistant for someone with strong tribal bonds helps them contribute more effectively to their community.",
+      "The most human post-human isn't someone who has transcended human needs through technology. It's someone who has met those needs fully and then augmented from that foundation."
+    ],
+    crossReferences: ["augment", "the-most-human-post-human", "pharmakon"],
+    sources: []
+  },
+  {
     id: "the-most-human-post-human",
-    title: "Most Human Post-Human",
+    title: "The Most Human Post-Human",
     definition: [
       "The destination: humans with matched environments, enhanced by technology. Not replacement but extension.",
       "The transhumanist vision typically starts from broken humans and asks how technology can fix them. Better focus drugs for attention problems. VR for loneliness. AI companions for isolation. The assumption is that humans are the problem to be engineered around.",
@@ -685,6 +721,18 @@ const GLOSSARY_TERMS: GlossaryTerm[] = [
     sources: []
   },
   {
+    id: "singularity",
+    title: "Singularity",
+    definition: [
+      "The hypothesized point at which artificial intelligence becomes capable of recursive self-improvement, leading to rapid, unpredictable transformation of civilization.",
+      "In the DEMISMATCH framing, the singularity will be either utopian or dystopian depending on whether it's built with understanding of human nature. Technology that understands the spec sheet can finally meet human needs at scale. Technology built without it will exploit human vulnerabilities with unprecedented precision.",
+      "The framework is the spec sheet for building the good singularity. If the people creating superintelligent AI, immersive VR, and neural interfaces understand mismatch, they can design these technologies as pharmakon—serving human flourishing rather than extracting from human suffering.",
+      "The stakes couldn't be higher. Get it right, and we build the most human post-human. Get it wrong, and we amplify every existing mismatch until the species breaks."
+    ],
+    crossReferences: ["the-fork", "pharmakon", "the-most-human-post-human", "augment"],
+    sources: []
+  },
+  {
     id: "social-anxiety",
     title: "Social Anxiety",
     definition: [
@@ -769,6 +817,18 @@ const GLOSSARY_TERMS: GlossaryTerm[] = [
     sources: []
   },
   {
+    id: "the-fork",
+    title: "The Fork",
+    definition: [
+      "The approaching decision point for technological civilization. The next wave of technology—superintelligent AI, full-immersion VR, brain-computer interfaces—will either exploit human nature with unprecedented precision, or finally meet it.",
+      "This isn't metaphor. The same capabilities that could run the exploitation formula at superhuman scale could also solve problems the exploitation formula created. AI that understands human psychology better than we do could manipulate us perfectly—or could help us build environments that actually match our requirements.",
+      "The fork is why the framework matters now. Before these technologies arrive, we need the people building them to understand the spec sheet. After they arrive may be too late.",
+      "The good path isn't guaranteed. It requires intentional design by people who understand mismatch. The bad path is the default—just keep optimizing for engagement, conversion, and profit without understanding what those metrics cost."
+    ],
+    crossReferences: ["singularity", "pharmakon", "the-most-human-post-human"],
+    sources: []
+  },
+  {
     id: "transition",
     title: "Transition",
     definition: [
@@ -803,6 +863,18 @@ const GLOSSARY_TERMS: GlossaryTerm[] = [
       "This technology doesn't exist yet in any meaningful form. It's a direction, not a product."
     ],
     crossReferences: ["decay-function", "pharmakon"],
+    sources: []
+  },
+  {
+    id: "toxic-scarcity",
+    title: "Toxic Scarcity",
+    definition: [
+      "Scarcity that creates suffering without meaning. Food insecurity. Shelter insecurity. Material resource competition. Healthcare access.",
+      "This is what automation can and should eliminate. Toxic scarcity produces desperation, breaks cooperation, generates suffering without any compensating benefit. There's no character built from wondering if you'll eat. No meaning derived from housing instability.",
+      "The distinction from constructive scarcity matters because post-automation economics require understanding which scarcities to eliminate (toxic) and which to preserve (constructive). UBI eliminates toxic scarcity. Tribal contribution preserves constructive scarcity.",
+      "Good riddance to toxic scarcity. The goal isn't to romanticize struggle—it's to recognize that not all struggle is equivalent. Some scarcity breaks people. Some scarcity builds them. The difference is whether the scarcity is survivable and whether overcoming it produces genuine accomplishment."
+    ],
+    crossReferences: ["constructive-scarcity"],
     sources: []
   },
   {
@@ -842,6 +914,18 @@ const GLOSSARY_TERMS: GlossaryTerm[] = [
       "This is why \"bullshit jobs\" feel like bullshit even when they pay well. It's why meaningful work is meaningful regardless of pay. The variable isn't compensation—it's visibility of contribution. Work that produces nothing tangible, benefits no one you know, and exists primarily to perpetuate itself cannot satisfy the drive that work was supposed to satisfy."
     ],
     crossReferences: ["bullshit-jobs", "immediate-return-economy", "open-loop"],
+    sources: []
+  },
+  {
+    id: "vr-fire-circle",
+    title: "VR Fire Circle",
+    definition: [
+      "Immersive virtual reality designed to recreate the fire circle experience for geographically distributed tribes. Technology serving connection rather than substituting for it.",
+      "The fire circle was the original social technology: the entire band gathering nightly, facing each other, processing the day, maintaining bonds. Modern life has eliminated this. VR could recreate it for people whose tribes are scattered across distances.",
+      "The key distinction: VR fire circle connects existing tribe members who cannot be physically present. It's not parasocial content consumption. It's not strangers in a chat room. It's the 15-50 people you actually know, maintaining the relationships that geography would otherwise degrade.",
+      "This requires decay functions: the VR connection should push toward physical presence when possible, not substitute for it permanently. The goal is tribe maintenance across distance, not replacement of physical community."
+    ],
+    crossReferences: ["fire-circle", "decay-function", "digital-tribe"],
     sources: []
   },
   {
