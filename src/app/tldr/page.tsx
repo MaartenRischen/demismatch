@@ -123,7 +123,7 @@ export default function TLDR() {
                 className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6]"
                 style={{ fontFamily: "Georgia, serif" }}
               >
-                The full map of mismatch. Left: what our biology evolved to expect — tribe, movement, nature, real stakes, direct feedback. Center: what modern life substituted — offices, algorithms, parasocial relationships, abstract metrics. Right: the technological layer now being built on top, which leads to a fork. One path deepens the mismatch: AI and VR that exploit every psychological vulnerability, extract attention, and simulate connection without delivering it. The other path uses the same technologies to finally meet human nature — facilitating real tribe, real purpose, real presence. Both futures are possible. Which one we get depends on understanding this map.
+                The full map: what we evolved for, what we got instead, and the technological layer being built on top. That layer forks into two futures — one exploits human nature harder than ever, the other finally meets it.
               </figcaption>
             </figure>
             <div>
