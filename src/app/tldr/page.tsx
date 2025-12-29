@@ -147,10 +147,61 @@ export default function TLDR() {
         </div>
       </section>
 
-      {/* Section 4: The Economy of Mismatch - Text first, image below */}
+      {/* Section 4: The Stakes - Dark section about AI/VR futures */}
+      <section className="bg-[#292524] py-28 md:py-36 relative overflow-hidden">
+        {/* Top accent line */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C75B39] to-transparent" />
+
+        <div className="max-w-6xl mx-auto px-6 md:px-8 relative">
+          <div className="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-16 items-center">
+            <div>
+              <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">04</p>
+              <h2
+                className="text-3xl md:text-4xl mb-10 leading-tight"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "#C75B39" }}
+              >
+                The Stakes
+              </h2>
+              <div className="space-y-6 text-lg text-[#D6D3D1] leading-[1.9]" style={{ fontFamily: "Georgia, serif" }}>
+                <p>
+                  Understanding mismatch has always mattered, but it's about to matter much more.
+                </p>
+                <p>
+                  Social media exploited human nature somewhat accidentally — engineers optimizing for engagement discovered what hooks attention. AI and immersive VR are different. These technologies will understand human psychology better than we understand ourselves, and they'll be able to simulate anything.
+                </p>
+                <p className="text-[#FAFAF9]">
+                  They could exploit every vulnerability we have, or they could be designed to actually meet human needs — real tribe, real purpose, real presence. The difference depends entirely on whether the people building these technologies understand mismatch.
+                </p>
+                <p
+                  className="text-xl text-white pt-4"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                >
+                  This framework is an attempt to make sure they do.
+                </p>
+              </div>
+            </div>
+
+            <figure className="hidden lg:block">
+              <img
+                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/2_Exploitation_Loop_Diagram.png"
+                alt="The exploitation loop - how unmet needs create markets that profit from keeping needs unmet"
+                className="w-full rounded-xl opacity-60"
+              />
+              <figcaption
+                className="mt-4 text-center text-[0.9em] italic text-[#78716C] leading-[1.6]"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                The exploitation loop. AI could run this cycle faster than ever — or break it entirely.
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 5: The Economy of Mismatch - Text first, image below */}
       <section className="bg-[#F8F6F2] py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-6 md:px-8">
-          <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">04</p>
+          <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">05</p>
           <h2
             className="text-3xl md:text-4xl text-[#1A1A1A] mb-8 leading-tight"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
@@ -183,39 +234,6 @@ export default function TLDR() {
               Every unmet human need is a market. The players, the playbook, the profit.
             </figcaption>
           </figure>
-        </div>
-      </section>
-
-      {/* Section 5: The Stakes - Better contrast for readability */}
-      <section className="bg-[#292524] py-28 md:py-36 relative overflow-hidden">
-        {/* Top accent line */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C75B39] to-transparent" />
-
-        <div className="max-w-3xl mx-auto px-6 md:px-8 relative">
-          <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">05</p>
-          <h2
-            className="text-3xl md:text-4xl mb-10 leading-tight"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "#C75B39" }}
-          >
-            The Stakes
-          </h2>
-          <div className="space-y-6 text-lg text-[#D6D3D1] leading-[1.9]" style={{ fontFamily: "Georgia, serif" }}>
-            <p>
-              Understanding mismatch has always mattered, but it's about to matter much more.
-            </p>
-            <p>
-              Social media exploited human nature somewhat accidentally — engineers optimizing for engagement discovered what hooks attention. AI and immersive VR are different. These technologies will understand human psychology better than we understand ourselves, and they'll be able to simulate anything.
-            </p>
-            <p className="text-[#FAFAF9]">
-              They could exploit every vulnerability we have, or they could be designed to actually meet human needs — real tribe, real purpose, real presence. The difference depends entirely on whether the people building these technologies understand mismatch.
-            </p>
-            <p
-              className="text-xl text-white pt-4"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-            >
-              This framework is an attempt to make sure they do.
-            </p>
-          </div>
         </div>
       </section>
 
@@ -288,6 +306,20 @@ export default function TLDR() {
               We can have connection without exploitation, technology without addiction, progress without self-destruction. But only if we understand the hardware we're working with.
             </p>
           </div>
+
+          <figure className="mt-16 max-w-2xl mx-auto">
+            <img
+              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/15_Fire_Circle_vs_Modern_Evening.png"
+              alt="Fire circle gathering alongside modern evening - showing connection is possible in both contexts"
+              className="w-full rounded-xl shadow-lg"
+            />
+            <figcaption
+              className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6]"
+              style={{ fontFamily: "Georgia, serif" }}
+            >
+              The fire circle and the modern evening. Both can work — if we design for human nature.
+            </figcaption>
+          </figure>
         </div>
       </section>
 
