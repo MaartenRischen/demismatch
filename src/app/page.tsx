@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useRef } from "react";
 import Navigation from "@/components/Navigation";
 import CollapsibleAISection from "@/components/CollapsibleAISection";
