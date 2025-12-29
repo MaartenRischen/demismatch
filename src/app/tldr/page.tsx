@@ -62,7 +62,7 @@ export default function TLDR() {
         <div className="max-w-5xl mx-auto px-6 md:px-8">
           <p className="text-[#C75B39] text-xs font-bold uppercase tracking-[0.25em] mb-6">TL;DR of the TL;DR</p>
           <h2
-            className="text-2xl md:text-3xl lg:text-4xl text-white leading-[1.3] mb-12"
+            className="text-2xl md:text-3xl lg:text-4xl text-[#C75B39] leading-[1.3] mb-12"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             <G term="mismatch">Mismatch</G>: the gap between what your biology expects and what modern life provides.
@@ -234,7 +234,7 @@ export default function TLDR() {
             <div>
               <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">04</p>
               <h2
-                className="text-3xl md:text-4xl text-white mb-10 leading-[1.2]"
+                className="text-3xl md:text-4xl text-[#C75B39] mb-10 leading-[1.2]"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
                 AI and VR will either exploit human nature harder than ever, or finally meet it.
