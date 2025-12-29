@@ -61,6 +61,12 @@ export default function TLDR() {
                 alt="Timeline showing the compression of human history"
                 className="w-full rounded-xl shadow-lg"
               />
+              <figcaption
+                className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6]"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                300,000 years of remarkable consistency — then agriculture 10,000 years ago, industry 200 years ago, smartphones 15 years ago. Evolution works on timescales of tens of thousands of years. It hasn't even begun to catch up. We're running ancient hardware in an environment it was never designed for.
+              </figcaption>
             </figure>
           </div>
         </div>
@@ -72,6 +78,12 @@ export default function TLDR() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <figure>
               <HeroCarousel />
+              <figcaption
+                className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6]"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                The signal isn't broken. The environment is.
+              </figcaption>
             </figure>
             <div>
               <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">02</p>
@@ -107,6 +119,12 @@ export default function TLDR() {
                 alt="What we evolved for versus modern substitutes"
                 className="w-full rounded-xl shadow-lg"
               />
+              <figcaption
+                className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6]"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                The full map of mismatch. Left: what our biology evolved to expect — tribe, movement, nature, real stakes, direct feedback. Center: what modern life substituted — offices, algorithms, parasocial relationships, abstract metrics. Right: the technological layer now being built on top, which leads to a fork. One path deepens the mismatch: AI and VR that exploit every psychological vulnerability, extract attention, and simulate connection without delivering it. The other path uses the same technologies to finally meet human nature — facilitating real tribe, real purpose, real presence. Both futures are possible. Which one we get depends on understanding this map.
+              </figcaption>
             </figure>
             <div>
               <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">03</p>
@@ -161,6 +179,12 @@ export default function TLDR() {
               alt="The exploitation economy"
               className="w-full rounded-xl shadow-lg"
             />
+            <figcaption
+              className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6]"
+              style={{ fontFamily: "Georgia, serif" }}
+            >
+              Every unmet human need is a market. The players, the playbook, the profit.
+            </figcaption>
           </figure>
         </div>
       </section>
@@ -233,9 +257,15 @@ export default function TLDR() {
           </div>
 
           {/* Carousel */}
-          <div className="mt-20">
+          <figure className="mt-20">
             <DemismatchCarouselMorphing />
-          </div>
+            <figcaption
+              className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6] max-w-3xl mx-auto"
+              style={{ fontFamily: "Georgia, serif" }}
+            >
+              The sequence matters: establish the baseline before you augment.
+            </figcaption>
+          </figure>
         </div>
       </section>
 
