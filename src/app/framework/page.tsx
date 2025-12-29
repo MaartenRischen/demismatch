@@ -521,7 +521,7 @@ export default function FrameworkPage() {
             <h3 className="text-2xl text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>The Timeline</h3>
             <figure className="my-6">
               <img
-                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/timelines.png"
+                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/MAIN%20presentation%20graphic.png"
                 alt="Timeline: How every domain of life has shifted"
                 className="rounded-lg w-full max-w-2xl mx-auto shadow-sm"
               />
