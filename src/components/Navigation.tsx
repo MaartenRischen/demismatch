@@ -126,14 +126,6 @@ export default function Navigation() {
                 </div>
               )}
             </div>
-
-            {/* Analyzer - Standout CTA button with shimmer */}
-            <Link
-              href="/app"
-              className="text-sm font-bold uppercase tracking-widest px-4 py-2 bg-[#C75B39] text-white hover:bg-[#A84A2D] transition-all btn-shimmer btn-press"
-            >
-              Try Analyzer
-            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -180,15 +172,6 @@ export default function Navigation() {
           {/* Menu panel */}
           <div className="md:hidden fixed top-[73px] left-0 right-0 bottom-0 bg-[#FAF9F6] border-t border-[#E5E0D8] z-50 overflow-y-auto">
             <div className="px-6 py-4">
-              {/* Analyzer CTA at top for mobile */}
-              <Link
-                href="/app"
-                onClick={() => setMobileOpen(false)}
-                className="block w-full text-center py-3 mb-4 bg-[#C75B39] text-white font-bold uppercase tracking-widest"
-              >
-                Try Analyzer
-              </Link>
-
               {/* Main links */}
               {MAIN_LINKS.map((link) => (
                 <Link

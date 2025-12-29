@@ -10,20 +10,17 @@ export default function TLDR() {
     <main className="min-h-screen bg-[#FDFCFA] pt-20">
       <Navigation />
 
-      {/* Hero - Clean, centered, confident */}
-      <header className="py-20 md:py-28 lg:py-32">
+      {/* Hero - Compact, understated */}
+      <header className="py-10 md:py-12">
         <div className="max-w-3xl mx-auto px-6 md:px-8 text-center">
-          <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.25em] mb-6">
-            TL;DR
-          </p>
           <h1
-            className="text-[2.5rem] md:text-5xl lg:text-6xl text-[#1A1A1A] leading-[1.1] mb-8"
+            className="text-2xl md:text-3xl text-[#1A1A1A] leading-[1.2] mb-3"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             The Framework in 2 Minutes
           </h1>
           <p
-            className="text-xl md:text-2xl text-[#5A5A5A] leading-relaxed max-w-2xl mx-auto"
+            className="text-base text-[#6A6A6A] leading-relaxed max-w-xl mx-auto"
             style={{ fontFamily: "Georgia, serif" }}
           >
             Everything you need to understand the Demismatch framework, without reading the full specification.
@@ -65,7 +62,7 @@ export default function TLDR() {
                 className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6]"
                 style={{ fontFamily: "Georgia, serif" }}
               >
-                300,000 years of remarkable consistency — then agriculture 10,000 years ago, industry 200 years ago, smartphones 15 years ago. Evolution works on timescales of tens of thousands of years. It hasn't even begun to catch up. We're running ancient hardware in an environment it was never designed for.
+                300,000 years of consistency, then everything changed in an evolutionary blink. We're running ancient hardware in an environment it was never designed for.
               </figcaption>
             </figure>
           </div>
@@ -189,33 +186,31 @@ export default function TLDR() {
         </div>
       </section>
 
-      {/* Section 5: The Stakes - Warmer dark background, more padding */}
-      <section className="bg-[#1C1917] py-32 md:py-40 relative overflow-hidden">
-        {/* Subtle warm gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#C75B39]/5 via-transparent to-[#C75B39]/3" />
+      {/* Section 5: The Stakes - Better contrast for readability */}
+      <section className="bg-[#292524] py-28 md:py-36 relative overflow-hidden">
         {/* Top accent line */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C75B39]/50 to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C75B39] to-transparent" />
 
         <div className="max-w-3xl mx-auto px-6 md:px-8 relative">
           <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">05</p>
           <h2
-            className="text-3xl md:text-4xl text-white mb-12 leading-tight"
+            className="text-3xl md:text-4xl text-[#C75B39] mb-10 leading-tight"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             The Stakes
           </h2>
-          <div className="space-y-7 text-lg text-[#A8A29E] leading-[1.9]" style={{ fontFamily: "Georgia, serif" }}>
+          <div className="space-y-6 text-lg text-[#D6D3D1] leading-[1.9]" style={{ fontFamily: "Georgia, serif" }}>
             <p>
               Understanding mismatch has always mattered, but it's about to matter much more.
             </p>
             <p>
               Social media exploited human nature somewhat accidentally — engineers optimizing for engagement discovered what hooks attention. AI and immersive VR are different. These technologies will understand human psychology better than we understand ourselves, and they'll be able to simulate anything.
             </p>
-            <p className="text-[#E7E5E4]">
+            <p className="text-[#FAFAF9]">
               They could exploit every vulnerability we have, or they could be designed to actually meet human needs — real tribe, real purpose, real presence. The difference depends entirely on whether the people building these technologies understand mismatch.
             </p>
             <p
-              className="text-xl text-white pt-6"
+              className="text-xl text-white pt-4"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               This framework is an attempt to make sure they do.
@@ -257,7 +252,7 @@ export default function TLDR() {
           </div>
 
           {/* Carousel */}
-          <figure className="mt-20">
+          <figure className="mt-16">
             <DemismatchCarouselMorphing />
             <figcaption
               className="mt-4 text-center text-[0.9em] italic text-[#666] leading-[1.6] max-w-3xl mx-auto"
@@ -269,8 +264,8 @@ export default function TLDR() {
         </div>
       </section>
 
-      {/* Section 7: The Vision - Light background, calm conclusion */}
-      <section className="bg-[#FDFCFA] py-28 md:py-36">
+      {/* Section 7: The Vision - Warmer background, visual separator */}
+      <section className="bg-[#F5F3EF] py-24 md:py-32 border-t border-[#E5E0D8]">
         <div className="max-w-3xl mx-auto px-6 md:px-8 text-center">
           <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-6">07</p>
           <h2
