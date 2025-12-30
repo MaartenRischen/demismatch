@@ -427,14 +427,12 @@ export default function TLDR() {
       {/* CTA Section */}
       <section className="bg-[#1C1917] py-20 md:py-24">
         <div className="max-w-3xl mx-auto px-6 md:px-8 text-center">
-          <p className="text-[#A8A29E] text-lg mb-6" style={{ fontFamily: "Georgia, serif" }}>
-            The complete framework, with evidence, mechanisms, and implications.
-          </p>
           <Link
             href="/framework"
-            className="inline-flex items-center gap-3 bg-[#C75B39] text-white px-10 py-5 text-lg font-semibold hover:bg-[#A84A2D] transition-colors"
+            className="inline-flex items-center gap-3 text-[#A8A29E] text-lg hover:text-[#C75B39] transition-colors"
+            style={{ fontFamily: "Georgia, serif" }}
           >
-            Read the Full Framework
+            The complete framework, with evidence, mechanisms, and implications.
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
