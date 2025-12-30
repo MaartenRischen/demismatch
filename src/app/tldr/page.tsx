@@ -37,17 +37,12 @@ export default function TLDR() {
           >
             Everything you need to understand the Demismatch framework, without reading the full specification.
           </p>
-          <p
-            className="text-sm text-[#8A8A8A] mb-3"
+          <Link
+            href="/framework"
+            className="inline-flex items-center gap-2 text-[#8A8A8A] hover:text-[#C75B39] text-sm transition-colors"
             style={{ fontFamily: "Georgia, serif" }}
           >
             The complete framework, with evidence, mechanisms, and implications.
-          </p>
-          <Link
-            href="/framework"
-            className="inline-flex items-center gap-2 text-[#C75B39] hover:text-[#A84A2D] text-sm font-medium transition-colors"
-          >
-            Read the Full Framework
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
