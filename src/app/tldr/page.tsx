@@ -61,7 +61,7 @@ export default function TLDR() {
 
         <div className="max-w-5xl mx-auto px-6 md:px-8">
           <h2
-            className="text-4xl md:text-5xl lg:text-6xl text-[#C75B39] font-bold uppercase tracking-[0.15em] mb-12"
+            className="text-4xl md:text-5xl lg:text-6xl text-[#C75B39] font-bold uppercase tracking-[0.15em] mb-12 text-center"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             TL;DR of the TL;DR
@@ -81,7 +81,7 @@ export default function TLDR() {
             </figcaption>
           </figure>
 
-          <div className="space-y-6 max-w-4xl">
+          <div className="space-y-6 max-w-4xl mx-auto text-center">
             <p
               className="text-xl md:text-2xl text-white leading-[1.6]"
               style={{ fontFamily: "Georgia, serif" }}
@@ -107,9 +107,9 @@ export default function TLDR() {
       {/* Section 01: The Problem - Title, Image, Text */}
       <section className="bg-white py-24 md:py-32">
         <div className="max-w-5xl mx-auto px-6 md:px-8">
-          <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">01</p>
+          <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4 text-center">01</p>
           <h2
-            className="text-3xl md:text-4xl lg:text-5xl text-[#C75B39] mb-12 leading-[1.2]"
+            className="text-3xl md:text-4xl lg:text-5xl text-[#C75B39] mb-12 leading-[1.2] text-center"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             300,000+ years of one world.<br className="hidden md:block" />
@@ -185,9 +185,9 @@ export default function TLDR() {
       {/* Section 03: Economy of Mismatch - Title, Image, Text */}
       <section className="bg-white py-24 md:py-32">
         <div className="max-w-5xl mx-auto px-6 md:px-8">
-          <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">03</p>
+          <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4 text-center">03</p>
           <h2
-            className="text-3xl md:text-4xl lg:text-5xl text-[#C75B39] mb-12 leading-[1.2]"
+            className="text-3xl md:text-4xl lg:text-5xl text-[#C75B39] mb-12 leading-[1.2] text-center"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             Every unmet human need is a market.
@@ -277,10 +277,10 @@ export default function TLDR() {
       {/* Section 05: The Principle */}
       <section className="bg-[#F8F6F2] py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <div className="mb-12">
+          <div className="mb-12 text-center">
             <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">05</p>
             <h2
-              className="text-3xl md:text-4xl lg:text-5xl text-[#C75B39] leading-[1.2] max-w-4xl"
+              className="text-3xl md:text-4xl lg:text-5xl text-[#C75B39] leading-[1.2] max-w-4xl mx-auto"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               We're building the technological future.<br className="hidden lg:block" />
