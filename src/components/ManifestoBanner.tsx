@@ -4,11 +4,11 @@ export default function ManifestoBanner() {
   return (
     <div className="manifesto-banner">
       <div className="manifesto-content">
-        <span className="phrase phrase-1">Human again.</span>
-        <span className="separator" aria-hidden="true" />
         <span className="phrase phrase-3">
-          Then <span className="highlight">more than human</span>.
+          <span className="highlight">Human again</span>.
         </span>
+        <span className="separator" aria-hidden="true" />
+        <span className="phrase phrase-3">Then more than human.</span>
       </div>
 
       <style jsx>{`
