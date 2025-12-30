@@ -39,8 +39,7 @@ export default function TLDR() {
           </p>
           <Link
             href="/framework"
-            className="inline-flex items-center gap-2 text-[#8A8A8A] hover:text-[#C75B39] text-sm transition-colors"
-            style={{ fontFamily: "Georgia, serif" }}
+            className="inline-flex items-center gap-2 bg-[#C75B39] text-white px-6 py-3 text-sm font-medium hover:bg-[#A84A2D] transition-colors"
           >
             The complete framework, with evidence, mechanisms, and implications.
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -424,8 +423,7 @@ export default function TLDR() {
         <div className="max-w-3xl mx-auto px-6 md:px-8 text-center">
           <Link
             href="/framework"
-            className="inline-flex items-center gap-3 text-[#A8A29E] text-lg hover:text-[#C75B39] transition-colors"
-            style={{ fontFamily: "Georgia, serif" }}
+            className="inline-flex items-center gap-3 bg-[#C75B39] text-white px-10 py-5 text-lg font-semibold hover:bg-[#A84A2D] transition-colors"
           >
             The complete framework, with evidence, mechanisms, and implications.
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
