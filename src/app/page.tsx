@@ -169,7 +169,7 @@ export default function Home() {
                     src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png"
                     alt="Human eye - bridging signal and stakes"
                     className="w-full h-full object-cover animate-[slow-zoom_4s_ease-in-out_infinite_alternate]"
-                    style={{ objectPosition: '50% 27%' }}
+                    style={{ objectPosition: '50% 25%' }}
                   />
                 </div>
               </div>
@@ -233,7 +233,7 @@ export default function Home() {
                       src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png"
                       alt="Human eye - bridging signal and stakes"
                       className="w-full h-full object-cover animate-[slow-zoom_4s_ease-in-out_infinite_alternate]"
-                      style={{ objectPosition: '50% 27%' }}
+                      style={{ objectPosition: '50% 25%' }}
                     />
                   </div>
                 </div>
