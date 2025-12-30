@@ -163,7 +163,7 @@ export default function TLDR() {
                 What we call disorders are often signals.<br className="hidden md:block" />
                 The signal isn't broken — the environment is.
               </h2>
-              <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8] text-center" style={{ fontFamily: "Georgia, serif" }}>
+              <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
                 <p>
                   When we label something a "disorder," we imply the system is malfunctioning. But what if the system is working exactly as designed — just receiving inputs it was never calibrated for?
                 </p>
@@ -235,7 +235,7 @@ export default function TLDR() {
               >
                 AI and VR will either exploit human nature harder than ever, or finally meet it.
               </h2>
-              <div className="space-y-6 text-lg text-[#D6D3D1] leading-[1.9] text-center" style={{ fontFamily: "Georgia, serif" }}>
+              <div className="space-y-6 text-lg text-[#D6D3D1] leading-[1.9]" style={{ fontFamily: "Georgia, serif" }}>
                 <p>
                   Understanding mismatch has always mattered. It's about to matter much more.
                 </p>
