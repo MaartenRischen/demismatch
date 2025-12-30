@@ -120,16 +120,16 @@ export default function Home() {
           {/* Desktop Layout: Stacked like mobile */}
           <div className="hidden lg:block">
             {/* Eye as Central Anchor with Split Background */}
-            <div className="relative mb-6">
+            <div className="relative mb-6 -mx-6 md:-mx-8">
               {/* Split gradient background - warm/cool duality */}
-              <div className="absolute inset-0 flex overflow-hidden rounded-2xl">
+              <div className="absolute inset-0 flex overflow-hidden">
                 <div className="w-1/2 bg-gradient-to-br from-amber-100/60 via-orange-50/40 to-transparent" />
                 <div className="w-1/2 bg-gradient-to-bl from-slate-800/20 via-indigo-900/10 to-transparent" />
               </div>
 
               {/* Eye Image - Full width */}
-              <div className="relative flex justify-center py-8">
-                <div className="relative w-full max-w-2xl eye-glow-pulse">
+              <div className="relative">
+                <div className="relative w-full eye-glow-pulse">
                   <div
                     className="relative overflow-hidden aspect-video"
                     style={{
