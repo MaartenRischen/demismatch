@@ -59,7 +59,7 @@ export default function Navigation() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 nav-glass border-b border-[#E5E0D8]/50">
+      <nav className="fixed top-[36px] left-0 right-0 z-50 nav-glass border-b border-[#E5E0D8]/50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             href="/"
@@ -171,7 +171,7 @@ export default function Navigation() {
             onClick={() => setMobileOpen(false)}
           />
           {/* Menu panel */}
-          <div className="md:hidden fixed top-[73px] left-0 right-0 bottom-0 bg-[#FAF9F6] border-t border-[#E5E0D8] z-50 overflow-y-auto">
+          <div className="md:hidden fixed top-[109px] left-0 right-0 bottom-0 bg-[#FAF9F6] border-t border-[#E5E0D8] z-50 overflow-y-auto">
             <div className="px-6 py-4">
               {/* Main links */}
               {MAIN_LINKS.map((link) => (

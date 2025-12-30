@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { WebsiteStructuredData, OrganizationStructuredData } from "@/components/StructuredData";
+import ManifestoBanner from "@/components/ManifestoBanner";
 
 export const metadata: Metadata = {
   title: "DEMISMATCH",
@@ -37,6 +38,7 @@ export default function RootLayout({
       <body>
         <WebsiteStructuredData />
         <OrganizationStructuredData />
+        <ManifestoBanner />
         {children}
       </body>
     </html>
