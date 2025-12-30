@@ -368,50 +368,71 @@ export default function TLDR() {
 
       {/* Section 06: The Vision - LIGHT background */}
       <section className="bg-white py-24 md:py-32 border-t border-[#E5E0D8]">
-        <div className="max-w-4xl mx-auto px-6 md:px-8">
-          <div className="text-center mb-12">
-            <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">06</p>
-            <h2
-              className="text-3xl md:text-4xl lg:text-5xl text-[#C75B39] leading-[1.2]"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-            >
-              Not a return to caves.<br className="hidden md:block" />
-              A future built with human nature in mind.
-            </h2>
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            {/* Left: Image */}
+            <figure className="hidden lg:block">
+              <img
+                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/tldr/humanagain.png"
+                alt="Human again - then more than human"
+                className="w-full rounded-xl shadow-lg"
+              />
+            </figure>
+
+            {/* Right: Text */}
+            <div>
+              <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">06</p>
+              <h2
+                className="text-3xl md:text-4xl lg:text-5xl text-[#C75B39] leading-[1.2] mb-8"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                Not a return to caves.<br className="hidden md:block" />
+                A future built with human nature in mind.
+              </h2>
+
+              <div className="space-y-6 text-lg text-[#3A3A3A] leading-[1.9]" style={{ fontFamily: "Georgia, serif" }}>
+                <p>
+                  We don't want to go back. The <G term="eea">EEA</G> had 27% infant mortality, violence, scarcity, disease. Romanticizing the past misses the point entirely.
+                </p>
+                <p>
+                  We want to go <em>forward</em> — with the spec sheet in hand.
+                </p>
+                <p>
+                  We're approaching a threshold unlike anything in human history. AI that understands psychology better than we do. VR that can simulate any environment. Brain-computer interfaces. The merging of human and machine isn't science fiction — it's the next decade.
+                </p>
+                <p>
+                  This is the future we want to build:
+                </p>
+                <p className="font-semibold">
+                  AI that forms actual tribes instead of exploiting loneliness. Social platforms with hard <G term="dunbar-layers">Dunbar limits</G>. VR <G term="fire-circle">fire circles</G>, with only real connections around it. Workspaces designed for visible contribution. Cities built for walking and gathering. Brain-computer interfaces that enhance presence rather than fragmenting attention. And this is just what we can come up with right now.
+                </p>
+                <p
+                  className="text-2xl md:text-3xl text-[#C75B39] font-bold pt-4 pb-4"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                >
+                  Technology that finally meets human nature instead of hijacking it.
+                </p>
+                <p>
+                  This framework is the spec sheet. It maps what humans actually need — the tribal structures, the movement patterns, the circadian rhythms, the <G term="closed-loops">closed loops</G>, the visible stakes. It's already being built into tools: the <Link href="/app" className="text-[#C75B39] hover:text-[#A84A2D] underline decoration-[#C75B39]/30 hover:decoration-[#C75B39] transition-colors">Mismatch Analyzer</Link> that reads any situation through the evolutionary lens. An <Link href="/library" className="text-[#C75B39] hover:text-[#A84A2D] underline decoration-[#C75B39]/30 hover:decoration-[#C75B39] transition-colors">image library</Link> of 2,500+ visualizations. Environment audits. Tribe formation infrastructure.
+                </p>
+                <p>
+                  The evolutionary psychology isn't the destination. It's the foundation. The destination is <G term="the-most-human-post-human">the most human post-human</G> — enhanced by technology, grounded in biology, extended rather than replaced.
+                </p>
+                <p className="font-medium">
+                  We can have transcendence without losing ourselves. But only if we build it that way.
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div className="space-y-6 text-lg text-[#3A3A3A] leading-[1.9] max-w-3xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
-            <p>
-              We don't want to go back. The <G term="eea">EEA</G> had 27% infant mortality, violence, scarcity, disease. Romanticizing the past misses the point entirely.
-            </p>
-            <p>
-              We want to go <em>forward</em> — with the spec sheet in hand.
-            </p>
-            <p>
-              We're approaching a threshold unlike anything in human history. AI that understands psychology better than we do. VR that can simulate any environment. Brain-computer interfaces. The merging of human and machine isn't science fiction — it's the next decade.
-            </p>
-            <p>
-              This is the future we want to build:
-            </p>
-            <p className="font-semibold">
-              AI that forms actual tribes instead of exploiting loneliness. Social platforms with hard <G term="dunbar-layers">Dunbar limits</G>. VR <G term="fire-circle">fire circles</G>, with only real connections around it. Workspaces designed for visible contribution. Cities built for walking and gathering. Brain-computer interfaces that enhance presence rather than fragmenting attention. And this is just what we can come up with right now.
-            </p>
-            <p
-              className="text-2xl md:text-3xl lg:text-4xl text-[#C75B39] font-bold pt-6 pb-6 text-center"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-            >
-              Technology that finally meets human nature instead of hijacking it.
-            </p>
-            <p>
-              This framework is the spec sheet. It maps what humans actually need — the tribal structures, the movement patterns, the circadian rhythms, the <G term="closed-loops">closed loops</G>, the visible stakes. It's already being built into tools: the <Link href="/app" className="text-[#C75B39] hover:text-[#A84A2D] underline decoration-[#C75B39]/30 hover:decoration-[#C75B39] transition-colors">Mismatch Analyzer</Link> that reads any situation through the evolutionary lens. An <Link href="/library" className="text-[#C75B39] hover:text-[#A84A2D] underline decoration-[#C75B39]/30 hover:decoration-[#C75B39] transition-colors">image library</Link> of 2,500+ visualizations. Environment audits. Tribe formation infrastructure.
-            </p>
-            <p>
-              The evolutionary psychology isn't the destination. It's the foundation. The destination is <G term="the-most-human-post-human">the most human post-human</G> — enhanced by technology, grounded in biology, extended rather than replaced.
-            </p>
-            <p className="font-medium">
-              We can have transcendence without losing ourselves. But only if we build it that way.
-            </p>
-          </div>
+          {/* Mobile: Show image below title */}
+          <figure className="lg:hidden mt-8">
+            <img
+              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/tldr/humanagain.png"
+              alt="Human again - then more than human"
+              className="w-full rounded-xl shadow-lg"
+            />
+          </figure>
         </div>
       </section>
 
