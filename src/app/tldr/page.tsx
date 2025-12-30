@@ -285,18 +285,23 @@ export default function TLDR() {
             </h2>
           </div>
 
-          <div className="grid lg:grid-cols-[1fr_280px] gap-12 lg:gap-16 items-stretch">
-            {/* Left: Text blocks stacked with spacing */}
+          <div className="grid lg:grid-cols-[280px_1fr] gap-12 lg:gap-16 items-stretch">
+            {/* Left: Vertical Carousel */}
+            <div className="hidden lg:block">
+              <DemismatchCarouselMorphing minimal vertical />
+            </div>
+
+            {/* Right: Text blocks stacked with spacing */}
             <div className="space-y-16">
               {/* Part 1: Demismatch First */}
               <div>
                 <h3
-                  className="text-2xl md:text-3xl text-[#1A1A1A] mb-6 leading-tight text-center"
+                  className="text-2xl md:text-3xl text-[#1A1A1A] mb-6 leading-tight"
                   style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   Demismatch First
                 </h3>
-                <div className="space-y-4 text-lg text-[#3A3A3A] leading-[1.8] text-center" style={{ fontFamily: "Georgia, serif" }}>
+                <div className="space-y-4 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
                   <p>
                     Before reaching for any intervention — pharmaceutical, technological, therapeutic — ask which ancestral needs are going unmet.
                   </p>
@@ -312,12 +317,12 @@ export default function TLDR() {
               {/* Part 2: Then Augment */}
               <div>
                 <h3
-                  className="text-2xl md:text-3xl text-[#1A1A1A] mb-6 leading-tight text-center"
+                  className="text-2xl md:text-3xl text-[#1A1A1A] mb-6 leading-tight"
                   style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   Then Augment
                 </h3>
-                <div className="space-y-4 text-lg text-[#3A3A3A] leading-[1.8] text-center" style={{ fontFamily: "Georgia, serif" }}>
+                <div className="space-y-4 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
                   <p>
                     Once the baseline is established — real tribe, real movement, real purpose — technology becomes a force multiplier rather than a <G term="proxy">proxy</G>.
                   </p>
@@ -337,20 +342,13 @@ export default function TLDR() {
                     The difference is the foundation.
                   </p>
                 </div>
-                <div className="text-center mt-6">
-                  <Link href="/future" className="text-[#C75B39] hover:underline text-lg inline-flex items-center gap-2">
-                    See what we're building
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                  </Link>
-                </div>
+                <Link href="/future" className="text-[#C75B39] hover:underline text-lg inline-flex items-center gap-2 mt-6">
+                  See what we're building
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
               </div>
-            </div>
-
-            {/* Right: Vertical Carousel */}
-            <div className="hidden lg:block">
-              <DemismatchCarouselMorphing minimal vertical />
             </div>
           </div>
 
