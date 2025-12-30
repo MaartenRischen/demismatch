@@ -120,7 +120,7 @@ export default function Home() {
           {/* Desktop Layout: Text overlaid on eye */}
           <div className="hidden lg:block">
             <div className="relative -mx-6 md:-mx-8">
-              {/* Eye Image - Full width background */}
+              {/* Eye Image - Full width background with iris focus effect */}
               <div className="relative w-full eye-glow-pulse">
                 <div
                   className="relative overflow-hidden aspect-video"
@@ -131,10 +131,19 @@ export default function Home() {
                     maskComposite: 'intersect'
                   }}
                 >
+                  {/* Blurred background layer - gets more blurry as zoom increases */}
+                  <img
+                    src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png?v=2"
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full object-cover eye-blur-layer"
+                    style={{ objectPosition: '50% 40%' }}
+                  />
+                  {/* Sharp iris layer - circular mask keeps iris sharp */}
                   <img
                     src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png?v=2"
                     alt="Human eye - bridging signal and stakes"
-                    className="w-full h-full object-cover animate-[slow-zoom_4s_ease-in-out_infinite_alternate]"
+                    className="relative w-full h-full object-cover eye-sharp-layer"
                     style={{ objectPosition: '50% 40%' }}
                   />
                 </div>
@@ -174,7 +183,7 @@ export default function Home() {
           {/* Mobile/Tablet Layout: Text overlaid on eye */}
           <div className="lg:hidden">
             <div className="relative -mx-6 md:-mx-8">
-              {/* Eye Image - Full width background */}
+              {/* Eye Image - Full width background with iris focus effect */}
               <div className="relative w-full eye-glow-pulse">
                 <div
                   className="relative overflow-hidden aspect-[4/5] sm:aspect-video"
@@ -185,10 +194,19 @@ export default function Home() {
                     maskComposite: 'intersect'
                   }}
                 >
+                  {/* Blurred background layer - gets more blurry as zoom increases */}
+                  <img
+                    src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png?v=2"
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full object-cover eye-blur-layer"
+                    style={{ objectPosition: '50% 40%' }}
+                  />
+                  {/* Sharp iris layer - circular mask keeps iris sharp */}
                   <img
                     src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png?v=2"
                     alt="Human eye - bridging signal and stakes"
-                    className="w-full h-full object-cover animate-[slow-zoom_4s_ease-in-out_infinite_alternate]"
+                    className="relative w-full h-full object-cover eye-sharp-layer"
                     style={{ objectPosition: '50% 40%' }}
                   />
                 </div>

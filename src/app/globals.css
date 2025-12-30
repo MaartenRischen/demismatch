@@ -261,8 +261,40 @@ h1, h2, h3, h4, h5, h6 {
   100% { transform: scale(2); }
 }
 
+@keyframes slow-zoom-blur {
+  0% {
+    transform: scale(1);
+    filter: blur(0px);
+  }
+  100% {
+    transform: scale(2);
+    filter: blur(12px);
+  }
+}
+
+@keyframes iris-mask-expand {
+  0% {
+    --mask-size: 35%;
+  }
+  100% {
+    --mask-size: 25%;
+  }
+}
+
 .animate-slow-zoom {
   animation: slow-zoom 18s ease-in-out infinite alternate;
+}
+
+/* Eye blur effect - blurred background layer */
+.eye-blur-layer {
+  animation: slow-zoom-blur 4s ease-in-out infinite alternate;
+}
+
+/* Eye sharp layer - circular mask around iris */
+.eye-sharp-layer {
+  animation: slow-zoom 4s ease-in-out infinite alternate;
+  mask-image: radial-gradient(circle at 50% 45%, black 0%, black 12%, transparent 22%);
+  -webkit-mask-image: radial-gradient(circle at 50% 45%, black 0%, black 12%, transparent 22%);
 }
 
 /* Animation utilities */
