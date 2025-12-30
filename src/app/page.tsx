@@ -154,9 +154,9 @@ export default function Home() {
 
               {/* CENTER - Eye Image with Feathered Edges, Slow Zoom, and Glow */}
               <div className="relative w-64 xl:w-80 eye-glow-pulse self-stretch flex items-center">
-                {/* Fixed mask wrapper - stays locked, 1:1 aspect ratio */}
+                {/* Fixed mask wrapper - stays locked, landscape aspect ratio */}
                 <div
-                  className="relative overflow-hidden aspect-square"
+                  className="relative overflow-hidden aspect-video"
                   style={{
                     WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)',
                     maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)',
@@ -221,7 +221,7 @@ export default function Home() {
               <div className="relative flex justify-center py-6 sm:py-8">
                 <div className="relative w-52 sm:w-64 eye-glow-pulse">
                   <div
-                    className="relative overflow-hidden aspect-square"
+                    className="relative overflow-hidden aspect-video"
                     style={{
                       WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%)',
                       maskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%)',
