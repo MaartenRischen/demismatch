@@ -274,10 +274,10 @@ export default function TLDR() {
       {/* Section 05: The Principle */}
       <section className="bg-[#F8F6F2] py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <div className="mb-12 text-center">
+          <div className="mb-12 text-right">
             <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-4">05</p>
             <h2
-              className="text-3xl md:text-4xl lg:text-5xl text-[#C75B39] leading-[1.2] max-w-4xl mx-auto"
+              className="text-3xl md:text-4xl lg:text-5xl text-[#C75B39] leading-[1.2]"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               We're building the technological future.<br className="hidden lg:block" />
