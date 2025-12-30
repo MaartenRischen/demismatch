@@ -154,9 +154,9 @@ export default function Home() {
 
               {/* CENTER - Eye Image with Feathered Edges, Slow Zoom, and Glow */}
               <div className="relative w-64 xl:w-80 eye-glow-pulse self-stretch flex items-center">
-                {/* Fixed mask wrapper - stays locked */}
+                {/* Fixed mask wrapper - stays locked, 1:1 aspect ratio */}
                 <div
-                  className="relative overflow-hidden"
+                  className="relative overflow-hidden aspect-square"
                   style={{
                     WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
                     maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
@@ -164,11 +164,11 @@ export default function Home() {
                     maskComposite: 'intersect'
                   }}
                 >
-                  {/* Image zooms inside the fixed mask */}
+                  {/* Image zooms inside the fixed mask - iris centered */}
                   <img
                     src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png"
                     alt="Human eye - bridging signal and stakes"
-                    className="w-full h-auto object-contain animate-[slow-zoom_4s_ease-in-out_infinite_alternate]"
+                    className="w-full h-full object-cover object-center animate-[slow-zoom_4s_ease-in-out_infinite_alternate]"
                   />
                 </div>
               </div>
@@ -220,7 +220,7 @@ export default function Home() {
               <div className="relative flex justify-center py-6 sm:py-8">
                 <div className="relative w-52 sm:w-64 eye-glow-pulse">
                   <div
-                    className="relative overflow-hidden"
+                    className="relative overflow-hidden aspect-square"
                     style={{
                       WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)',
                       maskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)',
@@ -231,7 +231,7 @@ export default function Home() {
                     <img
                       src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png"
                       alt="Human eye - bridging signal and stakes"
-                      className="w-full h-auto object-contain animate-[slow-zoom_4s_ease-in-out_infinite_alternate]"
+                      className="w-full h-full object-cover object-center animate-[slow-zoom_4s_ease-in-out_infinite_alternate]"
                     />
                   </div>
                 </div>
