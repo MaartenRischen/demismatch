@@ -60,7 +60,7 @@ export default function TLDR() {
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C75B39] to-transparent" />
 
         <div className="max-w-5xl mx-auto px-6 md:px-8">
-          <p className="text-[#C75B39] text-xs font-semibold uppercase tracking-[0.2em] mb-12 text-center">
+          <p className="text-[#C75B39] text-sm font-semibold uppercase tracking-[0.2em] mb-12 text-center">
             TL;DR of the TL;DR
           </p>
 
