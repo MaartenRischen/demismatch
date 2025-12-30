@@ -18,7 +18,7 @@ export default function ManifestoBanner() {
           left: 0;
           right: 0;
           width: 100%;
-          height: 36px;
+          height: 54px;
           background: #1a1918;
           display: flex;
           align-items: center;
@@ -70,7 +70,7 @@ export default function ManifestoBanner() {
         .phrase {
           font-family: "Söhne", -apple-system, BlinkMacSystemFont, "Segoe UI",
             Helvetica, Arial, sans-serif;
-          font-size: 13px;
+          font-size: 20px;
           font-weight: 400;
           letter-spacing: 0.04em;
           white-space: nowrap;
