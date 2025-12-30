@@ -223,7 +223,7 @@ export default function Home() {
           {/* Mobile/Tablet Layout: The Convergence */}
           <div className="lg:hidden">
             {/* Eye as Central Anchor with Split Background */}
-            <div className="relative mb-4">
+            <div className="relative mb-4 -mx-6 md:-mx-8">
               {/* Split gradient background - warm/cool duality */}
               <div className="absolute inset-0 flex overflow-hidden">
                 <div className="w-1/2 bg-gradient-to-br from-amber-100/60 via-orange-50/40 to-transparent" />
@@ -231,7 +231,7 @@ export default function Home() {
               </div>
 
               {/* Eye Image - Full width */}
-              <div className="relative flex justify-center py-6 sm:py-8">
+              <div className="relative">
                 <div className="relative w-full eye-glow-pulse">
                   <div
                     className="relative overflow-hidden aspect-video"
