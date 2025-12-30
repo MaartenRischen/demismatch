@@ -127,7 +127,7 @@ export default function TLDR() {
             </figcaption>
           </figure>
 
-          <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8] max-w-4xl" style={{ fontFamily: "Georgia, serif" }}>
+          <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8] max-w-4xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
             <p>
               For 300,000+ years, humans lived in conditions that remained remarkably consistent. <G term="band">Bands</G> of 30-50 people who knew each other completely. <G term="tribe">Tribes</G> of around 150 — the maximum number your brain can track as individuals. <G term="fire-circle">Fire circles</G> every night where the whole group processed the day together. Children raised by 20+ adults, not two exhausted parents alone. Work that produced visible results for people you loved.
             </p>
@@ -163,7 +163,7 @@ export default function TLDR() {
                 What we call disorders are often signals.<br className="hidden md:block" />
                 The signal isn't broken — the environment is.
               </h2>
-              <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
+              <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8] text-center" style={{ fontFamily: "Georgia, serif" }}>
                 <p>
                   When we label something a "disorder," we imply the system is malfunctioning. But what if the system is working exactly as designed — just receiving inputs it was never calibrated for?
                 </p>
@@ -204,7 +204,7 @@ export default function TLDR() {
             </figcaption>
           </figure>
 
-          <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8] max-w-4xl" style={{ fontFamily: "Georgia, serif" }}>
+          <div className="space-y-5 text-lg text-[#3A3A3A] leading-[1.8] max-w-4xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
             <p>
               This isn't conspiracy — it's documented business strategy. It's called the <G term="exploitation-formula">exploitation formula</G>: identify a real human need, block or degrade genuine satisfaction, offer a <G term="proxy">proxy</G> that mimics the signal without meeting the need, monetize the repeat visits.
             </p>
@@ -235,7 +235,7 @@ export default function TLDR() {
               >
                 AI and VR will either exploit human nature harder than ever, or finally meet it.
               </h2>
-              <div className="space-y-6 text-lg text-[#D6D3D1] leading-[1.9]" style={{ fontFamily: "Georgia, serif" }}>
+              <div className="space-y-6 text-lg text-[#D6D3D1] leading-[1.9] text-center" style={{ fontFamily: "Georgia, serif" }}>
                 <p>
                   Understanding mismatch has always mattered. It's about to matter much more.
                 </p>
@@ -291,12 +291,12 @@ export default function TLDR() {
               {/* Part 1: Demismatch First */}
               <div>
                 <h3
-                  className="text-2xl md:text-3xl text-[#1A1A1A] mb-6 leading-tight"
+                  className="text-2xl md:text-3xl text-[#1A1A1A] mb-6 leading-tight text-center"
                   style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   Demismatch First
                 </h3>
-                <div className="space-y-4 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
+                <div className="space-y-4 text-lg text-[#3A3A3A] leading-[1.8] text-center" style={{ fontFamily: "Georgia, serif" }}>
                   <p>
                     Before reaching for any intervention — pharmaceutical, technological, therapeutic — ask which ancestral needs are going unmet.
                   </p>
@@ -312,12 +312,12 @@ export default function TLDR() {
               {/* Part 2: Then Augment */}
               <div>
                 <h3
-                  className="text-2xl md:text-3xl text-[#1A1A1A] mb-6 leading-tight"
+                  className="text-2xl md:text-3xl text-[#1A1A1A] mb-6 leading-tight text-center"
                   style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   Then Augment
                 </h3>
-                <div className="space-y-4 text-lg text-[#3A3A3A] leading-[1.8]" style={{ fontFamily: "Georgia, serif" }}>
+                <div className="space-y-4 text-lg text-[#3A3A3A] leading-[1.8] text-center" style={{ fontFamily: "Georgia, serif" }}>
                   <p>
                     Once the baseline is established — real tribe, real movement, real purpose — technology becomes a force multiplier rather than a <G term="proxy">proxy</G>.
                   </p>
@@ -337,12 +337,14 @@ export default function TLDR() {
                     The difference is the foundation.
                   </p>
                 </div>
-                <Link href="/future" className="text-[#C75B39] hover:underline text-lg inline-flex items-center gap-2 mt-6">
-                  See what we're building
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </Link>
+                <div className="text-center mt-6">
+                  <Link href="/future" className="text-[#C75B39] hover:underline text-lg inline-flex items-center gap-2">
+                    See what we're building
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </Link>
+                </div>
               </div>
             </div>
 
@@ -380,7 +382,7 @@ export default function TLDR() {
             </h2>
           </div>
 
-          <div className="space-y-6 text-lg text-[#3A3A3A] leading-[1.9] max-w-3xl mx-auto" style={{ fontFamily: "Georgia, serif" }}>
+          <div className="space-y-6 text-lg text-[#3A3A3A] leading-[1.9] max-w-3xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
             <p>
               We don't want to go back. The <G term="eea">EEA</G> had 27% infant mortality, violence, scarcity, disease. Romanticizing the past misses the point entirely.
             </p>
