@@ -297,11 +297,11 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-mask-image: radial-gradient(circle at 50% 45%, black 0%, black 22%, transparent 38%);
 }
 
-/* Mobile adjustments for eye - iris is offset higher, needs smaller sharp circle */
+/* Mobile adjustments for eye - square aspect ratio, adjusted mask */
 @media (max-width: 1023px) {
   .eye-sharp-layer {
-    mask-image: radial-gradient(circle at 50% 35%, black 0%, black 17%, transparent 30%);
-    -webkit-mask-image: radial-gradient(circle at 50% 35%, black 0%, black 17%, transparent 30%);
+    mask-image: radial-gradient(circle at 50% 42%, black 0%, black 17%, transparent 30%);
+    -webkit-mask-image: radial-gradient(circle at 50% 42%, black 0%, black 17%, transparent 30%);
   }
 }
 

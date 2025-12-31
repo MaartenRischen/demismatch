@@ -186,7 +186,7 @@ export default function Home() {
               {/* Eye Image - Full width background with iris focus effect */}
               <div className="relative w-full eye-glow-pulse">
                 <div
-                  className="relative overflow-hidden aspect-[4/5] sm:aspect-video"
+                  className="relative overflow-hidden aspect-square sm:aspect-video"
                   style={{
                     WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 3%, black 97%, transparent 100%)',
                     maskImage: 'linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 3%, black 97%, transparent 100%)',
