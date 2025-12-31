@@ -297,12 +297,31 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-mask-image: radial-gradient(circle at 50% 45%, black 0%, black 22%, transparent 38%);
 }
 
-/* Mobile adjustments for eye - square aspect ratio, adjusted mask */
-@media (max-width: 1023px) {
-  .eye-sharp-layer {
-    mask-image: radial-gradient(circle at 50% 42%, black 0%, black 17%, transparent 30%);
-    -webkit-mask-image: radial-gradient(circle at 50% 42%, black 0%, black 17%, transparent 30%);
+/* Mobile-specific eye animations - zoom 1.4 to 2 to avoid white space */
+@keyframes slow-zoom-mobile {
+  0% { transform: scale(1.4); }
+  100% { transform: scale(2); }
+}
+
+@keyframes slow-zoom-blur-mobile {
+  0% {
+    transform: scale(1.4);
+    filter: blur(0px);
   }
+  100% {
+    transform: scale(2);
+    filter: blur(12px);
+  }
+}
+
+.eye-blur-layer-mobile {
+  animation: slow-zoom-blur-mobile 4s ease-in-out infinite alternate;
+}
+
+.eye-sharp-layer-mobile {
+  animation: slow-zoom-mobile 4s ease-in-out infinite alternate;
+  mask-image: radial-gradient(circle at 50% 42%, black 0%, black 17%, transparent 30%);
+  -webkit-mask-image: radial-gradient(circle at 50% 42%, black 0%, black 17%, transparent 30%);
 }
 
 /* Animation utilities */

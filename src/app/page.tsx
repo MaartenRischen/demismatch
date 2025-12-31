@@ -199,15 +199,15 @@ export default function Home() {
                     src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png?v=2"
                     alt=""
                     aria-hidden="true"
-                    className="absolute inset-0 w-full h-full object-cover eye-blur-layer"
-                    style={{ objectPosition: '50% 50%' }}
+                    className="absolute inset-0 w-full h-full object-cover eye-blur-layer-mobile"
+                    style={{ objectPosition: '50% 65%' }}
                   />
                   {/* Sharp iris layer - circular mask keeps iris sharp */}
                   <img
                     src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png?v=2"
                     alt="Human eye - bridging signal and stakes"
-                    className="relative w-full h-full object-cover eye-sharp-layer"
-                    style={{ objectPosition: '50% 50%' }}
+                    className="relative w-full h-full object-cover eye-sharp-layer-mobile"
+                    style={{ objectPosition: '50% 65%' }}
                   />
                 </div>
               </div>
