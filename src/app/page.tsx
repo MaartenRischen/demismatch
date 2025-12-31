@@ -154,25 +154,25 @@ export default function Home() {
                 {/* Top-left text - Signal */}
                 <div className="absolute top-10 xl:top-14 left-12 xl:left-20 max-w-md">
                   <h1
-                    className="text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight leading-[1.1] mb-6 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]"
-                    style={{ fontFamily: "'Playfair Display', serif" }}
+                    className="text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight leading-[1.1] mb-6 text-white"
+                    style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, textShadow: '0 2px 8px rgba(0,0,0,0.9), 0 4px 20px rgba(0,0,0,0.7), 0 0 40px rgba(0,0,0,0.5)' }}
                   >
                     We evolved for a world that no longer exists.
                   </h1>
-                  <p className="text-base lg:text-lg text-white/90 leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                  <p className="text-base lg:text-lg text-white/95 leading-relaxed" style={{ fontFamily: "'Inter', sans-serif", textShadow: '0 1px 6px rgba(0,0,0,0.9), 0 2px 15px rgba(0,0,0,0.7), 0 0 30px rgba(0,0,0,0.5)' }}>
                     That's why you feel the way you feel. Depression, anxiety, addiction: these aren't malfunctions. They're your <strong>biology correctly signaling that something is wrong with your environment, not with you.</strong>
                   </p>
                 </div>
 
                 {/* Bottom-right text - Stakes */}
-                <div className="absolute bottom-10 xl:bottom-14 right-12 xl:right-20 max-w-md text-right">
+                <div className="absolute bottom-10 xl:bottom-14 right-12 xl:right-20 max-w-xl text-right">
                   <h2
-                    className="text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight leading-[1.1] mb-6 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]"
-                    style={{ fontFamily: "'Playfair Display', serif" }}
+                    className="text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight leading-[1.1] mb-6 text-white"
+                    style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, textShadow: '0 2px 8px rgba(0,0,0,0.9), 0 4px 20px rgba(0,0,0,0.7), 0 0 40px rgba(0,0,0,0.5)' }}
                   >
                     The most powerful technologies in history are arriving.
                   </h2>
-                  <p className="text-base lg:text-lg text-white/90 leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)]">
+                  <p className="text-base lg:text-lg text-white/95 leading-relaxed" style={{ fontFamily: "'Inter', sans-serif", textShadow: '0 1px 6px rgba(0,0,0,0.9), 0 2px 15px rgba(0,0,0,0.7), 0 0 30px rgba(0,0,0,0.5)' }}>
                     AI and total immersion will either <strong>exploit human nature</strong> harder than anything before — <strong>or finally meet it.</strong> This is the framework for knowing the difference.
                   </p>
                 </div>
@@ -217,12 +217,12 @@ export default function Home() {
                 {/* Top text - Signal */}
                 <div className="max-w-sm">
                   <h1
-                    className="text-2xl sm:text-3xl font-bold tracking-tight leading-[1.15] mb-3 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]"
-                    style={{ fontFamily: "'Playfair Display', serif" }}
+                    className="text-2xl sm:text-3xl font-bold tracking-tight leading-[1.15] mb-3 text-white"
+                    style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, textShadow: '0 2px 8px rgba(0,0,0,0.9), 0 4px 20px rgba(0,0,0,0.7), 0 0 40px rgba(0,0,0,0.5)' }}
                   >
                     We evolved for a world that no longer exists.
                   </h1>
-                  <p className="text-sm sm:text-base text-white/90 leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                  <p className="text-sm sm:text-base text-white/95 leading-relaxed" style={{ fontFamily: "'Inter', sans-serif", textShadow: '0 1px 6px rgba(0,0,0,0.9), 0 2px 15px rgba(0,0,0,0.7), 0 0 30px rgba(0,0,0,0.5)' }}>
                     That's why you feel the way you feel. Depression, anxiety, addiction — these aren't malfunctions. They're your <strong>biology correctly signaling that something is wrong with your environment, not with you.</strong>
                   </p>
                 </div>
@@ -230,12 +230,12 @@ export default function Home() {
                 {/* Bottom text - Stakes */}
                 <div className="max-w-sm self-end text-right">
                   <h2
-                    className="text-2xl sm:text-3xl font-bold tracking-tight leading-[1.15] mb-3 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]"
-                    style={{ fontFamily: "'Playfair Display', serif" }}
+                    className="text-2xl sm:text-3xl font-bold tracking-tight leading-[1.15] mb-3 text-white"
+                    style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, textShadow: '0 2px 8px rgba(0,0,0,0.9), 0 4px 20px rgba(0,0,0,0.7), 0 0 40px rgba(0,0,0,0.5)' }}
                   >
                     The most powerful technologies in history are arriving.
                   </h2>
-                  <p className="text-sm sm:text-base text-white/90 leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)]">
+                  <p className="text-sm sm:text-base text-white/95 leading-relaxed" style={{ fontFamily: "'Inter', sans-serif", textShadow: '0 1px 6px rgba(0,0,0,0.9), 0 2px 15px rgba(0,0,0,0.7), 0 0 30px rgba(0,0,0,0.5)' }}>
                     AI and total immersion will either <strong>exploit human nature</strong> harder than anything before — <strong>or finally meet it.</strong> This is the framework for knowing the difference.
                   </p>
                 </div>
@@ -281,13 +281,13 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6 md:px-8 text-center mb-8">
           <h2
             className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#0A0A0A] mb-2"
-            style={{ fontFamily: "'Playfair Display', serif" }}
+            style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700 }}
           >
             De-mismatch first. Then augment.
           </h2>
           <p
             className="text-xl md:text-2xl text-[#C75B39] font-medium"
-            style={{ fontFamily: "'Playfair Display', serif" }}
+            style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700 }}
           >
             The most human post-human.
           </p>
@@ -336,7 +336,7 @@ export default function Home() {
 
                 <h3
                   className="text-xl font-bold text-[#0A0A0A] mb-3"
-                  style={{ fontFamily: "'Playfair Display', serif" }}
+                  style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700 }}
                 >
                   {card.title}
                 </h3>
@@ -412,7 +412,7 @@ export default function Home() {
               <div className="mt-12 pt-8 border-t border-[#FAF9F6]/20">
                 <p
                   className="text-2xl md:text-3xl text-[#C75B39] font-medium mb-6"
-                  style={{ fontFamily: "'Playfair Display', serif" }}
+                  style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700 }}
                 >
                   Once you see it, you can't unsee it.
                 </p>
@@ -442,7 +442,7 @@ export default function Home() {
             <div>
               <h3
                 className="text-2xl md:text-3xl mb-6"
-                style={{ fontFamily: "'Playfair Display', serif" }}
+                style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700 }}
               >
                 This framework is open source.
               </h3>
