@@ -149,10 +149,10 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Text overlaid on eye - two columns */}
-              <div className="absolute inset-0 flex items-center justify-between px-12 xl:px-20">
-                {/* Left text - Signal */}
-                <div className="max-w-md">
+              {/* Text overlaid on eye - top-left and bottom-right corners */}
+              <div className="absolute inset-0 px-12 xl:px-20 py-10 xl:py-14">
+                {/* Top-left text - Signal */}
+                <div className="absolute top-10 xl:top-14 left-12 xl:left-20 max-w-md">
                   <h1
                     className="text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight leading-[1.1] mb-6 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]"
                     style={{ fontFamily: "'Playfair Display', serif" }}
@@ -164,8 +164,8 @@ export default function Home() {
                   </p>
                 </div>
 
-                {/* Right text - Stakes */}
-                <div className="max-w-md text-right">
+                {/* Bottom-right text - Stakes */}
+                <div className="absolute bottom-10 xl:bottom-14 right-12 xl:right-20 max-w-md text-right">
                   <h2
                     className="text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight leading-[1.1] mb-6 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]"
                     style={{ fontFamily: "'Playfair Display', serif" }}
