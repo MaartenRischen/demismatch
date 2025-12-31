@@ -200,14 +200,14 @@ export default function Home() {
                     alt=""
                     aria-hidden="true"
                     className="absolute inset-0 w-full h-full object-cover eye-blur-layer-mobile"
-                    style={{ objectPosition: '50% 65%' }}
+                    style={{ objectPosition: '50% 35%' }}
                   />
                   {/* Sharp iris layer - circular mask keeps iris sharp */}
                   <img
                     src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png?v=2"
                     alt="Human eye - bridging signal and stakes"
                     className="relative w-full h-full object-cover eye-sharp-layer-mobile"
-                    style={{ objectPosition: '50% 65%' }}
+                    style={{ objectPosition: '50% 35%' }}
                   />
                 </div>
               </div>
