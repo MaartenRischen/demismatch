@@ -256,19 +256,20 @@ h1, h2, h3, h4, h5, h6 {
   50% { box-shadow: 0 0 20px 5px rgba(199, 91, 57, 0.2); }
 }
 
-@keyframes slow-zoom {
-  0% { transform: scale(1); }
-  100% { transform: scale(2); }
+/* Eye animation - starts zoomed in and blurry, slowly reveals over 20s, then stops */
+@keyframes slow-zoom-out {
+  0% { transform: scale(2.5); }
+  100% { transform: scale(1); }
 }
 
-@keyframes slow-zoom-blur {
+@keyframes slow-zoom-out-blur {
   0% {
-    transform: scale(1);
-    filter: blur(0px);
+    transform: scale(2.5);
+    filter: blur(12px);
   }
   100% {
-    transform: scale(2);
-    filter: blur(12px);
+    transform: scale(1);
+    filter: blur(0px);
   }
 }
 
@@ -282,44 +283,44 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .animate-slow-zoom {
-  animation: slow-zoom 18s ease-in-out infinite alternate;
+  animation: slow-zoom-out 20s ease-out forwards;
 }
 
 /* Eye blur effect - blurred background layer */
 .eye-blur-layer {
-  animation: slow-zoom-blur 4s ease-in-out infinite alternate;
+  animation: slow-zoom-out-blur 20s ease-out forwards;
 }
 
 /* Eye sharp layer - circular mask around iris */
 .eye-sharp-layer {
-  animation: slow-zoom 4s ease-in-out infinite alternate;
+  animation: slow-zoom-out 20s ease-out forwards;
   mask-image: radial-gradient(circle at 50% 45%, black 0%, black 22%, transparent 38%);
   -webkit-mask-image: radial-gradient(circle at 50% 45%, black 0%, black 22%, transparent 38%);
 }
 
-/* Mobile-specific eye animations - zoom 1.4 to 2 to avoid white space */
-@keyframes slow-zoom-mobile {
-  0% { transform: scale(1.4); }
-  100% { transform: scale(2); }
+/* Mobile-specific eye animations - starts zoomed, reveals over 20s */
+@keyframes slow-zoom-out-mobile {
+  0% { transform: scale(2.5); }
+  100% { transform: scale(1.4); }
 }
 
-@keyframes slow-zoom-blur-mobile {
+@keyframes slow-zoom-out-blur-mobile {
   0% {
-    transform: scale(1.4);
-    filter: blur(0px);
+    transform: scale(2.5);
+    filter: blur(12px);
   }
   100% {
-    transform: scale(2);
-    filter: blur(12px);
+    transform: scale(1.4);
+    filter: blur(0px);
   }
 }
 
 .eye-blur-layer-mobile {
-  animation: slow-zoom-blur-mobile 4s ease-in-out infinite alternate;
+  animation: slow-zoom-out-blur-mobile 20s ease-out forwards;
 }
 
 .eye-sharp-layer-mobile {
-  animation: slow-zoom-mobile 4s ease-in-out infinite alternate;
+  animation: slow-zoom-out-mobile 20s ease-out forwards;
   mask-image: radial-gradient(circle at 50% 42%, black 0%, black 17%, transparent 30%);
   -webkit-mask-image: radial-gradient(circle at 50% 42%, black 0%, black 17%, transparent 30%);
 }
