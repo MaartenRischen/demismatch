@@ -10,6 +10,7 @@ const MAIN_LINKS = [
   { href: "/future", label: "The Future" },
   { href: "/framework", label: "Framework" },
   { href: "/cases", label: "Case Studies" },
+  { href: "/news", label: "News" }, // Current events through mismatch lens
   { href: "/stats", label: "Evidence" },
   { href: "/library", label: "Library" },
   { href: "/projects", label: "Projects" },
