@@ -435,6 +435,22 @@ const CASES: Case[] = [
     systemicCause: "Pharma-influenced psychiatry that pathologizes childhood behavior. Insurance that pays for pills but not family support. Parents left alone to cope with difficult children."
   },
   {
+    id: "edenfield-centre",
+    name: "Edenfield Centre Scandal",
+    year: "2022",
+    location: "Greater Manchester, UK",
+    category: "social-structure",
+    headline: "BBC undercover footage exposes systematic abuse at mental health hospital-staff assault patients while the 'treatment' maximizes every mismatch",
+    summary: "BBC Panorama journalist Ciaran Cassidy went undercover at Edenfield Centre, a mental health hospital in Greater Manchester. Hidden camera footage exposed systematic abuse: staff physically assaulting patients, mocking vulnerable people with severe mental health conditions, inappropriate use of restraints, and dehumanization of patients with depression, personality disorders, and psychosis. The scandal isn't just 'bad staff'-it's what happens when the treatment environment itself becomes a source of trauma. Patients enter distressed; the institution adds abuse, powerlessness, and degradation. The cure worsens the disease.",
+    sources: [
+      { name: "BBC News - Edenfield Centre Investigation", url: "https://www.bbc.com/news/uk-63061077" },
+      { name: "BBC Panorama Documentary", url: "https://www.bbc.co.uk/programmes/m001cg0g" }
+    ],
+    eeaBaseline: "Distressed individuals remained in community. Healing involved whole-group participation-movement, music, nature, storytelling. The 'patient' retained social role and dignity. No artificial separation between 'sick' and 'well.'",
+    modernViolation: "Locked wards vs. freedom of movement. Fluorescent lights and clinical sterility vs. natural environments. Hierarchical staff/patient power dynamics vs. egalitarian tribal structures. Isolation from family vs. embedded social support. Scheduled medication vs. bodily autonomy. Zero purpose vs. meaningful role in group survival.",
+    systemicCause: "Institutional environments designed for control, not healing. Staff aren't monsters-they're humans in impossible conditions: understaffed, overworked, no tribal-scale relationships with patients. The system corrupts everyone inside it. Before ANY psychiatric intervention, ask: Have we addressed sleep, sunlight, movement, social connection, purpose, nature exposure, community, autonomy? Edenfield addressed NONE of these. It did the opposite."
+  },
+  {
     id: "li-ao-bootcamp",
     name: "Li Ao",
     year: "2017",
