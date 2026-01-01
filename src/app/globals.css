@@ -258,13 +258,13 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Eye animation - starts zoomed in and blurry, slowly reveals over 20s, then stops */
 @keyframes slow-zoom-out {
-  0% { transform: scale(2.5); }
+  0% { transform: scale(3); }
   100% { transform: scale(1); }
 }
 
 @keyframes slow-zoom-out-blur {
   0% {
-    transform: scale(2.5);
+    transform: scale(3);
     filter: blur(12px);
   }
   100% {
@@ -300,13 +300,13 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Mobile-specific eye animations - starts zoomed, reveals over 20s */
 @keyframes slow-zoom-out-mobile {
-  0% { transform: scale(2.5); }
+  0% { transform: scale(3); }
   100% { transform: scale(1.4); }
 }
 
 @keyframes slow-zoom-out-blur-mobile {
   0% {
-    transform: scale(2.5);
+    transform: scale(3);
     filter: blur(12px);
   }
   100% {
