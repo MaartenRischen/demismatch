@@ -252,111 +252,126 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 8 Block Overview - No headlines, just color-coded lines */}
-      <section className="py-16 md:py-24 bg-[#FAF9F6]">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          {/* 8 Block Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12">
+      {/* 8 Block Overview - Post-it annotation style */}
+      <section className="py-20 md:py-28 bg-[#FAF9F6]">
+        <div className="max-w-5xl mx-auto px-6 md:px-8">
+          <div className="space-y-16 md:space-y-20">
 
             {/* Block 1 */}
-            <div className="space-y-2">
-              <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
-                Why you feel broken (you're not — you're mismatched)
-              </p>
-              <p className="text-[15px] leading-relaxed text-[#4A4A4A]">
+            <div className="relative">
+              <p className="text-lg md:text-xl text-[#2A2A2A] leading-relaxed max-w-2xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
                 A unified theory explaining modern suffering as evolutionary mismatch — not individual pathology
               </p>
-              <p className="text-[15px] leading-relaxed" style={{ color: '#5A7B8C' }}>
-                Stone Age minds entering an age of superintelligent AI and total immersion
-              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+                <span className="postit postit-warm rotate-[-2deg]">
+                  Why you feel broken (you're not — you're mismatched)
+                </span>
+                <span className="postit postit-cool rotate-[3deg]">
+                  Stone Age minds entering an age of superintelligent AI and total immersion
+                </span>
+              </div>
             </div>
 
             {/* Block 2 */}
-            <div className="space-y-2">
-              <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
-                What your signals actually mean (accurate GPS, not disorder)
-              </p>
-              <p className="text-[15px] leading-relaxed text-[#4A4A4A]">
+            <div className="relative">
+              <p className="text-lg md:text-xl text-[#2A2A2A] leading-relaxed max-w-2xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
                 Emotions reframed as accurate biological GPS: anxiety, depression, addiction are signals, not symptoms
               </p>
-              <p className="text-[15px] leading-relaxed" style={{ color: '#5A7B8C' }}>
-                Modern suffering explained: accurate signals in mismatched environments
-              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+                <span className="postit postit-warm rotate-[2deg]">
+                  What your signals actually mean (accurate GPS, not disorder)
+                </span>
+                <span className="postit postit-cool rotate-[-3deg]">
+                  Modern suffering explained: accurate signals in mismatched environments
+                </span>
+              </div>
             </div>
 
             {/* Block 3 */}
-            <div className="space-y-2">
-              <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
-                What humans evolved for
-              </p>
-              <p className="text-[15px] leading-relaxed text-[#4A4A4A]">
+            <div className="relative">
+              <p className="text-lg md:text-xl text-[#2A2A2A] leading-relaxed max-w-2xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
                 The EEA parameters: Dunbar layers, fire circles, visible contribution, closed loops, alloparenting
               </p>
-              <p className="text-[15px] leading-relaxed" style={{ color: '#5A7B8C' }}>
-                What the hardware requires
-              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+                <span className="postit postit-warm rotate-[-3deg]">
+                  What humans evolved for
+                </span>
+                <span className="postit postit-cool rotate-[2deg]">
+                  What the hardware requires
+                </span>
+              </div>
             </div>
 
             {/* Block 4 */}
-            <div className="space-y-2">
-              <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
-                Who profits from your suffering
-              </p>
-              <p className="text-[15px] leading-relaxed text-[#4A4A4A]">
+            <div className="relative">
+              <p className="text-lg md:text-xl text-[#2A2A2A] leading-relaxed max-w-2xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
                 The exploitation economy mapped: social media, pharma, food, dating apps, porn, news
               </p>
-              <p className="text-[15px] leading-relaxed" style={{ color: '#5A7B8C' }}>
-                Documented, not conspiracy — every unmet need is a market
-              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+                <span className="postit postit-warm rotate-[3deg]">
+                  Who profits from your suffering
+                </span>
+                <span className="postit postit-cool rotate-[-2deg]">
+                  Documented, not conspiracy — every unmet need is a market
+                </span>
+              </div>
             </div>
 
             {/* Block 5 */}
-            <div className="space-y-2">
-              <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
-                Why automation makes this urgent
-              </p>
-              <p className="text-[15px] leading-relaxed text-[#4A4A4A]">
+            <div className="relative">
+              <p className="text-lg md:text-xl text-[#2A2A2A] leading-relaxed max-w-2xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
                 AI eliminates jobs, UBI solves resources but not meaning
               </p>
-              <p className="text-[15px] leading-relaxed" style={{ color: '#5A7B8C' }}>
-                The fork: technologies that will exploit human nature harder than ever — or finally meet it
-              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+                <span className="postit postit-warm rotate-[-2deg]">
+                  Why automation makes this urgent
+                </span>
+                <span className="postit postit-cool rotate-[4deg]">
+                  The fork: technologies that will exploit human nature harder than ever — or finally meet it
+                </span>
+              </div>
             </div>
 
-            {/* Block 6 (only 2 lines) */}
-            <div className="space-y-2">
-              <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
-                How we test it
-              </p>
-              <p className="text-[15px] leading-relaxed text-[#4A4A4A]">
+            {/* Block 6 (no cool post-it) */}
+            <div className="relative">
+              <p className="text-lg md:text-xl text-[#2A2A2A] leading-relaxed max-w-2xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
                 A falsifiable framework: 7 domains, geometric mean, pre-registered weights, defined kill conditions
               </p>
+              <div className="flex justify-center mt-6">
+                <span className="postit postit-warm rotate-[2deg]">
+                  How we test it
+                </span>
+              </div>
             </div>
 
             {/* Block 7 */}
-            <div className="space-y-2">
-              <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
-                What you can do
-              </p>
-              <p className="text-[15px] leading-relaxed text-[#4A4A4A]">
+            <div className="relative">
+              <p className="text-lg md:text-xl text-[#2A2A2A] leading-relaxed max-w-2xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
                 53 case studies · 162 FAQs · 65 terms · 2,500+ images · AI analyzer
               </p>
-              <p className="text-[15px] leading-relaxed" style={{ color: '#5A7B8C' }}>
-                For those in pain · builders · practitioners · systems changers
-              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+                <span className="postit postit-warm rotate-[-3deg]">
+                  What you can do
+                </span>
+                <span className="postit postit-cool rotate-[2deg]">
+                  For those in pain · builders · practitioners · systems changers
+                </span>
+              </div>
             </div>
 
             {/* Block 8 */}
-            <div className="space-y-2">
-              <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
-                The test: Do you wake up with a role, in a group, with a goal?
-              </p>
-              <p className="text-[15px] leading-relaxed text-[#4A4A4A]">
+            <div className="relative">
+              <p className="text-lg md:text-xl text-[#2A2A2A] leading-relaxed max-w-2xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
                 Demismatch first, then augment — the most human post-human
               </p>
-              <p className="text-[15px] leading-relaxed" style={{ color: '#5A7B8C' }}>
-                Open source — fork it, improve it, implement it — no one owns truth about human nature
-              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+                <span className="postit postit-warm rotate-[3deg]">
+                  The test: Do you wake up with a role, in a group, with a goal?
+                </span>
+                <span className="postit postit-cool rotate-[-2deg]">
+                  Open source — fork it, improve it, implement it — no one owns truth about human nature
+                </span>
+              </div>
             </div>
 
           </div>

@@ -557,6 +557,57 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================
+   POST-IT NOTES - Annotation Style
+   ============================================ */
+
+.postit {
+  display: inline-block;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  max-width: 280px;
+  box-shadow:
+    2px 2px 6px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.postit:hover {
+  transform: scale(1.02);
+  box-shadow:
+    3px 3px 10px rgba(0, 0, 0, 0.12),
+    0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Warm post-it - orange/terracotta tint */
+.postit-warm {
+  background: linear-gradient(135deg, #FDEEE8 0%, #FAE4DB 100%);
+  color: #8B4513;
+  border-left: 3px solid var(--terracotta);
+}
+
+/* Cool post-it - blue-gray/sage tint */
+.postit-cool {
+  background: linear-gradient(135deg, #E8EEF2 0%, #DCE5EB 100%);
+  color: #3D5A6A;
+  border-left: 3px solid #5A7B8C;
+}
+
+/* Rotation utilities for post-its */
+.rotate-\[-2deg\] { transform: rotate(-2deg); }
+.rotate-\[2deg\] { transform: rotate(2deg); }
+.rotate-\[-3deg\] { transform: rotate(-3deg); }
+.rotate-\[3deg\] { transform: rotate(3deg); }
+.rotate-\[4deg\] { transform: rotate(4deg); }
+
+/* Hover maintains rotation but adds scale */
+.postit.rotate-\[-2deg\]:hover { transform: rotate(-2deg) scale(1.02); }
+.postit.rotate-\[2deg\]:hover { transform: rotate(2deg) scale(1.02); }
+.postit.rotate-\[-3deg\]:hover { transform: rotate(-3deg) scale(1.02); }
+.postit.rotate-\[3deg\]:hover { transform: rotate(3deg) scale(1.02); }
+.postit.rotate-\[4deg\]:hover { transform: rotate(4deg) scale(1.02); }
+
+/* ============================================
    SECTION DIVIDERS - Visual Interest
    ============================================ */
 
