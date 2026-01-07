@@ -252,24 +252,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* What This Is - 8 Block Overview */}
+      {/* 8 Block Overview - No headlines, just color-coded lines */}
       <section className="py-16 md:py-24 bg-[#FAF9F6]">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          {/* Section Title - Subtle */}
-          <h2
-            className="text-xs font-bold uppercase tracking-[0.2em] text-[#8B8B8B] mb-12 text-center"
-          >
-            What This Is
-          </h2>
-
           {/* 8 Block Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12">
 
-            {/* Block 1: THE PROBLEM */}
-            <div className="space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A6A6A] mb-4">
-                THE PROBLEM
-              </h3>
+            {/* Block 1 */}
+            <div className="space-y-2">
               <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
                 Why you feel broken (you're not — you're mismatched)
               </p>
@@ -281,11 +271,8 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Block 2: THE SIGNAL */}
-            <div className="space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A6A6A] mb-4">
-                THE SIGNAL
-              </h3>
+            {/* Block 2 */}
+            <div className="space-y-2">
               <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
                 What your signals actually mean (accurate GPS, not disorder)
               </p>
@@ -297,11 +284,8 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Block 3: THE SPEC SHEET */}
-            <div className="space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A6A6A] mb-4">
-                THE SPEC SHEET
-              </h3>
+            {/* Block 3 */}
+            <div className="space-y-2">
               <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
                 What humans evolved for
               </p>
@@ -313,11 +297,8 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Block 4: THE EXPLOITATION */}
-            <div className="space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A6A6A] mb-4">
-                THE EXPLOITATION
-              </h3>
+            {/* Block 4 */}
+            <div className="space-y-2">
               <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
                 Who profits from your suffering
               </p>
@@ -329,11 +310,8 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Block 5: THE URGENCY */}
-            <div className="space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A6A6A] mb-4">
-                THE URGENCY
-              </h3>
+            {/* Block 5 */}
+            <div className="space-y-2">
               <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
                 Why automation makes this urgent
               </p>
@@ -345,11 +323,8 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Block 6: THE METHODOLOGY (only 2 lines) */}
-            <div className="space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A6A6A] mb-4">
-                THE METHODOLOGY
-              </h3>
+            {/* Block 6 (only 2 lines) */}
+            <div className="space-y-2">
               <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
                 How we test it
               </p>
@@ -358,11 +333,8 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Block 7: THE RESOURCES */}
-            <div className="space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A6A6A] mb-4">
-                THE RESOURCES
-              </h3>
+            {/* Block 7 */}
+            <div className="space-y-2">
               <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
                 What you can do
               </p>
@@ -374,11 +346,8 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Block 8: THE DESTINATION */}
-            <div className="space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A6A6A] mb-4">
-                THE DESTINATION
-              </h3>
+            {/* Block 8 */}
+            <div className="space-y-2">
               <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
                 The test: Do you wake up with a role, in a group, with a goal?
               </p>
