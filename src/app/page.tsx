@@ -252,6 +252,148 @@ export default function Home() {
         </div>
       </section>
 
+      {/* What This Is - 8 Block Overview */}
+      <section className="py-16 md:py-24 bg-[#FAF9F6]">
+        <div className="max-w-6xl mx-auto px-6 md:px-8">
+          {/* Section Title - Subtle */}
+          <h2
+            className="text-xs font-bold uppercase tracking-[0.2em] text-[#8B8B8B] mb-12 text-center"
+          >
+            What This Is
+          </h2>
+
+          {/* 8 Block Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
+
+            {/* Block 1: THE PROBLEM */}
+            <div className="space-y-3">
+              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A6A6A] mb-4">
+                THE PROBLEM
+              </h3>
+              <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
+                Why you feel broken (you're not — you're mismatched)
+              </p>
+              <p className="text-[15px] leading-relaxed text-[#4A4A4A]">
+                A unified theory explaining modern suffering as evolutionary mismatch — not individual pathology
+              </p>
+              <p className="text-[15px] leading-relaxed" style={{ color: '#5A7B8C' }}>
+                Stone Age minds entering an age of superintelligent AI and total immersion
+              </p>
+            </div>
+
+            {/* Block 2: THE SIGNAL */}
+            <div className="space-y-3">
+              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A6A6A] mb-4">
+                THE SIGNAL
+              </h3>
+              <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
+                What your signals actually mean (accurate GPS, not disorder)
+              </p>
+              <p className="text-[15px] leading-relaxed text-[#4A4A4A]">
+                Emotions reframed as accurate biological GPS: anxiety, depression, addiction are signals, not symptoms
+              </p>
+              <p className="text-[15px] leading-relaxed" style={{ color: '#5A7B8C' }}>
+                Modern suffering explained: accurate signals in mismatched environments
+              </p>
+            </div>
+
+            {/* Block 3: THE SPEC SHEET */}
+            <div className="space-y-3">
+              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A6A6A] mb-4">
+                THE SPEC SHEET
+              </h3>
+              <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
+                What humans evolved for
+              </p>
+              <p className="text-[15px] leading-relaxed text-[#4A4A4A]">
+                The EEA parameters: Dunbar layers, fire circles, visible contribution, closed loops, alloparenting
+              </p>
+              <p className="text-[15px] leading-relaxed" style={{ color: '#5A7B8C' }}>
+                What the hardware requires
+              </p>
+            </div>
+
+            {/* Block 4: THE EXPLOITATION */}
+            <div className="space-y-3">
+              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A6A6A] mb-4">
+                THE EXPLOITATION
+              </h3>
+              <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
+                Who profits from your suffering
+              </p>
+              <p className="text-[15px] leading-relaxed text-[#4A4A4A]">
+                The exploitation economy mapped: social media, pharma, food, dating apps, porn, news
+              </p>
+              <p className="text-[15px] leading-relaxed" style={{ color: '#5A7B8C' }}>
+                Documented, not conspiracy — every unmet need is a market
+              </p>
+            </div>
+
+            {/* Block 5: THE URGENCY */}
+            <div className="space-y-3">
+              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A6A6A] mb-4">
+                THE URGENCY
+              </h3>
+              <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
+                Why automation makes this urgent
+              </p>
+              <p className="text-[15px] leading-relaxed text-[#4A4A4A]">
+                AI eliminates jobs, UBI solves resources but not meaning
+              </p>
+              <p className="text-[15px] leading-relaxed" style={{ color: '#5A7B8C' }}>
+                The fork: technologies that will exploit human nature harder than ever — or finally meet it
+              </p>
+            </div>
+
+            {/* Block 6: THE METHODOLOGY (only 2 lines) */}
+            <div className="space-y-3">
+              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A6A6A] mb-4">
+                THE METHODOLOGY
+              </h3>
+              <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
+                How we test it
+              </p>
+              <p className="text-[15px] leading-relaxed text-[#4A4A4A]">
+                A falsifiable framework: 7 domains, geometric mean, pre-registered weights, defined kill conditions
+              </p>
+            </div>
+
+            {/* Block 7: THE RESOURCES */}
+            <div className="space-y-3">
+              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A6A6A] mb-4">
+                THE RESOURCES
+              </h3>
+              <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
+                What you can do
+              </p>
+              <p className="text-[15px] leading-relaxed text-[#4A4A4A]">
+                53 case studies · 162 FAQs · 65 terms · 2,500+ images · AI analyzer
+              </p>
+              <p className="text-[15px] leading-relaxed" style={{ color: '#5A7B8C' }}>
+                For those in pain · builders · practitioners · systems changers
+              </p>
+            </div>
+
+            {/* Block 8: THE DESTINATION */}
+            <div className="space-y-3">
+              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A6A6A] mb-4">
+                THE DESTINATION
+              </h3>
+              <p className="text-[15px] leading-relaxed" style={{ color: '#C75B39' }}>
+                The test: Do you wake up with a role, in a group, with a goal?
+              </p>
+              <p className="text-[15px] leading-relaxed text-[#4A4A4A]">
+                Demismatch first, then augment — the most human post-human
+              </p>
+              <p className="text-[15px] leading-relaxed" style={{ color: '#5A7B8C' }}>
+                Open source — fork it, improve it, implement it — no one owns truth about human nature
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* The Core Statement - Bold, Unmissable */}
       <section className="relative bg-[#0A0A0A] py-16 md:py-20 overflow-hidden">
         {/* Subtle gradient overlay */}
