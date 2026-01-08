@@ -252,16 +252,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* What This Is For - 4 Audience Columns */}
-      <section className="py-20 md:py-28 bg-[#FAF9F6]">
+      {/* 4 Audience Columns - "SO NOW WHAT?" button above serves as section header */}
+      <section className="py-12 md:py-16 bg-[#FAF9F6]">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          {/* Section Title */}
-          <h2
-            className="text-2xl md:text-3xl text-center text-[#1A1A1A] mb-12 md:mb-16"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-          >
-            What this is for
-          </h2>
 
           {/* 4 Audience Columns */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
@@ -270,15 +263,15 @@ export default function Home() {
             <div className="audience-column audience-you">
               <h3 className="audience-header audience-header-you">For you</h3>
               <ul className="audience-list">
-                <li>Stop blaming yourself — you're not broken, you're mismatched</li>
-                <li>Trust your signals — they're telling you something real</li>
-                <li>Find out what you actually need — not what you're sold</li>
-                <li>See who profits from your pain — and stop feeding them</li>
-                <li>Demand meaning, not just money — UBI isn't enough</li>
-                <li>Understand what's coming — AI and VR will either exploit you harder than ever, or finally give you what you need</li>
-                <li>Know if it's working — test your own life against the spec sheet</li>
-                <li>Use the tools — they're free</li>
-                <li>Find your people — role, group, goal</li>
+                <li><strong>Stop blaming yourself. You're not broken, you're mismatched</strong></li>
+                <li>Trust your signals: they're telling you something real</li>
+                <li>Find out what you actually need, not what you're sold</li>
+                <li>See who profits from your pain. Stop feeding them</li>
+                <li><strong>Demand meaning, not just money. UBI isn't enough</strong></li>
+                <li>Understand what's coming: AI and VR will either exploit you harder than ever, or finally give you what you need</li>
+                <li>Know if it's working. Test your own life against the spec sheet</li>
+                <li>Use the tools</li>
+                <li><strong>Find your people: role, group, goal</strong></li>
               </ul>
             </div>
 
@@ -286,15 +279,15 @@ export default function Home() {
             <div className="audience-column audience-builders">
               <h3 className="audience-header audience-header-builders">For builders</h3>
               <ul className="audience-list">
-                <li>Build for the spec sheet — not against human nature</li>
-                <li>Treat emotions as data — design systems that listen to signals</li>
-                <li>Know the spec sheet — Dunbar layers, fire circles, visible contribution, closed loops, alloparenting</li>
-                <li>Stop monetizing mismatch — every unmet need doesn't have to be a market</li>
-                <li>Make automation serve meaning — not just efficiency</li>
-                <li>You're building the fork right now — exploit or meet?</li>
-                <li>The most powerful technologies in history are arriving — point them at the spec sheet</li>
-                <li>Test what you build — falsifiable claims, defined failure conditions</li>
-                <li>Fork it, improve it, implement it — no one owns truth about human nature</li>
+                <li><strong>Build for the spec sheet, not against human nature</strong></li>
+                <li>Treat emotions as data. Design systems that listen to signals</li>
+                <li>Know the spec sheet: Dunbar layers, fire circles, visible contribution, closed loops, alloparenting</li>
+                <li>Stop monetizing mismatch. Every unmet need doesn't have to be a market</li>
+                <li>Make automation serve meaning, not just efficiency</li>
+                <li><strong>You're building the fork right now. Exploit or meet?</strong></li>
+                <li>The most powerful technologies in history are arriving. Point them at the spec sheet</li>
+                <li>Test what you build: falsifiable claims, defined failure conditions</li>
+                <li><strong>The blueprint exists. Now build</strong></li>
               </ul>
             </div>
 
@@ -302,14 +295,14 @@ export default function Home() {
             <div className="audience-column audience-practitioners">
               <h3 className="audience-header audience-header-practitioners">For practitioners</h3>
               <ul className="audience-list">
-                <li>Change the question — from "what's wrong with you" to "what's wrong with your environment"</li>
-                <li>Stop overriding signals — address what they're pointing to</li>
-                <li>Know the spec sheet — Dunbar layers, fire circles, visible contribution, closed loops, alloparenting</li>
-                <li>Name the exploitation — help people see the systems, not just their symptoms</li>
-                <li>Prepare them for the automation crisis — meaning won't come from UBI</li>
-                <li>Prepare people for immersion — total immersion is coming whether you like it or not</li>
-                <li>Measure what matters — 7 domains, geometric mean, pre-registered weights, defined kill conditions</li>
-                <li>Give them tools — not just coping strategies</li>
+                <li><strong>Change the question: from "what's wrong with you" to "what's wrong with your environment"</strong></li>
+                <li>Stop overriding signals. Address what they're pointing to</li>
+                <li>Know the spec sheet: Dunbar layers, fire circles, visible contribution, closed loops, alloparenting</li>
+                <li>Name the exploitation. Help people see the systems, not just their symptoms</li>
+                <li><strong>Prepare them for the automation crisis. Meaning won't come from UBI</strong></li>
+                <li>Prepare people for immersion. Total immersion is coming whether you like it or not</li>
+                <li>Measure what matters: 7 domains, geometric mean, pre-registered weights, defined kill conditions</li>
+                <li>Give them tools, not just coping strategies</li>
               </ul>
             </div>
 
@@ -317,14 +310,14 @@ export default function Home() {
             <div className="audience-column audience-systems">
               <h3 className="audience-header audience-header-systems">For systems changers</h3>
               <ul className="audience-list">
-                <li>Reframe the crisis — it's environmental, not individual</li>
-                <li>Fund mismatch research — not just more drug trials</li>
-                <li>Build for tribes — 150 people, not 8 billion strangers</li>
-                <li>Regulate the exploitation economy — social media, pharma, food, dating apps, porn, news</li>
-                <li>Design automation for meaning — jobs disappear, purpose doesn't have to</li>
-                <li>The exploit path is default — meeting human nature requires intention</li>
-                <li>Regulate before the fork — after is too late</li>
-                <li>Demand falsifiability — pre-registered weights, defined kill conditions</li>
+                <li><strong>Reframe the crisis: it's environmental, not individual</strong></li>
+                <li>Fund mismatch research, not just more drug trials</li>
+                <li>Build for tribes. 150 people, not 8 billion strangers</li>
+                <li>Regulate the exploitation economy: social media, pharma, food, dating apps, porn, news</li>
+                <li>Design automation for meaning. Jobs disappear, purpose doesn't have to</li>
+                <li><strong>The exploit path is default. Meeting human nature requires intention</strong></li>
+                <li>Regulate before the fork. After is too late</li>
+                <li>Demand falsifiability: pre-registered weights, defined kill conditions</li>
               </ul>
             </div>
 
@@ -337,7 +330,7 @@ export default function Home() {
                 The destination
               </p>
               <p
-                className="text-lg md:text-xl text-[#1A1A1A] leading-relaxed mb-2"
+                className="text-lg md:text-xl text-[#1A1A1A] leading-relaxed mb-2 font-semibold"
                 style={{ fontFamily: "Georgia, serif" }}
               >
                 Do you wake up with a role, in a group, with a goal?
@@ -346,7 +339,7 @@ export default function Home() {
                 className="text-lg md:text-xl text-[#1A1A1A] leading-relaxed mb-8"
                 style={{ fontFamily: "Georgia, serif" }}
               >
-                Demismatch first, then augment — the most human post-human
+                Demismatch first, then augment. The most human post-human
               </p>
               <p className="text-sm text-[#6A6A6A]">
                 53 case studies · 162 FAQs · 65 terms · 2,500+ images · AI analyzer
