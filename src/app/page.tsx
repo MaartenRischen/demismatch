@@ -252,129 +252,108 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 8 Block Overview - Post-it annotation style */}
+      {/* What This Is For - 4 Audience Columns */}
       <section className="py-20 md:py-28 bg-[#FAF9F6]">
-        <div className="max-w-5xl mx-auto px-6 md:px-8">
-          <div className="space-y-16 md:space-y-20">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          {/* Section Title */}
+          <h2
+            className="text-2xl md:text-3xl text-center text-[#1A1A1A] mb-12 md:mb-16"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            What this is for
+          </h2>
 
-            {/* Block 1 */}
-            <div className="relative">
-              <p className="text-lg md:text-xl text-[#2A2A2A] leading-relaxed max-w-2xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
-                A unified theory explaining modern suffering as evolutionary mismatch — not individual pathology
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
-                <span className="postit postit-warm rotate-[-2deg]">
-                  Why you feel broken (you're not — you're mismatched)
-                </span>
-                <span className="postit postit-cool rotate-[3deg]">
-                  Stone Age minds entering an age of superintelligent AI and total immersion
-                </span>
-              </div>
+          {/* 4 Audience Columns */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+
+            {/* Column 1: For you */}
+            <div className="audience-column audience-you">
+              <h3 className="audience-header audience-header-you">For you</h3>
+              <ul className="audience-list">
+                <li>Stop blaming yourself — you're not broken, you're mismatched</li>
+                <li>Trust your signals — they're telling you something real</li>
+                <li>Find out what you actually need — not what you're sold</li>
+                <li>See who profits from your pain — and stop feeding them</li>
+                <li>Demand meaning, not just money — UBI isn't enough</li>
+                <li>Understand what's coming — AI and VR will either exploit you harder than ever, or finally give you what you need</li>
+                <li>Know if it's working — test your own life against the spec sheet</li>
+                <li>Use the tools — they're free</li>
+                <li>Find your people — role, group, goal</li>
+              </ul>
             </div>
 
-            {/* Block 2 */}
-            <div className="relative">
-              <p className="text-lg md:text-xl text-[#2A2A2A] leading-relaxed max-w-2xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
-                Emotions reframed as accurate biological GPS: anxiety, depression, addiction are signals, not symptoms
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
-                <span className="postit postit-warm rotate-[2deg]">
-                  What your signals actually mean (accurate GPS, not disorder)
-                </span>
-                <span className="postit postit-cool rotate-[-3deg]">
-                  Modern suffering explained: accurate signals in mismatched environments
-                </span>
-              </div>
+            {/* Column 2: For builders */}
+            <div className="audience-column audience-builders">
+              <h3 className="audience-header audience-header-builders">For builders</h3>
+              <ul className="audience-list">
+                <li>Build for the spec sheet — not against human nature</li>
+                <li>Treat emotions as data — design systems that listen to signals</li>
+                <li>Know the spec sheet — Dunbar layers, fire circles, visible contribution, closed loops, alloparenting</li>
+                <li>Stop monetizing mismatch — every unmet need doesn't have to be a market</li>
+                <li>Make automation serve meaning — not just efficiency</li>
+                <li>You're building the fork right now — exploit or meet?</li>
+                <li>The most powerful technologies in history are arriving — point them at the spec sheet</li>
+                <li>Test what you build — falsifiable claims, defined failure conditions</li>
+                <li>Fork it, improve it, implement it — no one owns truth about human nature</li>
+              </ul>
             </div>
 
-            {/* Block 3 */}
-            <div className="relative">
-              <p className="text-lg md:text-xl text-[#2A2A2A] leading-relaxed max-w-2xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
-                The EEA parameters: Dunbar layers, fire circles, visible contribution, closed loops, alloparenting
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
-                <span className="postit postit-warm rotate-[-3deg]">
-                  What humans evolved for
-                </span>
-                <span className="postit postit-cool rotate-[2deg]">
-                  What the hardware requires
-                </span>
-              </div>
+            {/* Column 3: For practitioners */}
+            <div className="audience-column audience-practitioners">
+              <h3 className="audience-header audience-header-practitioners">For practitioners</h3>
+              <ul className="audience-list">
+                <li>Change the question — from "what's wrong with you" to "what's wrong with your environment"</li>
+                <li>Stop overriding signals — address what they're pointing to</li>
+                <li>Know the spec sheet — Dunbar layers, fire circles, visible contribution, closed loops, alloparenting</li>
+                <li>Name the exploitation — help people see the systems, not just their symptoms</li>
+                <li>Prepare them for the automation crisis — meaning won't come from UBI</li>
+                <li>Prepare people for immersion — total immersion is coming whether you like it or not</li>
+                <li>Measure what matters — 7 domains, geometric mean, pre-registered weights, defined kill conditions</li>
+                <li>Give them tools — not just coping strategies</li>
+              </ul>
             </div>
 
-            {/* Block 4 */}
-            <div className="relative">
-              <p className="text-lg md:text-xl text-[#2A2A2A] leading-relaxed max-w-2xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
-                The exploitation economy mapped: social media, pharma, food, dating apps, porn, news
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
-                <span className="postit postit-warm rotate-[3deg]">
-                  Who profits from your suffering
-                </span>
-                <span className="postit postit-cool rotate-[-2deg]">
-                  Documented, not conspiracy — every unmet need is a market
-                </span>
-              </div>
-            </div>
-
-            {/* Block 5 */}
-            <div className="relative">
-              <p className="text-lg md:text-xl text-[#2A2A2A] leading-relaxed max-w-2xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
-                AI eliminates jobs, UBI solves resources but not meaning
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
-                <span className="postit postit-warm rotate-[-2deg]">
-                  Why automation makes this urgent
-                </span>
-                <span className="postit postit-cool rotate-[4deg]">
-                  The fork: technologies that will exploit human nature harder than ever — or finally meet it
-                </span>
-              </div>
-            </div>
-
-            {/* Block 6 (no cool post-it) */}
-            <div className="relative">
-              <p className="text-lg md:text-xl text-[#2A2A2A] leading-relaxed max-w-2xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
-                A falsifiable framework: 7 domains, geometric mean, pre-registered weights, defined kill conditions
-              </p>
-              <div className="flex justify-center mt-6">
-                <span className="postit postit-warm rotate-[2deg]">
-                  How we test it
-                </span>
-              </div>
-            </div>
-
-            {/* Block 7 */}
-            <div className="relative">
-              <p className="text-lg md:text-xl text-[#2A2A2A] leading-relaxed max-w-2xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
-                53 case studies · 162 FAQs · 65 terms · 2,500+ images · AI analyzer
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
-                <span className="postit postit-warm rotate-[-3deg]">
-                  What you can do
-                </span>
-                <span className="postit postit-cool rotate-[2deg]">
-                  For those in pain · builders · practitioners · systems changers
-                </span>
-              </div>
-            </div>
-
-            {/* Block 8 */}
-            <div className="relative">
-              <p className="text-lg md:text-xl text-[#2A2A2A] leading-relaxed max-w-2xl mx-auto text-center" style={{ fontFamily: "Georgia, serif" }}>
-                Demismatch first, then augment — the most human post-human
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
-                <span className="postit postit-warm rotate-[3deg]">
-                  The test: Do you wake up with a role, in a group, with a goal?
-                </span>
-                <span className="postit postit-cool rotate-[-2deg]">
-                  Open source — fork it, improve it, implement it — no one owns truth about human nature
-                </span>
-              </div>
+            {/* Column 4: For systems changers */}
+            <div className="audience-column audience-systems">
+              <h3 className="audience-header audience-header-systems">For systems changers</h3>
+              <ul className="audience-list">
+                <li>Reframe the crisis — it's environmental, not individual</li>
+                <li>Fund mismatch research — not just more drug trials</li>
+                <li>Build for tribes — 150 people, not 8 billion strangers</li>
+                <li>Regulate the exploitation economy — social media, pharma, food, dating apps, porn, news</li>
+                <li>Design automation for meaning — jobs disappear, purpose doesn't have to</li>
+                <li>The exploit path is default — meeting human nature requires intention</li>
+                <li>Regulate before the fork — after is too late</li>
+                <li>Demand falsifiability — pre-registered weights, defined kill conditions</li>
+              </ul>
             </div>
 
           </div>
+
+          {/* Footer - The Destination */}
+          <div className="mt-16 pt-12 border-t border-[#E5E0D8]">
+            <div className="text-center max-w-3xl mx-auto">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#8B8B8B] mb-4">
+                The destination
+              </p>
+              <p
+                className="text-lg md:text-xl text-[#1A1A1A] leading-relaxed mb-2"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                Do you wake up with a role, in a group, with a goal?
+              </p>
+              <p
+                className="text-lg md:text-xl text-[#1A1A1A] leading-relaxed mb-8"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                Demismatch first, then augment — the most human post-human
+              </p>
+              <p className="text-sm text-[#6A6A6A]">
+                53 case studies · 162 FAQs · 65 terms · 2,500+ images · AI analyzer
+              </p>
+            </div>
+          </div>
+
         </div>
       </section>
 

@@ -557,55 +557,83 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================
-   POST-IT NOTES - Annotation Style
+   AUDIENCE COLUMNS - What This Is For
    ============================================ */
 
-.postit {
-  display: inline-block;
-  padding: 0.75rem 1rem;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  max-width: 280px;
-  box-shadow:
-    2px 2px 6px rgba(0, 0, 0, 0.1),
-    0 1px 3px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+.audience-column {
+  padding: 1.5rem;
+  border-left: 4px solid;
+  background: rgba(255, 255, 255, 0.5);
 }
 
-.postit:hover {
-  transform: scale(1.02);
-  box-shadow:
-    3px 3px 10px rgba(0, 0, 0, 0.12),
-    0 2px 6px rgba(0, 0, 0, 0.1);
+.audience-header {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/* Warm post-it - orange/terracotta tint */
-.postit-warm {
-  background: linear-gradient(135deg, #FDEEE8 0%, #FAE4DB 100%);
-  color: #8B4513;
-  border-left: 3px solid var(--terracotta);
+.audience-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-/* Cool post-it - blue-gray/sage tint */
-.postit-cool {
-  background: linear-gradient(135deg, #E8EEF2 0%, #DCE5EB 100%);
-  color: #3D5A6A;
-  border-left: 3px solid #5A7B8C;
+.audience-list li {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #3A3A3A;
+  padding: 0.5rem 0;
+  padding-left: 1rem;
+  position: relative;
 }
 
-/* Rotation utilities for post-its */
-.rotate-\[-2deg\] { transform: rotate(-2deg); }
-.rotate-\[2deg\] { transform: rotate(2deg); }
-.rotate-\[-3deg\] { transform: rotate(-3deg); }
-.rotate-\[3deg\] { transform: rotate(3deg); }
-.rotate-\[4deg\] { transform: rotate(4deg); }
+.audience-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: inherit;
+  opacity: 0.4;
+}
 
-/* Hover maintains rotation but adds scale */
-.postit.rotate-\[-2deg\]:hover { transform: rotate(-2deg) scale(1.02); }
-.postit.rotate-\[2deg\]:hover { transform: rotate(2deg) scale(1.02); }
-.postit.rotate-\[-3deg\]:hover { transform: rotate(-3deg) scale(1.02); }
-.postit.rotate-\[3deg\]:hover { transform: rotate(3deg) scale(1.02); }
-.postit.rotate-\[4deg\]:hover { transform: rotate(4deg) scale(1.02); }
+/* For you - Warm terracotta */
+.audience-you {
+  border-left-color: var(--terracotta);
+  background: linear-gradient(135deg, rgba(199, 91, 57, 0.05) 0%, rgba(199, 91, 57, 0.02) 100%);
+}
+.audience-header-you {
+  color: var(--terracotta);
+}
+
+/* For builders - Cool blue */
+.audience-builders {
+  border-left-color: #5A7B8C;
+  background: linear-gradient(135deg, rgba(90, 123, 140, 0.05) 0%, rgba(90, 123, 140, 0.02) 100%);
+}
+.audience-header-builders {
+  color: #5A7B8C;
+}
+
+/* For practitioners - Sage green */
+.audience-practitioners {
+  border-left-color: #5A8C6A;
+  background: linear-gradient(135deg, rgba(90, 140, 106, 0.05) 0%, rgba(90, 140, 106, 0.02) 100%);
+}
+.audience-header-practitioners {
+  color: #5A8C6A;
+}
+
+/* For systems changers - Charcoal */
+.audience-systems {
+  border-left-color: #3A3A3A;
+  background: linear-gradient(135deg, rgba(58, 58, 58, 0.05) 0%, rgba(58, 58, 58, 0.02) 100%);
+}
+.audience-header-systems {
+  color: #3A3A3A;
+}
 
 /* ============================================
    SECTION DIVIDERS - Visual Interest
