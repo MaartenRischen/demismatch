@@ -252,9 +252,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4 Audience Columns - "SO NOW WHAT?" button above serves as section header */}
-      <section className="py-12 md:py-16 bg-[#FAF9F6]">
+      {/* What This Is For - 4 Audience Columns */}
+      <section className="py-16 md:py-24 bg-[#FAF9F6]">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
+
+          {/* Section Title */}
+          <h2
+            className="text-2xl md:text-3xl text-center text-[#1A1A1A] mb-12 md:mb-16"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            What this is for
+          </h2>
 
           {/* 4 Audience Columns */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
