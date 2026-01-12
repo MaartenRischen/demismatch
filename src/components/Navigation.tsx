@@ -11,6 +11,7 @@ const MAIN_LINKS = [
   { href: "/framework", label: "Framework" },
   { href: "/cases", label: "Case Studies" },
   { href: "/news", label: "News" }, // Current events through mismatch lens
+  { href: "/blog", label: "Blog" }, // Medium RSS feed
   { href: "/stats", label: "Evidence" },
   { href: "/library", label: "Library" },
   { href: "/projects", label: "Projects" },

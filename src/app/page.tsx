@@ -30,82 +30,6 @@ function useScrollAnimation() {
   return ref;
 }
 
-// The Call card data with tint colors and links
-const callCards = [
-  {
-    title: "The Future",
-    description: "AI, VR, and neural interfaces will either exploit human nature or finally meet it. See what we're building toward.",
-    href: "/future",
-    icon: (
-      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-      </svg>
-    ),
-    tint: "card-tint-terracotta",
-    accentColor: "#C75B39"
-  },
-  {
-    title: "Systems Changers",
-    description: "Policy makers, researchers, journalists shifting the paradigm",
-    href: "/systems",
-    icon: (
-      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
-      </svg>
-    ),
-    tint: "card-tint-slate",
-    accentColor: "#4A5568"
-  },
-  {
-    title: "Builders",
-    description: "Technologists, architects, entrepreneurs building what comes next",
-    href: "/projects",
-    icon: (
-      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
-      </svg>
-    ),
-    tint: "card-tint-forest",
-    accentColor: "#2D4A3E"
-  },
-  {
-    title: "Gatekeepers",
-    description: "Clinicians, parents, educators shaping others' environments",
-    href: "/practitioners",
-    icon: (
-      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
-      </svg>
-    ),
-    tint: "card-tint-gold",
-    accentColor: "#C9A962"
-  },
-  {
-    title: "The Questioning",
-    description: "Those who sensed something was wrong",
-    href: "/foryou",
-    icon: (
-      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
-      </svg>
-    ),
-    tint: "card-tint-charcoal",
-    accentColor: "#1A1A1A"
-  },
-  {
-    title: "Those in Pain",
-    description: "Your signals are accurate",
-    href: "/foryou",
-    icon: (
-      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-      </svg>
-    ),
-    tint: "card-tint-rust",
-    accentColor: "#8B4513"
-  }
-];
-
 export default function Home() {
   const scrollRef = useScrollAnimation();
 
@@ -252,6 +176,232 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Navigation Grid - Two-tier magazine layout */}
+      <section className="py-20 md:py-28 bg-[#FAF9F6]">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+
+          {/* TOP TIER - Hero Size (9 tiles) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8 scroll-animate">
+            {/* TL;DR */}
+            <Link href="/tldr" className="group bg-white border border-[#E5E0D8] p-7 hover:shadow-xl hover:-translate-y-1 transition-all duration-200">
+              <div className="w-14 h-14 mb-5 flex items-center justify-center rounded-xl bg-[#1A1A1A]/5">
+                <svg className="w-8 h-8 text-[#1A1A1A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2" />
+                  <circle cx="12" cy="12" r="9" />
+                  <path strokeLinecap="round" d="M16 4l2 2M8 4L6 6" />
+                </svg>
+              </div>
+              <p className="text-lg text-[#1A1A1A] font-semibold mb-2 group-hover:text-[#C75B39] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>Get the idea in two minutes.</p>
+              <p className="text-sm text-[#6A6A6A] leading-relaxed">The short version.</p>
+            </Link>
+
+            {/* Framework */}
+            <Link href="/framework" className="group bg-white border border-[#E5E0D8] p-7 hover:shadow-xl hover:-translate-y-1 transition-all duration-200">
+              <div className="w-14 h-14 mb-5 flex items-center justify-center rounded-xl bg-[#1A1A1A]/5">
+                <svg className="w-8 h-8 text-[#1A1A1A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <circle cx="12" cy="12" r="9" />
+                  <circle cx="12" cy="12" r="5" />
+                  <circle cx="12" cy="12" r="1.5" />
+                  <path d="M12 3v2M12 19v2M3 12h2M19 12h2" />
+                </svg>
+              </div>
+              <p className="text-lg text-[#1A1A1A] font-semibold mb-2 group-hover:text-[#C75B39] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>See the full framework.</p>
+              <p className="text-sm text-[#6A6A6A] leading-relaxed">Pattern, machinery, violations, exploitation, destination.</p>
+            </Link>
+
+            {/* Future */}
+            <Link href="/future" className="group bg-white border border-[#E5E0D8] p-7 hover:shadow-xl hover:-translate-y-1 transition-all duration-200">
+              <div className="w-14 h-14 mb-5 flex items-center justify-center rounded-xl bg-[#1A1A1A]/5">
+                <svg className="w-8 h-8 text-[#1A1A1A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 19V5M12 5l-4 6M12 5l4 6M6 19h12" />
+                </svg>
+              </div>
+              <p className="text-lg text-[#1A1A1A] font-semibold mb-2 group-hover:text-[#C75B39] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>See where technology is taking us.</p>
+              <p className="text-sm text-[#6A6A6A] leading-relaxed">The fork ahead.</p>
+            </Link>
+
+            {/* Projects */}
+            <Link href="/projects" className="group bg-white border border-[#E5E0D8] p-7 hover:shadow-xl hover:-translate-y-1 transition-all duration-200">
+              <div className="w-14 h-14 mb-5 flex items-center justify-center rounded-xl bg-[#1A1A1A]/5">
+                <svg className="w-8 h-8 text-[#1A1A1A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                </svg>
+              </div>
+              <p className="text-lg text-[#1A1A1A] font-semibold mb-2 group-hover:text-[#C75B39] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>See what's already being built.</p>
+              <p className="text-sm text-[#6A6A6A] leading-relaxed">Live tools and what's coming.</p>
+            </Link>
+          </div>
+
+          {/* Middle row - 3 wide hero tiles */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8 scroll-animate">
+            {/* Analyzer */}
+            <Link href="/app" className="group bg-white border border-[#E5E0D8] p-7 hover:shadow-xl hover:-translate-y-1 transition-all duration-200">
+              <div className="w-14 h-14 mb-5 flex items-center justify-center rounded-xl bg-[#C75B39]/10">
+                <svg className="w-8 h-8 text-[#C75B39]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <circle cx="11" cy="11" r="7" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35" />
+                  <path d="M11 8v6M8 11h6" strokeLinecap="round" />
+                </svg>
+              </div>
+              <p className="text-lg text-[#1A1A1A] font-semibold mb-2 group-hover:text-[#C75B39] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>Analyze any situation through the framework.</p>
+              <p className="text-sm text-[#6A6A6A] leading-relaxed">AI-powered.</p>
+            </Link>
+
+            {/* Library */}
+            <Link href="/library" className="group bg-white border border-[#E5E0D8] p-7 hover:shadow-xl hover:-translate-y-1 transition-all duration-200">
+              <div className="w-14 h-14 mb-5 flex items-center justify-center rounded-xl bg-[#1A1A1A]/5">
+                <svg className="w-8 h-8 text-[#1A1A1A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <rect x="3" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="3" width="7" height="7" rx="1" />
+                  <rect x="3" y="14" width="7" height="7" rx="1" />
+                  <rect x="14" y="14" width="7" height="7" rx="1" />
+                </svg>
+              </div>
+              <p className="text-lg text-[#1A1A1A] font-semibold mb-2 group-hover:text-[#C75B39] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>Browse the visual library.</p>
+              <p className="text-sm text-[#6A6A6A] leading-relaxed">2,500+ images, searchable.</p>
+            </Link>
+
+            {/* For You */}
+            <Link href="/foryou" className="group bg-white border border-[#E5E0D8] p-7 hover:shadow-xl hover:-translate-y-1 transition-all duration-200">
+              <div className="w-14 h-14 mb-5 flex items-center justify-center rounded-xl bg-[#1A1A1A]/5">
+                <svg className="w-8 h-8 text-[#1A1A1A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <circle cx="12" cy="7" r="4" />
+                  <path strokeLinecap="round" d="M5.5 21v-2a5 5 0 015-5h3a5 5 0 015 5v2" />
+                  <path d="M17 10l2 2m0-2l-2 2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              <p className="text-lg text-[#1A1A1A] font-semibold mb-2 group-hover:text-[#C75B39] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>Understand what's actually happening to you.</p>
+              <p className="text-sm text-[#6A6A6A] leading-relaxed">For those in pain.</p>
+            </Link>
+          </div>
+
+          {/* Bottom hero row - 2 wide tiles */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10 scroll-animate">
+            {/* Practitioners */}
+            <Link href="/practitioners" className="group bg-white border border-[#E5E0D8] p-7 hover:shadow-xl hover:-translate-y-1 transition-all duration-200">
+              <div className="w-14 h-14 mb-5 flex items-center justify-center rounded-xl bg-[#1A1A1A]/5">
+                <svg className="w-8 h-8 text-[#1A1A1A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <circle cx="8" cy="7" r="3" />
+                  <circle cx="16" cy="7" r="3" />
+                  <path strokeLinecap="round" d="M3 21v-1a4 4 0 014-4h2a4 4 0 014 4v1M15 21v-1a4 4 0 014-4h0a4 4 0 014 4v1" />
+                  <path d="M12 12v4M10 14h4" strokeLinecap="round" />
+                </svg>
+              </div>
+              <p className="text-lg text-[#1A1A1A] font-semibold mb-2 group-hover:text-[#C75B39] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>Get a reframe for the people you help.</p>
+              <p className="text-sm text-[#6A6A6A] leading-relaxed">For therapists, parents, educators.</p>
+            </Link>
+
+            {/* Systems */}
+            <Link href="/systems" className="group bg-white border border-[#E5E0D8] p-7 hover:shadow-xl hover:-translate-y-1 transition-all duration-200">
+              <div className="w-14 h-14 mb-5 flex items-center justify-center rounded-xl bg-[#1A1A1A]/5">
+                <svg className="w-8 h-8 text-[#1A1A1A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <rect x="3" y="4" width="18" height="16" rx="1" />
+                  <path d="M3 9h18M9 9v11M15 9v11M3 14h18" strokeLinecap="round" />
+                </svg>
+              </div>
+              <p className="text-lg text-[#1A1A1A] font-semibold mb-2 group-hover:text-[#C75B39] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>See what humans actually require.</p>
+              <p className="text-sm text-[#6A6A6A] leading-relaxed">For builders and policy makers.</p>
+            </Link>
+          </div>
+
+          {/* SECOND TIER - Smaller Size (8 tiles) */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 scroll-animate">
+            {/* Cases */}
+            <Link href="/cases" className="group bg-white border border-[#E5E0D8] p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+              <div className="w-9 h-9 mb-3 flex items-center justify-center rounded-lg bg-[#6B7B8A]/10">
+                <svg className="w-5 h-5 text-[#6B7B8A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                  <circle cx="12" cy="13" r="2" />
+                </svg>
+              </div>
+              <p className="text-sm text-[#1A1A1A] font-medium mb-1 group-hover:text-[#6B7B8A] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>See the mismatch in real cases.</p>
+              <p className="text-xs text-[#8B8B8B]">Hikikomori. Foxconn. The loneliness epidemic.</p>
+            </Link>
+
+            {/* Stats */}
+            <Link href="/stats" className="group bg-white border border-[#E5E0D8] p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+              <div className="w-9 h-9 mb-3 flex items-center justify-center rounded-lg bg-[#6B7B8A]/10">
+                <svg className="w-5 h-5 text-[#6B7B8A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                </svg>
+              </div>
+              <p className="text-sm text-[#1A1A1A] font-medium mb-1 group-hover:text-[#6B7B8A] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>See the damage in numbers.</p>
+              <p className="text-xs text-[#8B8B8B]">Loneliness. Obesity. Sleep. Screen time.</p>
+            </Link>
+
+            {/* Glossary */}
+            <Link href="/glossary" className="group bg-white border border-[#E5E0D8] p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+              <div className="w-9 h-9 mb-3 flex items-center justify-center rounded-lg bg-[#6B7B8A]/10">
+                <svg className="w-5 h-5 text-[#6B7B8A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <p className="text-sm text-[#1A1A1A] font-medium mb-1 group-hover:text-[#6B7B8A] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>Learn the vocabulary.</p>
+              <p className="text-xs text-[#8B8B8B]">65 terms defined.</p>
+            </Link>
+
+            {/* Research */}
+            <Link href="/research" className="group bg-white border border-[#E5E0D8] p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+              <div className="w-9 h-9 mb-3 flex items-center justify-center rounded-lg bg-[#6B7B8A]/10">
+                <svg className="w-5 h-5 text-[#6B7B8A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" d="M6 4v16M18 4v16M3 8h18M3 16h18" />
+                </svg>
+              </div>
+              <p className="text-sm text-[#1A1A1A] font-medium mb-1 group-hover:text-[#6B7B8A] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>See how we measure this.</p>
+              <p className="text-xs text-[#8B8B8B]">The methodology.</p>
+            </Link>
+
+            {/* Sources */}
+            <Link href="/sources" className="group bg-white border border-[#E5E0D8] p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+              <div className="w-9 h-9 mb-3 flex items-center justify-center rounded-lg bg-[#6B7B8A]/10">
+                <svg className="w-5 h-5 text-[#6B7B8A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+                </svg>
+              </div>
+              <p className="text-sm text-[#1A1A1A] font-medium mb-1 group-hover:text-[#6B7B8A] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>Check where every claim comes from.</p>
+              <p className="text-xs text-[#8B8B8B]">Full bibliography.</p>
+            </Link>
+
+            {/* About */}
+            <Link href="/about" className="group bg-white border border-[#E5E0D8] p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+              <div className="w-9 h-9 mb-3 flex items-center justify-center rounded-lg bg-[#6B7B8A]/10">
+                <svg className="w-5 h-5 text-[#6B7B8A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M12 5v2M12 17v2M5 12h2M17 12h2" strokeLinecap="round" />
+                  <path d="M7.05 7.05l1.41 1.41M15.54 15.54l1.41 1.41M7.05 16.95l1.41-1.41M15.54 8.46l1.41-1.41" strokeLinecap="round" />
+                </svg>
+              </div>
+              <p className="text-sm text-[#1A1A1A] font-medium mb-1 group-hover:text-[#6B7B8A] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>See why this project exists.</p>
+              <p className="text-xs text-[#8B8B8B]">The mission.</p>
+            </Link>
+
+            {/* HUD */}
+            <Link href="/projects/hud/app" className="group bg-white border border-[#E5E0D8] p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+              <div className="w-9 h-9 mb-3 flex items-center justify-center rounded-lg bg-[#6B7B8A]/10">
+                <svg className="w-5 h-5 text-[#6B7B8A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M12 9v.01M15 12h.01M12 15v.01M9 12h.01" strokeLinecap="round" />
+                </svg>
+              </div>
+              <p className="text-sm text-[#1A1A1A] font-medium mb-1 group-hover:text-[#6B7B8A] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>See what your brain computes in any image.</p>
+              <p className="text-xs text-[#8B8B8B]">Upload and find out.</p>
+            </Link>
+
+            {/* FAQ */}
+            <Link href="/faq" className="group bg-white border border-[#E5E0D8] p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+              <div className="w-9 h-9 mb-3 flex items-center justify-center rounded-lg bg-[#6B7B8A]/10">
+                <svg className="w-5 h-5 text-[#6B7B8A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <p className="text-sm text-[#1A1A1A] font-medium mb-1 group-hover:text-[#6B7B8A] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>Get your questions answered.</p>
+              <p className="text-xs text-[#8B8B8B]">162 of them.</p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* What This Is For - 4 Audience Columns */}
       <section className="py-16 md:py-24 bg-[#FAF9F6]">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
@@ -378,82 +528,6 @@ export default function Home() {
           >
             This is the framework for knowing the difference.
           </p>
-        </div>
-      </section>
-
-      {/* The Call Section - Asymmetric Cards with Color Tints */}
-      <section className="py-24 bg-diagonal-lines">
-        <div className="px-8 max-w-6xl mx-auto">
-          {/* Section Header */}
-          <div className="max-w-2xl mb-16 scroll-animate">
-            <div className="section-divider-thick" />
-            <h2 className="headline-secondary text-[#0A0A0A] mt-6 mb-4">
-              The Call
-            </h2>
-            <p className="text-body-lg text-[#4A4A4A]">
-              This framework is for those ready to see.
-            </p>
-          </div>
-
-          {/* Cards Grid - Asymmetric */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            {callCards.map((card, index) => (
-              <Link
-                key={card.title}
-                href={card.href}
-                className={`
-                  card-base ${card.tint} card-3d-tilt card-gradient-hover scroll-animate block
-                  ${index === 0 ? 'lg:col-span-2 lg:row-span-1' : ''}
-                `}
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                  transitionDelay: `${index * 50}ms`
-                }}
-              >
-                {/* Icon with accent background */}
-                <div
-                  className="w-14 h-14 flex items-center justify-center mb-6"
-                  style={{ backgroundColor: `${card.accentColor}15` }}
-                >
-                  <div style={{ color: card.accentColor }}>
-                    {card.icon}
-                  </div>
-                </div>
-
-                <h3
-                  className="text-xl font-bold text-[#0A0A0A] mb-3"
-                  style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700 }}
-                >
-                  {card.title}
-                </h3>
-                <p className="text-[#4A4A4A]">{card.description}</p>
-
-                {/* Hover indicator */}
-                <div
-                  className="mt-6 flex items-center gap-2 text-sm font-semibold"
-                  style={{ color: card.accentColor }}
-                >
-                  <span>Learn more</span>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {/* CTA Buttons - Varied Styles */}
-          <div className="flex flex-wrap justify-center gap-4 scroll-animate">
-            <Link href="/systems" className="btn-primary">
-              For Systems Changers
-            </Link>
-            <Link href="/practitioners" className="btn-forest">
-              For Practitioners
-            </Link>
-            <Link href="/foryou" className="btn-secondary">
-              For You
-            </Link>
-          </div>
         </div>
       </section>
 
