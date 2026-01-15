@@ -17,6 +17,8 @@ interface SeriesStripProps {
   originalSeriesName?: string; // For URL filtering (uses original name from masterlist)
   images: SeriesImage[];
   onImageClick?: (imageId: number) => void;
+  onDelete?: (imageId: number, e: React.MouseEvent) => void; // Admin delete
+  isAdminMode?: boolean;
   zoomLevel?: number; // 1..5 (smaller->more tiles)
   isMobile?: boolean;
 }
@@ -31,6 +33,8 @@ export default function SeriesStrip({
   originalSeriesName,
   images,
   onImageClick,
+  onDelete,
+  isAdminMode = false,
   zoomLevel = 3,
   isMobile = false,
 }: SeriesStripProps) {
@@ -93,26 +97,43 @@ export default function SeriesStrip({
   const remaining = Math.max(0, sortedImages.length - initialCount);
 
   const renderTile = (img: SeriesImage) => (
-    <button
+    <div
       key={img.id}
-      type="button"
-      onClick={() => onImageClick?.(img.id)}
-      className="flex-shrink-0 group text-left"
+      className="flex-shrink-0 group text-left relative"
       style={{ width: tile }}
     >
-      <div
-        className="relative rounded-lg overflow-hidden bg-[#F5F3EF] border border-[#E5E0D8] hover:border-[#C75B39] transition-all hover:shadow-md"
-        style={{ width: tile, height: tile }}
+      <button
+        type="button"
+        onClick={() => onImageClick?.(img.id)}
+        className="w-full"
       >
-        <img
-          src={img.image_url}
-          alt=""
-          title=""
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          loading="lazy"
-        />
-      </div>
-    </button>
+        <div
+          className="relative rounded-lg overflow-hidden bg-[#F5F3EF] border border-[#E5E0D8] hover:border-[#C75B39] transition-all hover:shadow-md"
+          style={{ width: tile, height: tile }}
+        >
+          <img
+            src={img.image_url}
+            alt=""
+            title=""
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            loading="lazy"
+          />
+        </div>
+      </button>
+      {isAdminMode && onDelete && (
+        <button
+          type="button"
+          onClick={(e) => onDelete(img.id, e)}
+          className="absolute top-1 right-1 p-1 bg-red-600 rounded hover:bg-red-700 text-white opacity-0 group-hover:opacity-100 transition-opacity z-10"
+          title="Delete image"
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+          </svg>
+        </button>
+      )}
+    </div>
   );
 
   return (

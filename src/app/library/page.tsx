@@ -32,6 +32,9 @@ type ViewMode = "grid" | "series";
 
 type SortOption = "relevant" | "alphabetical" | "category";
 
+// Admin secret for delete functionality
+const ADMIN_SECRET = 'mR7x9Kp2vL4nQ8';
+
 // Series name mappings: original name → display name
 // These make series names clearer and more descriptive
 const SERIES_DISPLAY_NAMES: Record<string, string> = {
@@ -727,6 +730,9 @@ function LibraryContent() {
   // View mode state
   const [viewMode, setViewMode] = useState<ViewMode>("series");
 
+  // Admin mode - enabled via ?admin=secret URL param
+  const isAdminMode = searchParams.get("admin") === ADMIN_SECRET;
+
   // UI state
   const [sortBy, setSortBy] = useState<SortOption>("relevant");
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
@@ -1221,6 +1227,25 @@ function LibraryContent() {
     }
   };
 
+  // Admin: Delete image (instant, no confirmation)
+  const deleteImage = async (imageId: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const res = await fetch(`/api/images/${imageId}?secret=${ADMIN_SECRET}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        // Remove from local state immediately
+        setAllImages(prev => prev.filter(img => img.id !== imageId));
+        showToast("Deleted");
+      } else {
+        showToast("Delete failed");
+      }
+    } catch {
+      showToast("Delete failed");
+    }
+  };
+
   const handleSeriesImageClick = useCallback((imageId: number) => {
     const full = allImages.find(img => img.id === imageId);
     if (full) setSelectedImage(full);
@@ -1294,6 +1319,13 @@ function LibraryContent() {
   return (
     <main className="min-h-screen bg-[#FAF9F6] text-[#1A1A1A] flex flex-col">
       <Navigation />
+
+      {/* Admin Mode Banner */}
+      {isAdminMode && (
+        <div className="fixed top-0 left-0 right-0 bg-red-600 text-white text-center py-1 text-xs font-medium z-[100]">
+          ADMIN MODE — Delete enabled (hover images to delete)
+        </div>
+      )}
 
       {/* Header */}
       <header className="pt-20 p-4 md:p-6 md:pt-24 border-b border-[#E5E0D8] bg-[#FAF9F6]">
@@ -1571,6 +1603,8 @@ function LibraryContent() {
                     originalSeriesName={seriesName}
                     images={seriesImages}
                     onImageClick={handleSeriesImageClick}
+                    onDelete={isAdminMode ? deleteImage : undefined}
+                    isAdminMode={isAdminMode}
                     zoomLevel={zoomLevel}
                     isMobile={isMobile}
                   />
@@ -1614,6 +1648,15 @@ function LibraryContent() {
                         }}
                       />
                       <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {isAdminMode && (
+                          <button
+                            className="p-1.5 bg-red-600 rounded hover:bg-red-700 text-white"
+                            onClick={(e) => deleteImage(image.id, e)}
+                            title="Delete image"
+                          >
+                            <TrashIcon />
+                          </button>
+                        )}
                         <button
                           className="p-1.5 bg-black/60 rounded hover:bg-black/80"
                           onClick={(e) => { e.stopPropagation(); copyToClipboard(image.image_url); }}
@@ -1734,6 +1777,15 @@ function DownloadIcon() {
       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
       <polyline points="7 10 12 15 17 10" />
       <line x1="12" y1="15" x2="12" y2="3" />
+    </svg>
+  );
+}
+
+function TrashIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <polyline points="3 6 5 6 21 6" />
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
     </svg>
   );
 }
