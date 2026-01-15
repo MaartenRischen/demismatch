@@ -815,9 +815,12 @@ function LibraryContent() {
     }
   }, [allImages]);
 
-  // Update URL when filters change
+  // Update URL when filters change (preserve admin param if present)
   const updateURL = useCallback(() => {
     const params = new URLSearchParams();
+
+    // Preserve admin param if in admin mode
+    if (isAdminMode) params.set("admin", ADMIN_SECRET);
 
     if (selectedCategories.size > 0) params.set("category", Array.from(selectedCategories).join(","));
     if (selectedTags.size > 0) params.set("tags", Array.from(selectedTags).join(","));
@@ -827,7 +830,7 @@ function LibraryContent() {
 
     const queryString = params.toString();
     router.replace(`/library${queryString ? `?${queryString}` : ""}`, { scroll: false });
-  }, [selectedCategories, selectedTags, selectedQuickTags, sortBy, searchQuery, router]);
+  }, [selectedCategories, selectedTags, selectedQuickTags, sortBy, searchQuery, router, isAdminMode]);
 
   useEffect(() => {
     if (!isLoading) {
