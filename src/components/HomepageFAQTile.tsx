@@ -125,7 +125,7 @@ No [tribe](/glossary#the-150-tribe). No [visible purpose](/glossary#visible-cont
   },
   {
     id: 17,
-    question: "Is something wrong with you, or with your environment?",
+    question: "So, is something wrong with you, or with your environment?",
     answer: `The environment.
 
 A [fish on land](/glossary#fish-on-land) flops. Its gills work perfectly—designed for water. You wouldn't medicate the flopping. You'd put it back.`
