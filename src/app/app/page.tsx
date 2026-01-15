@@ -1269,11 +1269,6 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
                   <strong>Why this matches:</strong> {selectedImage.reason}
                 </p>
               )}
-              {selectedImage.body_text && (
-                <p className="text-sm text-[#4A4A4A] mb-4">
-                  {selectedImage.body_text}
-                </p>
-              )}
               <div className="flex gap-3">
                 <button
                   className="flex-1 px-4 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors flex items-center justify-center gap-2 rounded-lg"
