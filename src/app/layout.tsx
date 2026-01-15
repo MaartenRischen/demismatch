@@ -8,6 +8,17 @@ export const metadata: Metadata = {
   description: "We evolved for a world that no longer exists. Depression, anxiety, addiction aren't malfunctions—they're your biology correctly signaling something is wrong with your environment, not you.",
   manifest: "/manifest.json",
   metadataBase: new URL("https://demismatch.com"),
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+    other: [
+      { rel: "mask-icon", url: "/safari-pinned-tab.svg", color: "#C75B39" },
+    ],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
