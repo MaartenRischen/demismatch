@@ -659,9 +659,10 @@ export default function Home() {
             <p className="tagline-elevated mb-8">
               The fish doesn't need therapy. The fish needs water.
             </p>
-            <p className="text-white/50 text-sm text-center">
-              demismatch.com — Understanding human nature
-            </p>
+            <div className="flex items-center justify-center gap-2 text-white/50 text-sm">
+              <img src="/logo.svg" alt="" className="w-5 h-5 opacity-50" />
+              <span>demismatch.com — Understanding human nature</span>
+            </div>
           </div>
         </div>
       </footer>
