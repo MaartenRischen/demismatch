@@ -66,15 +66,13 @@ export default function Navigation() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             href="/"
-            className="flex items-center gap-2.5 text-xl font-bold tracking-[0.15em] text-[#1A1A1A] hover:text-[#C75B39] transition-colors group"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            className="hover:scale-110 transition-transform"
           >
             <img
               src="/logo.svg"
-              alt=""
-              className="w-7 h-7 group-hover:scale-110 transition-transform"
+              alt="DEMISMATCH"
+              className="w-8 h-8"
             />
-            DEMISMATCH
           </Link>
 
           {/* Desktop nav */}
