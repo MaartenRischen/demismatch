@@ -4,13 +4,35 @@ import { WebsiteStructuredData, OrganizationStructuredData } from "@/components/
 import ManifestoBanner from "@/components/ManifestoBanner";
 
 export const metadata: Metadata = {
-  title: "DEMISMATCH",
-  description: "Find the perfect evolutionary mismatch image to respond to any content",
+  title: "DEMISMATCH — Human Again. Then More Than Human.",
+  description: "We evolved for a world that no longer exists. Depression, anxiety, addiction aren't malfunctions—they're your biology correctly signaling something is wrong with your environment, not you.",
   manifest: "/manifest.json",
+  metadataBase: new URL("https://demismatch.com"),
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
     title: "DEMISMATCH",
+  },
+  openGraph: {
+    title: "DEMISMATCH — Human Again. Then More Than Human.",
+    description: "We evolved for a world that no longer exists. Depression, anxiety, addiction aren't malfunctions—they're your biology correctly signaling something is wrong with your environment, not you.",
+    url: "https://demismatch.com",
+    siteName: "DEMISMATCH",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "DEMISMATCH — The framework for knowing whether technology exploits human nature or meets it.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DEMISMATCH — Human Again. Then More Than Human.",
+    description: "We evolved for a world that no longer exists. The framework for knowing whether technology exploits human nature or meets it.",
+    images: ["/og-image.png"],
   },
 };
 
