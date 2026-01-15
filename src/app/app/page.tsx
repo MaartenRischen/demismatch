@@ -1263,7 +1263,6 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
               className="w-full"
             />
             <div className="p-4">
-              <h3 className="text-lg font-bold mb-2 text-[#1A1A1A]">{selectedImage.title}</h3>
               {selectedImage.reason && (
                 <p className="text-sm text-[#C75B39] mb-2">
                   <strong>Why this matches:</strong> {selectedImage.reason}

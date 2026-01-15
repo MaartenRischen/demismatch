@@ -1666,8 +1666,6 @@ function LibraryContent() {
               className="w-full"
             />
             <div className="p-4">
-              <h3 className="text-lg font-bold mb-2 text-[#1A1A1A]">{selectedImage.title}</h3>
-
               {selectedImage.tags.length > 0 && (
                 <div className="mb-4">
                   <p className="text-xs text-[#8B8B8B] uppercase mb-1">Tags</p>
