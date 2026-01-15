@@ -112,23 +112,22 @@ const UNUSED_SERIES: string[] = [
   "Dystopia",                                      // The Warning: Misaligned Living
   "Money & Status",                                // Money, Status & Resources
   "The Mismatch Actually 100 EVERYONE WRONG VOL11", // What Everyone Gets Wrong
+  "Dashboard Overload",                            // When the Dashboard Breaks
+  "Survive & Reproduce",                           // Survival & Reproduction Drives
 ];
 
 // Series ordering: defines the logical flow through the framework
 // Series not in this list will appear at the end, sorted by count
 const SERIES_ORDER: string[] = [
-  // 1. Start with the baseline - what humans evolved for
-  "EEA",
-
-  // 1.5. The Diagnosis - recognizing the problem
+  // 1. The Diagnosis - recognizing the problem
   "The Diagnosis",
 
   // 2. The mismatch - what's going wrong
   "The Mismatch Actually",
   "The Mismatch Actually 100 VOL2",
-  "Dashboard Overload",
+  // UNUSED: "Dashboard Overload" - When the Dashboard Breaks
   "The Mismatch Actually 100 PSYCHIATRY VOL10",
-  "The Mismatch Actually 100 EVERYONE WRONG VOL11",
+  // UNUSED: "The Mismatch Actually 100 EVERYONE WRONG VOL11"
 
   // 3. Understanding the signals
   // UNUSED: "The Sequencing" - removed from library
@@ -139,9 +138,9 @@ const SERIES_ORDER: string[] = [
   // 4. Life domains affected
   "Dating & Mating",
   "Social Dynamics",
-  "Money & Status",
+  // UNUSED: "Money & Status"
   "Food & Body",
-  "Survive & Reproduce",
+  // UNUSED: "Survive & Reproduce" - Survival & Reproduction Drives
   "Meaning & Purpose",
   // UNUSED: "Meaning & Purpose 100"
   "The Scale Matters",
@@ -149,14 +148,14 @@ const SERIES_ORDER: string[] = [
   // 5. Recognizing the problem
   // UNUSED: "The Trap Recognized"
   // UNUSED: "The Same Scene Two Eyes"
-  "Dystopia",
+  // UNUSED: "Dystopia"
 
   // 6. The solution - demismatch
-  "The Mismatch Answer",
-  "The Mismatch Answer 100 VOL3",
+  // UNUSED: "The Mismatch Answer"
+  // UNUSED: "The Mismatch Answer 100 VOL3"
   "The Mismatch Answer 100 POSITIVE VOL4",
-  "The Mismatch Answer 100 REAL THING VOL7",
-  "The Mismatch Answer 100 DEMISMATCH TECH VOL6",
+  // UNUSED: "The Mismatch Answer 100 REAL THING VOL7"
+  // UNUSED: "The Mismatch Answer 100 DEMISMATCH TECH VOL6"
   "The Mismatch Answer 100 ESTEEM DYNAMICS VOL8",
   "The Mismatch Answer 50 STATUS GAME VOL9",
 
@@ -174,6 +173,9 @@ const SERIES_ORDER: string[] = [
   "Technology",
   // UNUSED: "Work Rest & Productivity"
   // UNUSED: "Misc"
+
+  // 10. What We Evolved For (moved to bottom)
+  "EEA",
 ];
 
 // Helper to get display name for a series
