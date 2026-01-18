@@ -6,8 +6,8 @@ export interface HistoryEntry {
   query: string;
   the_reframe: string;
   the_mechanism: string;
-  primary_image: ImageResult;
-  contrast_image: ImageResult | null;
+  problem_images: ImageResult[];
+  solution_images: ImageResult[];
   share_variants: ShareVariants;
 }
 

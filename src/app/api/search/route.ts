@@ -49,8 +49,8 @@ interface SelectedImage {
 interface LLMResponse {
   the_reframe: string;
   the_mechanism: string;
-  primary_image: SelectedImage;
-  contrast_image: SelectedImage | null;
+  problem_images: SelectedImage[];
+  solution_images: SelectedImage[];
   share_variants: {
     short: string;
     medium: string;
@@ -184,8 +184,14 @@ Return ONLY valid JSON with this structure:
 {
   "the_reframe": "What this actually is, biologically. Opens with what it looks like, reveals what it is. 2-4 sentences that teach the lens through this specific case. Use 'For 300,000 years... Now...' contrast.",
   "the_mechanism": "How/why this happens. Names what the biology expects vs what it gets. 2-4 sentences explaining the pattern at work.",
-  "primary_image": {"file_name": "example.png", "reason": "Why this image captures the core dynamic"},
-  "contrast_image": {"file_name": "example.png", "reason": "Why this adds meaningful contrast"} OR null if no strong contrast exists,
+  "problem_images": [
+    {"file_name": "example.png", "reason": "Brief explanation of why this image illustrates the problem/dynamic"},
+    ... (select 10 images that show the modern condition, the problem, or the dynamic at play)
+  ],
+  "solution_images": [
+    {"file_name": "example.png", "reason": "Brief explanation of why this image shows what actually meets the need"},
+    ... (select 10 images that show the ancestral/healthy version, what biology expects, or what actually helps)
+  ],
   "share_variants": {
     "short": "1-2 sentences, under 280 characters. Self-contained introduction to the lens. Not clever - explanatory.",
     "medium": "3-5 sentences developing the insight. Still introduces the framework to newcomers.",
@@ -194,10 +200,11 @@ Return ONLY valid JSON with this structure:
 }
 
 IMAGE SELECTION:
-- Select ONE image that captures the core dynamic
-- Only include contrast_image if it genuinely adds meaning (shows the ancestral/healthy version)
-- Less is more. One powerful image beats ten adequate ones.
-- If no image strongly matches, still select the best available option`;
+- Select exactly 10 problem_images showing the modern condition, the dynamic at play, or what's happening
+- Select exactly 10 solution_images showing the ancestral version, what biology expects, or what actually meets the need
+- Rank images by relevance - most relevant first
+- Each image needs a brief reason explaining its relevance to this specific analysis
+- Be creative in finding connections - the image library covers many aspects of modern vs ancestral life`;
 
 async function callLLM(userContent: string, imageMenu: string, rules: string): Promise<LLMResponse> {
   const fullSystemPrompt = `${SYSTEM_PROMPT}
@@ -284,8 +291,8 @@ function parseLLMResponse(content: string): LLMResponse {
     return {
       the_reframe: parsed.the_reframe || '',
       the_mechanism: parsed.the_mechanism || '',
-      primary_image: parsed.primary_image || { file_name: '', reason: '' },
-      contrast_image: parsed.contrast_image || null,
+      problem_images: Array.isArray(parsed.problem_images) ? parsed.problem_images : [],
+      solution_images: Array.isArray(parsed.solution_images) ? parsed.solution_images : [],
       share_variants: {
         short: parsed.share_variants?.short || '',
         medium: parsed.share_variants?.medium || '',
@@ -297,8 +304,8 @@ function parseLLMResponse(content: string): LLMResponse {
     return {
       the_reframe: 'Unable to parse response',
       the_mechanism: '',
-      primary_image: { file_name: '', reason: '' },
-      contrast_image: null,
+      problem_images: [],
+      solution_images: [],
       share_variants: { short: '', medium: '', long: '' }
     };
   }
@@ -332,7 +339,7 @@ export async function POST(request: NextRequest) {
     const llmResponse = await callLLM(text, imageMenu, rules);
 
     // Helper to resolve image details
-    const resolveImage = (selectedImg: SelectedImage | null) => {
+    const resolveImage = (selectedImg: SelectedImage, index: number) => {
       if (!selectedImg || !selectedImg.file_name) return null;
       const image = allImages.find(img => img.file_name === selectedImg.file_name);
       if (!image) return null;
@@ -341,15 +348,23 @@ export async function POST(request: NextRequest) {
         title: image.title,
         body_text: image.explanation,
         image_url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/mismatch-images/${image.folder_name}/${image.file_name}`,
-        reason: selectedImg.reason
+        reason: selectedImg.reason,
+        rank: index + 1
       };
     };
 
-    const primaryImage = resolveImage(llmResponse.primary_image);
+    // Resolve all images, filtering out any that couldn't be found
+    const problemImages = llmResponse.problem_images
+      .map((img, idx) => resolveImage(img, idx))
+      .filter((img): img is NonNullable<typeof img> => img !== null);
 
-    if (!primaryImage) {
+    const solutionImages = llmResponse.solution_images
+      .map((img, idx) => resolveImage(img, idx))
+      .filter((img): img is NonNullable<typeof img> => img !== null);
+
+    if (problemImages.length === 0 && solutionImages.length === 0) {
       return NextResponse.json(
-        { error: 'Could not resolve primary image' },
+        { error: 'Could not resolve any images' },
         { status: 500 }
       );
     }
@@ -357,8 +372,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       the_reframe: llmResponse.the_reframe,
       the_mechanism: llmResponse.the_mechanism,
-      primary_image: primaryImage,
-      contrast_image: resolveImage(llmResponse.contrast_image),
+      problem_images: problemImages,
+      solution_images: solutionImages,
       share_variants: llmResponse.share_variants
     });
   } catch (error) {

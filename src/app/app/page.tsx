@@ -23,11 +23,11 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
 
-  // New simplified state
+  // Analysis results
   const [theReframe, setTheReframe] = useState("");
   const [theMechanism, setTheMechanism] = useState("");
-  const [primaryImage, setPrimaryImage] = useState<ImageResult | null>(null);
-  const [contrastImage, setContrastImage] = useState<ImageResult | null>(null);
+  const [problemImages, setProblemImages] = useState<ImageResult[]>([]);
+  const [solutionImages, setSolutionImages] = useState<ImageResult[]>([]);
   const [shareVariants, setShareVariants] = useState<ShareVariants>({ short: "", medium: "", long: "" });
   const [selectedLength, setSelectedLength] = useState<ShareLength>("medium");
   const [isRegenerating, setIsRegenerating] = useState(false);
@@ -44,7 +44,7 @@ export default function Home() {
   const [sourcePreview, setSourcePreview] = useState<{ type: "screenshot" | "url" | "youtube"; image: string; url?: string; title?: string; channel?: string } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const hasResults = primaryImage !== null;
+  const hasResults = problemImages.length > 0 || solutionImages.length > 0;
 
   // Load history on mount
   useEffect(() => {
@@ -59,8 +59,8 @@ export default function Home() {
   const clearResults = () => {
     setTheReframe("");
     setTheMechanism("");
-    setPrimaryImage(null);
-    setContrastImage(null);
+    setProblemImages([]);
+    setSolutionImages([]);
     setShareVariants({ short: "", medium: "", long: "" });
     setSourcePreview(null);
     setFollowUpQuestion("");
@@ -81,13 +81,13 @@ export default function Home() {
       setLoadingMessage("Analyzing through the lens...");
       const response = await analyzeWithLLM(text);
 
-      if (!response.primary_image) {
-        setError("Analysis could not find a matching image. Try different content.");
+      if (response.problem_images.length === 0 && response.solution_images.length === 0) {
+        setError("Analysis could not find matching images. Try different content.");
       } else {
         setTheReframe(response.the_reframe);
         setTheMechanism(response.the_mechanism);
-        setPrimaryImage(response.primary_image);
-        setContrastImage(response.contrast_image);
+        setProblemImages(response.problem_images);
+        setSolutionImages(response.solution_images);
         setShareVariants(response.share_variants);
 
         // Save to history
@@ -95,8 +95,8 @@ export default function Home() {
           query: text,
           the_reframe: response.the_reframe,
           the_mechanism: response.the_mechanism,
-          primary_image: response.primary_image,
-          contrast_image: response.contrast_image,
+          problem_images: response.problem_images,
+          solution_images: response.solution_images,
           share_variants: response.share_variants
         });
         setHistory(prev => [entry, ...prev.slice(0, 49)]);
@@ -163,21 +163,21 @@ export default function Home() {
 
         const response = await analyzeWithLLM(analysisInput);
 
-        if (!response.primary_image) {
-          setError("Analysis could not find a matching image. Try different content.");
+        if (response.problem_images.length === 0 && response.solution_images.length === 0) {
+          setError("Analysis could not find matching images. Try different content.");
         } else {
           setTheReframe(response.the_reframe);
           setTheMechanism(response.the_mechanism);
-          setPrimaryImage(response.primary_image);
-          setContrastImage(response.contrast_image);
+          setProblemImages(response.problem_images);
+          setSolutionImages(response.solution_images);
           setShareVariants(response.share_variants);
 
           const entry = saveToHistory({
             query: analysisInput,
             the_reframe: response.the_reframe,
             the_mechanism: response.the_mechanism,
-            primary_image: response.primary_image,
-            contrast_image: response.contrast_image,
+            problem_images: response.problem_images,
+            solution_images: response.solution_images,
             share_variants: response.share_variants
           });
           setHistory(prev => [entry, ...prev.slice(0, 49)]);
@@ -294,21 +294,21 @@ export default function Home() {
       setLoadingMessage("Analyzing through the lens...");
       const analysisResponse = await analyzeWithLLM(data.content);
 
-      if (!analysisResponse.primary_image) {
-        setError("Analysis could not find a matching image. Try different content.");
+      if (analysisResponse.problem_images.length === 0 && analysisResponse.solution_images.length === 0) {
+        setError("Analysis could not find matching images. Try different content.");
       } else {
         setTheReframe(analysisResponse.the_reframe);
         setTheMechanism(analysisResponse.the_mechanism);
-        setPrimaryImage(analysisResponse.primary_image);
-        setContrastImage(analysisResponse.contrast_image);
+        setProblemImages(analysisResponse.problem_images);
+        setSolutionImages(analysisResponse.solution_images);
         setShareVariants(analysisResponse.share_variants);
 
         const entry = saveToHistory({
           query: data.content,
           the_reframe: analysisResponse.the_reframe,
           the_mechanism: analysisResponse.the_mechanism,
-          primary_image: analysisResponse.primary_image,
-          contrast_image: analysisResponse.contrast_image,
+          problem_images: analysisResponse.problem_images,
+          solution_images: analysisResponse.solution_images,
           share_variants: analysisResponse.share_variants
         });
         setHistory(prev => [entry, ...prev.slice(0, 49)]);
@@ -346,8 +346,8 @@ export default function Home() {
   const loadHistoryEntry = (entry: HistoryEntry) => {
     setTheReframe(entry.the_reframe);
     setTheMechanism(entry.the_mechanism);
-    setPrimaryImage(entry.primary_image);
-    setContrastImage(entry.contrast_image);
+    setProblemImages(entry.problem_images);
+    setSolutionImages(entry.solution_images);
     setShareVariants(entry.share_variants);
     setCurrentQuery(entry.query);
     setInputText(entry.query);
@@ -466,6 +466,45 @@ export default function Home() {
     }
   };
 
+  // Image Grid Component
+  const ImageGrid = ({ images, title }: { images: ImageResult[]; title: string }) => {
+    if (images.length === 0) return null;
+
+    return (
+      <div className="space-y-3">
+        <h3 className="text-sm font-bold tracking-wide text-[#4A4A4A] uppercase">{title}</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+          {images.map((image, index) => (
+            <div
+              key={image.id || index}
+              className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group bg-[#F5F3EF]"
+              onClick={() => setSelectedImage(image)}
+            >
+              <img
+                src={image.image_url}
+                alt={image.title}
+                className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+              <div className="absolute top-2 left-2 w-6 h-6 bg-white/90 rounded-full flex items-center justify-center text-xs font-bold text-[#C75B39]">
+                {index + 1}
+              </div>
+              <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  className="p-1.5 bg-white/90 hover:bg-white rounded shadow"
+                  onClick={(e) => { e.stopPropagation(); copyImageToClipboard(image.image_url); }}
+                >
+                  <CopyIcon />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <main className="min-h-screen bg-[#FAF9F6] text-[#1A1A1A]">
       <Navigation />
@@ -549,10 +588,10 @@ export default function Home() {
                           <TrashIcon />
                         </button>
                       </div>
-                      {entry.primary_image && (
+                      {entry.problem_images && entry.problem_images.length > 0 && (
                         <div className="mt-2 w-12 h-12 rounded overflow-hidden bg-[#F5F3EF]">
                           <img
-                            src={entry.primary_image.image_url}
+                            src={entry.problem_images[0].image_url}
                             alt=""
                             className="w-full h-full object-cover"
                             loading="lazy"
@@ -569,7 +608,7 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <div className="flex-1 p-4 md:p-8 max-w-3xl mx-auto w-full">
+      <div className="flex-1 p-4 md:p-8 max-w-4xl mx-auto w-full">
         {/* Input Tabs */}
         <div className="flex border-b border-[#E5E0D8] mb-6 overflow-x-auto">
           {[
@@ -775,7 +814,7 @@ export default function Home() {
 
         {/* Results */}
         {hasResults && (
-          <div className="space-y-6 animate-fadeIn">
+          <div className="space-y-8 animate-fadeIn">
             {/* Source Preview */}
             {sourcePreview && (
               <div className="p-4 bg-white border border-[#E5E0D8] rounded-lg">
@@ -811,34 +850,6 @@ export default function Home() {
               </div>
             )}
 
-            {/* Primary Image - Hero */}
-            {primaryImage && (
-              <div
-                className="relative overflow-hidden rounded-lg cursor-pointer group"
-                onClick={() => setSelectedImage(primaryImage)}
-              >
-                <img
-                  src={primaryImage.image_url}
-                  alt={primaryImage.title}
-                  className="w-full max-h-[500px] object-contain bg-[#F5F3EF]"
-                />
-                <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button
-                    className="p-2 bg-white/90 hover:bg-white rounded-lg shadow"
-                    onClick={(e) => { e.stopPropagation(); copyImageToClipboard(primaryImage.image_url); }}
-                  >
-                    <CopyIcon />
-                  </button>
-                  <button
-                    className="p-2 bg-white/90 hover:bg-white rounded-lg shadow"
-                    onClick={(e) => { e.stopPropagation(); downloadImage(primaryImage); }}
-                  >
-                    <DownloadIcon />
-                  </button>
-                </div>
-              </div>
-            )}
-
             {/* The Reframe */}
             <div className="prose prose-lg max-w-none">
               <p className="text-lg md:text-xl leading-relaxed text-[#1A1A1A]">
@@ -855,30 +866,11 @@ export default function Home() {
               </div>
             )}
 
-            {/* Contrast Image (optional, smaller) */}
-            {contrastImage && (
-              <div
-                className="relative overflow-hidden rounded-lg cursor-pointer group max-w-sm"
-                onClick={() => setSelectedImage(contrastImage)}
-              >
-                <img
-                  src={contrastImage.image_url}
-                  alt={contrastImage.title}
-                  className="w-full object-contain bg-[#F5F3EF]"
-                />
-                <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button
-                    className="p-1.5 bg-white/90 hover:bg-white rounded shadow"
-                    onClick={(e) => { e.stopPropagation(); copyImageToClipboard(contrastImage.image_url); }}
-                  >
-                    <CopyIcon />
-                  </button>
-                </div>
-                {contrastImage.reason && (
-                  <p className="text-xs text-[#8B8B8B] mt-2 italic">{contrastImage.reason}</p>
-                )}
-              </div>
-            )}
+            {/* Problem Images Grid */}
+            <ImageGrid images={problemImages} title="The Modern Condition" />
+
+            {/* Solution Images Grid */}
+            <ImageGrid images={solutionImages} title="What Biology Expects" />
 
             {/* Share Section */}
             <div className="p-5 bg-white border border-[#E5E0D8] rounded-lg">

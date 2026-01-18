@@ -22,6 +22,7 @@ export interface ImageResult {
   body_text?: string;
   image_url: string;
   reason?: string;
+  rank?: number;
 }
 
 export interface ShareVariants {
@@ -33,8 +34,8 @@ export interface ShareVariants {
 export interface AnalysisResponse {
   the_reframe: string;
   the_mechanism: string;
-  primary_image: ImageResult;
-  contrast_image: ImageResult | null;
+  problem_images: ImageResult[];
+  solution_images: ImageResult[];
   share_variants: ShareVariants;
 }
 
@@ -57,8 +58,8 @@ export async function analyzeWithLLM(text: string): Promise<AnalysisResponse> {
   return {
     the_reframe: data.the_reframe || '',
     the_mechanism: data.the_mechanism || '',
-    primary_image: data.primary_image,
-    contrast_image: data.contrast_image || null,
+    problem_images: data.problem_images || [],
+    solution_images: data.solution_images || [],
     share_variants: {
       short: data.share_variants?.short || '',
       medium: data.share_variants?.medium || '',
