@@ -22,21 +22,24 @@ export interface ImageResult {
   body_text?: string;
   image_url: string;
   reason?: string;
-  rank?: number;
 }
 
-export interface SearchResponse {
-  whats_happening: string;
-  the_players: string;
-  whats_missing: string;
-  what_actually_helps: string;
-  example_comment: string;
-  problem_images: ImageResult[];
-  solution_images: ImageResult[];
+export interface ShareVariants {
+  short: string;
+  medium: string;
+  long: string;
 }
 
-// LLM-based search that understands the evolutionary mismatch framework
-export async function searchImagesWithLLM(text: string): Promise<SearchResponse> {
+export interface AnalysisResponse {
+  the_reframe: string;
+  the_mechanism: string;
+  primary_image: ImageResult;
+  contrast_image: ImageResult | null;
+  share_variants: ShareVariants;
+}
+
+// LLM-based analysis through the DEMISMATCH lens
+export async function analyzeWithLLM(text: string): Promise<AnalysisResponse> {
   const response = await fetch('/api/search', {
     method: 'POST',
     headers: {
@@ -47,17 +50,48 @@ export async function searchImagesWithLLM(text: string): Promise<SearchResponse>
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.error || 'Search failed');
+    throw new Error(error.error || 'Analysis failed');
   }
 
   const data = await response.json();
   return {
-    whats_happening: data.whats_happening || '',
-    the_players: data.the_players || '',
-    whats_missing: data.whats_missing || '',
-    what_actually_helps: data.what_actually_helps || '',
-    example_comment: data.example_comment || '',
-    problem_images: data.problem_images || [],
-    solution_images: data.solution_images || []
+    the_reframe: data.the_reframe || '',
+    the_mechanism: data.the_mechanism || '',
+    primary_image: data.primary_image,
+    contrast_image: data.contrast_image || null,
+    share_variants: {
+      short: data.share_variants?.short || '',
+      medium: data.share_variants?.medium || '',
+      long: data.share_variants?.long || ''
+    }
   };
+}
+
+// Regenerate share text at a specific length
+export async function regenerateShareText(
+  originalContent: string,
+  theReframe: string,
+  theMechanism: string,
+  length: 'short' | 'medium' | 'long'
+): Promise<string> {
+  const response = await fetch('/api/regenerate-comment', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      originalContent,
+      theReframe,
+      theMechanism,
+      length
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Regeneration failed');
+  }
+
+  const data = await response.json();
+  return data.comment || '';
 }

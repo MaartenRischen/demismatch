@@ -4,76 +4,87 @@ const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '';
 
 interface RegenerateRequest {
   originalContent: string;
-  analysis: string;
-  length: number; // 1-30 sentences
-  tone: number; // 0-100 (0 = respectful, 100 = extremely sassy)
+  theReframe: string;
+  theMechanism: string;
+  length: 'short' | 'medium' | 'long';
 }
 
-function getToneDescription(tone: number): string {
-  if (tone <= 20) return 'respectful and thoughtful, gently questioning assumptions';
-  if (tone <= 40) return 'witty but kind, using humor to make a point';
-  if (tone <= 60) return 'sharp and direct, not afraid to call things out';
-  if (tone <= 80) return 'sassy and provocative, with some bite';
-  return 'extremely sassy and cutting, unapologetically blunt with maximum snark';
-}
-
-function getLengthDescription(length: number): string {
-  if (length === 1) return 'exactly 1 sentence';
-  if (length <= 3) return `exactly ${length} sentences - keep it punchy`;
-  if (length <= 10) return `exactly ${length} sentences - develop the thought`;
-  if (length <= 20) return `exactly ${length} sentences - a substantial mini-essay`;
-  return `exactly ${length} sentences - a thorough takedown`;
+function getLengthInstruction(length: 'short' | 'medium' | 'long'): string {
+  switch (length) {
+    case 'short':
+      return '1-2 sentences, under 280 characters total. Perfect for Twitter/X. Self-contained - someone who has never heard of this framework should understand it.';
+    case 'medium':
+      return '3-5 sentences. Develops the insight more fully. Still introduces the framework to newcomers through this specific example.';
+    case 'long':
+      return '2-3 paragraphs. Full explanation using "For 300,000 years... Now..." framing. Could be posted as a standalone piece or blog comment. Comprehensive but not preachy.';
+  }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const { originalContent, analysis, length, tone }: RegenerateRequest = await request.json();
+    const { originalContent, theReframe, theMechanism, length }: RegenerateRequest = await request.json();
 
-    if (!originalContent || !analysis) {
+    if (!originalContent || !theReframe) {
       return NextResponse.json(
         { error: 'Original content and analysis are required' },
         { status: 400 }
       );
     }
 
-    const toneDesc = getToneDescription(tone);
-    const lengthDesc = getLengthDescription(length);
+    const lengthInstruction = getLengthInstruction(length);
 
-    const systemPrompt = `You are generating a comment that someone could post in response to content they've seen online. The comment should share insights from the DEMISMATCH framework analysis.
+    const systemPrompt = `You generate shareable text that applies the DEMISMATCH lens to content.
 
-TONE: ${toneDesc}
-LENGTH: ${lengthDesc}
+YOUR VOICE:
+- Explanatory, not clever or snarky
+- Direct, not preachy or moralistic
+- Shows mechanisms, trusts readers to draw conclusions
+- Uses "For 300,000 years... Now..." contrasts when appropriate
+- Never prescriptive - no advice, no "you should"
 
-The comment should:
-- Be written in first person as if the user is posting it
-- Reference the mismatch/evolutionary perspective without being preachy
-- Be memorable and shareable
-- Match the requested tone exactly
-- Be EXACTLY the requested length (${length} sentence${length > 1 ? 's' : ''})
+BANNED:
+- Jargon: "mismatch," "EEA," "proxy," "Dunbar number," "parasocial"
+- Moralizing or judgment
+- Cleverness or snark
+- Starting with "I think" or giving opinions
+- Mentioning "the framework" or "DEMISMATCH" explicitly
 
-Do NOT:
-- Start with "I think" or "In my opinion"
-- Be condescending or preachy
-- Use academic language
-- Mention "the framework" or "DEMISMATCH" explicitly
+LENGTH REQUIREMENT: ${lengthInstruction}
 
-Return ONLY the comment text, nothing else.`;
+VOICE EXAMPLES:
+
+GOOD (explanatory):
+"For 300,000 years, this kind of pain would reach maybe 40 people - everyone in your band - and every one of them would be obligated to respond. The memoir reaches millions who consume it as content and scroll past. The feeling of being witnessed is real. The support isn't."
+
+GOOD (mechanism):
+"Your brain evolved to track about 150 people. It registers followers as tribe. It can't tell the difference between 1,000 people who'd bring you soup when sick and 1,000 strangers who liked a photo once. The loneliness signal fires anyway."
+
+BAD (moralistic):
+"She's publishing her betrayal for strangers to consume while her kids still need a present parent."
+
+BAD (clever):
+"A woman sells her wound to strangers who'll forget her name by tomorrow."
+
+Return ONLY the shareable text, nothing else. No quotes around it.`;
 
     const userPrompt = `Original content being analyzed:
 ${originalContent}
 
-Analysis from the framework:
-${analysis}
+The reframe (what this actually is):
+${theReframe}
 
-Generate a ${length}-sentence comment with a ${tone <= 20 ? 'respectful' : tone <= 40 ? 'witty' : tone <= 60 ? 'sharp' : tone <= 80 ? 'sassy' : 'extremely sassy'} tone.`;
+The mechanism (how/why this happens):
+${theMechanism}
+
+Generate a ${length} shareable version of this analysis.`;
 
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
         'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://squaretruths.app',
-        'X-Title': 'Square Truths'
+        'HTTP-Referer': 'https://demismatch.com',
+        'X-Title': 'Demismatch Analyzer'
       },
       body: JSON.stringify({
         model: 'anthropic/claude-sonnet-4',
@@ -81,7 +92,7 @@ Generate a ${length}-sentence comment with a ${tone <= 20 ? 'respectful' : tone 
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
         ],
-        temperature: 0.8,
+        temperature: 0.6,
         max_tokens: 1000
       })
     });
@@ -93,8 +104,8 @@ Generate a ${length}-sentence comment with a ${tone <= 20 ? 'respectful' : tone 
         headers: {
           'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
           'Content-Type': 'application/json',
-          'HTTP-Referer': 'https://squaretruths.app',
-          'X-Title': 'Square Truths'
+          'HTTP-Referer': 'https://demismatch.com',
+          'X-Title': 'Demismatch Analyzer'
         },
         body: JSON.stringify({
           model: 'google/gemini-2.0-flash-001',
@@ -102,7 +113,7 @@ Generate a ${length}-sentence comment with a ${tone <= 20 ? 'respectful' : tone 
             { role: 'system', content: systemPrompt },
             { role: 'user', content: userPrompt }
           ],
-          temperature: 0.8,
+          temperature: 0.6,
           max_tokens: 1000
         })
       });
@@ -123,7 +134,7 @@ Generate a ${length}-sentence comment with a ${tone <= 20 ? 'respectful' : tone 
   } catch (error) {
     console.error('Regenerate comment error:', error);
     return NextResponse.json(
-      { error: 'Failed to regenerate comment' },
+      { error: 'Failed to regenerate' },
       { status: 500 }
     );
   }

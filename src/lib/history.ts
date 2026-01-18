@@ -1,24 +1,22 @@
-import { ImageResult } from './supabase';
+import { ImageResult, ShareVariants } from './supabase';
 
 export interface HistoryEntry {
   id: string;
   timestamp: number;
   query: string;
-  whats_happening: string;
-  the_players: string;
-  whats_missing: string;
-  what_actually_helps: string;
-  example_comment: string;
-  problem_images: ImageResult[];
-  solution_images: ImageResult[];
+  the_reframe: string;
+  the_mechanism: string;
+  primary_image: ImageResult;
+  contrast_image: ImageResult | null;
+  share_variants: ShareVariants;
 }
 
-const HISTORY_KEY = 'squaretruths_history';
+const HISTORY_KEY = 'demismatch_history';
 const MAX_HISTORY_ITEMS = 50;
 
 export function getHistory(): HistoryEntry[] {
   if (typeof window === 'undefined') return [];
-  
+
   try {
     const stored = localStorage.getItem(HISTORY_KEY);
     if (!stored) return [];
@@ -34,28 +32,28 @@ export function saveToHistory(entry: Omit<HistoryEntry, 'id' | 'timestamp'>): Hi
     timestamp: Date.now(),
     ...entry
   };
-  
+
   const history = getHistory();
-  
+
   // Add to beginning (most recent first)
   history.unshift(newEntry);
-  
+
   // Keep only last MAX_HISTORY_ITEMS
   const trimmed = history.slice(0, MAX_HISTORY_ITEMS);
-  
+
   try {
     localStorage.setItem(HISTORY_KEY, JSON.stringify(trimmed));
   } catch (e) {
     console.error('Failed to save history:', e);
   }
-  
+
   return newEntry;
 }
 
 export function deleteHistoryEntry(id: string): void {
   const history = getHistory();
   const filtered = history.filter(entry => entry.id !== id);
-  
+
   try {
     localStorage.setItem(HISTORY_KEY, JSON.stringify(filtered));
   } catch (e) {
@@ -78,16 +76,15 @@ export function formatTimestamp(timestamp: number): string {
   const diffMins = Math.floor(diffMs / 60000);
   const diffHours = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
-  
+
   if (diffMins < 1) return 'Just now';
   if (diffMins < 60) return `${diffMins}m ago`;
   if (diffHours < 24) return `${diffHours}h ago`;
   if (diffDays < 7) return `${diffDays}d ago`;
-  
-  return date.toLocaleDateString('en-US', { 
-    month: 'short', 
+
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
     day: 'numeric',
     year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
   });
 }
-

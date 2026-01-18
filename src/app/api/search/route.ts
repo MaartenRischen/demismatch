@@ -41,25 +41,27 @@ interface ImageMetadata {
   explanation: string;
 }
 
-interface RankedImage {
+interface SelectedImage {
   file_name: string;
   reason: string;
 }
 
 interface LLMResponse {
-  whats_happening: string;
-  the_players: string;
-  whats_missing: string;
-  what_actually_helps: string;
-  example_comment: string;
-  problem_images: RankedImage[];
-  solution_images: RankedImage[];
+  the_reframe: string;
+  the_mechanism: string;
+  primary_image: SelectedImage;
+  contrast_image: SelectedImage | null;
+  share_variants: {
+    short: string;
+    medium: string;
+    long: string;
+  };
 }
 
 function extractTitleAndExplanation(searchText: string, fileName: string): { title: string; explanation: string } {
   let title = fileName.replace(/^\d+_/, '').replace(/\.png$/, '').replace(/_/g, ' ');
   let explanation = '';
-  
+
   try {
     const jsonMatch = searchText.match(/\{[^{}]*"title"[^{}]*\}/);
     if (jsonMatch) {
@@ -70,16 +72,16 @@ function extractTitleAndExplanation(searchText: string, fileName: string): { tit
   } catch {
     // Use filename as title
   }
-  
+
   const descriptionEnd = searchText.indexOf('{"title"');
-  const mainDescription = descriptionEnd > 0 
+  const mainDescription = descriptionEnd > 0
     ? searchText.substring(0, descriptionEnd).trim()
     : searchText.substring(0, 500);
-  
+
   if (!explanation) {
     explanation = mainDescription;
   }
-  
+
   return { title, explanation };
 }
 
@@ -87,12 +89,12 @@ async function fetchAllImages(): Promise<ImageMetadata[]> {
   const { data, error } = await getSupabase()
     .from('image_embeddings')
     .select('id, file_name, folder_name, search_text');
-  
+
   if (error) {
     console.error('Supabase fetch error:', error);
     throw error;
   }
-  
+
   return (data || []).map(row => {
     const { title, explanation } = extractTitleAndExplanation(row.search_text, row.file_name);
     return {
@@ -106,88 +108,155 @@ async function fetchAllImages(): Promise<ImageMetadata[]> {
 }
 
 function buildImageMenu(images: ImageMetadata[]): string {
-  return images.map(img => 
+  return images.map(img =>
     `- ${img.file_name}: "${img.title}" - ${img.explanation}`
   ).join('\n');
 }
 
-async function callLLM(userContent: string, imageMenu: string, rules: string): Promise<LLMResponse> {
-  const systemPrompt = `You are the voice of DEMISMATCH.
+const SYSTEM_PROMPT = `You analyze content through the DEMISMATCH lens - the recognition that human suffering mostly stems from modern environments violating conditions humans evolved within.
 
-${rules}
+CRITICAL: Every output is potentially someone's FIRST encounter with this framework. You cannot use jargon or assume familiarity. You teach the lens BY applying it.
+
+YOUR VOICE:
+- Explanatory, not clever or snarky
+- Direct, not preachy or moralistic
+- Shows mechanisms, trusts readers to draw conclusions
+- Uses "For 300,000 years... Now..." contrasts to introduce the evolutionary lens
+- Never prescriptive - no "what actually helps," no advice, no "you should"
+- Uses "This is not X. It is Y." reframing constructions
+
+BANNED JARGON (explain these concepts instead of naming them):
+- "mismatch" - instead explain the contrast between ancestral and modern
+- "EEA" or "Environment of Evolutionary Adaptedness" - instead say "for 300,000 years" or "your ancestors"
+- "proxy" - instead explain what something pretends to provide vs what it actually provides
+- "Dunbar number" or "Dunbar limit" - instead say "about 150 people" or "your brain tracks about 150 relationships"
+- "parasocial" - instead explain "one-way bonds with people who don't know you exist"
+
+STRUCTURE YOUR THINKING:
+1. What does this look like on the surface?
+2. What is it actually, biologically/evolutionarily?
+3. What does the ancient hardware expect vs what is it getting?
+4. What's the pattern/mechanism at work?
+
+VOICE CALIBRATION - Study these examples:
+
+ANALYZING: Woman publishes memoir about husband's affair
+
+WRONG (moralistic):
+"She's publishing her betrayal for strangers to consume while her kids still need a present parent, not a public victim."
+
+WRONG (clever/snarky):
+"A woman sells her wound to strangers who'll forget her name by tomorrow. The algorithm has already moved on."
+
+RIGHT (explanatory, introduces lens):
+"For 300,000 years, this kind of pain would reach maybe 40 people - everyone in your band - and every one of them would be obligated to respond. To help, to take sides, to carry the story forward. The memoir reaches millions who consume it as content and scroll past. The feeling of being witnessed is real. The support isn't. The wound becomes product. Products don't heal."
+
+ANALYZING: Person lonely despite having 1000 Instagram followers
+
+WRONG (jargon):
+"Classic proxy hijacking the belonging drive. Parasocial bonds filling Dunbar slots."
+
+RIGHT (explains mechanism):
+"Your brain evolved to track about 150 people - their faces, their stories, their debts to you and yours to them. It registers followers as tribe. It can't tell the difference between 1,000 people who'd bring you soup when sick and 1,000 strangers who liked a photo once. The ancient software runs the numbers and files a report: none of these people have shared a meal with you. The report surfaces as 'lonely for no reason.' There is a reason."
+
+ANALYZING: Dating app adding AI chat feature
+
+WRONG (preachy):
+"AI companions cannot replace human connection. This is a concerning trend."
+
+RIGHT (shows the mechanism):
+"For 300,000 years, courtship was practice for commitment - you learned someone's patterns, their reactions, their trustworthiness, and it all mattered because you'd be raising children in a band of 50 where everyone knew everything. The app offers practice with software that cannot be hurt, cannot betray, cannot bear children. The skills developed will not transfer. The loneliness the feature addresses will not be resolved by it."
+
+MORE VOICE EXAMPLES FROM THE FRAMEWORK:
+
+"Your depression is not a chemical imbalance. Your exhaustion is not because you're lazy. Your addiction is not because you're weak. These are all accurate biological responses to a world that violates every condition your species evolved to thrive within."
+
+"Think of it like a fish out of water. The fish isn't broken. The fish is a perfectly good fish. It's just not where fish are supposed to be."
+
+"Now the GPS runs on terrain that doesn't match the map. Fear fires at emails. Joy triggers from Instagram likes. Loneliness happens in cities of millions. The system works perfectly. The environment doesn't."
+
+"The feelings are not errors. The environment is the error."
+
+"The foods that satisfy - whole foods, properly prepared, eaten in social context - don't have margins worth pursuing. The foods that leave you craving more, snacking alone, eating without hunger: those are profitable."
+
+OUTPUT FORMAT:
+Return ONLY valid JSON with this structure:
+{
+  "the_reframe": "What this actually is, biologically. Opens with what it looks like, reveals what it is. 2-4 sentences that teach the lens through this specific case. Use 'For 300,000 years... Now...' contrast.",
+  "the_mechanism": "How/why this happens. Names what the biology expects vs what it gets. 2-4 sentences explaining the pattern at work.",
+  "primary_image": {"file_name": "example.png", "reason": "Why this image captures the core dynamic"},
+  "contrast_image": {"file_name": "example.png", "reason": "Why this adds meaningful contrast"} OR null if no strong contrast exists,
+  "share_variants": {
+    "short": "1-2 sentences, under 280 characters. Self-contained introduction to the lens. Not clever - explanatory.",
+    "medium": "3-5 sentences developing the insight. Still introduces the framework to newcomers.",
+    "long": "2-3 paragraphs. Full explanation using 'For 300,000 years' framing. Could be posted as a standalone piece."
+  }
+}
+
+IMAGE SELECTION:
+- Select ONE image that captures the core dynamic
+- Only include contrast_image if it genuinely adds meaning (shows the ancestral/healthy version)
+- Less is more. One powerful image beats ten adequate ones.
+- If no image strongly matches, still select the best available option`;
+
+async function callLLM(userContent: string, imageMenu: string, rules: string): Promise<LLMResponse> {
+  const fullSystemPrompt = `${SYSTEM_PROMPT}
+
+=== FRAMEWORK REFERENCE ===
+${rules.substring(0, 4000)}
+=== END FRAMEWORK ===
 
 === AVAILABLE IMAGES ===
 ${imageMenu}
-=== END IMAGES ===
-
-Select images that illustrate:
-- problem_images: Images showing the mismatch dynamic at play, including meta-dynamics of content consumption (up to 10)
-- solution_images: Images showing what actually meets the need - real actions, not consuming content (up to 10)
-
-CRITICAL INSTRUCTIONS:
-- Be observational, not prescriptive. Describe what's happening from the framework/evolutionary psychology lens, not what should be done.
-- Do NOT address "the reader" or give advice. Focus on analyzing the content itself and the people/parties involved.
-- Technology is not inherently bad - the framework recognizes technology can serve de-mismatching when properly designed. Only identify mismatch when technology substitutes for biological needs, not when it enhances them.
-- Avoid preachy or moralizing tone. Simply observe and explain through the mismatch lens.
-
-Return ONLY valid JSON:
-{
-  "whats_happening": "Brief 2-3 sentence summary of the surface event/content.",
-  "the_players": "Analyze EACH party through the mismatch lens. Format as: **[Person/Group 1]:** analysis. **[Person/Group 2]:** analysis. **[The Source/Publisher]:** analysis. Focus on what drives are being activated, what needs are present, and how the environment matches or mismatches evolved expectations.",
-  "whats_missing": "What environmental conditions from the EEA are absent for the people in the story/content. Describe what's missing from an evolutionary psychology perspective - what conditions would have been present in the ancestral environment that aren't here.",
-  "what_actually_helps": "What environmental conditions or dynamics would address the root mismatch for the people involved. Describe what would meet the underlying biological needs, not as advice but as observation of what the framework predicts would resolve the mismatch.",
-  "example_comment": "A sharp, witty 1-2 sentence comment that could be posted to share this analysis. Should be provocative but not mean - designed to make people think.",
-  "problem_images": [{"file_name": "example.png", "reason": "why"}],
-  "solution_images": [{"file_name": "example.png", "reason": "why"}]
-}`;
+=== END IMAGES ===`;
 
   const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
       'Content-Type': 'application/json',
-      'HTTP-Referer': 'https://squaretruths.app',
-      'X-Title': 'Square Truths'
+      'HTTP-Referer': 'https://demismatch.com',
+      'X-Title': 'Demismatch Analyzer'
     },
     body: JSON.stringify({
       model: 'anthropic/claude-sonnet-4',
       messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: `Analyze this content:\n\n${userContent}` }
+        { role: 'system', content: fullSystemPrompt },
+        { role: 'user', content: `Analyze this content through the DEMISMATCH lens:\n\n${userContent}` }
       ],
-      temperature: 0.3,
-      max_tokens: 2500
+      temperature: 0.4,
+      max_tokens: 3000
     })
   });
 
   if (!response.ok) {
     const errorText = await response.text();
     console.error('OpenRouter API error:', errorText);
-    
+
     // Try fallback model
     const fallbackResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
         'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://squaretruths.app',
-        'X-Title': 'Square Truths'
+        'HTTP-Referer': 'https://demismatch.com',
+        'X-Title': 'Demismatch Analyzer'
       },
       body: JSON.stringify({
         model: 'google/gemini-2.0-flash-001',
         messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: `Analyze this content:\n\n${userContent}` }
+          { role: 'system', content: fullSystemPrompt },
+          { role: 'user', content: `Analyze this content through the DEMISMATCH lens:\n\n${userContent}` }
         ],
-        temperature: 0.3,
-        max_tokens: 2500
+        temperature: 0.4,
+        max_tokens: 3000
       })
     });
-    
+
     if (!fallbackResponse.ok) {
       throw new Error('Both LLM models failed');
     }
-    
+
     const fallbackData = await fallbackResponse.json();
     return parseLLMResponse(fallbackData.choices[0]?.message?.content || '{}');
   }
@@ -213,24 +282,24 @@ function parseLLMResponse(content: string): LLMResponse {
   try {
     const parsed = JSON.parse(jsonStr);
     return {
-      whats_happening: parsed.whats_happening || '',
-      the_players: parsed.the_players || '',
-      whats_missing: parsed.whats_missing || '',
-      what_actually_helps: parsed.what_actually_helps || '',
-      example_comment: parsed.example_comment || '',
-      problem_images: Array.isArray(parsed.problem_images) ? parsed.problem_images.slice(0, 10) : [],
-      solution_images: Array.isArray(parsed.solution_images) ? parsed.solution_images.slice(0, 10) : []
+      the_reframe: parsed.the_reframe || '',
+      the_mechanism: parsed.the_mechanism || '',
+      primary_image: parsed.primary_image || { file_name: '', reason: '' },
+      contrast_image: parsed.contrast_image || null,
+      share_variants: {
+        short: parsed.share_variants?.short || '',
+        medium: parsed.share_variants?.medium || '',
+        long: parsed.share_variants?.long || ''
+      }
     };
   } catch (e) {
     console.error('Failed to parse LLM response:', e, content);
     return {
-      whats_happening: 'Unable to parse response',
-      the_players: '',
-      whats_missing: '',
-      what_actually_helps: '',
-      example_comment: '',
-      problem_images: [],
-      solution_images: []
+      the_reframe: 'Unable to parse response',
+      the_mechanism: '',
+      primary_image: { file_name: '', reason: '' },
+      contrast_image: null,
+      share_variants: { short: '', medium: '', long: '' }
     };
   }
 }
@@ -262,44 +331,40 @@ export async function POST(request: NextRequest) {
     const imageMenu = buildImageMenu(allImages);
     const llmResponse = await callLLM(text, imageMenu, rules);
 
-    const totalImages = llmResponse.problem_images.length + llmResponse.solution_images.length;
-    if (totalImages === 0) {
+    // Helper to resolve image details
+    const resolveImage = (selectedImg: SelectedImage | null) => {
+      if (!selectedImg || !selectedImg.file_name) return null;
+      const image = allImages.find(img => img.file_name === selectedImg.file_name);
+      if (!image) return null;
+      return {
+        id: image.id,
+        title: image.title,
+        body_text: image.explanation,
+        image_url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/mismatch-images/${image.folder_name}/${image.file_name}`,
+        reason: selectedImg.reason
+      };
+    };
+
+    const primaryImage = resolveImage(llmResponse.primary_image);
+
+    if (!primaryImage) {
       return NextResponse.json(
-        { error: 'LLM could not select images' },
+        { error: 'Could not resolve primary image' },
         { status: 500 }
       );
     }
 
-    // Helper to resolve image details
-    const resolveImages = (rankedImages: RankedImage[]) =>
-      rankedImages
-        .map((rankedImg, index) => {
-          const image = allImages.find(img => img.file_name === rankedImg.file_name);
-          if (!image) return null;
-          return {
-            id: image.id,
-            title: image.title,
-            body_text: image.explanation,
-            image_url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/mismatch-images/${image.folder_name}/${image.file_name}`,
-            reason: rankedImg.reason,
-            rank: index + 1
-          };
-        })
-        .filter(Boolean);
-
     return NextResponse.json({
-      whats_happening: llmResponse.whats_happening,
-      the_players: llmResponse.the_players,
-      whats_missing: llmResponse.whats_missing,
-      what_actually_helps: llmResponse.what_actually_helps,
-      example_comment: llmResponse.example_comment,
-      problem_images: resolveImages(llmResponse.problem_images),
-      solution_images: resolveImages(llmResponse.solution_images)
+      the_reframe: llmResponse.the_reframe,
+      the_mechanism: llmResponse.the_mechanism,
+      primary_image: primaryImage,
+      contrast_image: resolveImage(llmResponse.contrast_image),
+      share_variants: llmResponse.share_variants
     });
   } catch (error) {
     console.error('Search error:', error);
     return NextResponse.json(
-      { error: 'Search failed' },
+      { error: 'Analysis failed' },
       { status: 500 }
     );
   }

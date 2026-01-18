@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
-import Link from "next/link";
 import Navigation from "@/components/Navigation";
-import { searchImagesWithLLM, ImageResult, SearchResponse } from "@/lib/supabase";
+import { analyzeWithLLM, regenerateShareText, ImageResult, ShareVariants } from "@/lib/supabase";
 import {
   getHistory,
   saveToHistory,
@@ -14,6 +13,7 @@ import {
 } from "@/lib/history";
 
 type InputMode = "screenshot" | "url" | "youtube" | "text" | "describe";
+type ShareLength = "short" | "medium" | "long";
 
 export default function Home() {
   const [mode, setMode] = useState<InputMode>("describe");
@@ -22,19 +22,17 @@ export default function Home() {
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
-  const [whatsHappening, setWhatsHappening] = useState("");
-  const [thePlayers, setThePlayers] = useState("");
-  const [whatsMissing, setWhatsMissing] = useState("");
-  const [whatActuallyHelps, setWhatActuallyHelps] = useState("");
-  const [exampleComment, setExampleComment] = useState("");
-  const [commentLength, setCommentLength] = useState(2);
-  const [commentTone, setCommentTone] = useState(0);
+
+  // New simplified state
+  const [theReframe, setTheReframe] = useState("");
+  const [theMechanism, setTheMechanism] = useState("");
+  const [primaryImage, setPrimaryImage] = useState<ImageResult | null>(null);
+  const [contrastImage, setContrastImage] = useState<ImageResult | null>(null);
+  const [shareVariants, setShareVariants] = useState<ShareVariants>({ short: "", medium: "", long: "" });
+  const [selectedLength, setSelectedLength] = useState<ShareLength>("medium");
   const [isRegenerating, setIsRegenerating] = useState(false);
-  const [problemImages, setProblemImages] = useState<ImageResult[]>([]);
-  const [solutionImages, setSolutionImages] = useState<ImageResult[]>([]);
+
   const [followUpQuestion, setFollowUpQuestion] = useState("");
-  const [isAskingFollowUp, setIsAskingFollowUp] = useState(false);
-  const [showThePlayers, setShowThePlayers] = useState(false);
   const [error, setError] = useState("");
   const [selectedImage, setSelectedImage] = useState<ImageResult | null>(null);
   const [toast, setToast] = useState("");
@@ -46,7 +44,7 @@ export default function Home() {
   const [sourcePreview, setSourcePreview] = useState<{ type: "screenshot" | "url" | "youtube"; image: string; url?: string; title?: string; channel?: string } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const hasResults = problemImages.length > 0 || solutionImages.length > 0;
+  const hasResults = primaryImage !== null;
 
   // Load history on mount
   useEffect(() => {
@@ -59,70 +57,18 @@ export default function Home() {
   };
 
   const clearResults = () => {
-    setWhatsHappening("");
-    setThePlayers("");
-    setWhatsMissing("");
-    setWhatActuallyHelps("");
-    setExampleComment("");
-    setCommentLength(2);
-    setCommentTone(0);
-    setProblemImages([]);
-    setSolutionImages([]);
-    setShowThePlayers(false);
+    setTheReframe("");
+    setTheMechanism("");
+    setPrimaryImage(null);
+    setContrastImage(null);
+    setShareVariants({ short: "", medium: "", long: "" });
     setSourcePreview(null);
     setFollowUpQuestion("");
   };
 
-  const regenerateComment = async () => {
-    if (!currentQuery || !whatsHappening) return;
-
-    setIsRegenerating(true);
-    try {
-      const response = await fetch('/api/regenerate-comment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          originalContent: currentQuery,
-          analysis: whatsHappening,
-          length: commentLength,
-          tone: commentTone
-        })
-      });
-
-      if (!response.ok) throw new Error('Failed to regenerate');
-
-      const data = await response.json();
-      setExampleComment(data.comment);
-      showToast("Comment regenerated!");
-    } catch (err) {
-      console.error("Regenerate error:", err);
-      showToast("Failed to regenerate comment");
-    } finally {
-      setIsRegenerating(false);
-    }
-  };
-
-  const getToneLabel = (tone: number): string => {
-    if (tone <= 20) return "Respectful";
-    if (tone <= 40) return "Witty";
-    if (tone <= 60) return "Sharp";
-    if (tone <= 80) return "Sassy";
-    return "Extremely Sassy";
-  };
-
-  const applyResponse = (response: SearchResponse) => {
-    setWhatsHappening(response.whats_happening);
-    setThePlayers(response.the_players);
-    setWhatsMissing(response.whats_missing);
-    setWhatActuallyHelps(response.what_actually_helps);
-    setExampleComment(response.example_comment);
-    setProblemImages(response.problem_images);
-    setSolutionImages(response.solution_images);
-  };
-
-  const handleSearch = async (text: string) => {
+  const handleAnalysis = async (text: string) => {
     if (!text.trim()) {
-      setError("Please provide some content to search");
+      setError("Please provide some content to analyze");
       return;
     }
 
@@ -132,30 +78,31 @@ export default function Home() {
     setCurrentQuery(text);
 
     try {
-      setLoadingMessage("Analyzing with mismatch framework...");
-      const response = await searchImagesWithLLM(text);
+      setLoadingMessage("Analyzing through the lens...");
+      const response = await analyzeWithLLM(text);
 
-      const totalImages = response.problem_images.length + response.solution_images.length;
-      if (totalImages === 0) {
-        setError("No matching images found. Try a different description.");
+      if (!response.primary_image) {
+        setError("Analysis could not find a matching image. Try different content.");
       } else {
-        applyResponse(response);
+        setTheReframe(response.the_reframe);
+        setTheMechanism(response.the_mechanism);
+        setPrimaryImage(response.primary_image);
+        setContrastImage(response.contrast_image);
+        setShareVariants(response.share_variants);
 
         // Save to history
         const entry = saveToHistory({
           query: text,
-          whats_happening: response.whats_happening,
-          the_players: response.the_players,
-          whats_missing: response.whats_missing,
-          what_actually_helps: response.what_actually_helps,
-          example_comment: response.example_comment,
-          problem_images: response.problem_images,
-          solution_images: response.solution_images
+          the_reframe: response.the_reframe,
+          the_mechanism: response.the_mechanism,
+          primary_image: response.primary_image,
+          contrast_image: response.contrast_image,
+          share_variants: response.share_variants
         });
         setHistory(prev => [entry, ...prev.slice(0, 49)]);
       }
     } catch (err) {
-      console.error("Search error:", err);
+      console.error("Analysis error:", err);
       setError("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
@@ -170,7 +117,6 @@ export default function Home() {
     setLoadingMessage("Analyzing screenshot...");
     setOcrProgress(0);
 
-    // Create preview and get base64 from uploaded file
     const reader = new FileReader();
 
     reader.onload = async (e) => {
@@ -184,8 +130,7 @@ export default function Home() {
       setSourcePreview({ type: "screenshot", image: imageBase64 });
 
       try {
-        // Use vision AI to analyze both text AND visual content
-        setLoadingMessage("Analyzing visual content...");
+        setLoadingMessage("Reading visual content...");
         setOcrProgress(30);
 
         const visionResponse = await fetch('/api/analyze-screenshot', {
@@ -202,44 +147,38 @@ export default function Home() {
         const screenshotAnalysis = visionData.analysis;
 
         if (!screenshotAnalysis) {
-          setError("Could not analyze the screenshot. Try another image or use a different input method.");
+          setError("Could not analyze the screenshot. Try another image.");
           setIsLoading(false);
           return;
         }
 
         setOcrProgress(60);
 
-        // Format the analysis for the mismatch framework
-        const analysisInput = `SCREENSHOT ANALYSIS:
-
-${screenshotAnalysis}
-
-Analyze both the textual and visual elements through the mismatch lens. Consider the platform, UI patterns, engagement metrics, and visual content - not just the text.`;
-
+        const analysisInput = `SCREENSHOT ANALYSIS:\n\n${screenshotAnalysis}\n\nAnalyze both the textual and visual elements.`;
         setInputText(screenshotAnalysis.substring(0, 500) + "...");
         setCurrentQuery(analysisInput);
 
-        setLoadingMessage("Analyzing with mismatch framework...");
+        setLoadingMessage("Analyzing through the lens...");
         setOcrProgress(80);
 
-        const response = await searchImagesWithLLM(analysisInput);
+        const response = await analyzeWithLLM(analysisInput);
 
-        const totalImages = response.problem_images.length + response.solution_images.length;
-        if (totalImages === 0) {
-          setError("No matching images found. Try a different screenshot.");
+        if (!response.primary_image) {
+          setError("Analysis could not find a matching image. Try different content.");
         } else {
-          applyResponse(response);
+          setTheReframe(response.the_reframe);
+          setTheMechanism(response.the_mechanism);
+          setPrimaryImage(response.primary_image);
+          setContrastImage(response.contrast_image);
+          setShareVariants(response.share_variants);
 
-          // Save to history (store the full analysis as query)
           const entry = saveToHistory({
             query: analysisInput,
-            whats_happening: response.whats_happening,
-            the_players: response.the_players,
-            whats_missing: response.whats_missing,
-            what_actually_helps: response.what_actually_helps,
-            example_comment: response.example_comment,
-            problem_images: response.problem_images,
-            solution_images: response.solution_images
+            the_reframe: response.the_reframe,
+            the_mechanism: response.the_mechanism,
+            primary_image: response.primary_image,
+            contrast_image: response.contrast_image,
+            share_variants: response.share_variants
           });
           setHistory(prev => [entry, ...prev.slice(0, 49)]);
         }
@@ -302,13 +241,12 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 
       const data = await response.json();
 
-      // Set preview with og:image if available
       if (data.ogImage) {
         setSourcePreview({ type: "url", image: data.ogImage, url: urlInput });
       }
 
       setInputText(data.text);
-      await handleSearch(data.text);
+      await handleAnalysis(data.text);
     } catch (err) {
       console.error("Scrape error:", err);
       setError(err instanceof Error ? err.message : "Failed to fetch URL content");
@@ -341,7 +279,6 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 
       const data = await response.json();
 
-      // Set preview with thumbnail
       setSourcePreview({
         type: "youtube",
         image: data.thumbnailUrl,
@@ -354,26 +291,25 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
       setInputText(data.content.substring(0, 500) + "...");
       setCurrentQuery(data.content);
 
-      // Now analyze with the mismatch framework
-      setLoadingMessage("Analyzing with mismatch framework...");
-      const searchResponse = await searchImagesWithLLM(data.content);
+      setLoadingMessage("Analyzing through the lens...");
+      const analysisResponse = await analyzeWithLLM(data.content);
 
-      const totalImages = searchResponse.problem_images.length + searchResponse.solution_images.length;
-      if (totalImages === 0) {
-        setError("No matching images found. Try a different video.");
+      if (!analysisResponse.primary_image) {
+        setError("Analysis could not find a matching image. Try different content.");
       } else {
-        applyResponse(searchResponse);
+        setTheReframe(analysisResponse.the_reframe);
+        setTheMechanism(analysisResponse.the_mechanism);
+        setPrimaryImage(analysisResponse.primary_image);
+        setContrastImage(analysisResponse.contrast_image);
+        setShareVariants(analysisResponse.share_variants);
 
-        // Save to history
         const entry = saveToHistory({
           query: data.content,
-          whats_happening: searchResponse.whats_happening,
-          the_players: searchResponse.the_players,
-          whats_missing: searchResponse.whats_missing,
-          what_actually_helps: searchResponse.what_actually_helps,
-          example_comment: searchResponse.example_comment,
-          problem_images: searchResponse.problem_images,
-          solution_images: searchResponse.solution_images
+          the_reframe: analysisResponse.the_reframe,
+          the_mechanism: analysisResponse.the_mechanism,
+          primary_image: analysisResponse.primary_image,
+          contrast_image: analysisResponse.contrast_image,
+          share_variants: analysisResponse.share_variants
         });
         setHistory(prev => [entry, ...prev.slice(0, 49)]);
       }
@@ -386,18 +322,36 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
     }
   };
 
+  const handleRegenerate = async () => {
+    if (!currentQuery || !theReframe) return;
+
+    setIsRegenerating(true);
+    try {
+      const newText = await regenerateShareText(
+        currentQuery,
+        theReframe,
+        theMechanism,
+        selectedLength
+      );
+      setShareVariants(prev => ({ ...prev, [selectedLength]: newText }));
+      showToast("Regenerated!");
+    } catch (err) {
+      console.error("Regenerate error:", err);
+      showToast("Failed to regenerate");
+    } finally {
+      setIsRegenerating(false);
+    }
+  };
+
   const loadHistoryEntry = (entry: HistoryEntry) => {
-    setWhatsHappening(entry.whats_happening);
-    setThePlayers(entry.the_players || "");
-    setWhatsMissing(entry.whats_missing);
-    setWhatActuallyHelps(entry.what_actually_helps || "");
-    setExampleComment(entry.example_comment || "");
-    setProblemImages(entry.problem_images);
-    setSolutionImages(entry.solution_images);
+    setTheReframe(entry.the_reframe);
+    setTheMechanism(entry.the_mechanism);
+    setPrimaryImage(entry.primary_image);
+    setContrastImage(entry.contrast_image);
+    setShareVariants(entry.share_variants);
     setCurrentQuery(entry.query);
     setInputText(entry.query);
     setShowHistory(false);
-    setShowThePlayers(false);
     setFollowUpQuestion("");
     setError("");
   };
@@ -406,18 +360,18 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
     e.stopPropagation();
     deleteHistoryEntry(id);
     setHistory(prev => prev.filter(entry => entry.id !== id));
-    showToast("Search deleted from history");
+    showToast("Deleted from history");
   };
 
   const handleClearHistory = () => {
-    if (confirm("Clear all search history?")) {
+    if (confirm("Clear all history?")) {
       clearHistory();
       setHistory([]);
       showToast("History cleared");
     }
   };
 
-  // Add watermark to image using Canvas
+  // Watermark helper
   const addWatermark = async (imageUrl: string): Promise<Blob> => {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -432,10 +386,8 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
           return;
         }
 
-        // Draw original image
         ctx.drawImage(img, 0, 0);
 
-        // Configure watermark
         const watermarkText = "demismatch.com";
         const padding = 10;
         const fontSize = Math.max(12, Math.min(24, img.width / 30));
@@ -448,16 +400,9 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
         const x = img.width - padding;
         const y = img.height - padding;
 
-        // Draw semi-transparent background
         ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
-        ctx.fillRect(
-          x - textWidth - 8,
-          y - fontSize - 4,
-          textWidth + 16,
-          fontSize + 8
-        );
+        ctx.fillRect(x - textWidth - 8, y - fontSize - 4, textWidth + 16, fontSize + 8);
 
-        // Draw watermark text
         ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
         ctx.fillText(watermarkText, x, y);
 
@@ -475,21 +420,21 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
     });
   };
 
-  const copyToClipboard = async (imageUrl: string) => {
+  const copyImageToClipboard = async (imageUrl: string) => {
     try {
       showToast("Preparing image...");
       const watermarkedBlob = await addWatermark(imageUrl);
       await navigator.clipboard.write([
         new ClipboardItem({ [watermarkedBlob.type]: watermarkedBlob }),
       ]);
-      showToast("Image copied to clipboard!");
+      showToast("Image copied!");
     } catch (err) {
       console.error("Copy error:", err);
       try {
         await navigator.clipboard.writeText(imageUrl);
-        showToast("Image URL copied to clipboard!");
+        showToast("URL copied!");
       } catch {
-        showToast("Failed to copy image");
+        showToast("Failed to copy");
       }
     }
   };
@@ -506,10 +451,18 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      showToast("Image downloaded!");
+      showToast("Downloaded!");
     } catch (err) {
       console.error("Download error:", err);
-      showToast("Failed to download image");
+      showToast("Failed to download");
+    }
+  };
+
+  const copyShareText = () => {
+    const text = shareVariants[selectedLength];
+    if (text) {
+      navigator.clipboard.writeText(text);
+      showToast("Copied!");
     }
   };
 
@@ -517,20 +470,20 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
     <main className="min-h-screen bg-[#FAF9F6] text-[#1A1A1A]">
       <Navigation />
 
-      {/* Header with padding for fixed nav */}
+      {/* Header */}
       <header className="pt-24 pb-4 px-6 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold mb-2" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Mismatch Analyzer</h1>
+        <h1 className="text-3xl md:text-4xl font-bold mb-2" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+          Mismatch Analyzer
+        </h1>
         <p className="text-[#4A4A4A] text-sm tracking-wide">
-          See any content through the mismatch lens
+          See any content through the evolutionary lens
         </p>
-        {/* History Button */}
         <button
           className="mt-4 py-2 px-4 flex items-center gap-2 text-sm text-[#4A4A4A] hover:text-[#C75B39] border border-[#E5E0D8] hover:border-[#C75B39] transition-colors mx-auto rounded"
           onClick={() => setShowHistory(!showHistory)}
-          title="Your saved searches on this device"
         >
           <HistoryIcon />
-          My Searches
+          History
           {history.length > 0 && (
             <span className="text-xs bg-[#C75B39] text-white rounded-full px-1.5">
               {history.length}
@@ -546,16 +499,15 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
             className="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white border-l border-[#E5E0D8] overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* History Header */}
             <div className="p-4 border-b border-[#E5E0D8] flex items-center justify-between">
-              <h2 className="text-lg font-bold tracking-wide text-[#1A1A1A]">Search History</h2>
+              <h2 className="text-lg font-bold tracking-wide text-[#1A1A1A]">History</h2>
               <div className="flex gap-2">
                 {history.length > 0 && (
                   <button
                     className="text-xs text-[#8B8B8B] hover:text-red-500"
                     onClick={handleClearHistory}
                   >
-                    Clear All
+                    Clear
                   </button>
                 )}
                 <button
@@ -567,13 +519,11 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
               </div>
             </div>
 
-            {/* History List */}
             <div className="flex-1 overflow-y-auto">
               {history.length === 0 ? (
                 <div className="p-8 text-center text-[#8B8B8B]">
                   <HistoryIcon />
-                  <p className="mt-2">No search history yet</p>
-                  <p className="text-sm mt-1">Your searches will appear here</p>
+                  <p className="mt-2">No history yet</p>
                 </div>
               ) : (
                 <div className="divide-y divide-[#E5E0D8]">
@@ -586,10 +536,10 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex-1 min-w-0">
                           <p className="text-sm text-[#1A1A1A] line-clamp-2 mb-1">
-                            {entry.query}
+                            {entry.the_reframe.substring(0, 100)}...
                           </p>
                           <p className="text-xs text-[#8B8B8B]">
-                            {formatTimestamp(entry.timestamp)} · {entry.problem_images.length + entry.solution_images.length} images
+                            {formatTimestamp(entry.timestamp)}
                           </p>
                         </div>
                         <button
@@ -599,28 +549,16 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
                           <TrashIcon />
                         </button>
                       </div>
-
-                      {/* Preview thumbnails */}
-                      <div className="flex gap-1 mt-2">
-                        {[...entry.problem_images, ...entry.solution_images].slice(0, 4).map((result, i) => (
-                          <div
-                            key={i}
-                            className="w-10 h-10 rounded overflow-hidden bg-[#F5F3EF]"
-                          >
-                            <img
-                              src={result.image_url}
-                              alt=""
-                              className="w-full h-full object-cover"
-                              loading="lazy"
-                            />
-                          </div>
-                        ))}
-                        {entry.problem_images.length + entry.solution_images.length > 4 && (
-                          <div className="w-10 h-10 rounded bg-[#F5F3EF] flex items-center justify-center text-xs text-[#8B8B8B]">
-                            +{entry.problem_images.length + entry.solution_images.length - 4}
-                          </div>
-                        )}
-                      </div>
+                      {entry.primary_image && (
+                        <div className="mt-2 w-12 h-12 rounded overflow-hidden bg-[#F5F3EF]">
+                          <img
+                            src={entry.primary_image.image_url}
+                            alt=""
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -631,7 +569,7 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
       )}
 
       {/* Main Content */}
-      <div className="flex-1 p-4 md:p-8 max-w-4xl mx-auto w-full">
+      <div className="flex-1 p-4 md:p-8 max-w-3xl mx-auto w-full">
         {/* Input Tabs */}
         <div className="flex border-b border-[#E5E0D8] mb-6 overflow-x-auto">
           {[
@@ -662,33 +600,27 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
         </div>
 
         {/* Input Areas */}
-        <div className="mb-6 max-w-2xl mx-auto">
+        <div className="mb-6">
           {mode === "describe" && (
             <div className="animate-fadeIn">
-              <label className="block text-sm text-[#4A4A4A] mb-2 tracking-wide">
-                Describe the situation or content
-              </label>
               <textarea
-                className="w-full p-4 min-h-[120px] resize-none bg-white border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg"
-                placeholder="e.g., Someone bragging about working 80 hours a week..."
+                className="w-full p-4 min-h-[120px] resize-none bg-white border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg text-base"
+                placeholder="Describe what you're seeing... e.g., Someone bragging about working 80 hours a week"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
               />
               <button
                 className="w-full mt-4 px-6 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 rounded-lg"
-                onClick={() => handleSearch(inputText)}
+                onClick={() => handleAnalysis(inputText)}
                 disabled={isLoading}
               >
                 {isLoading ? (
                   <>
-                    <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <Spinner />
                     {loadingMessage}
                   </>
                 ) : (
-                  <>
-                    <SearchIcon />
-                    Find Mismatch
-                  </>
+                  "Analyze"
                 )}
               </button>
             </div>
@@ -696,30 +628,24 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 
           {mode === "text" && (
             <div className="animate-fadeIn">
-              <label className="block text-sm text-[#4A4A4A] mb-2 tracking-wide">
-                Paste the content you want to respond to
-              </label>
               <textarea
-                className="w-full p-4 min-h-[200px] resize-none bg-white border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg"
+                className="w-full p-4 min-h-[180px] resize-none bg-white border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg text-base"
                 placeholder="Paste article text, social media post, or any content..."
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
               />
               <button
                 className="w-full mt-4 px-6 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 rounded-lg"
-                onClick={() => handleSearch(inputText)}
+                onClick={() => handleAnalysis(inputText)}
                 disabled={isLoading}
               >
                 {isLoading ? (
                   <>
-                    <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <Spinner />
                     {loadingMessage}
                   </>
                 ) : (
-                  <>
-                    <SearchIcon />
-                    Find Mismatch
-                  </>
+                  "Analyze"
                 )}
               </button>
             </div>
@@ -727,9 +653,6 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 
           {mode === "url" && (
             <div className="animate-fadeIn">
-              <label className="block text-sm text-[#4A4A4A] mb-2 tracking-wide">
-                Enter the URL of an article or page
-              </label>
               <input
                 type="url"
                 className="w-full p-4 bg-white border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg"
@@ -744,14 +667,11 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
               >
                 {isLoading ? (
                   <>
-                    <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <Spinner />
                     {loadingMessage}
                   </>
                 ) : (
-                  <>
-                    <LinkIcon />
-                    Fetch & Search
-                  </>
+                  "Fetch & Analyze"
                 )}
               </button>
             </div>
@@ -759,19 +679,13 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 
           {mode === "youtube" && (
             <div className="animate-fadeIn">
-              <label className="block text-sm text-[#4A4A4A] mb-2 tracking-wide">
-                Enter a YouTube video URL
-              </label>
               <input
                 type="url"
                 className="w-full p-4 bg-white border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg"
-                placeholder="https://youtube.com/watch?v=... or https://youtu.be/..."
+                placeholder="https://youtube.com/watch?v=..."
                 value={youtubeUrl}
                 onChange={(e) => setYoutubeUrl(e.target.value)}
               />
-              <p className="text-xs text-[#8B8B8B] mt-2">
-                Works with youtube.com, youtu.be, and YouTube Shorts links
-              </p>
               <button
                 className="w-full mt-4 px-6 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 rounded-lg"
                 onClick={handleYouTubeAnalyze}
@@ -779,14 +693,11 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
               >
                 {isLoading ? (
                   <>
-                    <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <Spinner />
                     {loadingMessage}
                   </>
                 ) : (
-                  <>
-                    <YouTubeIcon />
-                    Analyze Video
-                  </>
+                  "Analyze Video"
                 )}
               </button>
             </div>
@@ -794,11 +705,8 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 
           {mode === "screenshot" && (
             <div className="animate-fadeIn">
-              <label className="block text-sm text-[#4A4A4A] mb-2 tracking-wide">
-                Upload a screenshot to analyze
-              </label>
               <div
-                className={`flex flex-col items-center justify-center gap-4 min-h-[200px] p-8 border-2 border-dashed cursor-pointer transition-colors rounded-lg ${
+                className={`flex flex-col items-center justify-center gap-4 min-h-[180px] p-8 border-2 border-dashed cursor-pointer transition-colors rounded-lg ${
                   isDragging
                     ? "border-[#C75B39] bg-[#C75B39]/5"
                     : "border-[#E5E0D8] hover:border-[#C75B39] hover:bg-[#F5F3EF]"
@@ -820,7 +728,7 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
                 />
                 {isLoading ? (
                   <>
-                    <span className="w-8 h-8 border-2 border-[#C75B39]/30 border-t-[#C75B39] rounded-full animate-spin" />
+                    <Spinner />
                     <p className="text-sm text-[#4A4A4A]">
                       {loadingMessage} {ocrProgress > 0 && `(${ocrProgress}%)`}
                     </p>
@@ -840,400 +748,219 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 
         {/* Error Message */}
         {error && (
-          <div className="p-4 mb-6 bg-red-50 border border-red-200 text-red-600 text-sm animate-fadeIn max-w-2xl mx-auto rounded-lg">
+          <div className="p-4 mb-6 bg-red-50 border border-red-200 text-red-600 text-sm animate-fadeIn rounded-lg">
             {error}
           </div>
         )}
 
-        {/* Example Output for First-Time Users */}
+        {/* Example for First-Time Users */}
         {!hasResults && !isLoading && !error && (
-          <div className="mb-8 max-w-2xl mx-auto">
+          <div className="mb-8">
             <div className="p-6 bg-gradient-to-br from-[#F5F3EF] to-white border border-[#E5E0D8] rounded-lg">
-              <p className="text-xs text-[#8B8B8B] uppercase tracking-wide mb-3">Example Analysis</p>
+              <p className="text-xs text-[#8B8B8B] uppercase tracking-wide mb-3">Example</p>
               <div className="mb-4 p-3 bg-white border border-[#E5E0D8] rounded">
                 <p className="text-sm text-[#4A4A4A] italic">&quot;Someone bragging about working 80 hours a week&quot;</p>
               </div>
-              <div className="space-y-3 text-sm text-[#4A4A4A]">
-                <div>
-                  <p className="font-medium text-[#C75B39] mb-1">What&apos;s Happening:</p>
-                  <p>Hustle culture performative display seeking status through overwork signaling. The person is broadcasting sleep deprivation as virtue, mistaking exhaustion for productivity.</p>
-                </div>
-                <div>
-                  <p className="font-medium text-[#C75B39] mb-1">What&apos;s Missing:</p>
-                  <p>Rest as biological necessity. The EEA included daily downtime, seasonal variation, and social rest periods. Modern hustle culture treats rest as laziness rather than recovery.</p>
-                </div>
-                <div>
-                  <p className="font-medium text-[#C75B39] mb-1">What Actually Helps:</p>
-                  <p>Work-life boundaries, protected rest, visible output over visible hours. Recognize that presence ≠ productivity.</p>
-                </div>
-              </div>
-              <p className="text-xs text-[#8B8B8B] mt-4 text-center">Try describing any situation above to see the mismatch analysis</p>
-            </div>
-          </div>
-        )}
-
-        {/* Source Preview (Screenshot, URL og:image, or YouTube) */}
-        {sourcePreview && hasResults && (
-          <div className="mb-6 animate-fadeIn">
-            <div className="p-4 bg-white border border-[#E5E0D8] rounded-lg">
-              <p className="text-xs text-[#8B8B8B] uppercase tracking-wide mb-3">
-                {sourcePreview.type === "screenshot" ? "Analyzed Screenshot" : sourcePreview.type === "youtube" ? "YouTube Video" : "Source"}
-              </p>
-              <div className="flex gap-4 items-start">
-                <div className={`${sourcePreview.type === "youtube" ? "w-40 h-24" : "w-32 h-32"} flex-shrink-0 overflow-hidden bg-[#F5F3EF] rounded`}>
-                  <img
-                    src={sourcePreview.image}
-                    alt="Source preview"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  {sourcePreview.type === "youtube" && sourcePreview.title && (
-                    <p className="text-sm font-medium text-[#1A1A1A] mb-1 line-clamp-2">
-                      {sourcePreview.title}
-                    </p>
-                  )}
-                  {sourcePreview.type === "youtube" && sourcePreview.channel && (
-                    <p className="text-xs text-[#8B8B8B] mb-2">
-                      {sourcePreview.channel}
-                    </p>
-                  )}
-                  {sourcePreview.url && (
-                    <a
-                      href={sourcePreview.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-[#C75B39] hover:underline break-all"
-                    >
-                      {sourcePreview.type === "youtube" ? "Watch on YouTube" : sourcePreview.url}
-                    </a>
-                  )}
-                </div>
+              <div className="space-y-4 text-[#4A4A4A]">
+                <p className="text-base leading-relaxed">
+                  For 300,000 years, work meant doing things that directly benefited people you could see, people you loved, people who would do the same for you tomorrow. Three to four hours daily. The rest was rest, socializing, being human.
+                </p>
+                <p className="text-base leading-relaxed">
+                  The 80-hour brag is status signaling in an environment where exhaustion has become virtue. The biology reads it correctly: this person is depleted. The culture reads it backwards: this person is valuable.
+                </p>
               </div>
             </div>
           </div>
         )}
 
-        {/* Current Query Display */}
-        {currentQuery && hasResults && !sourcePreview && (
-          <div className="mb-4 p-3 bg-white border border-[#E5E0D8] rounded-lg">
-            <p className="text-xs text-[#8B8B8B] uppercase tracking-wide mb-1">Query</p>
-            <p className="text-sm text-[#4A4A4A] line-clamp-2">{currentQuery}</p>
-          </div>
-        )}
-
-        {/* WHAT'S HAPPENING Section */}
-        {whatsHappening && (
-          <div className="mb-6 animate-fadeIn">
-            <div className="p-5 bg-white border border-[#E5E0D8] rounded-lg">
-              <h2 className="text-xs font-bold tracking-[0.2em] text-[#C75B39] uppercase mb-3">
-                What&apos;s Happening
-              </h2>
-              <p className="text-[#1A1A1A] text-lg leading-relaxed">
-                {whatsHappening}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* Problem Images */}
-        {problemImages.length > 0 && (
-          <div className="mb-8 animate-fadeIn">
-            <h3 className="text-xs font-bold tracking-[0.2em] text-[#8B8B8B] uppercase mb-3">
-              The Dynamic at Play
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {problemImages.map((image, index) => (
-                <div
-                  key={image.id}
-                  className="group relative overflow-hidden cursor-pointer bg-[#F5F3EF] rounded-lg animate-fadeIn"
-                  style={{ animationDelay: `${index * 50}ms` }}
-                  onClick={() => setSelectedImage(image)}
-                >
-                  <img
-                    src={image.image_url}
-                    alt={image.title}
-                    className="w-full aspect-square object-cover group-hover:opacity-80 transition-opacity"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="absolute bottom-0 left-0 right-0 p-2">
-                      <p className="text-white text-xs line-clamp-2">{image.reason}</p>
-                    </div>
+        {/* Results */}
+        {hasResults && (
+          <div className="space-y-6 animate-fadeIn">
+            {/* Source Preview */}
+            {sourcePreview && (
+              <div className="p-4 bg-white border border-[#E5E0D8] rounded-lg">
+                <div className="flex gap-4 items-start">
+                  <div className={`${sourcePreview.type === "youtube" ? "w-32 h-20" : "w-20 h-20"} flex-shrink-0 overflow-hidden bg-[#F5F3EF] rounded`}>
+                    <img
+                      src={sourcePreview.image}
+                      alt="Source"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                  <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button
-                      className="p-1.5 bg-black/60 hover:bg-black/80 rounded"
-                      onClick={(e) => { e.stopPropagation(); copyToClipboard(image.image_url); }}
-                    >
-                      <CopyIcon />
-                    </button>
-                    <button
-                      className="p-1.5 bg-black/60 hover:bg-black/80 rounded"
-                      onClick={(e) => { e.stopPropagation(); downloadImage(image); }}
-                    >
-                      <DownloadIcon />
-                    </button>
+                  <div className="flex-1 min-w-0">
+                    {sourcePreview.title && (
+                      <p className="text-sm font-medium text-[#1A1A1A] mb-1 line-clamp-2">
+                        {sourcePreview.title}
+                      </p>
+                    )}
+                    {sourcePreview.channel && (
+                      <p className="text-xs text-[#8B8B8B]">{sourcePreview.channel}</p>
+                    )}
+                    {sourcePreview.url && (
+                      <a
+                        href={sourcePreview.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-[#C75B39] hover:underline"
+                      >
+                        View source
+                      </a>
+                    )}
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* WHAT'S MISSING Section */}
-        {whatsMissing && (
-          <div className="mb-6 animate-fadeIn">
-            <div className="p-5 bg-white border-2 border-[#C75B39]/30 rounded-lg">
-              <h2 className="text-xs font-bold tracking-[0.2em] text-[#C75B39] uppercase mb-3">
-                What&apos;s Missing
-              </h2>
-              <p className="text-[#4A4A4A] text-lg leading-relaxed">
-                {whatsMissing}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* Solution Images */}
-        {solutionImages.length > 0 && (
-          <div className="mb-8 animate-fadeIn">
-            <h3 className="text-xs font-bold tracking-[0.2em] text-[#8B8B8B] uppercase mb-3">
-              What Actually Helps
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {solutionImages.map((image, index) => (
-                <div
-                  key={image.id}
-                  className="group relative overflow-hidden cursor-pointer bg-[#F5F3EF] rounded-lg animate-fadeIn"
-                  style={{ animationDelay: `${index * 50}ms` }}
-                  onClick={() => setSelectedImage(image)}
-                >
-                  <img
-                    src={image.image_url}
-                    alt={image.title}
-                    className="w-full aspect-square object-cover group-hover:opacity-80 transition-opacity"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="absolute bottom-0 left-0 right-0 p-2">
-                      <p className="text-white text-xs line-clamp-2">{image.reason}</p>
-                    </div>
-                  </div>
-                  <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button
-                      className="p-1.5 bg-black/60 hover:bg-black/80 rounded"
-                      onClick={(e) => { e.stopPropagation(); copyToClipboard(image.image_url); }}
-                    >
-                      <CopyIcon />
-                    </button>
-                    <button
-                      className="p-1.5 bg-black/60 hover:bg-black/80 rounded"
-                      onClick={(e) => { e.stopPropagation(); downloadImage(image); }}
-                    >
-                      <DownloadIcon />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* THE PLAYERS Section (Collapsible) */}
-        {thePlayers && (
-          <div className="mb-8 animate-fadeIn">
-            <button
-              className="w-full p-4 bg-white border border-[#E5E0D8] text-left flex items-center justify-between hover:bg-[#F5F3EF] transition-colors rounded-lg"
-              onClick={() => setShowThePlayers(!showThePlayers)}
-            >
-              <span className="text-sm font-bold tracking-[0.15em] text-[#4A4A4A] uppercase">
-                The Players
-              </span>
-              <span className="text-[#8B8B8B]">
-                {showThePlayers ? "−" : "+"}
-              </span>
-            </button>
-            {showThePlayers && (
-              <div className="mt-2 p-5 bg-white border border-[#E5E0D8] rounded-lg animate-fadeIn">
-                <div
-                  className="text-[#4A4A4A] text-sm leading-relaxed prose prose-sm max-w-none"
-                  dangerouslySetInnerHTML={{
-                    __html: thePlayers
-                      .replace(/\*\*\[([^\]]+)\]:\*\*/g, '<strong class="text-[#C75B39] block mt-3 first:mt-0">$1:</strong>')
-                      .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-[#1A1A1A]">$1</strong>')
-                  }}
-                />
               </div>
             )}
-          </div>
-        )}
 
-        {/* WHAT ACTUALLY HELPS Section */}
-        {whatActuallyHelps && (
-          <div className="mb-6 animate-fadeIn">
-            <div className="p-5 bg-green-50 border border-green-200 rounded-lg">
-              <h2 className="text-xs font-bold tracking-[0.2em] text-green-700 uppercase mb-3">
-                What Actually Helps
-              </h2>
-              <p className="text-[#4A4A4A] text-lg leading-relaxed">
-                {whatActuallyHelps}
+            {/* Primary Image - Hero */}
+            {primaryImage && (
+              <div
+                className="relative overflow-hidden rounded-lg cursor-pointer group"
+                onClick={() => setSelectedImage(primaryImage)}
+              >
+                <img
+                  src={primaryImage.image_url}
+                  alt={primaryImage.title}
+                  className="w-full max-h-[500px] object-contain bg-[#F5F3EF]"
+                />
+                <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button
+                    className="p-2 bg-white/90 hover:bg-white rounded-lg shadow"
+                    onClick={(e) => { e.stopPropagation(); copyImageToClipboard(primaryImage.image_url); }}
+                  >
+                    <CopyIcon />
+                  </button>
+                  <button
+                    className="p-2 bg-white/90 hover:bg-white rounded-lg shadow"
+                    onClick={(e) => { e.stopPropagation(); downloadImage(primaryImage); }}
+                  >
+                    <DownloadIcon />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* The Reframe */}
+            <div className="prose prose-lg max-w-none">
+              <p className="text-lg md:text-xl leading-relaxed text-[#1A1A1A]">
+                {theReframe}
               </p>
             </div>
-          </div>
-        )}
 
-        {/* EXAMPLE COMMENT Section */}
-        {exampleComment && (
-          <div className="mb-8 animate-fadeIn">
+            {/* The Mechanism */}
+            {theMechanism && (
+              <div className="prose prose-lg max-w-none">
+                <p className="text-base md:text-lg leading-relaxed text-[#4A4A4A]">
+                  {theMechanism}
+                </p>
+              </div>
+            )}
+
+            {/* Contrast Image (optional, smaller) */}
+            {contrastImage && (
+              <div
+                className="relative overflow-hidden rounded-lg cursor-pointer group max-w-sm"
+                onClick={() => setSelectedImage(contrastImage)}
+              >
+                <img
+                  src={contrastImage.image_url}
+                  alt={contrastImage.title}
+                  className="w-full object-contain bg-[#F5F3EF]"
+                />
+                <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button
+                    className="p-1.5 bg-white/90 hover:bg-white rounded shadow"
+                    onClick={(e) => { e.stopPropagation(); copyImageToClipboard(contrastImage.image_url); }}
+                  >
+                    <CopyIcon />
+                  </button>
+                </div>
+                {contrastImage.reason && (
+                  <p className="text-xs text-[#8B8B8B] mt-2 italic">{contrastImage.reason}</p>
+                )}
+              </div>
+            )}
+
+            {/* Share Section */}
             <div className="p-5 bg-white border border-[#E5E0D8] rounded-lg">
-              <div className="flex items-center justify-between mb-3">
-                <h2 className="text-xs font-bold tracking-[0.2em] text-[#C75B39] uppercase">
-                  Share This Take
-                </h2>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-bold tracking-wide text-[#4A4A4A] uppercase">Share</h3>
+                <div className="flex gap-1 bg-[#F5F3EF] p-1 rounded-lg">
+                  {(["short", "medium", "long"] as ShareLength[]).map((len) => (
+                    <button
+                      key={len}
+                      className={`px-3 py-1.5 text-xs font-medium rounded transition-colors ${
+                        selectedLength === len
+                          ? "bg-white text-[#C75B39] shadow-sm"
+                          : "text-[#8B8B8B] hover:text-[#1A1A1A]"
+                      }`}
+                      onClick={() => setSelectedLength(len)}
+                    >
+                      {len.charAt(0).toUpperCase() + len.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="relative min-h-[100px]">
+                {isRegenerating && (
+                  <div className="absolute inset-0 bg-white/80 flex items-center justify-center rounded">
+                    <Spinner />
+                  </div>
+                )}
+                <p className="text-[#1A1A1A] text-base leading-relaxed whitespace-pre-wrap">
+                  {shareVariants[selectedLength] || "..."}
+                </p>
+              </div>
+
+              <div className="flex gap-3 mt-4">
                 <button
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-[#C75B39] text-white text-xs font-medium hover:bg-[#A84A2D] transition-colors rounded"
-                  onClick={() => {
-                    navigator.clipboard.writeText(exampleComment);
-                    showToast("Comment copied to clipboard!");
-                  }}
+                  className="flex-1 px-4 py-2.5 bg-[#C75B39] text-white text-sm font-medium hover:bg-[#A84A2D] transition-colors rounded-lg flex items-center justify-center gap-2"
+                  onClick={copyShareText}
                 >
                   <CopyIcon />
                   Copy
                 </button>
-              </div>
-
-              {/* Comment Display */}
-              <div className="relative">
-                {isRegenerating && (
-                  <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
-                    <span className="w-5 h-5 border-2 border-[#C75B39]/30 border-t-[#C75B39] rounded-full animate-spin" />
-                  </div>
-                )}
-                <p className="text-[#1A1A1A] text-base leading-relaxed italic">
-                  &ldquo;{exampleComment}&rdquo;
-                </p>
-              </div>
-
-              {/* Sliders and Regenerate */}
-              <div className="mt-4 pt-4 border-t border-[#E5E0D8]">
-                {/* Length Slider */}
-                <div className="mb-4">
-                  <div className="flex justify-between items-center mb-2">
-                    <label className="text-xs text-[#8B8B8B] uppercase tracking-wide">
-                      Length
-                    </label>
-                    <span className="text-xs text-[#1A1A1A] font-medium">
-                      {commentLength} sentence{commentLength > 1 ? 's' : ''}
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="1"
-                    max="30"
-                    value={commentLength}
-                    onChange={(e) => setCommentLength(parseInt(e.target.value))}
-                    className="w-full h-2 bg-[#E5E0D8] appearance-none cursor-pointer accent-[#C75B39] rounded"
-                    style={{
-                      background: `linear-gradient(to right, #C75B39 0%, #C75B39 ${((commentLength - 1) / 29) * 100}%, #E5E0D8 ${((commentLength - 1) / 29) * 100}%, #E5E0D8 100%)`
-                    }}
-                  />
-                </div>
-
-                {/* Tone Slider */}
-                <div className="mb-4">
-                  <div className="flex justify-between items-center mb-2">
-                    <label className="text-xs text-[#8B8B8B] uppercase tracking-wide">
-                      Tone
-                    </label>
-                    <span className="text-xs text-[#1A1A1A] font-medium">
-                      {getToneLabel(commentTone)}
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={commentTone}
-                    onChange={(e) => setCommentTone(parseInt(e.target.value))}
-                    className="w-full h-2 bg-[#E5E0D8] appearance-none cursor-pointer accent-[#C75B39] rounded"
-                    style={{
-                      background: `linear-gradient(to right, #C75B39 0%, #C75B39 ${commentTone}%, #E5E0D8 ${commentTone}%, #E5E0D8 100%)`
-                    }}
-                  />
-                  <div className="flex justify-between text-[10px] text-[#8B8B8B] mt-1">
-                    <span>Respectful</span>
-                    <span>Extremely Sassy</span>
-                  </div>
-                </div>
-
-                {/* Regenerate Button */}
                 <button
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#F5F3EF] text-[#1A1A1A] text-sm font-medium hover:bg-[#E5E0D8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
-                  onClick={regenerateComment}
+                  className="px-4 py-2.5 bg-[#F5F3EF] text-[#4A4A4A] text-sm font-medium hover:bg-[#E5E0D8] transition-colors rounded-lg flex items-center justify-center gap-2"
+                  onClick={handleRegenerate}
                   disabled={isRegenerating}
                 >
-                  {isRegenerating ? (
-                    <>
-                      <span className="w-4 h-4 border-2 border-[#1A1A1A]/30 border-t-[#1A1A1A] rounded-full animate-spin" />
-                      Regenerating...
-                    </>
-                  ) : (
-                    <>
-                      <RefreshIcon />
-                      Regenerate Comment
-                    </>
-                  )}
+                  <RefreshIcon />
+                  Regenerate
                 </button>
               </div>
-
-              <p className="text-[#8B8B8B] text-xs mt-3">
-                Adjust sliders and hit regenerate to customize your comment
-              </p>
             </div>
-          </div>
-        )}
 
-        {/* FOLLOW-UP QUESTION Section */}
-        {hasResults && (
-          <div className="mb-8 animate-fadeIn">
-            <div className="p-5 bg-white border border-[#E5E0D8] rounded-lg">
-              <h2 className="text-xs font-bold tracking-[0.2em] text-[#4A4A4A] uppercase mb-3">
-                Ask a Follow-up
-              </h2>
+            {/* Follow-up */}
+            <div className="p-4 bg-white border border-[#E5E0D8] rounded-lg">
               <div className="flex gap-3">
                 <input
                   type="text"
-                  className="flex-1 p-3 bg-[#FAF9F6] border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg"
-                  placeholder="Ask more about how this connects to the framework..."
+                  className="flex-1 p-3 bg-[#FAF9F6] border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg text-sm"
+                  placeholder="Ask a follow-up question..."
                   value={followUpQuestion}
                   onChange={(e) => setFollowUpQuestion(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey && followUpQuestion.trim()) {
                       e.preventDefault();
-                      const followUpText = `Original content: ${currentQuery}\n\nPrevious analysis: ${whatsHappening}\n\nFollow-up question: ${followUpQuestion}`;
+                      const followUpText = `Original content: ${currentQuery}\n\nPrevious analysis: ${theReframe}\n\nFollow-up question: ${followUpQuestion}`;
                       setFollowUpQuestion("");
-                      handleSearch(followUpText);
+                      handleAnalysis(followUpText);
                     }
                   }}
-                  disabled={isAskingFollowUp}
                 />
                 <button
-                  className="px-4 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 rounded-lg"
+                  className="px-4 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors rounded-lg"
                   onClick={() => {
                     if (followUpQuestion.trim()) {
-                      const followUpText = `Original content: ${currentQuery}\n\nPrevious analysis: ${whatsHappening}\n\nFollow-up question: ${followUpQuestion}`;
+                      const followUpText = `Original content: ${currentQuery}\n\nPrevious analysis: ${theReframe}\n\nFollow-up question: ${followUpQuestion}`;
                       setFollowUpQuestion("");
-                      handleSearch(followUpText);
+                      handleAnalysis(followUpText);
                     }
                   }}
-                  disabled={isAskingFollowUp || !followUpQuestion.trim()}
+                  disabled={!followUpQuestion.trim()}
                 >
-                  {isAskingFollowUp ? (
-                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  ) : (
-                    <SearchIcon />
-                  )}
+                  Ask
                 </button>
               </div>
             </div>
@@ -1244,11 +971,11 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
       {/* Image Modal */}
       {selectedImage && (
         <div
-          className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
           onClick={() => setSelectedImage(null)}
         >
           <div
-            className="relative max-w-lg w-full bg-white overflow-hidden rounded-lg"
+            className="relative max-w-2xl w-full bg-white overflow-hidden rounded-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -1264,20 +991,18 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
             />
             <div className="p-4">
               {selectedImage.reason && (
-                <p className="text-sm text-[#C75B39] mb-2">
-                  <strong>Why this matches:</strong> {selectedImage.reason}
-                </p>
+                <p className="text-sm text-[#4A4A4A] mb-3">{selectedImage.reason}</p>
               )}
               <div className="flex gap-3">
                 <button
                   className="flex-1 px-4 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors flex items-center justify-center gap-2 rounded-lg"
-                  onClick={() => copyToClipboard(selectedImage.image_url)}
+                  onClick={() => copyImageToClipboard(selectedImage.image_url)}
                 >
                   <CopyIcon />
                   Copy
                 </button>
                 <button
-                  className="flex-1 px-4 py-3 bg-[#FAF9F6] border border-[#E5E0D8] text-[#1A1A1A] font-medium hover:bg-[#F5F3EF] hover:border-[#C75B39] transition-colors flex items-center justify-center gap-2 rounded-lg"
+                  className="flex-1 px-4 py-3 bg-[#FAF9F6] border border-[#E5E0D8] text-[#1A1A1A] font-medium hover:bg-[#F5F3EF] transition-colors flex items-center justify-center gap-2 rounded-lg"
                   onClick={() => downloadImage(selectedImage)}
                 >
                   <DownloadIcon />
@@ -1313,22 +1038,8 @@ Analyze both the textual and visual elements through the mismatch lens. Consider
 }
 
 // Icons
-function SearchIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" y1="21" x2="16.65" y2="16.65" />
-    </svg>
-  );
-}
-
-function LinkIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-    </svg>
-  );
+function Spinner() {
+  return <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />;
 }
 
 function UploadIcon() {
@@ -1343,7 +1054,7 @@ function UploadIcon() {
 
 function CopyIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
       <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
     </svg>
@@ -1352,7 +1063,7 @@ function CopyIcon() {
 
 function DownloadIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
       <polyline points="7 10 12 15 17 10" />
       <line x1="12" y1="15" x2="12" y2="3" />
@@ -1384,14 +1095,6 @@ function RefreshIcon() {
       <path d="M23 4v6h-6" />
       <path d="M1 20v-6h6" />
       <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
-    </svg>
-  );
-}
-
-function YouTubeIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
     </svg>
   );
 }
