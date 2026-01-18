@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import Navigation from "@/components/Navigation";
-import { analyzeWithLLM, regenerateShareText, ImageResult, ShareVariants } from "@/lib/supabase";
+import { analyzeWithLLM, regenerateShareText, ImageResult, AngleResult, ImageCluster, ShareVariants } from "@/lib/supabase";
 import {
   getHistory,
   saveToHistory,
@@ -23,14 +23,15 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
 
-  // Analysis results
-  const [theReframe, setTheReframe] = useState("");
-  const [theMechanism, setTheMechanism] = useState("");
-  const [problemImages, setProblemImages] = useState<ImageResult[]>([]);
-  const [solutionImages, setSolutionImages] = useState<ImageResult[]>([]);
+  // Analysis results - new structure
+  const [surface, setSurface] = useState("");
+  const [reframe, setReframe] = useState("");
+  const [angles, setAngles] = useState<AngleResult[]>([]);
+  const [imageClusters, setImageClusters] = useState<ImageCluster[]>([]);
   const [shareVariants, setShareVariants] = useState<ShareVariants>({ short: "", medium: "", long: "" });
   const [selectedLength, setSelectedLength] = useState<ShareLength>("medium");
   const [isRegenerating, setIsRegenerating] = useState(false);
+  const [expandedAngles, setExpandedAngles] = useState<Set<number>>(new Set([0])); // First angle expanded by default
 
   const [followUpQuestion, setFollowUpQuestion] = useState("");
   const [error, setError] = useState("");
@@ -42,9 +43,10 @@ export default function Home() {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [currentQuery, setCurrentQuery] = useState("");
   const [sourcePreview, setSourcePreview] = useState<{ type: "screenshot" | "url" | "youtube"; image: string; url?: string; title?: string; channel?: string } | null>(null);
+  const [copiedState, setCopiedState] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const hasResults = problemImages.length > 0 || solutionImages.length > 0;
+  const hasResults = angles.length > 0 || imageClusters.length > 0;
 
   // Load history on mount
   useEffect(() => {
@@ -57,13 +59,26 @@ export default function Home() {
   };
 
   const clearResults = () => {
-    setTheReframe("");
-    setTheMechanism("");
-    setProblemImages([]);
-    setSolutionImages([]);
+    setSurface("");
+    setReframe("");
+    setAngles([]);
+    setImageClusters([]);
     setShareVariants({ short: "", medium: "", long: "" });
     setSourcePreview(null);
     setFollowUpQuestion("");
+    setExpandedAngles(new Set([0]));
+  };
+
+  const toggleAngle = (index: number) => {
+    setExpandedAngles(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+      }
+      return newSet;
+    });
   };
 
   const handleAnalysis = async (text: string) => {
@@ -81,22 +96,22 @@ export default function Home() {
       setLoadingMessage("Analyzing through the lens...");
       const response = await analyzeWithLLM(text);
 
-      if (response.problem_images.length === 0 && response.solution_images.length === 0) {
-        setError("Analysis could not find matching images. Try different content.");
+      if (response.angles.length === 0 && response.image_clusters.length === 0) {
+        setError("Analysis could not find matching content. Try different input.");
       } else {
-        setTheReframe(response.the_reframe);
-        setTheMechanism(response.the_mechanism);
-        setProblemImages(response.problem_images);
-        setSolutionImages(response.solution_images);
+        setSurface(response.surface);
+        setReframe(response.reframe);
+        setAngles(response.angles);
+        setImageClusters(response.image_clusters);
         setShareVariants(response.share_variants);
 
         // Save to history
         const entry = saveToHistory({
           query: text,
-          the_reframe: response.the_reframe,
-          the_mechanism: response.the_mechanism,
-          problem_images: response.problem_images,
-          solution_images: response.solution_images,
+          surface: response.surface,
+          reframe: response.reframe,
+          angles: response.angles,
+          image_clusters: response.image_clusters,
           share_variants: response.share_variants
         });
         setHistory(prev => [entry, ...prev.slice(0, 49)]);
@@ -163,21 +178,21 @@ export default function Home() {
 
         const response = await analyzeWithLLM(analysisInput);
 
-        if (response.problem_images.length === 0 && response.solution_images.length === 0) {
-          setError("Analysis could not find matching images. Try different content.");
+        if (response.angles.length === 0 && response.image_clusters.length === 0) {
+          setError("Analysis could not find matching content. Try different input.");
         } else {
-          setTheReframe(response.the_reframe);
-          setTheMechanism(response.the_mechanism);
-          setProblemImages(response.problem_images);
-          setSolutionImages(response.solution_images);
+          setSurface(response.surface);
+          setReframe(response.reframe);
+          setAngles(response.angles);
+          setImageClusters(response.image_clusters);
           setShareVariants(response.share_variants);
 
           const entry = saveToHistory({
             query: analysisInput,
-            the_reframe: response.the_reframe,
-            the_mechanism: response.the_mechanism,
-            problem_images: response.problem_images,
-            solution_images: response.solution_images,
+            surface: response.surface,
+            reframe: response.reframe,
+            angles: response.angles,
+            image_clusters: response.image_clusters,
             share_variants: response.share_variants
           });
           setHistory(prev => [entry, ...prev.slice(0, 49)]);
@@ -294,21 +309,21 @@ export default function Home() {
       setLoadingMessage("Analyzing through the lens...");
       const analysisResponse = await analyzeWithLLM(data.content);
 
-      if (analysisResponse.problem_images.length === 0 && analysisResponse.solution_images.length === 0) {
-        setError("Analysis could not find matching images. Try different content.");
+      if (analysisResponse.angles.length === 0 && analysisResponse.image_clusters.length === 0) {
+        setError("Analysis could not find matching content. Try different input.");
       } else {
-        setTheReframe(analysisResponse.the_reframe);
-        setTheMechanism(analysisResponse.the_mechanism);
-        setProblemImages(analysisResponse.problem_images);
-        setSolutionImages(analysisResponse.solution_images);
+        setSurface(analysisResponse.surface);
+        setReframe(analysisResponse.reframe);
+        setAngles(analysisResponse.angles);
+        setImageClusters(analysisResponse.image_clusters);
         setShareVariants(analysisResponse.share_variants);
 
         const entry = saveToHistory({
           query: data.content,
-          the_reframe: analysisResponse.the_reframe,
-          the_mechanism: analysisResponse.the_mechanism,
-          problem_images: analysisResponse.problem_images,
-          solution_images: analysisResponse.solution_images,
+          surface: analysisResponse.surface,
+          reframe: analysisResponse.reframe,
+          angles: analysisResponse.angles,
+          image_clusters: analysisResponse.image_clusters,
           share_variants: analysisResponse.share_variants
         });
         setHistory(prev => [entry, ...prev.slice(0, 49)]);
@@ -323,14 +338,14 @@ export default function Home() {
   };
 
   const handleRegenerate = async () => {
-    if (!currentQuery || !theReframe) return;
+    if (!currentQuery || !reframe) return;
 
     setIsRegenerating(true);
     try {
       const newText = await regenerateShareText(
         currentQuery,
-        theReframe,
-        theMechanism,
+        reframe,
+        angles.map(a => a.mismatch).join(" "),
         selectedLength
       );
       setShareVariants(prev => ({ ...prev, [selectedLength]: newText }));
@@ -344,16 +359,17 @@ export default function Home() {
   };
 
   const loadHistoryEntry = (entry: HistoryEntry) => {
-    setTheReframe(entry.the_reframe);
-    setTheMechanism(entry.the_mechanism);
-    setProblemImages(entry.problem_images);
-    setSolutionImages(entry.solution_images);
+    setSurface(entry.surface);
+    setReframe(entry.reframe);
+    setAngles(entry.angles);
+    setImageClusters(entry.image_clusters);
     setShareVariants(entry.share_variants);
     setCurrentQuery(entry.query);
     setInputText(entry.query);
     setShowHistory(false);
     setFollowUpQuestion("");
     setError("");
+    setExpandedAngles(new Set([0]));
   };
 
   const handleDeleteHistoryEntry = (id: string, e: React.MouseEvent) => {
@@ -462,37 +478,86 @@ export default function Home() {
     const text = shareVariants[selectedLength];
     if (text) {
       navigator.clipboard.writeText(text);
+      setCopiedState(true);
+      setTimeout(() => setCopiedState(false), 2000);
       showToast("Copied!");
     }
   };
 
-  // Image Grid Component
-  const ImageGrid = ({ images, title }: { images: ImageResult[]; title: string }) => {
-    if (images.length === 0) return null;
+  // Angle Card Component
+  const AngleCard = ({ angle, index }: { angle: AngleResult; index: number }) => {
+    const isExpanded = expandedAngles.has(index);
+    const angleNumber = String(index + 1).padStart(2, '0');
 
     return (
-      <div className="space-y-3">
-        <h3 className="text-sm font-bold tracking-wide text-[#4A4A4A] uppercase">{title}</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-          {images.map((image, index) => (
+      <div className="angle-card">
+        <div
+          className="angle-header"
+          onClick={() => toggleAngle(index)}
+        >
+          <span className="angle-number">{angleNumber}</span>
+          <span className="angle-title">{angle.perspective}</span>
+          <ChevronIcon className={`angle-chevron ${isExpanded ? 'rotated' : ''}`} />
+        </div>
+
+        <div className={`angle-content ${isExpanded ? 'expanded' : ''}`}>
+          <div className="angle-content-inner">
+            <p className="angle-summary">{angle.mismatch}</p>
+
+            <div className="comparison-row">
+              <div className="comparison-card ancestral">
+                {angle.ancestral_image && (
+                  <div
+                    className="comparison-image"
+                    onClick={() => setSelectedImage(angle.ancestral_image)}
+                  >
+                    <img src={angle.ancestral_image.image_url} alt="" />
+                  </div>
+                )}
+                <span className="comparison-label">For 300,000 years</span>
+                <p className="comparison-text">{angle.ancestral}</p>
+              </div>
+
+              <div className="comparison-card modern">
+                {angle.modern_image && (
+                  <div
+                    className="comparison-image"
+                    onClick={() => setSelectedImage(angle.modern_image)}
+                  >
+                    <img src={angle.modern_image.image_url} alt="" />
+                  </div>
+                )}
+                <span className="comparison-label">Now</span>
+                <p className="comparison-text">{angle.modern}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Image Section Component
+  const ImageSection = ({ cluster }: { cluster: ImageCluster }) => {
+    if (cluster.images.length === 0) return null;
+
+    return (
+      <div className="image-section">
+        <h3 className="image-section-title">{cluster.theme}</h3>
+        <div className="image-grid">
+          {cluster.images.map((image, index) => (
             <div
               key={image.id || index}
-              className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group bg-[#F5F3EF]"
+              className="image-tile"
               onClick={() => setSelectedImage(image)}
             >
-              <img
-                src={image.image_url}
-                alt={image.title}
-                className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-              <div className="absolute top-2 left-2 w-6 h-6 bg-white/90 rounded-full flex items-center justify-center text-xs font-bold text-[#C75B39]">
-                {index + 1}
+              <img src={image.image_url} alt={image.title} loading="lazy" />
+              <span className="image-tile-number">{index + 1}</span>
+              <div className="image-tile-overlay">
+                <span className="image-tile-title">{image.title}</span>
               </div>
-              <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="image-tile-actions">
                 <button
-                  className="p-1.5 bg-white/90 hover:bg-white rounded shadow"
                   onClick={(e) => { e.stopPropagation(); copyImageToClipboard(image.image_url); }}
                 >
                   <CopyIcon />
@@ -506,101 +571,81 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FAF9F6] text-[#1A1A1A]">
+    <main className="analyzer-main">
       <Navigation />
 
       {/* Header */}
-      <header className="pt-24 pb-4 px-6 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold mb-2" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-          Mismatch Analyzer
-        </h1>
-        <p className="text-[#4A4A4A] text-sm tracking-wide">
-          See any content through the evolutionary lens
-        </p>
+      <header className="analyzer-header">
+        <h1 className="analyzer-title">Mismatch Analyzer</h1>
+        <p className="analyzer-subtitle">See any content through the evolutionary lens</p>
         <button
-          className="mt-4 py-2 px-4 flex items-center gap-2 text-sm text-[#4A4A4A] hover:text-[#C75B39] border border-[#E5E0D8] hover:border-[#C75B39] transition-colors mx-auto rounded"
+          className="history-button"
           onClick={() => setShowHistory(!showHistory)}
         >
           <HistoryIcon />
           History
           {history.length > 0 && (
-            <span className="text-xs bg-[#C75B39] text-white rounded-full px-1.5">
-              {history.length}
-            </span>
+            <span className="history-badge">{history.length}</span>
           )}
         </button>
       </header>
 
       {/* History Panel */}
       {showHistory && (
-        <div className="fixed inset-0 z-50 bg-black/50" onClick={() => setShowHistory(false)}>
-          <div
-            className="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white border-l border-[#E5E0D8] overflow-hidden flex flex-col"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="p-4 border-b border-[#E5E0D8] flex items-center justify-between">
-              <h2 className="text-lg font-bold tracking-wide text-[#1A1A1A]">History</h2>
-              <div className="flex gap-2">
+        <div className="history-overlay" onClick={() => setShowHistory(false)}>
+          <div className="history-panel" onClick={(e) => e.stopPropagation()}>
+            <div className="history-panel-header">
+              <h2>History</h2>
+              <div className="history-panel-actions">
                 {history.length > 0 && (
-                  <button
-                    className="text-xs text-[#8B8B8B] hover:text-red-500"
-                    onClick={handleClearHistory}
-                  >
+                  <button className="clear-history-btn" onClick={handleClearHistory}>
                     Clear
                   </button>
                 )}
-                <button
-                  className="text-[#8B8B8B] hover:text-[#1A1A1A]"
-                  onClick={() => setShowHistory(false)}
-                >
+                <button className="close-history-btn" onClick={() => setShowHistory(false)}>
                   ✕
                 </button>
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto">
+            <div className="history-list">
               {history.length === 0 ? (
-                <div className="p-8 text-center text-[#8B8B8B]">
+                <div className="history-empty">
                   <HistoryIcon />
-                  <p className="mt-2">No history yet</p>
+                  <p>No history yet</p>
                 </div>
               ) : (
-                <div className="divide-y divide-[#E5E0D8]">
-                  {history.map((entry) => (
-                    <div
-                      key={entry.id}
-                      className="p-4 hover:bg-[#F5F3EF] cursor-pointer transition-colors group"
-                      onClick={() => loadHistoryEntry(entry)}
-                    >
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm text-[#1A1A1A] line-clamp-2 mb-1">
-                            {entry.the_reframe.substring(0, 100)}...
-                          </p>
-                          <p className="text-xs text-[#8B8B8B]">
-                            {formatTimestamp(entry.timestamp)}
-                          </p>
-                        </div>
-                        <button
-                          className="opacity-0 group-hover:opacity-100 text-[#8B8B8B] hover:text-red-500 transition-opacity p-1"
-                          onClick={(e) => handleDeleteHistoryEntry(entry.id, e)}
-                        >
-                          <TrashIcon />
-                        </button>
-                      </div>
-                      {entry.problem_images && entry.problem_images.length > 0 && (
-                        <div className="mt-2 w-12 h-12 rounded overflow-hidden bg-[#F5F3EF]">
-                          <img
-                            src={entry.problem_images[0].image_url}
-                            alt=""
-                            className="w-full h-full object-cover"
-                            loading="lazy"
-                          />
-                        </div>
-                      )}
+                history.map((entry) => (
+                  <div
+                    key={entry.id}
+                    className="history-item"
+                    onClick={() => loadHistoryEntry(entry)}
+                  >
+                    <div className="history-item-content">
+                      <p className="history-item-text">
+                        {entry.reframe.substring(0, 100)}...
+                      </p>
+                      <p className="history-item-time">
+                        {formatTimestamp(entry.timestamp)}
+                      </p>
                     </div>
-                  ))}
-                </div>
+                    <button
+                      className="history-item-delete"
+                      onClick={(e) => handleDeleteHistoryEntry(entry.id, e)}
+                    >
+                      <TrashIcon />
+                    </button>
+                    {entry.image_clusters && entry.image_clusters[0]?.images?.[0] && (
+                      <div className="history-item-thumb">
+                        <img
+                          src={entry.image_clusters[0].images[0].image_url}
+                          alt=""
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))
               )}
             </div>
           </div>
@@ -608,353 +653,291 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <div className="flex-1 p-4 md:p-8 max-w-4xl mx-auto w-full">
-        {/* Input Tabs */}
-        <div className="flex border-b border-[#E5E0D8] mb-6 overflow-x-auto">
-          {[
-            { id: "describe", label: "Describe" },
-            { id: "text", label: "Paste Text" },
-            { id: "url", label: "URL" },
-            { id: "youtube", label: "YouTube" },
-            { id: "screenshot", label: "Screenshot" },
-          ].map((tab) => (
+      <div className="analyzer-content">
+        {/* Input Card */}
+        <div className="input-card">
+          {/* Input Tabs */}
+          <div className="input-tabs">
+            {[
+              { id: "describe", label: "Describe" },
+              { id: "text", label: "Paste Text" },
+              { id: "url", label: "URL" },
+              { id: "youtube", label: "YouTube" },
+              { id: "screenshot", label: "Screenshot" },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                className={`input-tab ${mode === tab.id ? "active" : ""}`}
+                onClick={() => {
+                  setMode(tab.id as InputMode);
+                  setError("");
+                }}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Input Areas */}
+          <div className="input-area">
+            {mode === "describe" && (
+              <div className="input-content">
+                <textarea
+                  className="input-textarea"
+                  placeholder="Describe what you're seeing... e.g., Someone bragging about working 80 hours a week"
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
+                />
+              </div>
+            )}
+
+            {mode === "text" && (
+              <div className="input-content">
+                <textarea
+                  className="input-textarea tall"
+                  placeholder="Paste article text, social media post, or any content..."
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
+                />
+              </div>
+            )}
+
+            {mode === "url" && (
+              <div className="input-content">
+                <input
+                  type="url"
+                  className="input-field"
+                  placeholder="https://example.com/article..."
+                  value={urlInput}
+                  onChange={(e) => setUrlInput(e.target.value)}
+                />
+              </div>
+            )}
+
+            {mode === "youtube" && (
+              <div className="input-content">
+                <input
+                  type="url"
+                  className="input-field"
+                  placeholder="https://youtube.com/watch?v=..."
+                  value={youtubeUrl}
+                  onChange={(e) => setYoutubeUrl(e.target.value)}
+                />
+              </div>
+            )}
+
+            {mode === "screenshot" && (
+              <div className="input-content">
+                <div
+                  className={`upload-zone ${isDragging ? "dragging" : ""}`}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    setIsDragging(true);
+                  }}
+                  onDragLeave={() => setIsDragging(false)}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleFileSelect}
+                  />
+                  {isLoading ? (
+                    <>
+                      <Spinner />
+                      <p>{loadingMessage} {ocrProgress > 0 && `(${ocrProgress}%)`}</p>
+                    </>
+                  ) : (
+                    <>
+                      <UploadIcon />
+                      <p>Drop image here or tap to upload</p>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Submit Button */}
+          {mode !== "screenshot" && (
             <button
-              key={tab.id}
-              className={`relative px-4 py-3 text-sm font-medium transition-colors ${
-                mode === tab.id
-                  ? "text-[#C75B39]"
-                  : "text-[#8B8B8B] hover:text-[#1A1A1A]"
-              }`}
+              className="submit-button"
               onClick={() => {
-                setMode(tab.id as InputMode);
-                setError("");
+                if (mode === "url") handleUrlScrape();
+                else if (mode === "youtube") handleYouTubeAnalyze();
+                else handleAnalysis(inputText);
               }}
+              disabled={isLoading}
             >
-              {tab.label}
-              {mode === tab.id && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#C75B39]" />
+              {isLoading ? (
+                <>
+                  <Spinner />
+                  {loadingMessage}
+                </>
+              ) : (
+                mode === "url" ? "Fetch & Analyze" : mode === "youtube" ? "Analyze Video" : "Analyze"
               )}
             </button>
-          ))}
-        </div>
-
-        {/* Input Areas */}
-        <div className="mb-6">
-          {mode === "describe" && (
-            <div className="animate-fadeIn">
-              <textarea
-                className="w-full p-4 min-h-[120px] resize-none bg-white border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg text-base"
-                placeholder="Describe what you're seeing... e.g., Someone bragging about working 80 hours a week"
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-              />
-              <button
-                className="w-full mt-4 px-6 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 rounded-lg"
-                onClick={() => handleAnalysis(inputText)}
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <>
-                    <Spinner />
-                    {loadingMessage}
-                  </>
-                ) : (
-                  "Analyze"
-                )}
-              </button>
-            </div>
-          )}
-
-          {mode === "text" && (
-            <div className="animate-fadeIn">
-              <textarea
-                className="w-full p-4 min-h-[180px] resize-none bg-white border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg text-base"
-                placeholder="Paste article text, social media post, or any content..."
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-              />
-              <button
-                className="w-full mt-4 px-6 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 rounded-lg"
-                onClick={() => handleAnalysis(inputText)}
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <>
-                    <Spinner />
-                    {loadingMessage}
-                  </>
-                ) : (
-                  "Analyze"
-                )}
-              </button>
-            </div>
-          )}
-
-          {mode === "url" && (
-            <div className="animate-fadeIn">
-              <input
-                type="url"
-                className="w-full p-4 bg-white border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg"
-                placeholder="https://example.com/article..."
-                value={urlInput}
-                onChange={(e) => setUrlInput(e.target.value)}
-              />
-              <button
-                className="w-full mt-4 px-6 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 rounded-lg"
-                onClick={handleUrlScrape}
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <>
-                    <Spinner />
-                    {loadingMessage}
-                  </>
-                ) : (
-                  "Fetch & Analyze"
-                )}
-              </button>
-            </div>
-          )}
-
-          {mode === "youtube" && (
-            <div className="animate-fadeIn">
-              <input
-                type="url"
-                className="w-full p-4 bg-white border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg"
-                placeholder="https://youtube.com/watch?v=..."
-                value={youtubeUrl}
-                onChange={(e) => setYoutubeUrl(e.target.value)}
-              />
-              <button
-                className="w-full mt-4 px-6 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 rounded-lg"
-                onClick={handleYouTubeAnalyze}
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <>
-                    <Spinner />
-                    {loadingMessage}
-                  </>
-                ) : (
-                  "Analyze Video"
-                )}
-              </button>
-            </div>
-          )}
-
-          {mode === "screenshot" && (
-            <div className="animate-fadeIn">
-              <div
-                className={`flex flex-col items-center justify-center gap-4 min-h-[180px] p-8 border-2 border-dashed cursor-pointer transition-colors rounded-lg ${
-                  isDragging
-                    ? "border-[#C75B39] bg-[#C75B39]/5"
-                    : "border-[#E5E0D8] hover:border-[#C75B39] hover:bg-[#F5F3EF]"
-                }`}
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  setIsDragging(true);
-                }}
-                onDragLeave={() => setIsDragging(false)}
-                onDrop={handleDrop}
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleFileSelect}
-                />
-                {isLoading ? (
-                  <>
-                    <Spinner />
-                    <p className="text-sm text-[#4A4A4A]">
-                      {loadingMessage} {ocrProgress > 0 && `(${ocrProgress}%)`}
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <UploadIcon />
-                    <p className="text-sm text-[#4A4A4A]">
-                      Drop image here or tap to upload
-                    </p>
-                  </>
-                )}
-              </div>
-            </div>
           )}
         </div>
 
         {/* Error Message */}
         {error && (
-          <div className="p-4 mb-6 bg-red-50 border border-red-200 text-red-600 text-sm animate-fadeIn rounded-lg">
+          <div className="error-message">
             {error}
           </div>
         )}
 
         {/* Example for First-Time Users */}
         {!hasResults && !isLoading && !error && (
-          <div className="mb-8">
-            <div className="p-6 bg-gradient-to-br from-[#F5F3EF] to-white border border-[#E5E0D8] rounded-lg">
-              <p className="text-xs text-[#8B8B8B] uppercase tracking-wide mb-3">Example</p>
-              <div className="mb-4 p-3 bg-white border border-[#E5E0D8] rounded">
-                <p className="text-sm text-[#4A4A4A] italic">&quot;Someone bragging about working 80 hours a week&quot;</p>
-              </div>
-              <div className="space-y-4 text-[#4A4A4A]">
-                <p className="text-base leading-relaxed">
-                  For 300,000 years, work meant doing things that directly benefited people you could see, people you loved, people who would do the same for you tomorrow. Three to four hours daily. The rest was rest, socializing, being human.
-                </p>
-                <p className="text-base leading-relaxed">
-                  The 80-hour brag is status signaling in an environment where exhaustion has become virtue. The biology reads it correctly: this person is depleted. The culture reads it backwards: this person is valuable.
-                </p>
-              </div>
+          <div className="example-card">
+            <span className="example-label">Example</span>
+            <div className="example-input">
+              <p>&quot;Someone bragging about working 80 hours a week&quot;</p>
+            </div>
+            <div className="example-output">
+              <p>
+                For 300,000 years, work meant doing things that directly benefited people you could see, people you loved, people who would do the same for you tomorrow. Three to four hours daily. The rest was rest, socializing, being human.
+              </p>
+              <p>
+                The 80-hour brag is status signaling in an environment where exhaustion has become virtue. The biology reads it correctly: this person is depleted. The culture reads it backwards: this person is valuable.
+              </p>
             </div>
           </div>
         )}
 
         {/* Results */}
         {hasResults && (
-          <div className="space-y-8 animate-fadeIn">
+          <div className="results-container">
             {/* Source Preview */}
             {sourcePreview && (
-              <div className="p-4 bg-white border border-[#E5E0D8] rounded-lg">
-                <div className="flex gap-4 items-start">
-                  <div className={`${sourcePreview.type === "youtube" ? "w-32 h-20" : "w-20 h-20"} flex-shrink-0 overflow-hidden bg-[#F5F3EF] rounded`}>
-                    <img
-                      src={sourcePreview.image}
-                      alt="Source"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    {sourcePreview.title && (
-                      <p className="text-sm font-medium text-[#1A1A1A] mb-1 line-clamp-2">
-                        {sourcePreview.title}
-                      </p>
-                    )}
-                    {sourcePreview.channel && (
-                      <p className="text-xs text-[#8B8B8B]">{sourcePreview.channel}</p>
-                    )}
-                    {sourcePreview.url && (
-                      <a
-                        href={sourcePreview.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs text-[#C75B39] hover:underline"
-                      >
-                        View source
-                      </a>
-                    )}
-                  </div>
+              <div className="source-preview">
+                <div className={`source-image ${sourcePreview.type === "youtube" ? "wide" : ""}`}>
+                  <img src={sourcePreview.image} alt="Source" />
+                </div>
+                <div className="source-info">
+                  {sourcePreview.title && (
+                    <p className="source-title">{sourcePreview.title}</p>
+                  )}
+                  {sourcePreview.channel && (
+                    <p className="source-channel">{sourcePreview.channel}</p>
+                  )}
+                  {sourcePreview.url && (
+                    <a href={sourcePreview.url} target="_blank" rel="noopener noreferrer" className="source-link">
+                      View source
+                    </a>
+                  )}
                 </div>
               </div>
             )}
 
-            {/* The Reframe */}
-            <div className="prose prose-lg max-w-none">
-              <p className="text-lg md:text-xl leading-relaxed text-[#1A1A1A]">
-                {theReframe}
-              </p>
+            {/* The Reframe Section */}
+            <div className="reframe-section">
+              <h2 className="section-title">THE REFRAME</h2>
+              <div className="section-divider" />
+              {surface && (
+                <p className="surface-text">{surface}</p>
+              )}
+              <p className="reframe-text">{reframe}</p>
             </div>
 
-            {/* The Mechanism */}
-            {theMechanism && (
-              <div className="prose prose-lg max-w-none">
-                <p className="text-base md:text-lg leading-relaxed text-[#4A4A4A]">
-                  {theMechanism}
-                </p>
+            {/* The Angles Section */}
+            {angles.length > 0 && (
+              <div className="angles-section">
+                <h2 className="section-title">THE ANGLES</h2>
+                <div className="section-divider" />
+                <div className="angles-list">
+                  {angles.map((angle, index) => (
+                    <AngleCard key={index} angle={angle} index={index} />
+                  ))}
+                </div>
               </div>
             )}
 
-            {/* Problem Images Grid */}
-            <ImageGrid images={problemImages} title="The Modern Condition" />
-
-            {/* Solution Images Grid */}
-            <ImageGrid images={solutionImages} title="What Biology Expects" />
+            {/* Image Clusters */}
+            {imageClusters.map((cluster, index) => (
+              <ImageSection key={index} cluster={cluster} />
+            ))}
 
             {/* Share Section */}
-            <div className="p-5 bg-white border border-[#E5E0D8] rounded-lg">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-bold tracking-wide text-[#4A4A4A] uppercase">Share</h3>
-                <div className="flex gap-1 bg-[#F5F3EF] p-1 rounded-lg">
+            <div className="share-section">
+              <h2 className="section-title">SHARE</h2>
+              <div className="section-divider" />
+
+              <div className="share-preview">
+                {isRegenerating && (
+                  <div className="share-loading">
+                    <Spinner />
+                  </div>
+                )}
+                <p className="share-text">{shareVariants[selectedLength] || "..."}</p>
+              </div>
+
+              <div className="share-controls">
+                <div className="length-toggle">
                   {(["short", "medium", "long"] as ShareLength[]).map((len) => (
                     <button
                       key={len}
-                      className={`px-3 py-1.5 text-xs font-medium rounded transition-colors ${
-                        selectedLength === len
-                          ? "bg-white text-[#C75B39] shadow-sm"
-                          : "text-[#8B8B8B] hover:text-[#1A1A1A]"
-                      }`}
+                      className={`length-option ${selectedLength === len ? "active" : ""}`}
                       onClick={() => setSelectedLength(len)}
                     >
                       {len.charAt(0).toUpperCase() + len.slice(1)}
                     </button>
                   ))}
                 </div>
-              </div>
 
-              <div className="relative min-h-[100px]">
-                {isRegenerating && (
-                  <div className="absolute inset-0 bg-white/80 flex items-center justify-center rounded">
-                    <Spinner />
-                  </div>
-                )}
-                <p className="text-[#1A1A1A] text-base leading-relaxed whitespace-pre-wrap">
-                  {shareVariants[selectedLength] || "..."}
-                </p>
-              </div>
-
-              <div className="flex gap-3 mt-4">
-                <button
-                  className="flex-1 px-4 py-2.5 bg-[#C75B39] text-white text-sm font-medium hover:bg-[#A84A2D] transition-colors rounded-lg flex items-center justify-center gap-2"
-                  onClick={copyShareText}
-                >
-                  <CopyIcon />
-                  Copy
-                </button>
-                <button
-                  className="px-4 py-2.5 bg-[#F5F3EF] text-[#4A4A4A] text-sm font-medium hover:bg-[#E5E0D8] transition-colors rounded-lg flex items-center justify-center gap-2"
-                  onClick={handleRegenerate}
-                  disabled={isRegenerating}
-                >
-                  <RefreshIcon />
-                  Regenerate
-                </button>
+                <div className="share-buttons">
+                  <button
+                    className={`copy-button ${copiedState ? "copied" : ""}`}
+                    onClick={copyShareText}
+                  >
+                    <CopyIcon />
+                    {copiedState ? "Copied!" : "Copy"}
+                  </button>
+                  <button
+                    className="regen-button"
+                    onClick={handleRegenerate}
+                    disabled={isRegenerating}
+                  >
+                    <RefreshIcon />
+                  </button>
+                </div>
               </div>
             </div>
 
             {/* Follow-up */}
-            <div className="p-4 bg-white border border-[#E5E0D8] rounded-lg">
-              <div className="flex gap-3">
-                <input
-                  type="text"
-                  className="flex-1 p-3 bg-[#FAF9F6] border border-[#E5E0D8] text-[#1A1A1A] placeholder:text-[#8B8B8B] focus:border-[#C75B39] focus:outline-none focus:ring-2 focus:ring-[#C75B39]/20 rounded-lg text-sm"
-                  placeholder="Ask a follow-up question..."
-                  value={followUpQuestion}
-                  onChange={(e) => setFollowUpQuestion(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey && followUpQuestion.trim()) {
-                      e.preventDefault();
-                      const followUpText = `Original content: ${currentQuery}\n\nPrevious analysis: ${theReframe}\n\nFollow-up question: ${followUpQuestion}`;
-                      setFollowUpQuestion("");
-                      handleAnalysis(followUpText);
-                    }
-                  }}
-                />
-                <button
-                  className="px-4 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors rounded-lg"
-                  onClick={() => {
-                    if (followUpQuestion.trim()) {
-                      const followUpText = `Original content: ${currentQuery}\n\nPrevious analysis: ${theReframe}\n\nFollow-up question: ${followUpQuestion}`;
-                      setFollowUpQuestion("");
-                      handleAnalysis(followUpText);
-                    }
-                  }}
-                  disabled={!followUpQuestion.trim()}
-                >
-                  Ask
-                </button>
-              </div>
+            <div className="followup-section">
+              <input
+                type="text"
+                className="followup-input"
+                placeholder="Ask a follow-up question..."
+                value={followUpQuestion}
+                onChange={(e) => setFollowUpQuestion(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey && followUpQuestion.trim()) {
+                    e.preventDefault();
+                    const followUpText = `Original content: ${currentQuery}\n\nPrevious analysis: ${reframe}\n\nFollow-up question: ${followUpQuestion}`;
+                    setFollowUpQuestion("");
+                    handleAnalysis(followUpText);
+                  }
+                }}
+              />
+              <button
+                className="followup-button"
+                onClick={() => {
+                  if (followUpQuestion.trim()) {
+                    const followUpText = `Original content: ${currentQuery}\n\nPrevious analysis: ${reframe}\n\nFollow-up question: ${followUpQuestion}`;
+                    setFollowUpQuestion("");
+                    handleAnalysis(followUpText);
+                  }
+                }}
+                disabled={!followUpQuestion.trim()}
+              >
+                →
+              </button>
             </div>
           </div>
         )}
@@ -962,43 +945,22 @@ export default function Home() {
 
       {/* Image Modal */}
       {selectedImage && (
-        <div
-          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
-          onClick={() => setSelectedImage(null)}
-        >
-          <div
-            className="relative max-w-2xl w-full bg-white overflow-hidden rounded-lg"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-white border border-[#E5E0D8] text-[#4A4A4A] hover:border-[#C75B39] hover:text-[#C75B39] z-10 transition-colors rounded-lg"
-              onClick={() => setSelectedImage(null)}
-            >
+        <div className="modal-overlay" onClick={() => setSelectedImage(null)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setSelectedImage(null)}>
               ✕
             </button>
-            <img
-              src={selectedImage.image_url}
-              alt={selectedImage.title}
-              className="w-full"
-            />
-            <div className="p-4">
+            <img src={selectedImage.image_url} alt={selectedImage.title} className="modal-image" />
+            <div className="modal-info">
               {selectedImage.reason && (
-                <p className="text-sm text-[#4A4A4A] mb-3">{selectedImage.reason}</p>
+                <p className="modal-reason">{selectedImage.reason}</p>
               )}
-              <div className="flex gap-3">
-                <button
-                  className="flex-1 px-4 py-3 bg-[#C75B39] text-white font-medium hover:bg-[#A84A2D] transition-colors flex items-center justify-center gap-2 rounded-lg"
-                  onClick={() => copyImageToClipboard(selectedImage.image_url)}
-                >
-                  <CopyIcon />
-                  Copy
+              <div className="modal-actions">
+                <button className="modal-copy-btn" onClick={() => copyImageToClipboard(selectedImage.image_url)}>
+                  <CopyIcon /> Copy
                 </button>
-                <button
-                  className="flex-1 px-4 py-3 bg-[#FAF9F6] border border-[#E5E0D8] text-[#1A1A1A] font-medium hover:bg-[#F5F3EF] transition-colors flex items-center justify-center gap-2 rounded-lg"
-                  onClick={() => downloadImage(selectedImage)}
-                >
-                  <DownloadIcon />
-                  Download
+                <button className="modal-download-btn" onClick={() => downloadImage(selectedImage)}>
+                  <DownloadIcon /> Download
                 </button>
               </div>
             </div>
@@ -1008,22 +970,1109 @@ export default function Home() {
 
       {/* Toast */}
       {toast && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-white border border-[#E5E0D8] text-[#1A1A1A] text-sm font-medium shadow-lg z-50 animate-slideUp rounded-lg">
-          {toast}
-        </div>
+        <div className="toast">{toast}</div>
       )}
 
       <style jsx>{`
+        /* CSS Variables */
+        :root {
+          --rust: #B85C3C;
+          --rust-light: #D4856A;
+          --rust-dark: #8B4532;
+          --cream: #FAF7F2;
+          --paper: #FFFEF9;
+          --charcoal: #2D2D2D;
+          --ink: #1A1A1A;
+          --sage: #7A8B7A;
+          --warm-gray: #9B9590;
+        }
+
+        /* Main Layout */
+        .analyzer-main {
+          min-height: 100vh;
+          background: var(--cream);
+          color: var(--ink);
+          font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .analyzer-header {
+          padding: 96px 24px 16px;
+          text-align: center;
+        }
+
+        .analyzer-title {
+          font-size: 32px;
+          font-weight: 700;
+          margin-bottom: 8px;
+          font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        .analyzer-subtitle {
+          font-size: 14px;
+          color: var(--warm-gray);
+          letter-spacing: 0.02em;
+        }
+
+        .history-button {
+          margin-top: 16px;
+          padding: 10px 16px;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 14px;
+          color: var(--charcoal);
+          background: transparent;
+          border: 1px solid rgba(0,0,0,0.1);
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+
+        .history-button:hover {
+          border-color: var(--rust);
+          color: var(--rust);
+        }
+
+        .history-badge {
+          font-size: 11px;
+          background: var(--rust);
+          color: white;
+          padding: 2px 6px;
+          border-radius: 10px;
+          font-weight: 600;
+        }
+
+        .analyzer-content {
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 0 24px 80px;
+        }
+
+        /* Input Card */
+        .input-card {
+          background: var(--paper);
+          border: 1px solid rgba(0,0,0,0.06);
+          border-radius: 12px;
+          overflow: hidden;
+          margin-bottom: 24px;
+        }
+
+        .input-tabs {
+          display: flex;
+          border-bottom: 1px solid rgba(0,0,0,0.06);
+          overflow-x: auto;
+        }
+
+        .input-tab {
+          padding: 16px 20px;
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--warm-gray);
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          transition: color 0.15s ease;
+          position: relative;
+          white-space: nowrap;
+        }
+
+        .input-tab:hover {
+          color: var(--charcoal);
+        }
+
+        .input-tab.active {
+          color: var(--rust);
+        }
+
+        .input-tab.active::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: var(--rust);
+        }
+
+        .input-area {
+          padding: 20px;
+        }
+
+        .input-textarea {
+          width: 100%;
+          min-height: 100px;
+          padding: 16px;
+          font-size: 15px;
+          font-family: inherit;
+          line-height: 1.6;
+          color: var(--ink);
+          background: var(--cream);
+          border: 1px solid rgba(0,0,0,0.08);
+          border-radius: 8px;
+          resize: none;
+          transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .input-textarea.tall {
+          min-height: 160px;
+        }
+
+        .input-textarea:focus {
+          outline: none;
+          border-color: var(--rust);
+          box-shadow: 0 0 0 3px rgba(184, 92, 60, 0.1);
+        }
+
+        .input-textarea::placeholder {
+          color: var(--warm-gray);
+        }
+
+        .input-field {
+          width: 100%;
+          padding: 16px;
+          font-size: 15px;
+          font-family: inherit;
+          color: var(--ink);
+          background: var(--cream);
+          border: 1px solid rgba(0,0,0,0.08);
+          border-radius: 8px;
+          transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .input-field:focus {
+          outline: none;
+          border-color: var(--rust);
+          box-shadow: 0 0 0 3px rgba(184, 92, 60, 0.1);
+        }
+
+        .input-field::placeholder {
+          color: var(--warm-gray);
+        }
+
+        .upload-zone {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          min-height: 160px;
+          padding: 32px;
+          border: 2px dashed rgba(0,0,0,0.1);
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+
+        .upload-zone:hover {
+          border-color: var(--rust);
+          background: rgba(184, 92, 60, 0.02);
+        }
+
+        .upload-zone.dragging {
+          border-color: var(--rust);
+          background: rgba(184, 92, 60, 0.05);
+        }
+
+        .upload-zone p {
+          font-size: 14px;
+          color: var(--warm-gray);
+        }
+
+        .submit-button {
+          width: calc(100% - 40px);
+          margin: 0 20px 20px;
+          padding: 14px 24px;
+          font-size: 15px;
+          font-weight: 500;
+          font-family: inherit;
+          color: white;
+          background: var(--rust);
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          transition: background 0.15s ease;
+        }
+
+        .submit-button:hover:not(:disabled) {
+          background: var(--rust-dark);
+        }
+
+        .submit-button:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+
+        /* Error Message */
+        .error-message {
+          padding: 16px;
+          margin-bottom: 24px;
+          background: #FEF2F2;
+          border: 1px solid #FECACA;
+          border-radius: 8px;
+          color: #DC2626;
+          font-size: 14px;
+        }
+
+        /* Example Card */
+        .example-card {
+          background: linear-gradient(135deg, var(--paper) 0%, var(--cream) 100%);
+          border: 1px solid rgba(0,0,0,0.06);
+          border-radius: 12px;
+          padding: 24px;
+        }
+
+        .example-label {
+          font-size: 11px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          color: var(--warm-gray);
+        }
+
+        .example-input {
+          margin: 16px 0;
+          padding: 12px 16px;
+          background: white;
+          border: 1px solid rgba(0,0,0,0.06);
+          border-radius: 6px;
+        }
+
+        .example-input p {
+          font-size: 14px;
+          font-style: italic;
+          color: var(--charcoal);
+        }
+
+        .example-output {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .example-output p {
+          font-size: 16px;
+          line-height: 1.65;
+          color: var(--charcoal);
+        }
+
+        /* Results */
+        .results-container {
+          display: flex;
+          flex-direction: column;
+          gap: 32px;
+          animation: fadeIn 0.4s ease;
+        }
+
+        /* Source Preview */
+        .source-preview {
+          display: flex;
+          gap: 16px;
+          padding: 16px;
+          background: var(--paper);
+          border: 1px solid rgba(0,0,0,0.06);
+          border-radius: 12px;
+        }
+
+        .source-image {
+          width: 80px;
+          height: 80px;
+          border-radius: 8px;
+          overflow: hidden;
+          flex-shrink: 0;
+          background: var(--cream);
+        }
+
+        .source-image.wide {
+          width: 128px;
+          height: 80px;
+        }
+
+        .source-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .source-info {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .source-title {
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--ink);
+          margin-bottom: 4px;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .source-channel {
+          font-size: 12px;
+          color: var(--warm-gray);
+          margin-bottom: 4px;
+        }
+
+        .source-link {
+          font-size: 12px;
+          color: var(--rust);
+          text-decoration: none;
+        }
+
+        .source-link:hover {
+          text-decoration: underline;
+        }
+
+        /* Section Styling */
+        .section-title {
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--warm-gray);
+          margin-bottom: 8px;
+        }
+
+        .section-divider {
+          width: 40px;
+          height: 2px;
+          background: var(--rust);
+          margin-bottom: 20px;
+        }
+
+        /* Reframe Section */
+        .reframe-section {
+          background: var(--paper);
+          border: 1px solid rgba(0,0,0,0.06);
+          border-radius: 12px;
+          padding: 24px;
+        }
+
+        .surface-text {
+          font-size: 15px;
+          color: var(--warm-gray);
+          margin-bottom: 12px;
+        }
+
+        .reframe-text {
+          font-size: 20px;
+          line-height: 1.6;
+          color: var(--ink);
+        }
+
+        /* Angles Section */
+        .angles-section {
+          background: var(--paper);
+          border: 1px solid rgba(0,0,0,0.06);
+          border-radius: 12px;
+          padding: 24px;
+        }
+
+        .angles-list {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        /* Angle Card */
+        .angle-card {
+          background: var(--cream);
+          border: 1px solid rgba(0,0,0,0.04);
+          border-radius: 10px;
+          overflow: hidden;
+          transition: box-shadow 0.2s ease;
+        }
+
+        .angle-card:hover {
+          box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        .angle-header {
+          display: flex;
+          align-items: center;
+          padding: 16px 20px;
+          cursor: pointer;
+          gap: 12px;
+        }
+
+        .angle-number {
+          font-family: 'Space Mono', monospace;
+          font-size: 12px;
+          color: var(--rust);
+          background: rgba(184, 92, 60, 0.1);
+          padding: 6px 10px;
+          border-radius: 6px;
+          font-weight: 600;
+        }
+
+        .angle-title {
+          flex: 1;
+          font-size: 14px;
+          font-weight: 600;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          color: var(--ink);
+        }
+
+        .angle-chevron {
+          transition: transform 0.2s ease;
+        }
+
+        .angle-chevron.rotated {
+          transform: rotate(180deg);
+        }
+
+        .angle-content {
+          display: grid;
+          grid-template-rows: 0fr;
+          transition: grid-template-rows 0.3s ease;
+        }
+
+        .angle-content.expanded {
+          grid-template-rows: 1fr;
+        }
+
+        .angle-content-inner {
+          overflow: hidden;
+          padding: 0 20px;
+        }
+
+        .angle-content.expanded .angle-content-inner {
+          padding: 0 20px 20px;
+          border-top: 1px solid rgba(0,0,0,0.04);
+          padding-top: 16px;
+        }
+
+        .angle-summary {
+          font-size: 16px;
+          line-height: 1.6;
+          color: var(--charcoal);
+          margin-bottom: 20px;
+        }
+
+        .comparison-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+        }
+
+        @media (max-width: 600px) {
+          .comparison-row {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        .comparison-card {
+          background: var(--paper);
+          border-radius: 8px;
+          padding: 16px;
+        }
+
+        .comparison-card.ancestral {
+          border-left: 3px solid var(--sage);
+        }
+
+        .comparison-card.modern {
+          border-left: 3px solid var(--rust);
+        }
+
+        .comparison-image {
+          width: 100%;
+          aspect-ratio: 16/10;
+          border-radius: 6px;
+          overflow: hidden;
+          margin-bottom: 12px;
+          cursor: pointer;
+          background: var(--cream);
+        }
+
+        .comparison-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.2s ease;
+        }
+
+        .comparison-image:hover img {
+          transform: scale(1.03);
+        }
+
+        .comparison-label {
+          font-size: 11px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          color: var(--warm-gray);
+          margin-bottom: 8px;
+          display: block;
+        }
+
+        .comparison-text {
+          font-size: 14px;
+          line-height: 1.55;
+          color: var(--charcoal);
+        }
+
+        /* Image Section */
+        .image-section {
+          margin-top: 8px;
+        }
+
+        .image-section-title {
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--warm-gray);
+          margin-bottom: 16px;
+          padding-left: 4px;
+        }
+
+        .image-grid {
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          gap: 12px;
+        }
+
+        @media (max-width: 900px) {
+          .image-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        @media (max-width: 600px) {
+          .image-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        .image-tile {
+          position: relative;
+          aspect-ratio: 1;
+          border-radius: 8px;
+          overflow: hidden;
+          cursor: pointer;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          background: var(--cream);
+        }
+
+        .image-tile:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .image-tile img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .image-tile-number {
+          position: absolute;
+          top: 8px;
+          left: 8px;
+          background: var(--rust);
+          color: white;
+          font-family: 'Space Mono', monospace;
+          font-size: 10px;
+          font-weight: 600;
+          padding: 3px 6px;
+          border-radius: 4px;
+        }
+
+        .image-tile-overlay {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: linear-gradient(transparent, rgba(0,0,0,0.7));
+          padding: 24px 10px 10px;
+        }
+
+        .image-tile-title {
+          font-size: 11px;
+          font-weight: 600;
+          color: white;
+          text-transform: uppercase;
+          letter-spacing: 0.03em;
+          line-height: 1.3;
+        }
+
+        .image-tile-actions {
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          opacity: 0;
+          transition: opacity 0.15s ease;
+        }
+
+        .image-tile:hover .image-tile-actions {
+          opacity: 1;
+        }
+
+        .image-tile-actions button {
+          padding: 6px;
+          background: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Share Section */
+        .share-section {
+          background: var(--paper);
+          border: 1px solid rgba(0,0,0,0.06);
+          border-radius: 12px;
+          padding: 24px;
+        }
+
+        .share-preview {
+          position: relative;
+          background: var(--cream);
+          border-radius: 8px;
+          padding: 20px;
+          margin-bottom: 20px;
+          min-height: 80px;
+        }
+
+        .share-loading {
+          position: absolute;
+          inset: 0;
+          background: rgba(255,255,255,0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 8px;
+        }
+
+        .share-text {
+          font-size: 15px;
+          line-height: 1.65;
+          color: var(--charcoal);
+          white-space: pre-wrap;
+        }
+
+        .share-controls {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        .length-toggle {
+          display: flex;
+          background: var(--cream);
+          border-radius: 8px;
+          padding: 4px;
+        }
+
+        .length-option {
+          font-size: 13px;
+          font-weight: 500;
+          font-family: inherit;
+          padding: 8px 16px;
+          border-radius: 6px;
+          border: none;
+          cursor: pointer;
+          transition: all 0.15s ease;
+          color: var(--warm-gray);
+          background: transparent;
+        }
+
+        .length-option:hover {
+          color: var(--charcoal);
+        }
+
+        .length-option.active {
+          background: white;
+          color: var(--ink);
+          box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .share-buttons {
+          display: flex;
+          gap: 8px;
+        }
+
+        .copy-button {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 12px 24px;
+          font-size: 14px;
+          font-weight: 500;
+          font-family: inherit;
+          color: white;
+          background: var(--rust);
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: background 0.15s ease;
+        }
+
+        .copy-button:hover {
+          background: var(--rust-dark);
+        }
+
+        .copy-button.copied {
+          background: var(--sage);
+        }
+
+        .regen-button {
+          padding: 12px;
+          background: var(--cream);
+          border: 1px solid rgba(0,0,0,0.08);
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+
+        .regen-button:hover:not(:disabled) {
+          background: white;
+          border-color: var(--rust-light);
+        }
+
+        .regen-button:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        /* Follow-up Section */
+        .followup-section {
+          display: flex;
+          gap: 12px;
+          background: var(--paper);
+          border: 1px solid rgba(0,0,0,0.06);
+          border-radius: 12px;
+          padding: 16px;
+        }
+
+        .followup-input {
+          flex: 1;
+          padding: 12px 16px;
+          font-size: 14px;
+          font-family: inherit;
+          color: var(--ink);
+          background: var(--cream);
+          border: 1px solid rgba(0,0,0,0.06);
+          border-radius: 8px;
+          transition: border-color 0.15s ease;
+        }
+
+        .followup-input:focus {
+          outline: none;
+          border-color: var(--rust);
+        }
+
+        .followup-input::placeholder {
+          color: var(--warm-gray);
+        }
+
+        .followup-button {
+          padding: 12px 20px;
+          font-size: 18px;
+          color: white;
+          background: var(--rust);
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: background 0.15s ease;
+        }
+
+        .followup-button:hover:not(:disabled) {
+          background: var(--rust-dark);
+        }
+
+        .followup-button:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        /* Modal */
+        .modal-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 50;
+          background: rgba(0,0,0,0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 16px;
+        }
+
+        .modal-content {
+          position: relative;
+          max-width: 640px;
+          width: 100%;
+          background: white;
+          border-radius: 12px;
+          overflow: hidden;
+        }
+
+        .modal-close {
+          position: absolute;
+          top: 16px;
+          right: 16px;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: white;
+          border: 1px solid rgba(0,0,0,0.1);
+          border-radius: 8px;
+          font-size: 16px;
+          cursor: pointer;
+          z-index: 10;
+          transition: all 0.15s ease;
+        }
+
+        .modal-close:hover {
+          border-color: var(--rust);
+          color: var(--rust);
+        }
+
+        .modal-image {
+          width: 100%;
+          display: block;
+        }
+
+        .modal-info {
+          padding: 16px;
+        }
+
+        .modal-reason {
+          font-size: 14px;
+          color: var(--charcoal);
+          margin-bottom: 16px;
+        }
+
+        .modal-actions {
+          display: flex;
+          gap: 12px;
+        }
+
+        .modal-copy-btn, .modal-download-btn {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 14px;
+          font-size: 14px;
+          font-weight: 500;
+          font-family: inherit;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+
+        .modal-copy-btn {
+          color: white;
+          background: var(--rust);
+          border: none;
+        }
+
+        .modal-copy-btn:hover {
+          background: var(--rust-dark);
+        }
+
+        .modal-download-btn {
+          color: var(--ink);
+          background: var(--cream);
+          border: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .modal-download-btn:hover {
+          background: var(--paper);
+        }
+
+        /* History Panel */
+        .history-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 50;
+          background: rgba(0,0,0,0.5);
+        }
+
+        .history-panel {
+          position: absolute;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          width: 100%;
+          max-width: 400px;
+          background: white;
+          border-left: 1px solid rgba(0,0,0,0.1);
+          display: flex;
+          flex-direction: column;
+        }
+
+        .history-panel-header {
+          padding: 16px 20px;
+          border-bottom: 1px solid rgba(0,0,0,0.06);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .history-panel-header h2 {
+          font-size: 18px;
+          font-weight: 600;
+        }
+
+        .history-panel-actions {
+          display: flex;
+          gap: 12px;
+          align-items: center;
+        }
+
+        .clear-history-btn {
+          font-size: 12px;
+          color: var(--warm-gray);
+          background: none;
+          border: none;
+          cursor: pointer;
+        }
+
+        .clear-history-btn:hover {
+          color: #DC2626;
+        }
+
+        .close-history-btn {
+          font-size: 16px;
+          color: var(--warm-gray);
+          background: none;
+          border: none;
+          cursor: pointer;
+        }
+
+        .close-history-btn:hover {
+          color: var(--ink);
+        }
+
+        .history-list {
+          flex: 1;
+          overflow-y: auto;
+        }
+
+        .history-empty {
+          padding: 48px 24px;
+          text-align: center;
+          color: var(--warm-gray);
+        }
+
+        .history-empty p {
+          margin-top: 8px;
+        }
+
+        .history-item {
+          padding: 16px 20px;
+          border-bottom: 1px solid rgba(0,0,0,0.04);
+          cursor: pointer;
+          transition: background 0.15s ease;
+          display: flex;
+          gap: 12px;
+        }
+
+        .history-item:hover {
+          background: var(--cream);
+        }
+
+        .history-item-content {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .history-item-text {
+          font-size: 14px;
+          color: var(--ink);
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          margin-bottom: 4px;
+        }
+
+        .history-item-time {
+          font-size: 12px;
+          color: var(--warm-gray);
+        }
+
+        .history-item-delete {
+          opacity: 0;
+          color: var(--warm-gray);
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 4px;
+          transition: opacity 0.15s ease;
+        }
+
+        .history-item:hover .history-item-delete {
+          opacity: 1;
+        }
+
+        .history-item-delete:hover {
+          color: #DC2626;
+        }
+
+        .history-item-thumb {
+          width: 48px;
+          height: 48px;
+          border-radius: 6px;
+          overflow: hidden;
+          flex-shrink: 0;
+          background: var(--cream);
+        }
+
+        .history-item-thumb img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        /* Toast */
+        .toast {
+          position: fixed;
+          bottom: 32px;
+          left: 50%;
+          transform: translateX(-50%);
+          padding: 12px 24px;
+          background: white;
+          border: 1px solid rgba(0,0,0,0.1);
+          border-radius: 8px;
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--ink);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          z-index: 100;
+          animation: slideUp 0.3s ease;
+        }
+
+        /* Utility */
+        .hidden {
+          display: none;
+        }
+
+        /* Animations */
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(10px); }
           to { opacity: 1; transform: translateY(0); }
         }
+
         @keyframes slideUp {
           from { opacity: 0; transform: translate(-50%, 20px); }
           to { opacity: 1; transform: translate(-50%, 0); }
         }
-        .animate-fadeIn { animation: fadeIn 0.4s ease forwards; }
-        .animate-slideUp { animation: slideUp 0.3s ease; }
       `}</style>
     </main>
   );
@@ -1031,12 +2080,12 @@ export default function Home() {
 
 // Icons
 function Spinner() {
-  return <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />;
+  return <span style={{ width: 20, height: 20, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', display: 'inline-block', animation: 'spin 0.8s linear infinite' }}><style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style></span>;
 }
 
 function UploadIcon() {
   return (
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C75B39" strokeWidth="1.5">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#B85C3C" strokeWidth="1.5">
       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
       <polyline points="17 8 12 3 7 8" />
       <line x1="12" y1="3" x2="12" y2="15" />
@@ -1087,6 +2136,14 @@ function RefreshIcon() {
       <path d="M23 4v6h-6" />
       <path d="M1 20v-6h6" />
       <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+    </svg>
+  );
+}
+
+function ChevronIcon({ className }: { className?: string }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+      <polyline points="6 9 12 15 18 9" />
     </svg>
   );
 }

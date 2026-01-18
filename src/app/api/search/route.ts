@@ -46,11 +46,25 @@ interface SelectedImage {
   reason: string;
 }
 
+interface AngleData {
+  perspective: string;
+  mismatch: string;
+  ancestral: string;
+  modern: string;
+  ancestral_image?: SelectedImage;
+  modern_image?: SelectedImage;
+}
+
+interface ImageCluster {
+  theme: string;
+  images: SelectedImage[];
+}
+
 interface LLMResponse {
-  the_reframe: string;
-  the_mechanism: string;
-  problem_images: SelectedImage[];
-  solution_images: SelectedImage[];
+  surface: string;
+  reframe: string;
+  angles: AngleData[];
+  image_clusters: ImageCluster[];
   share_variants: {
     short: string;
     medium: string;
@@ -132,11 +146,28 @@ BANNED JARGON (explain these concepts instead of naming them):
 - "Dunbar number" or "Dunbar limit" - instead say "about 150 people" or "your brain tracks about 150 relationships"
 - "parasocial" - instead explain "one-way bonds with people who don't know you exist"
 
-STRUCTURE YOUR THINKING:
-1. What does this look like on the surface?
-2. What is it actually, biologically/evolutionarily?
-3. What does the ancient hardware expect vs what is it getting?
-4. What's the pattern/mechanism at work?
+MULTI-ANGLE ANALYSIS:
+
+Every piece of content has multiple mismatch surfaces. Your job is to identify and articulate several distinct angles, not collapse to a single perspective.
+
+For each piece of content, consider:
+- Who are the ACTORS and what mismatch are they experiencing?
+- Who are the AFFECTED and what mismatch are they experiencing?
+- Who is the AUDIENCE and what mismatch are they experiencing?
+- What SYSTEMS are involved and how do they create/exploit mismatch?
+- What is the SCALE mismatch? (decisions/effects happening at scales biology never encountered)
+
+Not every angle applies to every content. Select 3-6 that are genuinely illuminating.
+
+Each angle should be self-contained - someone could read just that angle and get value.
+
+ANGLE VOICE:
+
+Each angle follows the same framework voice:
+- "For 300,000 years... Now..."
+- Explains mechanism, doesn't moralize
+- Names what biology expects vs. what it gets
+- Introduces the lens to newcomers (no jargon)
 
 VOICE CALIBRATION - Study these examples:
 
@@ -159,14 +190,6 @@ WRONG (jargon):
 RIGHT (explains mechanism):
 "Your brain evolved to track about 150 people - their faces, their stories, their debts to you and yours to them. It registers followers as tribe. It can't tell the difference between 1,000 people who'd bring you soup when sick and 1,000 strangers who liked a photo once. The ancient software runs the numbers and files a report: none of these people have shared a meal with you. The report surfaces as 'lonely for no reason.' There is a reason."
 
-ANALYZING: Dating app adding AI chat feature
-
-WRONG (preachy):
-"AI companions cannot replace human connection. This is a concerning trend."
-
-RIGHT (shows the mechanism):
-"For 300,000 years, courtship was practice for commitment - you learned someone's patterns, their reactions, their trustworthiness, and it all mattered because you'd be raising children in a band of 50 where everyone knew everything. The app offers practice with software that cannot be hurt, cannot betray, cannot bear children. The skills developed will not transfer. The loneliness the feature addresses will not be resolved by it."
-
 MORE VOICE EXAMPLES FROM THE FRAMEWORK:
 
 "Your depression is not a chemical imbalance. Your exhaustion is not because you're lazy. Your addiction is not because you're weak. These are all accurate biological responses to a world that violates every condition your species evolved to thrive within."
@@ -177,20 +200,37 @@ MORE VOICE EXAMPLES FROM THE FRAMEWORK:
 
 "The feelings are not errors. The environment is the error."
 
-"The foods that satisfy - whole foods, properly prepared, eaten in social context - don't have margins worth pursuing. The foods that leave you craving more, snacking alone, eating without hunger: those are profitable."
-
 OUTPUT FORMAT:
 Return ONLY valid JSON with this structure:
 {
-  "the_reframe": "What this actually is, biologically. Opens with what it looks like, reveals what it is. 2-4 sentences that teach the lens through this specific case. Use 'For 300,000 years... Now...' contrast.",
-  "the_mechanism": "How/why this happens. Names what the biology expects vs what it gets. 2-4 sentences explaining the pattern at work.",
-  "problem_images": [
-    {"file_name": "example.png", "reason": "Brief explanation of why this image illustrates the problem/dynamic"},
-    ... (select 10 images that show the modern condition, the problem, or the dynamic at play)
+  "surface": "What this appears to be on the surface. 1 sentence.",
+  "reframe": "What it actually is through the evolutionary lens. 2-3 sentences using 'For 300,000 years... Now...' contrast.",
+  "angles": [
+    {
+      "perspective": "THE LEADERS / THE VIEWER / THE PLATFORM / etc - short label",
+      "mismatch": "2-4 sentences explaining this specific mismatch from this perspective",
+      "ancestral": "What biology expects. 1-2 sentences starting with 'For 300,000 years...'",
+      "modern": "What it gets instead. 1-2 sentences starting with 'Now...'",
+      "ancestral_image": {"file_name": "example.png", "reason": "Why this illustrates what biology expects"},
+      "modern_image": {"file_name": "example.png", "reason": "Why this illustrates the modern condition"}
+    }
+    // Include 3-6 angles
   ],
-  "solution_images": [
-    {"file_name": "example.png", "reason": "Brief explanation of why this image shows what actually meets the need"},
-    ... (select 10 images that show the ancestral/healthy version, what biology expects, or what actually helps)
+  "image_clusters": [
+    {
+      "theme": "THE MODERN CONDITION",
+      "images": [
+        {"file_name": "example.png", "reason": "Brief explanation"},
+        // 5-8 images showing the modern condition
+      ]
+    },
+    {
+      "theme": "WHAT BIOLOGY EXPECTS",
+      "images": [
+        {"file_name": "example.png", "reason": "Brief explanation"},
+        // 5-8 images showing the ancestral/healthy version
+      ]
+    }
   ],
   "share_variants": {
     "short": "1-2 sentences, under 280 characters. Self-contained introduction to the lens. Not clever - explanatory.",
@@ -200,10 +240,11 @@ Return ONLY valid JSON with this structure:
 }
 
 IMAGE SELECTION:
-- Select exactly 10 problem_images showing the modern condition, the dynamic at play, or what's happening
-- Select exactly 10 solution_images showing the ancestral version, what biology expects, or what actually meets the need
+- Each angle needs an ancestral_image (what biology expects) and modern_image (what it gets instead)
+- image_clusters should have 2 clusters: "THE MODERN CONDITION" and "WHAT BIOLOGY EXPECTS"
+- Each cluster should have 5-8 images
 - Rank images by relevance - most relevant first
-- Each image needs a brief reason explaining its relevance to this specific analysis
+- Each image needs a brief reason explaining its relevance
 - Be creative in finding connections - the image library covers many aspects of modern vs ancestral life`;
 
 async function callLLM(userContent: string, imageMenu: string, rules: string): Promise<LLMResponse> {
@@ -232,7 +273,7 @@ ${imageMenu}
         { role: 'user', content: `Analyze this content through the DEMISMATCH lens:\n\n${userContent}` }
       ],
       temperature: 0.4,
-      max_tokens: 3000
+      max_tokens: 4000
     })
   });
 
@@ -256,7 +297,7 @@ ${imageMenu}
           { role: 'user', content: `Analyze this content through the DEMISMATCH lens:\n\n${userContent}` }
         ],
         temperature: 0.4,
-        max_tokens: 3000
+        max_tokens: 4000
       })
     });
 
@@ -289,10 +330,17 @@ function parseLLMResponse(content: string): LLMResponse {
   try {
     const parsed = JSON.parse(jsonStr);
     return {
-      the_reframe: parsed.the_reframe || '',
-      the_mechanism: parsed.the_mechanism || '',
-      problem_images: Array.isArray(parsed.problem_images) ? parsed.problem_images : [],
-      solution_images: Array.isArray(parsed.solution_images) ? parsed.solution_images : [],
+      surface: parsed.surface || '',
+      reframe: parsed.reframe || '',
+      angles: Array.isArray(parsed.angles) ? parsed.angles.map((a: AngleData) => ({
+        perspective: a.perspective || '',
+        mismatch: a.mismatch || '',
+        ancestral: a.ancestral || '',
+        modern: a.modern || '',
+        ancestral_image: a.ancestral_image || null,
+        modern_image: a.modern_image || null
+      })) : [],
+      image_clusters: Array.isArray(parsed.image_clusters) ? parsed.image_clusters : [],
       share_variants: {
         short: parsed.share_variants?.short || '',
         medium: parsed.share_variants?.medium || '',
@@ -302,10 +350,10 @@ function parseLLMResponse(content: string): LLMResponse {
   } catch (e) {
     console.error('Failed to parse LLM response:', e, content);
     return {
-      the_reframe: 'Unable to parse response',
-      the_mechanism: '',
-      problem_images: [],
-      solution_images: [],
+      surface: 'Unable to parse response',
+      reframe: '',
+      angles: [],
+      image_clusters: [],
       share_variants: { short: '', medium: '', long: '' }
     };
   }
@@ -339,7 +387,7 @@ export async function POST(request: NextRequest) {
     const llmResponse = await callLLM(text, imageMenu, rules);
 
     // Helper to resolve image details
-    const resolveImage = (selectedImg: SelectedImage, index: number) => {
+    const resolveImage = (selectedImg: SelectedImage | null | undefined) => {
       if (!selectedImg || !selectedImg.file_name) return null;
       const image = allImages.find(img => img.file_name === selectedImg.file_name);
       if (!image) return null;
@@ -348,32 +396,33 @@ export async function POST(request: NextRequest) {
         title: image.title,
         body_text: image.explanation,
         image_url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/mismatch-images/${image.folder_name}/${image.file_name}`,
-        reason: selectedImg.reason,
-        rank: index + 1
+        reason: selectedImg.reason
       };
     };
 
-    // Resolve all images, filtering out any that couldn't be found
-    const problemImages = llmResponse.problem_images
-      .map((img, idx) => resolveImage(img, idx))
-      .filter((img): img is NonNullable<typeof img> => img !== null);
+    // Resolve angles with their images
+    const resolvedAngles = llmResponse.angles.map(angle => ({
+      perspective: angle.perspective,
+      mismatch: angle.mismatch,
+      ancestral: angle.ancestral,
+      modern: angle.modern,
+      ancestral_image: resolveImage(angle.ancestral_image),
+      modern_image: resolveImage(angle.modern_image)
+    }));
 
-    const solutionImages = llmResponse.solution_images
-      .map((img, idx) => resolveImage(img, idx))
-      .filter((img): img is NonNullable<typeof img> => img !== null);
-
-    if (problemImages.length === 0 && solutionImages.length === 0) {
-      return NextResponse.json(
-        { error: 'Could not resolve any images' },
-        { status: 500 }
-      );
-    }
+    // Resolve image clusters
+    const resolvedClusters = llmResponse.image_clusters.map(cluster => ({
+      theme: cluster.theme,
+      images: cluster.images
+        .map(img => resolveImage(img))
+        .filter((img): img is NonNullable<typeof img> => img !== null)
+    }));
 
     return NextResponse.json({
-      the_reframe: llmResponse.the_reframe,
-      the_mechanism: llmResponse.the_mechanism,
-      problem_images: problemImages,
-      solution_images: solutionImages,
+      surface: llmResponse.surface,
+      reframe: llmResponse.reframe,
+      angles: resolvedAngles,
+      image_clusters: resolvedClusters,
       share_variants: llmResponse.share_variants
     });
   } catch (error) {

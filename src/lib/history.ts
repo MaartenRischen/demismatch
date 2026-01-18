@@ -1,13 +1,13 @@
-import { ImageResult, ShareVariants } from './supabase';
+import { ImageResult, AngleResult, ImageCluster, ShareVariants } from './supabase';
 
 export interface HistoryEntry {
   id: string;
   timestamp: number;
   query: string;
-  the_reframe: string;
-  the_mechanism: string;
-  problem_images: ImageResult[];
-  solution_images: ImageResult[];
+  surface: string;
+  reframe: string;
+  angles: AngleResult[];
+  image_clusters: ImageCluster[];
   share_variants: ShareVariants;
 }
 

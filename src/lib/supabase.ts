@@ -22,7 +22,20 @@ export interface ImageResult {
   body_text?: string;
   image_url: string;
   reason?: string;
-  rank?: number;
+}
+
+export interface AngleResult {
+  perspective: string;
+  mismatch: string;
+  ancestral: string;
+  modern: string;
+  ancestral_image: ImageResult | null;
+  modern_image: ImageResult | null;
+}
+
+export interface ImageCluster {
+  theme: string;
+  images: ImageResult[];
 }
 
 export interface ShareVariants {
@@ -32,10 +45,10 @@ export interface ShareVariants {
 }
 
 export interface AnalysisResponse {
-  the_reframe: string;
-  the_mechanism: string;
-  problem_images: ImageResult[];
-  solution_images: ImageResult[];
+  surface: string;
+  reframe: string;
+  angles: AngleResult[];
+  image_clusters: ImageCluster[];
   share_variants: ShareVariants;
 }
 
@@ -56,10 +69,10 @@ export async function analyzeWithLLM(text: string): Promise<AnalysisResponse> {
 
   const data = await response.json();
   return {
-    the_reframe: data.the_reframe || '',
-    the_mechanism: data.the_mechanism || '',
-    problem_images: data.problem_images || [],
-    solution_images: data.solution_images || [],
+    surface: data.surface || '',
+    reframe: data.reframe || '',
+    angles: data.angles || [],
+    image_clusters: data.image_clusters || [],
     share_variants: {
       short: data.share_variants?.short || '',
       medium: data.share_variants?.medium || '',
