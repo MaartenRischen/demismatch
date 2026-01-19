@@ -602,33 +602,15 @@ export default function HUDApp() {
               )}
             </div>
 
-            {/* Image Display */}
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-sm text-[#555] mb-2 uppercase tracking-wider">Original</h3>
-                <img src={uploadedImage} alt="Original" className="w-full rounded-xl" />
-              </div>
-              <div>
-                <h3 className="text-sm text-amber-400 mb-2 uppercase tracking-wider">Fitness Overlay</h3>
-                {generatedImage ? (
-                  <img src={generatedImage} alt="Overlay" className="w-full rounded-xl" />
-                ) : (
-                  <div className="bg-[#111] rounded-xl aspect-video flex items-center justify-center text-[#333]">
-                    {analysis ? 'Overlay generation in progress...' : 'Processing...'}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Comprehensive Analysis */}
+            {/* Unified Analysis Block */}
             {analysis && (
-              <div className="space-y-6">
-                
-                {/* NEXT ACTION - Prominent */}
+              <div className="bg-[#111] border border-[#222] rounded-xl p-6 md:p-8">
+
+                {/* RECOMMENDED ACTION */}
                 {evoPsychAction && (
-                  <div className={`bg-[#111] border-2 ${analysis.is_mismatch ? 'border-red-500/50' : 'border-amber-500/50'} rounded-xl p-6`}>
-                    <div className="flex items-center gap-4">
-                      <div className={`text-4xl font-bold ${evoPsychAction.color}`}>
+                  <div className={`mb-8 pb-6 border-b ${analysis.is_mismatch ? 'border-red-500/30' : 'border-amber-500/30'}`}>
+                    <div className="flex items-start gap-4">
+                      <div className={`text-3xl md:text-4xl font-bold ${evoPsychAction.color}`}>
                         {evoPsychAction.action}
                       </div>
                       <div className="flex-1">
@@ -641,220 +623,156 @@ export default function HUDApp() {
                   </div>
                 )}
 
-                {/* Scene Overview */}
-                <div className="bg-[#111] border border-[#222] rounded-xl p-6">
-                  <h3 className="text-lg font-semibold mb-4 text-amber-400">Scene Overview</h3>
-                  <div className="grid md:grid-cols-3 gap-6">
-                    <div>
-                      <p className="text-gray-500 text-sm">Scene Type</p>
-                      <p className={`text-xl font-semibold ${analysis.is_mismatch ? 'text-red-400' : 'text-green-400'}`}>
-                        {analysis.scene_type?.toUpperCase()}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500 text-sm">Emotional Valence</p>
-                      <p className={`text-xl font-semibold ${(analysis.aggregate?.emotional_valence || 0) > 0 ? 'text-green-400' : 'text-red-400'}`}>
-                        {(analysis.aggregate?.emotional_valence || 0) > 0 ? 'Positive' : 'Negative'} ({analysis.aggregate?.emotional_valence?.toFixed(2)})
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500 text-sm">Arousal Level</p>
-                      <p className="text-xl font-semibold text-white">
-                        {((analysis.aggregate?.arousal_level || 0) * 100).toFixed(0)}%
-                      </p>
-                    </div>
-                  </div>
-                  <div className="mt-4">
-                    <p className="text-gray-500 text-sm">Context</p>
-                    <p className="text-gray-300">{analysis.pov_context}</p>
-                  </div>
+                {/* SCENE OVERVIEW */}
+                <div className="mb-6">
+                  <h3 className="text-sm uppercase tracking-wider text-amber-400 mb-3">Scene Overview</h3>
+                  <p className="text-gray-300 mb-2">
+                    <span className="text-gray-500">Type:</span>{' '}
+                    <span className={analysis.is_mismatch ? 'text-red-400 font-semibold' : 'text-green-400 font-semibold'}>
+                      {analysis.scene_type?.toUpperCase()}
+                    </span>
+                    {' · '}
+                    <span className="text-gray-500">Valence:</span>{' '}
+                    <span className={(analysis.aggregate?.emotional_valence || 0) > 0 ? 'text-green-400' : 'text-red-400'}>
+                      {(analysis.aggregate?.emotional_valence || 0) > 0 ? 'Positive' : 'Negative'} ({analysis.aggregate?.emotional_valence?.toFixed(2)})
+                    </span>
+                    {' · '}
+                    <span className="text-gray-500">Arousal:</span>{' '}
+                    <span className="text-white">{((analysis.aggregate?.arousal_level || 0) * 100).toFixed(0)}%</span>
+                  </p>
+                  <p className="text-gray-400">{analysis.pov_context}</p>
                 </div>
 
-                {/* Biometrics */}
-                <div className="bg-[#111] border border-[#222] rounded-xl p-6">
-                  <h3 className="text-lg font-semibold mb-4 text-amber-400">Neurochemical State</h3>
-                  <div className="grid md:grid-cols-3 gap-4">
-                    {Object.entries(analysis.biometrics || {}).map(([key, val]) => (
-                      <div key={key} className="bg-[#0a0a0a] rounded-lg p-3">
-                        <div className="flex justify-between mb-1">
-                          <span className="text-gray-400 text-sm capitalize">{key}</span>
-                          <span className={`text-sm font-semibold ${
-                            val.level === 'MAX' || val.level === 'HIGH' ? 'text-green-400' :
-                            val.level === 'LOW' || val.level === 'ZERO' ? 'text-red-400' : 'text-yellow-400'
-                          }`}>{val.level}</span>
-                        </div>
-                        <div className="h-2 bg-[#222] rounded-full overflow-hidden">
-                          <div 
-                            className={`h-full rounded-full ${
-                              val.level === 'MAX' ? 'bg-green-500 w-full' :
-                              val.level === 'HIGH' ? 'bg-green-400 w-3/4' :
-                              val.level === 'MODERATE' || val.level === 'STABLE' ? 'bg-yellow-400 w-1/2' :
-                              val.level === 'LOW' ? 'bg-orange-400 w-1/4' : 'bg-red-400 w-[10%]'
-                            }`}
-                          />
-                        </div>
-                      </div>
+                {/* NEUROCHEMICAL STATE */}
+                <div className="mb-6">
+                  <h3 className="text-sm uppercase tracking-wider text-amber-400 mb-3">Neurochemical State</h3>
+                  <p className="text-gray-300">
+                    {Object.entries(analysis.biometrics || {}).map(([key, val], i, arr) => (
+                      <span key={key}>
+                        <span className="text-gray-500 capitalize">{key}:</span>{' '}
+                        <span className={
+                          val.level === 'MAX' || val.level === 'HIGH' ? 'text-green-400' :
+                          val.level === 'LOW' || val.level === 'ZERO' ? 'text-red-400' : 'text-yellow-400'
+                        }>{val.level}</span>
+                        {i < arr.length - 1 && ' · '}
+                      </span>
                     ))}
-                  </div>
+                  </p>
                 </div>
 
-                {/* Status Panel */}
-                <div className="bg-[#111] border border-[#222] rounded-xl p-6">
-                  <h3 className="text-lg font-semibold mb-4 text-amber-400">Environmental Assessment</h3>
-                  <div className="grid md:grid-cols-2 gap-4">
+                {/* ENVIRONMENTAL ASSESSMENT */}
+                <div className="mb-6">
+                  <h3 className="text-sm uppercase tracking-wider text-amber-400 mb-3">Environmental Assessment</h3>
+                  <div className="text-gray-300 space-y-1">
                     {Object.entries(analysis.status_panel || {}).map(([key, val]) => (
-                      <div key={key} className="flex justify-between items-start p-3 bg-[#0a0a0a] rounded-lg">
-                        <div>
-                          <p className="text-gray-400 text-sm capitalize">{key.replace(/_/g, ' ')}</p>
-                          <p className="text-gray-500 text-xs mt-1">{val.detail}</p>
-                        </div>
-                        <span className={`font-semibold ${
-                          val.level === 'HIGH' || val.level === 'CRITICAL' || val.level === 'COHESIVE' || val.level === 'SECURE' ? 'text-green-400' :
+                      <p key={key}>
+                        <span className="text-gray-500 capitalize">{key.replace(/_/g, ' ')}:</span>{' '}
+                        <span className={
+                          val.level === 'HIGH' || val.level === 'CRITICAL' || val.level === 'COHESIVE' || val.level === 'SECURE' ? 'text-green-400 font-medium' :
                           val.level === 'ZERO' || val.level === 'NONE' || val.level === 'ISOLATED' ? 'text-gray-500' :
                           val.level === 'LOW' || val.level === 'FRAGMENTED' ? 'text-yellow-400' : 'text-orange-400'
-                        }`}>{val.level}</span>
-                      </div>
+                        }>{val.level}</span>
+                        {val.detail && <span className="text-gray-500"> — {val.detail}</span>}
+                      </p>
                     ))}
                   </div>
                 </div>
 
-                {/* Primary Target */}
-                <div className="bg-[#111] border border-[#222] rounded-xl p-6">
-                  <h3 className="text-lg font-semibold mb-4 text-amber-400">Primary Focus</h3>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-xl">
-                      🎯
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xl font-semibold text-white">{analysis.primary_target?.label}</p>
-                      <p className="text-gray-400 mt-1">{analysis.primary_target?.what}</p>
-                      <p className="text-gray-300 mt-2">{analysis.primary_target?.analysis}</p>
-                      <div className="flex flex-wrap gap-2 mt-3">
-                        {(analysis.primary_target?.mechanisms || []).map((m, i) => (
-                          <span key={i} className="px-2 py-1 bg-amber-500/20 text-amber-400 text-xs rounded">
-                            {m.replace(/_/g, ' ')}
-                          </span>
-                        ))}
-                      </div>
-                      <p className="text-gray-500 text-sm mt-2">
-                        Importance: {analysis.primary_target?.importance_score}/100
-                      </p>
-                    </div>
-                  </div>
+                {/* PRIMARY FOCUS */}
+                <div className="mb-6">
+                  <h3 className="text-sm uppercase tracking-wider text-amber-400 mb-3">Primary Focus</h3>
+                  <p className="text-white font-semibold text-lg mb-1">{analysis.primary_target?.label}</p>
+                  <p className="text-gray-400 mb-2">{analysis.primary_target?.what}</p>
+                  <p className="text-gray-300 mb-2">{analysis.primary_target?.analysis}</p>
+                  <p className="text-gray-500 text-sm">
+                    Mechanisms: {(analysis.primary_target?.mechanisms || []).map(m => m.replace(/_/g, ' ')).join(', ')} · Importance: {analysis.primary_target?.importance_score}/100
+                  </p>
                 </div>
 
-                {/* Detected Items */}
+                {/* DETECTED ELEMENTS */}
                 {analysis.detected_items?.length > 0 && (
-                  <div className="bg-[#111] border border-[#222] rounded-xl p-6">
-                    <h3 className="text-lg font-semibold mb-4 text-amber-400">Detected Elements</h3>
-                    <div className="space-y-3">
+                  <div className="mb-6">
+                    <h3 className="text-sm uppercase tracking-wider text-amber-400 mb-3">Detected Elements</h3>
+                    <div className="text-gray-300 space-y-1">
                       {analysis.detected_items.map((item, i) => (
-                        <div key={i} className="flex items-center gap-3 p-3 bg-[#0a0a0a] rounded-lg">
-                          <div className={`w-3 h-3 rounded-full ${
+                        <p key={i}>
+                          <span className={`inline-block w-2 h-2 rounded-full mr-2 ${
                             item.color === 'green' ? 'bg-green-500' :
                             item.color === 'red' ? 'bg-red-500' :
                             item.color === 'yellow' ? 'bg-yellow-500' : 'bg-cyan-500'
                           }`} />
-                          <div className="flex-1">
-                            <span className="text-white">{item.class}</span>
-                            <span className="text-gray-500 text-sm ml-2">({item.position} {item.vertical})</span>
-                          </div>
-                          <div className="text-right">
-                            <span className="text-gray-400 text-sm">{item.importance_score}%</span>
-                            <div className="flex gap-1 mt-1">
-                              {item.mechanisms?.slice(0, 2).map((m, j) => (
-                                <span key={j} className="px-1.5 py-0.5 bg-[#222] text-gray-500 text-xs rounded">
-                                  {m}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
+                          <span className="text-white">{item.class}</span>
+                          <span className="text-gray-500"> ({item.position} {item.vertical}) — {item.importance_score}% — {item.mechanisms?.slice(0, 2).join(', ')}</span>
+                        </p>
                       ))}
                     </div>
                   </div>
                 )}
 
-                {/* People */}
+                {/* SOCIAL ENTITIES */}
                 {analysis.people?.length > 0 && (
-                  <div className="bg-[#111] border border-[#222] rounded-xl p-6">
-                    <h3 className="text-lg font-semibold mb-4 text-amber-400">Social Entities</h3>
-                    <div className="grid md:grid-cols-2 gap-4">
+                  <div className="mb-6">
+                    <h3 className="text-sm uppercase tracking-wider text-amber-400 mb-3">Social Entities</h3>
+                    <div className="text-gray-300 space-y-2">
                       {analysis.people.map((person, i) => (
-                        <div key={i} className="p-4 bg-[#0a0a0a] rounded-lg border-l-4" style={{
-                          borderColor: person.bond_status === 'KIN' || person.bond_status === 'ALLY' ? '#22c55e' :
-                                       person.bond_status === 'THREAT' ? '#ef4444' :
-                                       person.bond_status === 'POTENTIAL_MATE' ? '#ec4899' : '#eab308'
-                        }}>
-                          <p className="text-white font-medium">{person.description}</p>
-                          <p className="text-gray-400 text-sm mt-1">{person.label}</p>
-                          <div className="flex justify-between mt-2">
-                            <span className={`text-sm ${
-                              person.bond_status === 'KIN' || person.bond_status === 'ALLY' ? 'text-green-400' :
-                              person.bond_status === 'THREAT' ? 'text-red-400' :
-                              person.bond_status === 'POTENTIAL_MATE' ? 'text-pink-400' : 'text-yellow-400'
-                            }`}>{person.bond_status}</span>
-                            <span className="text-gray-500 text-sm">{person.importance_score}% important</span>
-                          </div>
-                        </div>
+                        <p key={i}>
+                          <span className="text-white font-medium">{person.description}</span>
+                          <span className="text-gray-500"> — {person.label} — </span>
+                          <span className={
+                            person.bond_status === 'KIN' || person.bond_status === 'ALLY' ? 'text-green-400' :
+                            person.bond_status === 'THREAT' ? 'text-red-400' :
+                            person.bond_status === 'POTENTIAL_MATE' ? 'text-pink-400' : 'text-yellow-400'
+                          }>{person.bond_status}</span>
+                          <span className="text-gray-500"> ({person.importance_score}% important)</span>
+                        </p>
                       ))}
                     </div>
                   </div>
                 )}
 
-                {/* Connections */}
+                {/* SOCIAL CONNECTIONS */}
                 {analysis.connections?.length > 0 && (
-                  <div className="bg-[#111] border border-[#222] rounded-xl p-6">
-                    <h3 className="text-lg font-semibold mb-4 text-amber-400">Social Connections</h3>
-                    <div className="space-y-2">
-                      {analysis.connections.map((conn, i) => (
-                        <div key={i} className="flex items-center gap-3 p-2 bg-[#0a0a0a] rounded">
-                          <span className="text-gray-300">{conn.from}</span>
-                          <span className={`px-2 py-0.5 rounded text-xs ${
-                            conn.color === 'green' ? 'bg-green-500/20 text-green-400' :
-                            conn.color === 'red' ? 'bg-red-500/20 text-red-400' : 'bg-yellow-500/20 text-yellow-400'
-                          }`}>{conn.type}</span>
-                          <span className="text-gray-300">{conn.to}</span>
-                        </div>
+                  <div className="mb-6">
+                    <h3 className="text-sm uppercase tracking-wider text-amber-400 mb-3">Social Connections</h3>
+                    <p className="text-gray-300">
+                      {analysis.connections.map((conn, i, arr) => (
+                        <span key={i}>
+                          {conn.from}{' '}
+                          <span className={
+                            conn.color === 'green' ? 'text-green-400' :
+                            conn.color === 'red' ? 'text-red-400' : 'text-yellow-400'
+                          }>→ {conn.type} →</span>{' '}
+                          {conn.to}
+                          {i < arr.length - 1 && ' · '}
+                        </span>
                       ))}
-                    </div>
+                    </p>
                   </div>
                 )}
 
-                {/* Survival/Reproduction Items */}
-                <div className="grid md:grid-cols-2 gap-4">
-                  {analysis.aggregate?.top_survival_items?.length > 0 && (
-                    <div className="bg-[#111] border border-[#222] rounded-xl p-6">
-                      <h3 className="text-lg font-semibold mb-3 text-red-400">Survival Relevance</h3>
-                      <ul className="space-y-2">
-                        {analysis.aggregate.top_survival_items.map((item, i) => (
-                          <li key={i} className="text-gray-300 flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-red-500" />
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {analysis.aggregate?.top_reproduction_items?.length > 0 && (
-                    <div className="bg-[#111] border border-[#222] rounded-xl p-6">
-                      <h3 className="text-lg font-semibold mb-3 text-pink-400">Reproduction Relevance</h3>
-                      <ul className="space-y-2">
-                        {analysis.aggregate.top_reproduction_items.map((item, i) => (
-                          <li key={i} className="text-gray-300 flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-pink-500" />
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
+                {/* SURVIVAL & REPRODUCTION */}
+                {(analysis.aggregate?.top_survival_items?.length > 0 || analysis.aggregate?.top_reproduction_items?.length > 0) && (
+                  <div className="mb-6">
+                    <h3 className="text-sm uppercase tracking-wider text-amber-400 mb-3">Fitness Relevance</h3>
+                    {analysis.aggregate?.top_survival_items?.length > 0 && (
+                      <p className="text-gray-300 mb-1">
+                        <span className="text-red-400 font-medium">Survival:</span>{' '}
+                        {analysis.aggregate.top_survival_items.join(' · ')}
+                      </p>
+                    )}
+                    {analysis.aggregate?.top_reproduction_items?.length > 0 && (
+                      <p className="text-gray-300">
+                        <span className="text-pink-400 font-medium">Reproduction:</span>{' '}
+                        {analysis.aggregate.top_reproduction_items.join(' · ')}
+                      </p>
+                    )}
+                  </div>
+                )}
 
-                {/* Mismatch Warning */}
+                {/* MISMATCH WARNING */}
                 {analysis.is_mismatch && (
-                  <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-6">
-                    <h3 className="text-lg font-semibold mb-2 text-red-400">⚠ Environmental Mismatch Detected</h3>
+                  <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+                    <p className="text-red-400 font-semibold mb-1">⚠ Environmental Mismatch Detected</p>
                     <p className="text-red-300">{analysis.mismatch_details}</p>
                     <p className="text-red-400/70 text-sm mt-2">
                       This modern environment is triggering ancestral responses that may not serve your fitness in the current context.
@@ -862,14 +780,35 @@ export default function HUDApp() {
                   </div>
                 )}
 
-                {/* Global Summary */}
-                <div className="bg-[#111] border border-[#222] rounded-xl p-6">
-                  <h3 className="text-lg font-semibold mb-3 text-amber-400">Evolutionary Summary</h3>
+                {/* EVOLUTIONARY SUMMARY */}
+                <div className="pt-4 border-t border-[#222]">
+                  <h3 className="text-sm uppercase tracking-wider text-amber-400 mb-3">Evolutionary Summary</h3>
                   <p className="text-gray-300 leading-relaxed">{analysis.aggregate?.global_summary}</p>
                 </div>
 
               </div>
             )}
+
+            {/* IMAGE BATCH - All images together at bottom */}
+            <div className="bg-[#111] border border-[#222] rounded-xl p-6">
+              <h3 className="text-sm uppercase tracking-wider text-amber-400 mb-4">Images</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <p className="text-xs text-gray-500 mb-2">Original</p>
+                  <img src={uploadedImage} alt="Original" className="w-full rounded-lg" />
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 mb-2">Fitness Overlay</p>
+                  {generatedImage ? (
+                    <img src={generatedImage} alt="Overlay" className="w-full rounded-lg" />
+                  ) : (
+                    <div className="bg-[#0a0a0a] rounded-lg aspect-video flex items-center justify-center text-[#333]">
+                      {analysis ? 'Overlay generation in progress...' : 'Processing...'}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
 
             {/* History */}
             {HistoryPanel}
