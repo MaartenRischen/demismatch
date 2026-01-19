@@ -484,90 +484,34 @@ export default function Home() {
     }
   };
 
-  // Angle Card Component
-  const AngleCard = ({ angle, index }: { angle: AngleResult; index: number }) => {
-    const isExpanded = expandedAngles.has(index);
-    const angleNumber = String(index + 1).padStart(2, '0');
+  // Collect all images for the bottom gallery
+  const getAllImages = (): ImageResult[] => {
+    const allImages: ImageResult[] = [];
+    const seenUrls = new Set<string>();
 
-    return (
-      <div className="angle-card">
-        <div
-          className="angle-header"
-          onClick={() => toggleAngle(index)}
-        >
-          <span className="angle-number">{angleNumber}</span>
-          <span className="angle-title">{angle.perspective}</span>
-          <ChevronIcon className={`angle-chevron ${isExpanded ? 'rotated' : ''}`} />
-        </div>
+    // Add images from angles
+    angles.forEach(angle => {
+      if (angle.ancestral_image && !seenUrls.has(angle.ancestral_image.image_url)) {
+        allImages.push(angle.ancestral_image);
+        seenUrls.add(angle.ancestral_image.image_url);
+      }
+      if (angle.modern_image && !seenUrls.has(angle.modern_image.image_url)) {
+        allImages.push(angle.modern_image);
+        seenUrls.add(angle.modern_image.image_url);
+      }
+    });
 
-        <div className={`angle-content ${isExpanded ? 'expanded' : ''}`}>
-          <div className="angle-content-inner">
-            <p className="angle-summary">{angle.mismatch}</p>
+    // Add images from clusters
+    imageClusters.forEach(cluster => {
+      cluster.images.forEach(img => {
+        if (!seenUrls.has(img.image_url)) {
+          allImages.push(img);
+          seenUrls.add(img.image_url);
+        }
+      });
+    });
 
-            <div className="comparison-row">
-              <div className="comparison-card ancestral">
-                {angle.ancestral_image && (
-                  <div
-                    className="comparison-image"
-                    onClick={() => setSelectedImage(angle.ancestral_image)}
-                  >
-                    <img src={angle.ancestral_image.image_url} alt="" />
-                  </div>
-                )}
-                <span className="comparison-label">For 300,000 years</span>
-                <p className="comparison-text">{angle.ancestral}</p>
-              </div>
-
-              <div className="comparison-card modern">
-                {angle.modern_image && (
-                  <div
-                    className="comparison-image"
-                    onClick={() => setSelectedImage(angle.modern_image)}
-                  >
-                    <img src={angle.modern_image.image_url} alt="" />
-                  </div>
-                )}
-                <span className="comparison-label">Now</span>
-                <p className="comparison-text">{angle.modern}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  // Image Section Component
-  const ImageSection = ({ cluster }: { cluster: ImageCluster }) => {
-    if (cluster.images.length === 0) return null;
-
-    return (
-      <div className="image-section">
-        <h3 className="image-section-title">{cluster.theme}</h3>
-        <div className="image-grid">
-          {cluster.images.map((image, index) => (
-            <div
-              key={image.id || index}
-              className="image-tile"
-              onClick={() => setSelectedImage(image)}
-            >
-              <img src={image.image_url} alt={image.title} loading="lazy" />
-              <span className="image-tile-number">{index + 1}</span>
-              <div className="image-tile-overlay">
-                <span className="image-tile-title">{image.title}</span>
-              </div>
-              <div className="image-tile-actions">
-                <button
-                  onClick={(e) => { e.stopPropagation(); copyImageToClipboard(image.image_url); }}
-                >
-                  <CopyIcon />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+    return allImages;
   };
 
   return (
@@ -834,33 +778,65 @@ export default function Home() {
               </div>
             )}
 
-            {/* The Reframe Section */}
-            <div className="reframe-section">
-              <h2 className="section-title">THE REFRAME</h2>
-              <div className="section-divider" />
-              {surface && (
-                <p className="surface-text">{surface}</p>
+            {/* UNIFIED ANALYSIS TEXT BLOCK */}
+            <div className="analysis-block">
+              {/* Surface + Reframe */}
+              <div className="analysis-header">
+                {surface && <p className="surface-text">{surface}</p>}
+                <p className="reframe-text">{reframe}</p>
+              </div>
+
+              {/* All Angles - Text Only */}
+              {angles.length > 0 && (
+                <div className="angles-text">
+                  {angles.map((angle, index) => (
+                    <div key={index} className="angle-block">
+                      <h3 className="angle-perspective">
+                        <span className="angle-num">{String(index + 1).padStart(2, '0')}</span>
+                        {angle.perspective}
+                      </h3>
+                      <p className="angle-mismatch">{angle.mismatch}</p>
+                      <div className="angle-comparison">
+                        <p className="ancestral-text">
+                          <strong>For 300,000 years:</strong> {angle.ancestral}
+                        </p>
+                        <p className="modern-text">
+                          <strong>Now:</strong> {angle.modern}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               )}
-              <p className="reframe-text">{reframe}</p>
             </div>
 
-            {/* The Angles Section */}
-            {angles.length > 0 && (
-              <div className="angles-section">
-                <h2 className="section-title">THE ANGLES</h2>
+            {/* ALL IMAGES - SINGLE BATCH AT BOTTOM */}
+            {getAllImages().length > 0 && (
+              <div className="images-batch">
+                <h2 className="section-title">IMAGES</h2>
                 <div className="section-divider" />
-                <div className="angles-list">
-                  {angles.map((angle, index) => (
-                    <AngleCard key={index} angle={angle} index={index} />
+                <div className="image-grid">
+                  {getAllImages().map((image, index) => (
+                    <div
+                      key={image.id || index}
+                      className="image-tile"
+                      onClick={() => setSelectedImage(image)}
+                    >
+                      <img src={image.image_url} alt={image.title} loading="lazy" />
+                      <span className="image-tile-number">{index + 1}</span>
+                      <div className="image-tile-overlay">
+                        <span className="image-tile-title">{image.title}</span>
+                      </div>
+                      <div className="image-tile-actions">
+                        <button onClick={(e) => { e.stopPropagation(); copyImageToClipboard(image.image_url); }}>
+                          <CopyIcon />
+                        </button>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
             )}
-
-            {/* Image Clusters */}
-            {imageClusters.map((cluster, index) => (
-              <ImageSection key={index} cluster={cluster} />
-            ))}
 
             {/* Share Section */}
             <div className="share-section">
@@ -1346,12 +1322,18 @@ export default function Home() {
           margin-bottom: 20px;
         }
 
-        /* Reframe Section */
-        .reframe-section {
+        /* UNIFIED ANALYSIS BLOCK */
+        .analysis-block {
           background: var(--paper);
           border: 1px solid rgba(0,0,0,0.06);
           border-radius: 12px;
-          padding: 24px;
+          padding: 32px;
+        }
+
+        .analysis-header {
+          margin-bottom: 32px;
+          padding-bottom: 24px;
+          border-bottom: 1px solid rgba(0,0,0,0.06);
         }
 
         .surface-text {
@@ -1361,177 +1343,90 @@ export default function Home() {
         }
 
         .reframe-text {
-          font-size: 20px;
+          font-size: 22px;
           line-height: 1.6;
           color: var(--ink);
+          font-family: 'Playfair Display', Georgia, serif;
         }
 
-        /* Angles Section */
-        .angles-section {
+        /* Angles - Text Only */
+        .angles-text {
+          display: flex;
+          flex-direction: column;
+          gap: 32px;
+        }
+
+        .angle-block {
+          padding-bottom: 24px;
+          border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .angle-block:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
+
+        .angle-perspective {
+          font-size: 14px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: var(--rust);
+          margin-bottom: 12px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .angle-num {
+          font-family: 'Space Mono', monospace;
+          font-size: 11px;
+          background: rgba(184, 92, 60, 0.1);
+          padding: 4px 8px;
+          border-radius: 4px;
+        }
+
+        .angle-mismatch {
+          font-size: 17px;
+          line-height: 1.65;
+          color: var(--charcoal);
+          margin-bottom: 16px;
+        }
+
+        .angle-comparison {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          padding-left: 16px;
+          border-left: 2px solid rgba(0,0,0,0.06);
+        }
+
+        .ancestral-text {
+          font-size: 15px;
+          line-height: 1.6;
+          color: var(--charcoal);
+        }
+
+        .ancestral-text strong {
+          color: var(--sage);
+        }
+
+        .modern-text {
+          font-size: 15px;
+          line-height: 1.6;
+          color: var(--charcoal);
+        }
+
+        .modern-text strong {
+          color: var(--rust);
+        }
+
+        /* Images Batch Section */
+        .images-batch {
           background: var(--paper);
           border: 1px solid rgba(0,0,0,0.06);
           border-radius: 12px;
           padding: 24px;
-        }
-
-        .angles-list {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-
-        /* Angle Card */
-        .angle-card {
-          background: var(--cream);
-          border: 1px solid rgba(0,0,0,0.04);
-          border-radius: 10px;
-          overflow: hidden;
-          transition: box-shadow 0.2s ease;
-        }
-
-        .angle-card:hover {
-          box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-        }
-
-        .angle-header {
-          display: flex;
-          align-items: center;
-          padding: 16px 20px;
-          cursor: pointer;
-          gap: 12px;
-        }
-
-        .angle-number {
-          font-family: 'Space Mono', monospace;
-          font-size: 12px;
-          color: var(--rust);
-          background: rgba(184, 92, 60, 0.1);
-          padding: 6px 10px;
-          border-radius: 6px;
-          font-weight: 600;
-        }
-
-        .angle-title {
-          flex: 1;
-          font-size: 14px;
-          font-weight: 600;
-          letter-spacing: 0.05em;
-          text-transform: uppercase;
-          color: var(--ink);
-        }
-
-        .angle-chevron {
-          transition: transform 0.2s ease;
-        }
-
-        .angle-chevron.rotated {
-          transform: rotate(180deg);
-        }
-
-        .angle-content {
-          display: grid;
-          grid-template-rows: 0fr;
-          transition: grid-template-rows 0.3s ease;
-        }
-
-        .angle-content.expanded {
-          grid-template-rows: 1fr;
-        }
-
-        .angle-content-inner {
-          overflow: hidden;
-          padding: 0 20px;
-        }
-
-        .angle-content.expanded .angle-content-inner {
-          padding: 0 20px 20px;
-          border-top: 1px solid rgba(0,0,0,0.04);
-          padding-top: 16px;
-        }
-
-        .angle-summary {
-          font-size: 16px;
-          line-height: 1.6;
-          color: var(--charcoal);
-          margin-bottom: 20px;
-        }
-
-        .comparison-row {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 16px;
-        }
-
-        @media (max-width: 600px) {
-          .comparison-row {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        .comparison-card {
-          background: var(--paper);
-          border-radius: 8px;
-          padding: 16px;
-        }
-
-        .comparison-card.ancestral {
-          border-left: 3px solid var(--sage);
-        }
-
-        .comparison-card.modern {
-          border-left: 3px solid var(--rust);
-        }
-
-        .comparison-image {
-          width: 100%;
-          aspect-ratio: 16/10;
-          border-radius: 6px;
-          overflow: hidden;
-          margin-bottom: 12px;
-          cursor: pointer;
-          background: var(--cream);
-        }
-
-        .comparison-image img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: transform 0.2s ease;
-        }
-
-        .comparison-image:hover img {
-          transform: scale(1.03);
-        }
-
-        .comparison-label {
-          font-size: 11px;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.08em;
-          color: var(--warm-gray);
-          margin-bottom: 8px;
-          display: block;
-        }
-
-        .comparison-text {
-          font-size: 14px;
-          line-height: 1.55;
-          color: var(--charcoal);
-        }
-
-        /* Image Section */
-        .image-section {
-          margin-top: 8px;
-        }
-
-        .image-section-title {
-          font-size: 12px;
-          font-weight: 600;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: var(--warm-gray);
-          margin-bottom: 16px;
-          padding-left: 4px;
         }
 
         .image-grid {
