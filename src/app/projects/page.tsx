@@ -101,9 +101,12 @@ export default function ProjectsPage() {
               </ul>
 
               <div className="flex flex-wrap gap-3">
-                <button className="bg-purple-500 hover:bg-purple-400 text-white px-5 py-2.5 rounded-lg font-medium transition">
+                <Link
+                  href="/projects/tribe-matcher"
+                  className="bg-purple-500 hover:bg-purple-400 text-white px-5 py-2.5 rounded-lg font-medium transition"
+                >
                   Read Working Document →
-                </button>
+                </Link>
                 <button className="bg-white/10 hover:bg-white/20 text-white px-5 py-2.5 rounded-lg font-medium transition border border-white/20">
                   Get notified →
                 </button>
