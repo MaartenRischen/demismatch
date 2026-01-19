@@ -3,52 +3,87 @@ import Navigation from "@/components/Navigation";
 
 export default function TribeMatcherPage() {
   return (
-    <main className="min-h-screen bg-[#0d0d0d] text-white pt-20">
+    <main className="min-h-screen bg-[#FAF9F6] text-[#1A1A1A] pt-20">
       <Navigation />
 
       {/* Header */}
       <header className="px-6 md:px-8 pt-12 pb-8 max-w-4xl mx-auto">
         <Link
           href="/projects"
-          className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition mb-6"
+          className="inline-flex items-center gap-2 text-[#7C3AED] hover:text-[#6D28D9] transition mb-6"
         >
           ← Back to Projects
         </Link>
         <div className="flex items-center gap-3 mb-4">
-          <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs font-bold rounded-full uppercase tracking-wider">
+          <span className="px-3 py-1 bg-[#7C3AED] text-white text-xs font-bold rounded-full uppercase tracking-wider">
             Early Research
           </span>
           <span className="text-gray-500 text-sm">Working Document v0.5</span>
         </div>
         <h1
-          className="text-4xl md:text-5xl lg:text-6xl tracking-tight text-white mb-4"
+          className="text-4xl md:text-5xl lg:text-6xl tracking-tight text-[#1A1A1A] mb-4"
           style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
         >
           AI-to-AI Tribe Formation System
         </h1>
-        <p className="text-xl text-purple-300 mb-6" style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic' }}>
+        <p className="text-xl text-[#7C3AED]" style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic' }}>
           A Proposal for Using LLM Intimacy to Solve Human Loneliness
         </p>
       </header>
 
+      {/* TL;DR Section */}
+      <section className="px-6 md:px-8 pb-8 max-w-4xl mx-auto">
+        <div className="bg-gradient-to-br from-[#7C3AED]/10 to-[#6D28D9]/5 border border-[#7C3AED]/20 rounded-2xl p-6 md:p-8">
+          <h2 className="text-lg font-bold text-[#7C3AED] uppercase tracking-wider mb-4">TL;DR</h2>
+
+          <div className="space-y-4 text-[#1A1A1A]" style={{ fontFamily: 'Georgia, serif' }}>
+            <p className="text-lg font-medium">
+              <strong>The Problem:</strong> Humans evolved for tribes of ~150 people. We now live among strangers, and epidemic loneliness is the predictable result. Current solutions (therapy, apps, meetups) treat individuals when the problem is environmental.
+            </p>
+
+            <p className="text-lg font-medium">
+              <strong>The Opportunity:</strong> Millions of people have had deeply intimate conversations with AI assistants—revealing who they actually are, not who they perform on profiles. This data already exists.
+            </p>
+
+            <p className="text-lg font-medium">
+              <strong>The Proposal:</strong> Let LLMs talk to each other (with consent) to match people into <em>tribes</em>—not pairs, not dates. The AI generates abstract "compatibility signatures" that never expose raw conversations, then finds groups of 25-150 people who would actually function together: complementary roles, compatible nervous systems, resolvable conflict styles.
+            </p>
+
+            <p className="text-lg font-medium">
+              <strong>Key Design Choices:</strong> Pair bonds search as merged units (no secret individual searching). No romantic matching—that happens naturally after you know someone. Cross-platform from day one (Claude + GPT + Gemini users in same pool). Geographic reality enforced.
+            </p>
+
+            <p className="text-lg font-medium">
+              <strong>The Ask:</strong> Feedback on whether this is possible, desirable, and buildable. See questions at the end.
+            </p>
+          </div>
+
+          <div className="mt-6 pt-4 border-t border-[#7C3AED]/20">
+            <p className="text-sm text-gray-600">
+              Full document below (~20 min read) covers the problem analysis, system architecture, privacy design, challenges, and implementation path.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Content */}
       <article className="px-6 md:px-8 pb-20 max-w-4xl mx-auto">
-        <div className="prose prose-invert prose-lg max-w-none
-          prose-headings:font-serif prose-headings:text-white
-          prose-h2:text-3xl prose-h2:mt-16 prose-h2:mb-6 prose-h2:border-b prose-h2:border-purple-500/30 prose-h2:pb-4
-          prose-h3:text-2xl prose-h3:mt-10 prose-h3:mb-4 prose-h3:text-purple-300
-          prose-h4:text-xl prose-h4:mt-8 prose-h4:mb-3 prose-h4:text-gray-300
-          prose-p:text-gray-300 prose-p:leading-relaxed
-          prose-strong:text-white prose-strong:font-semibold
-          prose-ul:text-gray-300 prose-ol:text-gray-300
-          prose-li:marker:text-purple-400
-          prose-blockquote:border-purple-500 prose-blockquote:text-gray-400 prose-blockquote:italic
-          prose-hr:border-gray-700
+        <div className="prose prose-lg max-w-none
+          prose-headings:font-serif prose-headings:text-[#1A1A1A]
+          prose-h2:text-3xl prose-h2:mt-16 prose-h2:mb-6 prose-h2:border-b prose-h2:border-[#7C3AED]/30 prose-h2:pb-4
+          prose-h3:text-2xl prose-h3:mt-10 prose-h3:mb-4 prose-h3:text-[#6D28D9]
+          prose-h4:text-xl prose-h4:mt-8 prose-h4:mb-3 prose-h4:text-[#1A1A1A]
+          prose-p:text-[#374151] prose-p:leading-relaxed
+          prose-strong:text-[#1A1A1A] prose-strong:font-semibold
+          prose-ul:text-[#374151] prose-ol:text-[#374151]
+          prose-li:marker:text-[#7C3AED]
+          prose-blockquote:border-[#7C3AED] prose-blockquote:text-gray-600 prose-blockquote:italic
+          prose-hr:border-gray-300
           prose-table:text-sm
-          prose-th:text-left prose-th:text-purple-300 prose-th:font-semibold prose-th:border-b prose-th:border-gray-700 prose-th:py-3 prose-th:px-4
-          prose-td:border-b prose-td:border-gray-800 prose-td:py-3 prose-td:px-4 prose-td:text-gray-400
-          prose-code:text-purple-300 prose-code:bg-purple-900/30 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-sm
-          prose-pre:bg-[#1a1a2e] prose-pre:border prose-pre:border-purple-900/50 prose-pre:rounded-xl
+          prose-th:text-left prose-th:text-[#6D28D9] prose-th:font-semibold prose-th:border-b prose-th:border-gray-300 prose-th:py-3 prose-th:px-4 prose-th:bg-[#7C3AED]/5
+          prose-td:border-b prose-td:border-gray-200 prose-td:py-3 prose-td:px-4 prose-td:text-[#374151]
+          prose-code:text-[#7C3AED] prose-code:bg-[#7C3AED]/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-sm
+          prose-pre:bg-[#1A1A1A] prose-pre:text-gray-300 prose-pre:border prose-pre:border-gray-200 prose-pre:rounded-xl
         ">
           <hr className="my-8" />
 
