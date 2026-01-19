@@ -1,6 +1,259 @@
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
 
+// SVG Components
+const DunbarCirclesSVG = () => (
+  <svg viewBox="0 0 400 400" className="w-full max-w-md mx-auto my-8">
+    {/* Outer circle - 150 */}
+    <circle cx="200" cy="200" r="180" fill="none" stroke="#7C3AED" strokeWidth="2" strokeDasharray="4 2" opacity="0.3" />
+    <text x="200" y="30" textAnchor="middle" fill="#7C3AED" fontSize="12" fontFamily="Georgia">~150 — Your Tribe</text>
+
+    {/* 50 circle */}
+    <circle cx="200" cy="200" r="130" fill="none" stroke="#7C3AED" strokeWidth="2" strokeDasharray="4 2" opacity="0.5" />
+    <text x="340" y="120" textAnchor="start" fill="#6D28D9" fontSize="11" fontFamily="Georgia">~50 — Your Band</text>
+
+    {/* 15 circle */}
+    <circle cx="200" cy="200" r="80" fill="none" stroke="#7C3AED" strokeWidth="2" opacity="0.7" />
+    <text x="60" y="150" textAnchor="end" fill="#6D28D9" fontSize="11" fontFamily="Georgia">~15 — Close friends</text>
+
+    {/* 5 circle - innermost */}
+    <circle cx="200" cy="200" r="40" fill="#7C3AED" opacity="0.2" stroke="#7C3AED" strokeWidth="2" />
+    <text x="200" y="205" textAnchor="middle" fill="#1A1A1A" fontSize="12" fontWeight="bold" fontFamily="Georgia">~5</text>
+    <text x="200" y="220" textAnchor="middle" fill="#374151" fontSize="9" fontFamily="Georgia">3am call</text>
+
+    {/* You at center */}
+    <circle cx="200" cy="200" r="8" fill="#7C3AED" />
+
+    {/* People dots in each layer */}
+    {/* 5 layer */}
+    {[0, 72, 144, 216, 288].map((angle, i) => (
+      <circle key={`inner-${i}`} cx={200 + 25 * Math.cos(angle * Math.PI / 180)} cy={200 + 25 * Math.sin(angle * Math.PI / 180)} r="4" fill="#7C3AED" opacity="0.8" />
+    ))}
+    {/* 15 layer */}
+    {[0, 36, 72, 108, 144, 180, 216, 252, 288, 324].map((angle, i) => (
+      <circle key={`mid-${i}`} cx={200 + 60 * Math.cos(angle * Math.PI / 180)} cy={200 + 60 * Math.sin(angle * Math.PI / 180)} r="3" fill="#7C3AED" opacity="0.6" />
+    ))}
+    {/* 50 layer */}
+    {Array.from({length: 20}).map((_, i) => (
+      <circle key={`outer1-${i}`} cx={200 + 105 * Math.cos(i * 18 * Math.PI / 180)} cy={200 + 105 * Math.sin(i * 18 * Math.PI / 180)} r="2.5" fill="#7C3AED" opacity="0.4" />
+    ))}
+    {/* 150 layer */}
+    {Array.from({length: 30}).map((_, i) => (
+      <circle key={`outer2-${i}`} cx={200 + 155 * Math.cos(i * 12 * Math.PI / 180)} cy={200 + 155 * Math.sin(i * 12 * Math.PI / 180)} r="2" fill="#7C3AED" opacity="0.25" />
+    ))}
+  </svg>
+);
+
+const SystemArchitectureSVG = () => (
+  <svg viewBox="0 0 600 450" className="w-full max-w-2xl mx-auto my-8">
+    {/* User LLMs */}
+    {[0, 1, 2].map((i) => (
+      <g key={i}>
+        <rect x={50 + i * 200} y="20" width="100" height="80" rx="8" fill="#7C3AED" opacity="0.1" stroke="#7C3AED" strokeWidth="2" />
+        <text x={100 + i * 200} y="50" textAnchor="middle" fill="#7C3AED" fontSize="11" fontWeight="bold">User {String.fromCharCode(65 + i)}'s</text>
+        <text x={100 + i * 200} y="65" textAnchor="middle" fill="#7C3AED" fontSize="11" fontWeight="bold">LLM</text>
+        <text x={100 + i * 200} y="85" textAnchor="middle" fill="#374151" fontSize="9">Years of</text>
+        <text x={100 + i * 200} y="95" textAnchor="middle" fill="#374151" fontSize="9">conversation</text>
+
+        {/* Arrow down */}
+        <line x1={100 + i * 200} y1="100" x2={100 + i * 200} y2="130" stroke="#7C3AED" strokeWidth="2" markerEnd="url(#arrowhead)" />
+
+        {/* Signature Generator */}
+        <rect x={50 + i * 200} y="140" width="100" height="60" rx="8" fill="white" stroke="#7C3AED" strokeWidth="2" />
+        <text x={100 + i * 200} y="165" textAnchor="middle" fill="#6D28D9" fontSize="10" fontWeight="bold">Compatibility</text>
+        <text x={100 + i * 200} y="180" textAnchor="middle" fill="#6D28D9" fontSize="10" fontWeight="bold">Signature</text>
+      </g>
+    ))}
+
+    {/* Arrowhead definition */}
+    <defs>
+      <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="#7C3AED" />
+      </marker>
+    </defs>
+
+    {/* Converging lines to matching engine */}
+    <line x1="100" y1="200" x2="300" y2="270" stroke="#7C3AED" strokeWidth="2" />
+    <line x1="300" y1="200" x2="300" y2="270" stroke="#7C3AED" strokeWidth="2" />
+    <line x1="500" y1="200" x2="300" y2="270" stroke="#7C3AED" strokeWidth="2" />
+
+    {/* Matching Engine */}
+    <rect x="175" y="280" width="250" height="100" rx="12" fill="#7C3AED" opacity="0.15" stroke="#7C3AED" strokeWidth="2" />
+    <text x="300" y="305" textAnchor="middle" fill="#1A1A1A" fontSize="13" fontWeight="bold">Tribe Matching Engine</text>
+    <text x="300" y="325" textAnchor="middle" fill="#374151" fontSize="10">Group dynamics simulation</text>
+    <text x="300" y="340" textAnchor="middle" fill="#374151" fontSize="10">Role complementarity</text>
+    <text x="300" y="355" textAnchor="middle" fill="#374151" fontSize="10">Conflict modeling</text>
+    <text x="300" y="370" textAnchor="middle" fill="#374151" fontSize="10">Geographic weighting</text>
+
+    {/* Arrow to output */}
+    <line x1="300" y1="380" x2="300" y2="410" stroke="#7C3AED" strokeWidth="2" markerEnd="url(#arrowhead)" />
+
+    {/* Output */}
+    <rect x="200" y="420" width="200" height="25" rx="6" fill="#7C3AED" />
+    <text x="300" y="437" textAnchor="middle" fill="white" fontSize="11" fontWeight="bold">Tribe Candidates + Intro Protocol</text>
+  </svg>
+);
+
+const MatchingUnitsSVG = () => (
+  <svg viewBox="0 0 600 200" className="w-full max-w-2xl mx-auto my-8">
+    {/* Individual */}
+    <g>
+      <circle cx="80" cy="80" r="25" fill="#7C3AED" opacity="0.2" stroke="#7C3AED" strokeWidth="2" />
+      <circle cx="80" cy="80" r="8" fill="#7C3AED" />
+      <text x="80" y="130" textAnchor="middle" fill="#1A1A1A" fontSize="12" fontWeight="bold">Individual</text>
+      <text x="80" y="145" textAnchor="middle" fill="#374151" fontSize="9">Starting from zero</text>
+    </g>
+
+    {/* Pair */}
+    <g>
+      <ellipse cx="280" cy="80" rx="50" ry="35" fill="#7C3AED" opacity="0.2" stroke="#7C3AED" strokeWidth="2" />
+      <circle cx="260" cy="80" r="8" fill="#7C3AED" />
+      <circle cx="300" cy="80" r="8" fill="#7C3AED" />
+      <path d="M265 80 Q280 70 295 80" stroke="#7C3AED" strokeWidth="2" fill="none" />
+      <text x="280" y="130" textAnchor="middle" fill="#1A1A1A" fontSize="12" fontWeight="bold">Pair Bond</text>
+      <text x="280" y="145" textAnchor="middle" fill="#374151" fontSize="9">Search merged or not at all</text>
+    </g>
+
+    {/* Group */}
+    <g>
+      <ellipse cx="480" cy="80" rx="70" ry="45" fill="#7C3AED" opacity="0.2" stroke="#7C3AED" strokeWidth="2" />
+      {[0, 60, 120, 180, 240, 300].map((angle, i) => (
+        <circle key={i} cx={480 + 30 * Math.cos(angle * Math.PI / 180)} cy={80 + 25 * Math.sin(angle * Math.PI / 180)} r="7" fill="#7C3AED" opacity={0.6 + i * 0.05} />
+      ))}
+      <text x="480" y="145" textAnchor="middle" fill="#1A1A1A" fontSize="12" fontWeight="bold">Existing Group</text>
+      <text x="480" y="160" textAnchor="middle" fill="#374151" fontSize="9">Expand the tribe you have</text>
+    </g>
+
+    {/* Arrows between */}
+    <path d="M120 80 L180 80" stroke="#7C3AED" strokeWidth="1" strokeDasharray="4 2" opacity="0.5" />
+    <path d="M350 80 L400 80" stroke="#7C3AED" strokeWidth="1" strokeDasharray="4 2" opacity="0.5" />
+  </svg>
+);
+
+const MismatchComparisonSVG = () => (
+  <svg viewBox="0 0 600 300" className="w-full max-w-2xl mx-auto my-8">
+    {/* Left side - Evolved For */}
+    <rect x="20" y="20" width="250" height="260" rx="12" fill="#7C3AED" opacity="0.08" />
+    <text x="145" y="50" textAnchor="middle" fill="#7C3AED" fontSize="14" fontWeight="bold">What We Evolved For</text>
+
+    {/* Tribe icon */}
+    <g transform="translate(70, 80)">
+      <circle cx="75" cy="40" r="35" fill="none" stroke="#7C3AED" strokeWidth="1.5" strokeDasharray="3 2" opacity="0.5" />
+      {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => (
+        <circle key={i} cx={75 + 25 * Math.cos(angle * Math.PI / 180)} cy={40 + 25 * Math.sin(angle * Math.PI / 180)} r="5" fill="#7C3AED" opacity="0.7" />
+      ))}
+      <circle cx="75" cy="40" r="7" fill="#7C3AED" />
+    </g>
+
+    <text x="145" y="160" textAnchor="middle" fill="#374151" fontSize="10">25-50 known people daily</text>
+    <text x="145" y="180" textAnchor="middle" fill="#374151" fontSize="10">Work with visible benefit</text>
+    <text x="145" y="200" textAnchor="middle" fill="#374151" fontSize="10">Fire circle every night</text>
+    <text x="145" y="220" textAnchor="middle" fill="#374151" fontSize="10">Children raised by 20+ adults</text>
+    <text x="145" y="240" textAnchor="middle" fill="#374151" fontSize="10">Problems resolve through action</text>
+    <text x="145" y="265" textAnchor="middle" fill="#7C3AED" fontSize="11" fontWeight="bold">Hardware fits environment</text>
+
+    {/* Right side - What We Have */}
+    <rect x="330" y="20" width="250" height="260" rx="12" fill="#DC2626" opacity="0.08" />
+    <text x="455" y="50" textAnchor="middle" fill="#DC2626" fontSize="14" fontWeight="bold">What We Have Now</text>
+
+    {/* Scattered dots icon */}
+    <g transform="translate(380, 80)">
+      {Array.from({length: 25}).map((_, i) => (
+        <circle key={i} cx={75 + (Math.random() - 0.5) * 100} cy={40 + (Math.random() - 0.5) * 60} r="3" fill="#DC2626" opacity={0.3 + Math.random() * 0.3} />
+      ))}
+      <circle cx="75" cy="40" r="7" fill="#DC2626" />
+      <text x="75" y="45" textAnchor="middle" fill="white" fontSize="8">?</text>
+    </g>
+
+    <text x="455" y="160" textAnchor="middle" fill="#374151" fontSize="10">Surrounded by strangers</text>
+    <text x="455" y="180" textAnchor="middle" fill="#374151" fontSize="10">Abstract labor for shareholders</text>
+    <text x="455" y="200" textAnchor="middle" fill="#374151" fontSize="10">Netflix alone</text>
+    <text x="455" y="220" textAnchor="middle" fill="#374151" fontSize="10">1-2 exhausted parents</text>
+    <text x="455" y="240" textAnchor="middle" fill="#374151" fontSize="10">Open loops that never close</text>
+    <text x="455" y="265" textAnchor="middle" fill="#DC2626" fontSize="11" fontWeight="bold">Hardware ≠ environment</text>
+
+    {/* VS divider */}
+    <circle cx="300" cy="150" r="20" fill="white" stroke="#374151" strokeWidth="1" />
+    <text x="300" y="155" textAnchor="middle" fill="#374151" fontSize="12" fontWeight="bold">vs</text>
+  </svg>
+);
+
+const PrivacyFlowSVG = () => (
+  <svg viewBox="0 0 500 150" className="w-full max-w-xl mx-auto my-8">
+    {/* Raw conversations */}
+    <rect x="10" y="40" width="100" height="70" rx="8" fill="#7C3AED" opacity="0.1" stroke="#7C3AED" strokeWidth="2" />
+    <text x="60" y="65" textAnchor="middle" fill="#374151" fontSize="9">Years of</text>
+    <text x="60" y="80" textAnchor="middle" fill="#374151" fontSize="9">intimate</text>
+    <text x="60" y="95" textAnchor="middle" fill="#374151" fontSize="9">conversations</text>
+
+    {/* Arrow with X */}
+    <line x1="120" y1="75" x2="170" y2="75" stroke="#DC2626" strokeWidth="2" strokeDasharray="5 3" />
+    <text x="145" y="65" textAnchor="middle" fill="#DC2626" fontSize="16" fontWeight="bold">✕</text>
+    <text x="145" y="100" textAnchor="middle" fill="#DC2626" fontSize="8">Never shared</text>
+
+    {/* Lossy transformation */}
+    <rect x="180" y="30" width="90" height="90" rx="8" fill="white" stroke="#7C3AED" strokeWidth="2" />
+    <text x="225" y="55" textAnchor="middle" fill="#6D28D9" fontSize="10" fontWeight="bold">Lossy</text>
+    <text x="225" y="70" textAnchor="middle" fill="#6D28D9" fontSize="10" fontWeight="bold">Transform</text>
+    <text x="225" y="90" textAnchor="middle" fill="#374151" fontSize="8">Irreversible</text>
+    <text x="225" y="102" textAnchor="middle" fill="#374151" fontSize="8">abstraction</text>
+
+    {/* Arrow */}
+    <line x1="280" y1="75" x2="320" y2="75" stroke="#7C3AED" strokeWidth="2" markerEnd="url(#arrowhead2)" />
+    <defs>
+      <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="#7C3AED" />
+      </marker>
+    </defs>
+
+    {/* Compatibility Signature */}
+    <rect x="330" y="40" width="100" height="70" rx="8" fill="#7C3AED" opacity="0.2" stroke="#7C3AED" strokeWidth="2" />
+    <text x="380" y="65" textAnchor="middle" fill="#1A1A1A" fontSize="10" fontWeight="bold">Compatibility</text>
+    <text x="380" y="80" textAnchor="middle" fill="#1A1A1A" fontSize="10" fontWeight="bold">Signature</text>
+    <text x="380" y="98" textAnchor="middle" fill="#374151" fontSize="8">Safe to share</text>
+
+    {/* Checkmark */}
+    <circle cx="460" cy="75" r="20" fill="#7C3AED" opacity="0.1" stroke="#7C3AED" strokeWidth="2" />
+    <text x="460" y="82" textAnchor="middle" fill="#7C3AED" fontSize="20">✓</text>
+
+    {/* Labels */}
+    <text x="60" y="130" textAnchor="middle" fill="#374151" fontSize="9">Your secrets</text>
+    <text x="380" y="130" textAnchor="middle" fill="#374151" fontSize="9">Matching vectors</text>
+  </svg>
+);
+
+const TribeVsPairSVG = () => (
+  <svg viewBox="0 0 500 200" className="w-full max-w-xl mx-auto my-8">
+    {/* Dating Apps - Pair */}
+    <g>
+      <text x="125" y="25" textAnchor="middle" fill="#DC2626" fontSize="12" fontWeight="bold">Dating Apps</text>
+      <circle cx="100" cy="80" r="15" fill="#DC2626" opacity="0.3" stroke="#DC2626" strokeWidth="2" />
+      <circle cx="150" cy="80" r="15" fill="#DC2626" opacity="0.3" stroke="#DC2626" strokeWidth="2" />
+      <path d="M115 80 L135 80" stroke="#DC2626" strokeWidth="2" />
+      <text x="125" y="120" textAnchor="middle" fill="#374151" fontSize="10">Match pairs</text>
+      <text x="125" y="135" textAnchor="middle" fill="#374151" fontSize="10">Infinite choice</text>
+      <text x="125" y="150" textAnchor="middle" fill="#374151" fontSize="10">Success = churn</text>
+      <text x="125" y="170" textAnchor="middle" fill="#DC2626" fontSize="10" fontWeight="bold">Optimize for engagement</text>
+    </g>
+
+    {/* Divider */}
+    <line x1="250" y1="20" x2="250" y2="180" stroke="#374151" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
+
+    {/* This System - Tribe */}
+    <g>
+      <text x="375" y="25" textAnchor="middle" fill="#7C3AED" fontSize="12" fontWeight="bold">This System</text>
+      <ellipse cx="375" cy="80" rx="60" ry="45" fill="#7C3AED" opacity="0.1" stroke="#7C3AED" strokeWidth="2" />
+      {[0, 40, 80, 120, 160, 200, 240, 280, 320].map((angle, i) => (
+        <circle key={i} cx={375 + 40 * Math.cos(angle * Math.PI / 180)} cy={80 + 30 * Math.sin(angle * Math.PI / 180)} r="8" fill="#7C3AED" opacity={0.4 + i * 0.05} />
+      ))}
+      <text x="375" y="145" textAnchor="middle" fill="#374151" fontSize="10">Match tribes</text>
+      <text x="375" y="160" textAnchor="middle" fill="#374151" fontSize="10">Comprehensive search</text>
+      <text x="375" y="175" textAnchor="middle" fill="#374151" fontSize="10">Success = leaving</text>
+      <text x="375" y="195" textAnchor="middle" fill="#7C3AED" fontSize="10" fontWeight="bold">Optimize for tribe function</text>
+    </g>
+  </svg>
+);
+
 export default function TribeMatcherPage() {
   return (
     <main className="min-h-screen bg-[#FAF9F6] text-[#1A1A1A] pt-20">
@@ -52,10 +305,6 @@ export default function TribeMatcherPage() {
             <p className="text-lg font-medium">
               <strong>Key Design Choices:</strong> Pair bonds search as merged units (no secret individual searching). No romantic matching—that happens naturally after you know someone. Cross-platform from day one (Claude + GPT + Gemini users in same pool). Geographic reality enforced.
             </p>
-
-            <p className="text-lg font-medium">
-              <strong>The Ask:</strong> Feedback on whether this is possible, desirable, and buildable. See questions at the end.
-            </p>
           </div>
 
           <div className="mt-6 pt-4 border-t border-[#7C3AED]/20">
@@ -105,64 +354,16 @@ export default function TribeMatcherPage() {
           </p>
 
           <h3>The Mismatch</h3>
-          <div className="overflow-x-auto">
-            <table>
-              <thead>
-                <tr>
-                  <th>What We Evolved For</th>
-                  <th>What We Have Now</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Band of 25-50 known people for daily life</td>
-                  <td>Surrounded by strangers</td>
-                </tr>
-                <tr>
-                  <td>Tribe of ~150 max stable relationships</td>
-                  <td>"Networks" of thousands we can't actually maintain</td>
-                </tr>
-                <tr>
-                  <td>Work with visible, immediate benefit</td>
-                  <td>Abstract labor for invisible shareholders</td>
-                </tr>
-                <tr>
-                  <td>3-4 hours of varied physical work</td>
-                  <td>8-12 hours of sedentary abstraction</td>
-                </tr>
-                <tr>
-                  <td>Status competition among ~150</td>
-                  <td>Comparison against 8 billion via social media</td>
-                </tr>
-                <tr>
-                  <td>Fire circle every night (2-4 hours of communal processing)</td>
-                  <td>Netflix alone</td>
-                </tr>
-                <tr>
-                  <td>Children raised by 20+ adults</td>
-                  <td>1-2 exhausted parents in isolation</td>
-                </tr>
-                <tr>
-                  <td>Problems that resolve through action</td>
-                  <td>Open loops that never close</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p>
-            Every "mental health crisis" metric is a mismatch metric. We're not broken. We're displaced.
-          </p>
+
+          <MismatchComparisonSVG />
 
           <h3>The Dunbar Limits</h3>
           <p>
             Human social cognition has hard biological constraints. These aren't cultural—they're architectural, correlated with neocortex size across all primates:
           </p>
-          <ul>
-            <li><strong>~5</strong>: The people you'd call at 3am in emergency. Complete vulnerability.</li>
-            <li><strong>~15</strong>: Those whose deaths would devastate you. Active tracking and care.</li>
-            <li><strong>~50</strong>: Meaningful relationships with shared history. Your band.</li>
-            <li><strong>~150</strong>: Everyone you can actually know as an individual. Your tribe.</li>
-          </ul>
+
+          <DunbarCirclesSVG />
+
           <p>
             Beyond 150, people become categories. Statistics. Your brain literally cannot process them as fully human in the way it processes your actual tribe. No technology has extended these limits. Social media creates the illusion of more connections while degrading the quality of the connections that matter.
           </p>
@@ -269,89 +470,16 @@ export default function TribeMatcherPage() {
             <li>Compatibility is assessed on <em>meaning</em>, not words</li>
             <li>The search pool becomes genuinely global</li>
           </ul>
-          <p>The practical language barrier then becomes a <em>solvable</em> problem rather than an invisible filter:</p>
-          <ul>
-            <li>AI-mediated communication during early connection phase</li>
-            <li>High motivation to learn each other's language (you know it's worth it)</li>
-            <li>Tribe could form around shared second language</li>
-            <li>Translation as a tribe role</li>
-          </ul>
           <p>
-            This also dissolves cultural barriers—not because cultures don't matter, but because the AI sees through surface markers to actual compatibility. Two people from very different cultures who are genuinely compatible would be matched, where normal social filtering keeps them apart forever.
-          </p>
-          <p>For 300,000 years, your tribe was whoever happened to be born near you. For the first time, it could be whoever actually fits.</p>
-
-          <h3>What LLMs Know That Profiles Don't</h3>
-          <div className="overflow-x-auto">
-            <table>
-              <thead>
-                <tr>
-                  <th>Data Type</th>
-                  <th>What LLM Sees</th>
-                  <th>What Profiles Show</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Values</td>
-                  <td>Revealed through thousands of reactions and decisions</td>
-                  <td>Self-reported, aspirational</td>
-                </tr>
-                <tr>
-                  <td>Conflict style</td>
-                  <td>How they actually fight, avoid, repair</td>
-                  <td>"I'm easy-going"</td>
-                </tr>
-                <tr>
-                  <td>Attachment pattern</td>
-                  <td>Visible in how they relate even to the AI</td>
-                  <td>"Looking for something real"</td>
-                </tr>
-                <tr>
-                  <td>Emotional range</td>
-                  <td>What they feel, how intensely, what they do with it</td>
-                  <td>"I'm fun and adventurous"</td>
-                </tr>
-                <tr>
-                  <td>Stress response</td>
-                  <td>How they handle crisis, scarcity, uncertainty</td>
-                  <td>Invisible</td>
-                </tr>
-                <tr>
-                  <td>What they need from others</td>
-                  <td>The gaps they're trying to fill, what regulates them</td>
-                  <td>Unstated</td>
-                </tr>
-                <tr>
-                  <td>What they offer</td>
-                  <td>Their actual strengths, how they show up under pressure</td>
-                  <td>Curated highlight reel</td>
-                </tr>
-                <tr>
-                  <td>Their damage</td>
-                  <td>Everyone's damaged—which damages mesh vs. amplify?</td>
-                  <td>Hidden</td>
-                </tr>
-                <tr>
-                  <td>Tribal role affinity</td>
-                  <td>Mediator, builder, organizer, provocateur, anchor</td>
-                  <td>Cannot be self-reported accurately</td>
-                </tr>
-                <tr>
-                  <td>Nervous system</td>
-                  <td>Energy level, regulation patterns, what calms/activates them</td>
-                  <td>Cannot be stated</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p>
-            A dating profile is a marketing document. A year of LLM conversations is a functional portrait—who this person would be inside a tribe.
+            For 300,000 years, your tribe was whoever happened to be born near you. For the first time, it could be whoever actually fits.
           </p>
 
           <h3>The Proposal</h3>
           <p><strong>Let LLMs talk to each other about their humans—with explicit consent—to match people into tribes.</strong></p>
           <p>Not pairs. Not dating. <em>Tribes.</em></p>
+
+          <TribeVsPairSVG />
+
           <p>
             The LLMs have the deep data. They can communicate compatibility assessments without sharing raw conversations. They can model not just "would these two people get along" but "would these 12 people form a functional tribe together."
           </p>
@@ -369,74 +497,22 @@ export default function TribeMatcherPage() {
           <h2>Part III: The System</h2>
 
           <h3>Core Architecture</h3>
-          <pre><code>{`┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│   User A's LLM  │     │   User B's LLM  │     │   User C's LLM  │
-│                 │     │                 │     │                 │
-│  Years of       │     │  Years of       │     │  Years of       │
-│  conversation   │     │  conversation   │     │  conversation   │
-└────────┬────────┘     └────────┬────────┘     └────────┬────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│  Compatibility  │     │  Compatibility  │     │  Compatibility  │
-│  Signature      │     │  Signature      │     │  Signature      │
-│  Generator      │     │  Generator      │     │  Generator      │
-└────────┬────────┘     └────────┬────────┘     └────────┬────────┘
-         │                       │                       │
-         └───────────────────────┼───────────────────────┘
-                                 │
-                                 ▼
-                    ┌─────────────────────────┐
-                    │                         │
-                    │   Tribe Matching Engine │
-                    │                         │
-                    │   - Group dynamics sim  │
-                    │   - Role complementarity│
-                    │   - Conflict modeling   │
-                    │   - Geographic weighting│
-                    │   - Dunbar enforcement  │
-                    │                         │
-                    └────────────┬────────────┘
-                                 │
-                                 ▼
-                    ┌─────────────────────────┐
-                    │   Tribe Candidates      │
-                    │   + Introduction        │
-                    │   Protocol              │
-                    └─────────────────────────┘`}</code></pre>
+
+          <SystemArchitectureSVG />
 
           <h3>The Compatibility Signature</h3>
           <p>
             The critical privacy innovation: <strong>LLMs never share raw conversation data.</strong> Instead, they generate abstracted "compatibility signatures"—high-dimensional vectors encoding matching-relevant traits without revealing source material.
           </p>
+
+          <PrivacyFlowSVG />
+
           <p>Think of it like a dating blood type. You know whether you're compatible without knowing everything about the other person's medical history.</p>
 
           <h3>Matching Units: Individual, Pair, or Group</h3>
           <p>A crucial design decision: <strong>the system matches whatever unit already exists, not just individuals.</strong></p>
 
-          <h4>Individual mode:</h4>
-          <ul>
-            <li>Genuinely single, no existing community nucleus</li>
-            <li>Starting from zero</li>
-            <li>Matched with other individuals and existing groups seeking expansion</li>
-          </ul>
-
-          <h4>Pair bond mode:</h4>
-          <ul>
-            <li>Two LLMs merge into combined signature</li>
-            <li>System matches the <em>couple</em> to compatible tribe members</li>
-            <li>The couple is the atomic unit—searching together for shared community</li>
-            <li>Eliminates "what if there's someone better" threat entirely</li>
-            <li>Finds people who fit with BOTH partners</li>
-          </ul>
-
-          <h4>Existing group mode:</h4>
-          <ul>
-            <li>3, 5, 12 people who already function as a unit</li>
-            <li>Merge all LLMs into collective signature</li>
-            <li>System finds people who complement existing dynamics</li>
-            <li>How organic tribe growth actually works—add people who fit the culture</li>
-          </ul>
+          <MatchingUnitsSVG />
 
           <h4>Why merged signatures matter:</h4>
           <p>The merged signature captures things individual signatures can't:</p>
@@ -465,14 +541,6 @@ export default function TribeMatcherPage() {
             <li><strong>Metapopulation bridging</strong>: Connect existing tribes to each other for the 500-1500 layer</li>
           </ul>
 
-          <h4>The reframe:</h4>
-          <p>
-            This changes the system from "find me better people" to "help us grow." Additive, not replacive. Honors what exists rather than optimizing it away.
-          </p>
-          <p>
-            Individual mode becomes the edge case—appropriate when you genuinely have nothing. Most people have <em>something</em>: a partner, two close friends, a family. Start from there.
-          </p>
-
           <h3>Tribe-Only: No Romantic Matching</h3>
           <p>This system does not match for romance. Period.</p>
           <p>
@@ -497,9 +565,6 @@ export default function TribeMatcherPage() {
           <p>
             This is revealed behavior, not stated preferences. You weren't performing—you were just living. The 3am anxious message. The petty complaint. The question you'd never ask a human. Unfakeable authenticity.
           </p>
-          <p>
-            Limitation: might never touch certain tribally-relevant dimensions. You might use your LLM for work and never discuss relationships, conflict, or stress responses.
-          </p>
 
           <h4>2. Targeted assessment (structured)</h4>
           <p>Systematic conversations specifically designed to fill gaps and cover all tribally-relevant dimensions. Structured exploration of:</p>
@@ -510,8 +575,6 @@ export default function TribeMatcherPage() {
             <li>Repair: "How do you reconnect after you've hurt someone?"</li>
             <li>Tribal instincts: "What would make you sacrifice for a group? What would make you leave one?"</li>
           </ul>
-          <p>More comprehensive. More systematic. Ensures no critical blind spots.</p>
-          <p>Limitation: more gameable. People can perform. They might answer how they <em>want</em> to be rather than how they are.</p>
 
           <h4>Why both are required:</h4>
           <div className="overflow-x-auto">
@@ -541,56 +604,6 @@ export default function TribeMatcherPage() {
             Neither alone is sufficient. Organic without targeted leaves gaps. Targeted without organic is just a sophisticated personality quiz—back to the dating profile problem.
           </p>
 
-          <h4>Weighting:</h4>
-          <p>
-            Targeted assessment may carry significant weight because it directly measures tribally-relevant dimensions. But organic conversations provide the incorruptible ground truth that validates (or contradicts) the targeted responses.
-          </p>
-          <p>
-            If someone's targeted assessment says "I'm great at conflict resolution" but their organic conversations show them catastrophizing every disagreement and cutting people off—the signature reflects the organic truth.
-          </p>
-          <p>The system should flag major discrepancies between organic and targeted data. Large gaps might indicate:</p>
-          <ul>
-            <li>Self-deception (genuinely don't know themselves)</li>
-            <li>Deliberate performance (trying to game the system)</li>
-            <li>Growth edge (they know what they want to be but aren't there yet)</li>
-          </ul>
-          <p>All useful signal.</p>
-
-          <h4>Draft signature dimensions:</h4>
-          <pre><code>{`COMPATIBILITY SIGNATURE v0.1
-
-identity:
-  core_values: [vector]           # What actually matters to them
-  meaning_orientation: [vector]   # What gives life purpose
-  growth_direction: [vector]      # Where they're trying to go
-
-relational:
-  attachment_pattern: [vector]    # How they attach to others
-  conflict_style: [vector]        # Fight/flight/freeze/repair patterns
-  intimacy_comfort: [vector]      # Closeness/distance needs
-  giving_receiving: [vector]      # How they exchange care
-
-regulatory:
-  baseline_energy: [vector]       # Introvert/extrovert, high/low arousal
-  stress_response: [vector]       # How they handle pressure
-  co_regulation: [vector]         # What they need/offer for nervous system regulation
-
-cognitive:
-  thinking_style: [vector]        # Abstract/concrete, fast/slow, etc.
-  communication_pattern: [vector] # Direct/indirect, verbal/nonverbal preference
-
-functional:
-  skills: [vector]                # What they can contribute
-  role_affinity: [vector]         # Organizer, mediator, builder, nurturer, etc.
-
-contextual:
-  geography: [location + flexibility]
-  life_stage: [vector]
-  availability: [vector]
-  existing_community: [vector]    # What they already have`}</code></pre>
-
-          <p><strong>Key property: The signature is lossy by design.</strong> You cannot reconstruct original conversations from it. It preserves matching-relevant information while destroying identifying details.</p>
-
           <h3>Why Tribe Matching ≠ Pair Matching</h3>
           <p>Dating apps match pairs. But tribe formation requires thinking about group dynamics.</p>
 
@@ -619,20 +632,6 @@ contextual:
             <li>The group needs a viable conflict metabolism</li>
           </ul>
 
-          <p><em>Skills distribution</em></p>
-          <ul>
-            <li>Someone who builds, cooks, organizes, creates, fixes, nurtures</li>
-            <li>Tribe needs coverage, not redundancy</li>
-            <li>Complementarity creates genuine interdependence</li>
-          </ul>
-
-          <p><em>Shared core + diverse approaches</em></p>
-          <ul>
-            <li>Aligned on fundamental values</li>
-            <li>Different on methods, styles, perspectives</li>
-            <li>Creates richness, not echo chamber</li>
-          </ul>
-
           <p><strong>The matching algorithm must optimize for group function, not just pairwise compatibility.</strong></p>
 
           <h3>What "Compatibility" Actually Means</h3>
@@ -657,15 +656,6 @@ contextual:
             "Chemistry" and "clicking" are products of the Tinder age—evaluating strangers for immediate emotional payoff. Tribe compatibility is deeper and slower. The system optimizes for long-term tribal function, not first-impression dopamine.
           </p>
 
-          <h3>FOMO Elimination</h3>
-          <p>
-            The dating app trap is infinite-choice paralysis. You can never commit because someone better might be one swipe away. This is by design—commitment means churn.
-          </p>
-          <p>
-            If matching is genuinely comprehensive—every opted-in human on Earth in the pool—FOMO dissolves. The algorithm has done the search. These are your highest-probability tribe candidates not because they're perfect, but because the search was complete.
-          </p>
-          <p>You're not settling. You're trusting that the search was thorough.</p>
-
           <h3>Geographic Reality</h3>
           <p>
             Tribe requires physical presence. You can't fire-circle over Zoom. This creates a constraint: <strong>the system only matches people who could actually converge.</strong>
@@ -679,37 +669,6 @@ contextual:
           <p>
             The system only matches combinations that could realistically end up in the same place. No point creating matches that are open loops from day one.
           </p>
-          <p>
-            This means some globally-perfect matches won't happen. Someone in rural Norway and someone in rural Japan might be 98% compatible but neither can relocate. The system doesn't show them to each other. Harsh, but honest.
-          </p>
-
-          <h4>Future evolution:</h4>
-          <p>
-            When presence technology reaches genuine EEA-equivalence—full sensory presence including touch, smell, spatial co-presence—geographic constraints can relax. Design for that future, but don't pretend it's already here.
-          </p>
-          <p>Until then: match within relocation reality.</p>
-
-          <h3>Speedrunning the Stranger Phase</h3>
-          <h4>Current path to tribe:</h4>
-          <ol>
-            <li>Meet stranger</li>
-            <li>Months of careful self-revelation</li>
-            <li>Discover fundamental incompatibility</li>
-            <li>Start over</li>
-            <li>Repeat for years</li>
-            <li>Maybe find 5-10 people who could be tribe nucleus</li>
-            <li>Slowly expand over more years</li>
-          </ol>
-
-          <h4>Proposed path:</h4>
-          <ol>
-            <li>AI assesses deep compatibility from existing conversation data</li>
-            <li>High-confidence matches identified</li>
-            <li>Meet knowing you're already pre-filtered for compatibility</li>
-            <li>Skip to trust-building through shared action</li>
-            <li>Tribe forms in months, not decades</li>
-          </ol>
-          <p>The awkwardness isn't eliminated—you still have to become real to each other. But you're not wasting years on people who were never going to work.</p>
 
           <hr />
 
@@ -725,18 +684,6 @@ contextual:
             <li><strong>Right to withdrawal.</strong> Exit at any point. Signatures deleted. No penalty.</li>
             <li><strong>No browsing.</strong> You can't scroll through candidates. You only see matches when matching is mutual and high-confidence. This isn't a catalog.</li>
           </ol>
-
-          <h3>The "Known Without Knowing" Problem</h3>
-          <p>If you meet someone whose AI matched you partly on "conflict style," what do you know about their conflict style before you've experienced it?</p>
-
-          <h4>Options:</h4>
-          <p><strong>A. Full opacity:</strong> You know you matched on deep compatibility criteria. Not which ones. You discover each other naturally, with higher base-rate probability of success.</p>
-          <p><strong>B. Category disclosure:</strong> "You matched strongly on: relational patterns, values, complementary skills." No details within categories.</p>
-          <p><strong>C. Guided discovery:</strong> AI suggests conversations or activities designed to let you naturally discover what it already knows you're compatible on.</p>
-          <p><strong>D. User choice:</strong> Each person sets their own disclosure preference.</p>
-          <p>
-            <strong>Recommendation: A or C.</strong> The point is to find high-probability candidates, not to pre-know everything. Discovery is still human. The magic of getting to know someone shouldn't be eliminated—just the years of false starts before you find someone worth knowing.
-          </p>
 
           <h3>Encryption Options</h3>
           <p>Multiple technical approaches can reinforce privacy:</p>
@@ -766,22 +713,17 @@ contextual:
                 <tr>
                   <td>Cross-platform interoperability</td>
                   <td><strong>Day-one requirement</strong></td>
-                  <td>Claude/GPT/Gemini users must all be in same pool. FOMO-elimination depends on comprehensive search.</td>
+                  <td>Claude/GPT/Gemini users must all be in same pool</td>
                 </tr>
                 <tr>
                   <td>Signature standardization</td>
                   <td>Unsolved</td>
-                  <td>Industry-wide agreement on format—required for cross-platform</td>
+                  <td>Industry-wide agreement on format required</td>
                 </tr>
                 <tr>
                   <td>Targeted assessment design</td>
                   <td>Needs research</td>
-                  <td>What questions actually predict tribal function?</td>
-                </tr>
-                <tr>
-                  <td>Organic/targeted integration</td>
-                  <td>Needs design</td>
-                  <td>How to weight and cross-validate the two data sources</td>
+                  <td>What questions predict tribal function?</td>
                 </tr>
                 <tr>
                   <td>Compute at scale</td>
@@ -791,51 +733,7 @@ contextual:
                 <tr>
                   <td>Simulation accuracy</td>
                   <td>Unknown</td>
-                  <td>Can we actually predict group dynamics from individual signatures?</td>
-                </tr>
-                <tr>
-                  <td>Signature security</td>
-                  <td>Needs design</td>
-                  <td>Prevent signature-to-identity inference attacks</td>
-                </tr>
-                <tr>
-                  <td>Merged signature generation</td>
-                  <td>Needs design</td>
-                  <td>How to combine pair/group LLMs into collective signature</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <h3>User Experience</h3>
-          <div className="overflow-x-auto">
-            <table>
-              <thead>
-                <tr>
-                  <th>Challenge</th>
-                  <th>Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Trust in algorithm</td>
-                  <td>Why believe this is actually my tribe?</td>
-                </tr>
-                <tr>
-                  <td>Mismatch handling</td>
-                  <td>What if the match doesn't feel right? Graceful exit.</td>
-                </tr>
-                <tr>
-                  <td>Geographic reality</td>
-                  <td>Perfect match 5000km away is useless for daily tribe life</td>
-                </tr>
-                <tr>
-                  <td>Introduction pacing</td>
-                  <td>All at once vs. gradual connection-building</td>
-                </tr>
-                <tr>
-                  <td>Expectation management</td>
-                  <td>"High probability" not "guaranteed perfect"</td>
+                  <td>Can we predict group dynamics from signatures?</td>
                 </tr>
               </tbody>
             </table>
@@ -860,46 +758,8 @@ contextual:
                   <td>Humans value "how we met" narratives</td>
                 </tr>
                 <tr>
-                  <td>Algorithmic determinism</td>
-                  <td>Does this reduce human agency or enhance it?</td>
-                </tr>
-                <tr>
                   <td>Over-trust</td>
                   <td>Assuming algorithmic match means no work required</td>
-                </tr>
-                <tr>
-                  <td><s>Threat to existing relationships</s></td>
-                  <td>Mitigated by matching-unit design—pairs search merged or not at all</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <h3>Social</h3>
-          <div className="overflow-x-auto">
-            <table>
-              <thead>
-                <tr>
-                  <th>Challenge</th>
-                  <th>Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Elite capture</td>
-                  <td>Will this only work for privileged early adopters?</td>
-                </tr>
-                <tr>
-                  <td>Cult formation risk</td>
-                  <td>Groups formed outside normal social verification</td>
-                </tr>
-                <tr>
-                  <td>Geographic clustering</td>
-                  <td>Relocatable users concentrating in certain areas</td>
-                </tr>
-                <tr>
-                  <td>Existing relationship navigation</td>
-                  <td>Handled by matching-unit architecture—pairs search together or not at all</td>
                 </tr>
               </tbody>
             </table>
@@ -924,16 +784,8 @@ contextual:
                   <td>Good matches leave—opposite of engagement business</td>
                 </tr>
                 <tr>
-                  <td>Who pays?</td>
-                  <td>Users? Subscription? Public funding? Philanthropy?</td>
-                </tr>
-                <tr>
                   <td>Cross-platform cooperation</td>
                   <td>Why would Anthropic/OpenAI/Google agree to common protocol?</td>
-                </tr>
-                <tr>
-                  <td>Governance</td>
-                  <td>Who controls the matching engine if it spans all providers?</td>
                 </tr>
               </tbody>
             </table>
@@ -941,57 +793,7 @@ contextual:
 
           <hr />
 
-          <h2>Part VI: Extensions</h2>
-
-          <h3>Growth Matching</h3>
-          <p>Not just who fits you now, but who would help you become who you're trying to become.</p>
-          <p>The LLM knows where you're stuck. Match with people who have what you need to grow—and whom you'd help in return.</p>
-
-          <h3>Role Identification</h3>
-          <p>"In this tribe configuration, you'd likely be the mediator. Here's the builder, the organizer, the one who holds emotional space."</p>
-          <p>Not deterministic—roles shift—but initial clarity about how people might contribute.</p>
-
-          <h3>Staged Introduction Protocol</h3>
-          <p>Instead of "here's your 12-person tribe, go":</p>
-          <ol>
-            <li>Match with one high-compatibility person</li>
-            <li>Build connection over weeks</li>
-            <li>Introduced to third person (compatible with both)</li>
-            <li>Triad stabilizes</li>
-            <li>Continue expanding until band-scale (~25-50)</li>
-          </ol>
-          <p>Organic growth into tribe, not instant assembly.</p>
-
-          <h3>Conflict Simulation Preview</h3>
-          <p>Before people commit: "Here's where this group will likely struggle. These are your probable friction points. Are you prepared to work through this?"</p>
-          <p>Informed consent for the hard parts. No pretending it'll be easy.</p>
-
-          <h3>Transition Support</h3>
-          <p>AI continues supporting the <em>group</em> (not individuals) through early formation:</p>
-          <ul>
-            <li>Conflict coaching when friction appears</li>
-            <li>Facilitated conversations for hard topics</li>
-            <li>Suggested activities for bonding</li>
-          </ul>
-          <p>Then gradually withdraws as group develops internal capacity. Success = not needing the system.</p>
-
-          <h3>Existing Relationship Integration</h3>
-          <p>People have existing relationships. The system should:</p>
-          <ul>
-            <li>Map current connections</li>
-            <li>Identify which existing relationships could become tribe nucleus</li>
-            <li>Match new people who complement existing network</li>
-            <li>Not replace what's already working—extend it</li>
-          </ul>
-
-          <h3>Metapopulation Bridging</h3>
-          <p>
-            Some people are natural connectors across groups. Identify them. Match them to multiple forming tribes as bridges. Build the 500-1500 metapopulation layer that provides resilience and genetic/cultural exchange.
-          </p>
-
-          <hr />
-
-          <h2>Part VII: Implementation Path</h2>
+          <h2>Part VI: Implementation Path</h2>
 
           <h3>Phase 1: Validation</h3>
           <p>Before building anything, test the core hypothesis:</p>
@@ -1002,16 +804,12 @@ contextual:
             <li>Have matched people actually meet and attempt tribe formation</li>
             <li>Measure: Did algorithm-matched groups form more functional tribes than random groupings?</li>
           </ol>
-          <p>
-            Functional = meets EEA spec. Roles filled, conflicts resolved, nervous systems regulated, mutual aid actually happening. Not "did you enjoy each other" but "could you raise children and survive a crisis together."
-          </p>
-          <p>If signatures don't predict tribal function, stop. If they do, continue.</p>
 
           <h3>Phase 2: Dyadic Matching</h3>
           <p>Start with pairs, not tribes. Simpler problem. Validate that:</p>
           <ul>
             <li>Signatures capture tribally-relevant traits (not just "personality")</li>
-            <li>Matched pairs show early indicators of tribal function (co-regulation, reciprocity, conflict resolution)</li>
+            <li>Matched pairs show early indicators of tribal function</li>
             <li>Privacy architecture holds</li>
             <li>Users trust the system</li>
           </ul>
@@ -1046,88 +844,7 @@ contextual:
 
           <hr />
 
-          <h2>Part VIII: Risks and Failure Modes</h2>
-
-          <h3>No Values Screening</h3>
-          <p>A natural question: should the system refuse to match people whose signatures indicate they'd form harmful groups—hate-based, exploitative, cult-structured?</p>
-          <p><strong>No.</strong></p>
-          <p>
-            First: hate is downstream of mismatch. Status threat, belonging deprivation, meaninglessness finding outlet in tribal-us-vs-them directed at the wrong target. The framework's core claim is that actual tribe dissolves the substrate hate grows in. Give people real belonging and the hate doesn't emerge.
-          </p>
-          <p>
-            Second: "values screening" is a slippery slope. Who decides which values are acceptable? Based on what authority? This becomes political enforcement dressed as safety.
-          </p>
-          <p>Third: people keeping their beliefs within their 150 who chose to be there isn't harm in the same way as broadcast hate. Contained weirdness is fine.</p>
-          <p>Edge case: groups explicitly coordinating outward violence. But that's already illegal, and the system doesn't need special architecture for crimes.</p>
-          <p>Trust the de-mismatch.</p>
-
-          <h3>Catastrophic Risks</h3>
-          <div className="overflow-x-auto">
-            <table>
-              <thead>
-                <tr>
-                  <th>Risk</th>
-                  <th>Mitigation</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Privacy breach exposing sensitive data</td>
-                  <td>Lossy signatures, encryption, security audits, minimal data retention</td>
-                </tr>
-                <tr>
-                  <td>Cult formation through isolated groups</td>
-                  <td>Maintain outside connections, transparency requirements, slow formation</td>
-                </tr>
-                <tr>
-                  <td>Algorithmic discrimination</td>
-                  <td>Bias audits, diverse training data, fairness constraints</td>
-                </tr>
-                <tr>
-                  <td>Manipulation by bad actors</td>
-                  <td>Identity verification, reputation systems, graduated trust</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <h3>Degraded Outcomes</h3>
-          <div className="overflow-x-auto">
-            <table>
-              <thead>
-                <tr>
-                  <th>Risk</th>
-                  <th>Mitigation</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Matches that feel wrong</td>
-                  <td>Expectation management, graceful exit, iteration</td>
-                </tr>
-                <tr>
-                  <td>Homogeneity / filter bubbles</td>
-                  <td>Intentional diversity in matching parameters</td>
-                </tr>
-                <tr>
-                  <td>Dependency on system</td>
-                  <td>Designed obsolescence—success = leaving</td>
-                </tr>
-                <tr>
-                  <td>Undermining organic community</td>
-                  <td>Position as supplement, not replacement</td>
-                </tr>
-                <tr>
-                  <td>Works only for privileged</td>
-                  <td>Subsidized access, public infrastructure model</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <hr />
-
-          <h2>Part IX: Why This Matters</h2>
+          <h2>Part VII: Why This Matters</h2>
 
           <h3>The Stakes</h3>
           <p>
@@ -1154,24 +871,6 @@ contextual:
             If it's used to actually connect people into the social structures they evolved for, AI will have helped solve the central crisis of modern life.
           </p>
 
-          <h3>The Ask</h3>
-          <p>This document is an invitation to think through whether this is possible, desirable, and buildable.</p>
-
-          <h4>Questions for feedback:</h4>
-          <ol>
-            <li>Is the core concept sound? Does LLM-to-LLM matching for tribe formation make sense?</li>
-            <li>Does the matching-unit architecture (individual / pair / existing group) solve the threat to existing relationships?</li>
-            <li>What would cross-platform cooperation require? Who convenes it?</li>
-            <li>What privacy concerns haven't been addressed?</li>
-            <li>What would make you trust (or distrust) this system?</li>
-            <li>Is tribe-only (no romantic matching) the right constraint, or too limiting?</li>
-            <li>How should geographic flexibility be handled for edge cases?</li>
-            <li>What's the right balance between organic conversation data and targeted assessment? How do you validate that targeted questions actually predict tribal function?</li>
-            <li>Who would need to be involved to build this?</li>
-            <li>What's the path to making this accessible, not just for early adopters?</li>
-            <li>Would you opt in? Would you search as individual or merged unit?</li>
-          </ol>
-
           <hr />
 
           <h2>Appendix: Glossary</h2>
@@ -1181,9 +880,7 @@ contextual:
           <p><strong>EEA (Environment of Evolutionary Adaptedness):</strong> The conditions humans evolved within—not one place, but consistent parameters across successful human groups before agriculture.</p>
           <p><strong>Evolutionary mismatch:</strong> Discrepancy between evolved psychology and current environment. Running ancient hardware in modern conditions.</p>
           <p><strong>Fire circle:</strong> Nightly gathering of entire band for processing, storytelling, conflict resolution. 2-4 hours every night for 300,000 years.</p>
-          <p><strong>Metapopulation:</strong> The 500-1500 person network connecting multiple tribes through kinship and exchange. Provides genetic diversity, resilience, and cultural transmission.</p>
-          <p><strong>Parasocial relationship:</strong> One-way emotional bond with someone who doesn't know you exist. Occupies cognitive slots meant for real relationships.</p>
-          <p><strong>Proxy:</strong> A substitute that triggers the feeling of a need being met without actually meeting the need. Provides temporary stimulation while preventing real resolution.</p>
+          <p><strong>Metapopulation:</strong> The 500-1500 person network connecting multiple tribes through kinship and exchange.</p>
           <p><strong>Tribe:</strong> The ~150 person maximum for stable social relationships. Everyone you can actually know as an individual.</p>
 
           <hr />
