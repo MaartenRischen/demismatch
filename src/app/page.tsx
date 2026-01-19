@@ -176,6 +176,31 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Frame-breaker - Prevent misreading the framework */}
+      <section className="py-12 md:py-16 bg-[#FAF9F6] border-b border-[#E5E0D8]">
+        <div className="max-w-3xl mx-auto px-6 md:px-8 text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#9B9590] mb-4">
+            What this is not
+          </p>
+          <p className="text-base md:text-lg text-[#6A6A6A] mb-8" style={{ fontFamily: "'Inter', sans-serif" }}>
+            Going back&nbsp;&nbsp;·&nbsp;&nbsp;A commune&nbsp;&nbsp;·&nbsp;&nbsp;Primitivism&nbsp;&nbsp;·&nbsp;&nbsp;Anti-tech&nbsp;&nbsp;·&nbsp;&nbsp;Forced togetherness&nbsp;&nbsp;·&nbsp;&nbsp;Lifestyle advice&nbsp;&nbsp;·&nbsp;&nbsp;Utopia
+          </p>
+          <div className="w-12 h-px bg-[#C75B39] mx-auto mb-8" />
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#9B9590] mb-4">
+            What this is
+          </p>
+          <p className="text-lg md:text-xl text-[#1A1A1A] leading-relaxed mb-3" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+            Your suffering is not a chemical accident. It's an accurate signal that something essential is missing.
+          </p>
+          <p className="text-base md:text-lg text-[#4A4A4A] leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
+            This framework identifies what's missing, why it's missing, and what would need to exist for humans to actually thrive — using every tool available, including technology.
+          </p>
+          <p className="text-lg md:text-xl text-[#1A1A1A] font-bold mt-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+            Especially technology.
+          </p>
+        </div>
+      </section>
+
       {/* Navigation Grid - Two-tier magazine layout */}
       <section className="py-20 md:py-28 bg-[#FAF9F6]">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
