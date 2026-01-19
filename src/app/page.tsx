@@ -176,30 +176,55 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Frame-breaker - Prevent misreading the framework */}
-      <section className="py-12 md:py-16 bg-[#FAF9F6] border-b border-[#E5E0D8]">
-        <div className="max-w-3xl mx-auto px-6 md:px-8 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#9B9590] mb-4">
-            What this is not
-          </p>
-          <p className="text-base md:text-lg text-[#6A6A6A] mb-8" style={{ fontFamily: "'Inter', sans-serif" }}>
-            Going back&nbsp;&nbsp;·&nbsp;&nbsp;A commune&nbsp;&nbsp;·&nbsp;&nbsp;Primitivism&nbsp;&nbsp;·&nbsp;&nbsp;Anti-tech&nbsp;&nbsp;·&nbsp;&nbsp;Forced togetherness&nbsp;&nbsp;·&nbsp;&nbsp;Lifestyle advice&nbsp;&nbsp;·&nbsp;&nbsp;Utopia
-          </p>
-          <div className="w-12 h-px bg-[#C75B39] mx-auto mb-8" />
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#9B9590] mb-4">
-            What this is
-          </p>
-          <p className="text-lg md:text-xl text-[#1A1A1A] leading-relaxed mb-3" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-            Your suffering is not a chemical accident. It's an accurate signal that something essential is missing.
-          </p>
-          <p className="text-base md:text-lg text-[#4A4A4A] leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
-            This framework identifies what's missing, why it's missing, and what would need to exist for humans to actually thrive — using every tool available, including technology.
-          </p>
-          <p className="text-lg md:text-xl text-[#1A1A1A] font-bold mt-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-            Especially technology.
-          </p>
+      {/* Frame-breaker STICKER - Overlaid, unmissable */}
+      <div className="relative py-8 md:py-12 bg-[#FAF9F6]">
+        <div className="max-w-4xl mx-auto px-4 md:px-8">
+          <div
+            className="relative bg-[#FFFEF5] border-2 border-[#1A1A1A] p-6 md:p-10 shadow-[8px_8px_0px_0px_#1A1A1A] transform rotate-[-0.5deg] hover:rotate-0 transition-transform duration-300"
+            style={{
+              backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 27px, #E8E4D9 28px)',
+              backgroundSize: '100% 28px'
+            }}
+          >
+            {/* Tape effect top */}
+            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-24 h-6 bg-[#F5E6C8] opacity-80 rotate-1" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
+
+            {/* NOT section */}
+            <div className="mb-6 pb-6 border-b-2 border-dashed border-[#C75B39]">
+              <p className="text-xs font-black uppercase tracking-[0.3em] text-[#C75B39] mb-3 text-center">
+                ✕ What this is NOT ✕
+              </p>
+              <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+                {['Going back', 'A commune', 'Primitivism', 'Anti-tech', 'Forced togetherness', 'Lifestyle advice', 'Utopia'].map((item) => (
+                  <span key={item} className="px-3 py-1 bg-[#1A1A1A] text-white text-sm font-bold line-through decoration-[#C75B39] decoration-2">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* IS section */}
+            <div className="text-center">
+              <p className="text-xs font-black uppercase tracking-[0.3em] text-[#2D5A27] mb-4">
+                ✓ What this IS ✓
+              </p>
+              <p className="text-xl md:text-2xl text-[#1A1A1A] leading-snug mb-4 font-bold" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                Your suffering is not a chemical accident.<br />
+                It's an accurate signal that something essential is missing.
+              </p>
+              <p className="text-base md:text-lg text-[#4A4A4A] leading-relaxed max-w-2xl mx-auto" style={{ fontFamily: "'Inter', sans-serif" }}>
+                This framework identifies what's missing, why it's missing, and what would need to exist for humans to actually thrive — using every tool available, including technology.
+              </p>
+              <p className="text-2xl md:text-3xl text-[#C75B39] font-black mt-6 tracking-tight" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                ESPECIALLY TECHNOLOGY.
+              </p>
+            </div>
+
+            {/* Corner fold effect */}
+            <div className="absolute bottom-0 right-0 w-0 h-0 border-l-[30px] border-l-transparent border-b-[30px] border-b-[#E5E0D8]" />
+          </div>
         </div>
-      </section>
+      </div>
 
       {/* Navigation Grid - Two-tier magazine layout */}
       <section className="py-20 md:py-28 bg-[#FAF9F6]">
