@@ -797,12 +797,8 @@ export default function Home() {
                       </h3>
                       <p className="angle-mismatch">{angle.mismatch}</p>
                       <div className="angle-comparison">
-                        <p className="ancestral-text">
-                          <strong>For 300,000 years:</strong> {angle.ancestral}
-                        </p>
-                        <p className="modern-text">
-                          <strong>Now:</strong> {angle.modern}
-                        </p>
+                        <p className="ancestral-text">{angle.ancestral}</p>
+                        <p className="modern-text">{angle.modern}</p>
                       </div>
                     </div>
                   ))}
