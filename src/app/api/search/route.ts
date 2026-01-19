@@ -370,11 +370,39 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check required env vars
+    if (!OPENROUTER_API_KEY) {
+      console.error('[Search] Missing OPENROUTER_API_KEY');
+      return NextResponse.json(
+        { error: 'Server configuration error: Missing API key' },
+        { status: 500 }
+      );
+    }
+
+    if (!SUPABASE_URL) {
+      console.error('[Search] Missing NEXT_PUBLIC_SUPABASE_URL');
+      return NextResponse.json(
+        { error: 'Server configuration error: Missing Supabase URL' },
+        { status: 500 }
+      );
+    }
+
     // Fetch framework rules and images in parallel
-    const [rules, allImages] = await Promise.all([
-      getFrameworkRules(),
-      fetchAllImages()
-    ]);
+    let rules: string;
+    let allImages: ImageMetadata[];
+
+    try {
+      [rules, allImages] = await Promise.all([
+        getFrameworkRules(),
+        fetchAllImages()
+      ]);
+    } catch (fetchError) {
+      console.error('[Search] Failed to fetch rules or images:', fetchError);
+      return NextResponse.json(
+        { error: `Failed to load resources: ${String(fetchError)}` },
+        { status: 500 }
+      );
+    }
 
     if (allImages.length === 0) {
       return NextResponse.json(
@@ -384,7 +412,17 @@ export async function POST(request: NextRequest) {
     }
 
     const imageMenu = buildImageMenu(allImages);
-    const llmResponse = await callLLM(text, imageMenu, rules);
+
+    let llmResponse: LLMResponse;
+    try {
+      llmResponse = await callLLM(text, imageMenu, rules);
+    } catch (llmError) {
+      console.error('[Search] LLM call failed:', llmError);
+      return NextResponse.json(
+        { error: `LLM analysis failed: ${String(llmError)}` },
+        { status: 500 }
+      );
+    }
 
     // Helper to resolve image details
     const resolveImage = (selectedImg: SelectedImage | null | undefined) => {
@@ -426,9 +464,9 @@ export async function POST(request: NextRequest) {
       share_variants: llmResponse.share_variants
     });
   } catch (error) {
-    console.error('Search error:', error);
+    console.error('[Search] Unexpected error:', error);
     return NextResponse.json(
-      { error: 'Analysis failed' },
+      { error: `Analysis failed: ${String(error)}` },
       { status: 500 }
     );
   }
