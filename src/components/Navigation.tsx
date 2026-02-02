@@ -12,6 +12,7 @@ const PRIMARY_LINKS = [
   { href: "/library", label: "Library" },
   { href: "/faq", label: "FAQ" },
   { href: "/projects", label: "Projects" },
+  { href: "/blog", label: "Blog" },
 ];
 
 // Evidence dropdown
@@ -26,7 +27,6 @@ const EVIDENCE_LINKS = [
 // About dropdown
 const ABOUT_LINKS = [
   { href: "/about", label: "About" },
-  { href: "/blog", label: "Blog" },
   { href: "/glossary", label: "Glossary" },
 ];
 
