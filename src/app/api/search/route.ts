@@ -23,7 +23,7 @@ function getSupabase(): SupabaseClient {
 
 // Fetch framework rules from Supabase Storage
 async function getFrameworkRules(): Promise<string> {
-  const response = await fetch(RULES_URL, { cache: 'no-store' });
+  const response = await fetch(RULES_URL, { next: { revalidate: 3600 } });
 
   if (!response.ok) {
     console.error('Failed to fetch framework rules:', response.status);
@@ -433,7 +433,7 @@ export async function POST(request: NextRequest) {
         id: image.id,
         title: image.title,
         body_text: image.explanation,
-        image_url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/mismatch-images/${image.folder_name}/${image.file_name}`,
+        image_url: `/storage/mismatch-images/${image.folder_name}/${image.file_name}`,
         reason: selectedImg.reason
       };
     };

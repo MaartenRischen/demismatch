@@ -40,7 +40,7 @@ export async function GET() {
         })
         .map(file => ({
           name: file.name,
-          url: `${url}/storage/v1/object/public/${BUCKET_NAME}/${file.name}`,
+          url: `/storage/${BUCKET_NAME}/${file.name}`,
           displayName: file.name
             .replace(/\.[^/.]+$/, '')
             .replace(/_/g, ' ')
@@ -60,7 +60,7 @@ export async function GET() {
           .filter(row => row.file_name || row.image_url)
           .map(row => ({
             name: row.file_name || `image-${row.id}`,
-            url: row.image_url || `${url}/storage/v1/object/public/mismatch-images/${row.folder_name}/${row.file_name}`,
+            url: (row.image_url?.includes('/storage/v1/object/public/') ? '/storage/' + row.image_url.split('/storage/v1/object/public/')[1] : row.image_url) || `/storage/mismatch-images/${row.folder_name}/${row.file_name}`,
             displayName: (row.file_name || '')
               .replace(/\.[^/.]+$/, '')
               .replace(/_/g, ' ')

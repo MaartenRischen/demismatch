@@ -60,7 +60,7 @@ export default function TLDR() {
 
           <figure className="mb-12">
             <img
-              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/MAIN%20presentation%20graphic.png"
+              src="/storage/frontpage/MAIN%20presentation%20graphic.png"
               alt="The whole picture: from ancestral baseline through modern mismatch to the technological fork ahead"
               className="w-full rounded-xl shadow-lg"
             />
@@ -109,7 +109,7 @@ export default function TLDR() {
 
           <figure className="mb-12">
             <img
-              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/timeline.png"
+              src="/storage/frontpage/timeline.png"
               alt="Timeline showing the compression of human history"
               className="w-full rounded-xl shadow-lg"
             />
@@ -186,7 +186,7 @@ export default function TLDR() {
 
           <figure className="mb-12">
             <img
-              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/38_The_Exploitation_Players.png"
+              src="/storage/demismatch-graphics/38_The_Exploitation_Players.png"
               alt="The exploitation economy players"
               className="w-full rounded-xl shadow-lg"
             />
@@ -250,7 +250,7 @@ export default function TLDR() {
 
             <figure className="hidden lg:block">
               <img
-                src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/2_Exploitation_Loop_Diagram.png"
+                src="/storage/demismatch-graphics/2_Exploitation_Loop_Diagram.png"
                 alt="The exploitation loop diagram"
                 className="w-full rounded-xl opacity-70"
               />
@@ -410,7 +410,7 @@ export default function TLDR() {
           {/* Image below text */}
           <figure className="mt-12">
             <img
-              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/tldr/humanagain.png"
+              src="/storage/tldr/humanagain.png"
               alt="Human again - then more than human"
               className="w-full rounded-xl shadow-lg"
             />

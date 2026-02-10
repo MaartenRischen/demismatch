@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 const BUCKET_NAME = 'demismatchfirstthenaugment';
 const SUPABASE_BASE_URL = `https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/${BUCKET_NAME}/`;
+const PROXIED_BASE_URL = `/storage/${BUCKET_NAME}/`;
 
 // Cache buster - increment this when images are updated
 const CACHE_VERSION = 'v2';
@@ -17,15 +18,16 @@ interface ConceptSeries {
 }
 
 // Check image with multiple extensions (.png, .jpeg)
-async function findImage(baseUrl: string, baseName: string): Promise<string | null> {
+// Uses direct Supabase URL for HEAD check, returns proxied URL for client
+async function findImage(baseName: string): Promise<string | null> {
   const extensions = ['png', 'jpeg', 'jpg'];
 
   for (const ext of extensions) {
-    const url = `${baseUrl}${baseName}.${ext}`;
+    const directUrl = `${SUPABASE_BASE_URL}${baseName}.${ext}`;
     try {
-      const response = await fetch(url, { method: 'HEAD' });
-      // Return URL with cache buster
-      if (response.ok) return `${url}?${CACHE_VERSION}`;
+      const response = await fetch(directUrl, { method: 'HEAD' });
+      // Return proxied URL with cache buster
+      if (response.ok) return `${PROXIED_BASE_URL}${baseName}.${ext}?${CACHE_VERSION}`;
     } catch {
       // Continue to next extension
     }
@@ -39,9 +41,9 @@ export async function GET() {
     const conceptPromises = AVAILABLE_LETTERS.map(async (letter) => {
       // Check all 3 images in parallel, trying multiple extensions
       const [mismatchedUrl, baselineUrl, augmentedUrl] = await Promise.all([
-        findImage(SUPABASE_BASE_URL, `${letter}1_Mismatched`),
-        findImage(SUPABASE_BASE_URL, `${letter}2_Baseline`),
-        findImage(SUPABASE_BASE_URL, `${letter}3_Augmented`),
+        findImage(`${letter}1_Mismatched`),
+        findImage(`${letter}2_Baseline`),
+        findImage(`${letter}3_Augmented`),
       ]);
 
       // Only return concept if all 3 images exist
@@ -61,7 +63,7 @@ export async function GET() {
 
     return NextResponse.json({ concepts }, {
       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=3600',
       },
     });
   } catch (err) {

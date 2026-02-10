@@ -119,7 +119,7 @@ export default function TheFuture() {
           {/* Fork Image */}
           <figure className="mb-8">
             <img
-              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/MAIN%20presentation%20graphic.png"
+              src="/storage/frontpage/MAIN%20presentation%20graphic.png"
               alt="The fork: from ancestral baseline through modern mismatch to the technological choice ahead"
               className="w-full rounded-xl shadow-lg"
             />
@@ -296,7 +296,7 @@ export default function TheFuture() {
               When image is ready, uncomment and update src:
           <figure className="mt-12">
             <img
-              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/[IMAGE_FILENAME].png"
+              src="/storage/frontpage/[IMAGE_FILENAME].png"
               alt="Technology as pharmakon - simultaneously poison and cure, the nature determined by design"
               className="w-full max-w-md mx-auto rounded-xl opacity-80"
             />
@@ -464,7 +464,7 @@ export default function TheFuture() {
               When image is ready, uncomment and update src:
           <figure className="mt-16">
             <img
-              src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/[IMAGE_FILENAME].png"
+              src="/storage/frontpage/[IMAGE_FILENAME].png"
               alt="Human figure enhanced by technology but radiating connection - enhanced, not replaced"
               className="w-full max-w-2xl mx-auto rounded-xl"
             />

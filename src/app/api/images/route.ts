@@ -52,7 +52,6 @@ const SELECT_COLUMNS = 'id, file_name, folder_name, title, image_url, image_type
 
 function transformRow(
   row: DbImageRow,
-  supabaseUrl: string,
   favoriteById: Set<number>,
   showFirstById: Set<number>
 ): ImageData | null {
@@ -61,9 +60,13 @@ function transformRow(
   const fileName = row.file_name || '';
   const folderName = row.folder_name || '';
 
-  const imageUrl =
+  let imageUrl =
     row.image_url ||
-    `${supabaseUrl}/storage/v1/object/public/mismatch-images/${folderName}/${fileName}`;
+    `/storage/mismatch-images/${folderName}/${fileName}`;
+  // Convert any full Supabase URLs stored in DB to proxied path
+  if (imageUrl.includes('/storage/v1/object/public/')) {
+    imageUrl = '/storage/' + imageUrl.split('/storage/v1/object/public/')[1];
+  }
 
   const title =
     row.title ||
@@ -138,7 +141,6 @@ export async function GET(request: NextRequest) {
     const idsParam = searchParams.get('ids');
 
     const supabase = getSupabase();
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 
     const [favoriteById, showFirstById] = await Promise.all([
       getFavoritesSet(request),
@@ -160,10 +162,14 @@ export async function GET(request: NextRequest) {
         if (error) throw error;
 
         const images: ImageData[] = ((data as DbImageRow[]) || [])
-          .map((row) => transformRow(row, supabaseUrl, favoriteById, showFirstById))
+          .map((row) => transformRow(row, favoriteById, showFirstById))
           .filter((img): img is ImageData => img !== null);
 
-        return NextResponse.json({ images });
+        return NextResponse.json({ images }, {
+          headers: {
+            'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=3600',
+          },
+        });
       }
     }
 
@@ -194,10 +200,14 @@ export async function GET(request: NextRequest) {
     }
 
     const images: ImageData[] = allData
-      .map((row) => transformRow(row, supabaseUrl, favoriteById, showFirstById))
+      .map((row) => transformRow(row, favoriteById, showFirstById))
       .filter((img): img is ImageData => img !== null);
 
-    return NextResponse.json({ images });
+    return NextResponse.json({ images }, {
+      headers: {
+        'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=3600',
+      },
+    });
   } catch (error) {
     console.error('Images fetch error:', error);
     return NextResponse.json({ error: 'Failed to fetch images' }, { status: 500 });

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import Navigation from "@/components/Navigation";
 
-const IMAGE_BASE = "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/";
+const IMAGE_BASE = "/storage/demismatch-graphics/";
 
 async function getSourcesContent() {
   const res = await fetch(
@@ -168,7 +168,7 @@ export default function SourcesPage() {
         </p>
 
         <a
-          href="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/framework/sources.md"
+          href="/storage/framework/sources.md"
           download="demismatch-sources.md"
           className="bg-[#c75b3a] text-white px-6 py-3 rounded-lg hover:bg-[#b54d2e] transition inline-flex items-center gap-2"
         >

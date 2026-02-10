@@ -22,8 +22,8 @@ const SECTIONS = [
 ];
 
 // Base URLs for images (kept for future manual image insertion)
-const GRAPHICS_BASE = "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/";
-const LIBRARY_BASE = "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/mismatch-images/";
+const GRAPHICS_BASE = "/storage/demismatch-graphics/";
+const LIBRARY_BASE = "/storage/mismatch-images/";
 
 function NoteOnEvidenceAccordion({ content }: { content: string[] }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -263,7 +263,7 @@ function NavigationSidebar({ activeSection, onRequestCustom }: { activeSection: 
   const [isOpen, setIsOpen] = useState(false);
   const [showMapModal, setShowMapModal] = useState(false);
 
-  const mapImageUrl = "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/10_Framework_Map__10_Parts_.png";
+  const mapImageUrl = "/storage/demismatch-graphics/10_Framework_Map__10_Parts_.png";
 
   return (
     <>
@@ -409,7 +409,7 @@ export default function FrameworkPage() {
   }, []);
 
   useEffect(() => {
-    fetch("https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/framework/mothership-full.md")
+    fetch("/storage/framework/mothership-full.md")
       .then(res => res.text())
       .then(setContent);
   }, []);

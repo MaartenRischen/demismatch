@@ -18,6 +18,44 @@ interface LibraryStripProps {
   count?: number;
 }
 
+// Shared in-memory cache so multiple LibraryStrip instances on the same page
+// share a single fetch instead of each hitting /api/images independently.
+let _cachedImages: ImageData[] | null = null;
+let _cachePromise: Promise<ImageData[]> | null = null;
+let _cacheTimestamp = 0;
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+
+function fetchAllImagesCached(): Promise<ImageData[]> {
+  const now = Date.now();
+  if (_cachedImages && now - _cacheTimestamp < CACHE_TTL_MS) {
+    return Promise.resolve(_cachedImages);
+  }
+  if (_cachePromise) return _cachePromise;
+
+  _cachePromise = fetch('/api/images')
+    .then(res => {
+      if (!res.ok) throw new Error('Failed to fetch images');
+      return res.json();
+    })
+    .then(data => {
+      if (!data.images || !Array.isArray(data.images)) {
+        throw new Error('Invalid response format');
+      }
+      _cachedImages = data.images;
+      _cacheTimestamp = Date.now();
+      _cachePromise = null;
+      return data.images as ImageData[];
+    })
+    .catch(err => {
+      _cachePromise = null;
+      throw err;
+    });
+
+  return _cachePromise;
+}
+
+const MAX_STRIP_IMAGES = 30;
+
 // Normalize tag for fuzzy matching
 function normalizeTag(tag: string): string {
   return tag.toLowerCase().replace(/[\s_-]/g, '');
@@ -27,46 +65,47 @@ function normalizeTag(tag: string): string {
 function imageMatchesTags(img: ImageData, searchTags: string[]): boolean {
   const imgTagsNormalized = (img.tags || []).map(normalizeTag);
   const imgTitleNormalized = normalizeTag(img.title || '');
-  
+
   // Also check categories and concepts if available
   const imgCategoriesNormalized = (img.categories || []).map(normalizeTag);
   const imgConceptsNormalized = (img.framework_concepts || []).map(normalizeTag);
-  
+
   return searchTags.some(searchTag => {
     const normalizedSearch = normalizeTag(searchTag);
-    
+
     // Check title
     if (imgTitleNormalized.includes(normalizedSearch) || normalizedSearch.includes(imgTitleNormalized)) {
       return true;
     }
-    
+
     // Check tags
-    if (imgTagsNormalized.some(imgTag => 
+    if (imgTagsNormalized.some(imgTag =>
       imgTag.includes(normalizedSearch) || normalizedSearch.includes(imgTag)
     )) {
       return true;
     }
-    
+
     // Check categories
-    if (imgCategoriesNormalized.some(cat => 
+    if (imgCategoriesNormalized.some(cat =>
       cat.includes(normalizedSearch) || normalizedSearch.includes(cat)
     )) {
       return true;
     }
-    
+
     // Check concepts
-    if (imgConceptsNormalized.some(concept => 
+    if (imgConceptsNormalized.some(concept =>
       concept.includes(normalizedSearch) || normalizedSearch.includes(concept)
     )) {
       return true;
     }
-    
+
     return false;
   });
 }
 
 export default function LibraryStrip({ tags, title }: LibraryStripProps) {
   const [images, setImages] = useState<ImageData[]>([]);
+  const [totalMatches, setTotalMatches] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isPaused, setIsPaused] = useState(false);
@@ -78,24 +117,17 @@ export default function LibraryStrip({ tags, title }: LibraryStripProps) {
       try {
         setLoading(true);
         setError(null);
-        const res = await fetch('/api/images');
-        if (!res.ok) {
-          throw new Error('Failed to fetch images');
-        }
-        const data = await res.json();
-        
-        if (!data.images || !Array.isArray(data.images)) {
-          throw new Error('Invalid response format');
-        }
-        
+        const allImages = await fetchAllImagesCached();
+
         // Filter images that match ANY of the specified tags (fuzzy matching)
-        const filtered = data.images.filter((img: ImageData) => 
+        const filtered = allImages.filter((img: ImageData) =>
           imageMatchesTags(img, tags)
         );
-        
-        // Shuffle and use ALL matching images (no limit)
+
+        setTotalMatches(filtered.length);
+        // Shuffle and cap to avoid loading hundreds of images into the DOM
         const shuffled = [...filtered].sort(() => Math.random() - 0.5);
-        setImages(shuffled);
+        setImages(shuffled.slice(0, MAX_STRIP_IMAGES));
       } catch (err: any) {
         console.error('Failed to fetch library images:', err);
         setError(err.message || 'Failed to load images');
@@ -103,7 +135,7 @@ export default function LibraryStrip({ tags, title }: LibraryStripProps) {
         setLoading(false);
       }
     }
-    
+
     if (tags.length > 0) {
       fetchImages();
     } else {
@@ -227,7 +259,7 @@ export default function LibraryStrip({ tags, title }: LibraryStripProps) {
             href={`/library?tags=${tagsParam}`}
             className="text-xs text-[#6b6b6b] hover:text-[#C75B39] transition-colors"
           >
-            View all ({images.length}) →
+            View all ({totalMatches}) →
           </Link>
         </div>
       </div>

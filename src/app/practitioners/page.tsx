@@ -2,7 +2,7 @@ import Link from "next/link";
 import LibraryStrip from "@/components/LibraryStrip";
 import Navigation from "@/components/Navigation";
 
-const IMAGE_BASE = "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/";
+const IMAGE_BASE = "/storage/demismatch-graphics/";
 
 export default function PractitionersPage() {
   return (

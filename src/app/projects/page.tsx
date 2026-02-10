@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
 
-const IMAGE_BASE = "https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/demismatch-graphics/";
+const IMAGE_BASE = "/storage/demismatch-graphics/";
 
 // Sample library images to showcase
 const SAMPLE_IMAGES = [
@@ -55,7 +55,7 @@ export default function ProjectsPage() {
             <div className="md:col-span-3 flex flex-col items-center md:items-start">
               <div className="relative mb-4">
                 <img
-                  src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/icons/tribematcherlogo.png"
+                  src="/storage/icons/tribematcherlogo.png"
                   alt="AI Tribe Matcher"
                   className="w-24 h-24 md:w-32 md:h-32 rounded-2xl object-cover shadow-lg shadow-purple-500/20"
                 />

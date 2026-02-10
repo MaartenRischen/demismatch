@@ -56,7 +56,7 @@ export default function Home() {
                 >
                   {/* Blurred background layer - gets more blurry as zoom increases */}
                   <img
-                    src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png?v=2"
+                    src="/storage/frontpage/eye.png?v=2"
                     alt=""
                     aria-hidden="true"
                     className="absolute inset-0 w-full h-full object-cover eye-blur-layer"
@@ -64,7 +64,7 @@ export default function Home() {
                   />
                   {/* Sharp iris layer - circular mask keeps iris sharp */}
                   <img
-                    src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png?v=2"
+                    src="/storage/frontpage/eye.png?v=2"
                     alt="Human eye - bridging signal and stakes"
                     className="relative w-full h-full object-cover eye-sharp-layer"
                     style={{ objectPosition: '50% 40%' }}
@@ -119,7 +119,7 @@ export default function Home() {
                 >
                   {/* Blurred background layer - gets more blurry as zoom increases */}
                   <img
-                    src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png?v=2"
+                    src="/storage/frontpage/eye.png?v=2"
                     alt=""
                     aria-hidden="true"
                     className="absolute inset-0 w-full h-full object-cover eye-blur-layer-mobile"
@@ -127,7 +127,7 @@ export default function Home() {
                   />
                   {/* Sharp iris layer - circular mask keeps iris sharp */}
                   <img
-                    src="https://ivlbjochxaupsblqdwyq.supabase.co/storage/v1/object/public/frontpage/eye.png?v=2"
+                    src="/storage/frontpage/eye.png?v=2"
                     alt="Human eye - bridging signal and stakes"
                     className="relative w-full h-full object-cover eye-sharp-layer-mobile"
                     style={{ objectPosition: '50% 20%' }}
